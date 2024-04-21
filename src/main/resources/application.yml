@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: "skydiving-competitions"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/skydiving
+    password: password
+    username: user
+  liquibase:
+    change-log: "db/changes/db.changelog-master.xml"
+
+jwt:
+  secret: eWFnc2hqa2tvZHVpZnVsYXNpamtsZjthJ2Rib2ppaCBoYmtqYXNubGQ7bWtmZw==
+  ttl: 1h
