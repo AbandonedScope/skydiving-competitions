@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Builder
 public class Competition {
-    private final long id;
+    private final int id;
     private final String name;
     private final List<Team> teams;
     private final MainJudgeCollegium mainJudgeCollegium;
@@ -18,4 +18,6 @@ public class Competition {
     private final LocalDate endDate;
     private final Place place;
     private final CompetitionStages stages;
+
 }
+

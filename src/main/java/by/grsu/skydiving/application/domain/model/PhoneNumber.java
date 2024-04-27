@@ -10,6 +10,10 @@ public record PhoneNumber(
     public static final Pattern REGEX_PATTERN = Pattern.compile(PHONE_NUMBER_REGEX, Pattern.CASE_INSENSITIVE);
 
     public PhoneNumber {
+       validate();
+    }
+
+    private void validate(){
         Matcher matcher = REGEX_PATTERN.matcher(number);
         if (!matcher.matches()) {
             throw new IllegalArgumentException();

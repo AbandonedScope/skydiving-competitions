@@ -19,29 +19,4 @@ public class Skydiver {
     private final Height height;
     private final Weight weight;
     private final ClothingSize clothingSize;
-
-
-    public boolean isOfAge(int age) {
-        return Period.between(dateOfBirth, LocalDate.now()).getYears() >= age;
-    }
-
-    public boolean isWeightProportional() {
-        float heightInMeters = height.measure() / 100.0f;
-        float weightInKilos = weight.units() == WeightUnits.KILOS ? weight.measure() : weight.measure() / 1000.0f;
-        float bmi = weightInKilos / (heightInMeters * heightInMeters);
-        return bmi >= 18.5 && bmi <= 24.9;
-    }
-
-
-    public boolean isShoeSizeSuitable(int minSize, int maxSize) {
-        return clothingSize.shoeSize() >= minSize && clothingSize.shoeSize() <= maxSize;
-    }
-
-
-
-
-
-    public boolean t() {
-        return this.isOfAge(15) || isWeightProportional() || isShoeSizeSuitable(15, 26);
-    }
 }
