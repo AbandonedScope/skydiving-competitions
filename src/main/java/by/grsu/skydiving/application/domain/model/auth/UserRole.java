@@ -1,6 +1,6 @@
 package by.grsu.skydiving.application.domain.model.auth;
 
-import by.grsu.skydiving.application.domain.exception.InvalidRoleNumberException;
+import by.grsu.skydiving.application.domain.exception.domain.InvalidRoleNumberException;
 
 import java.util.Arrays;
 
