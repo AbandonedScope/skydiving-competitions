@@ -1,5 +1,7 @@
-package by.grsu.skydiving.application.domain.model;
+package by.grsu.skydiving.application.domain.model.competition;
 
+import by.grsu.skydiving.application.domain.model.*;
+import by.grsu.skydiving.application.domain.model.skydiver.Place;
 import lombok.Builder;
 import lombok.Data;
 

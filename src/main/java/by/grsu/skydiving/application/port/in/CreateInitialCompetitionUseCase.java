@@ -1,7 +1,7 @@
 package by.grsu.skydiving.application.port.in;
 
-import by.grsu.skydiving.application.domain.model.Competition;
-import by.grsu.skydiving.application.domain.model.Place;
+import by.grsu.skydiving.application.domain.model.competition.Competition;
+import by.grsu.skydiving.application.domain.model.skydiver.Place;
 import lombok.Builder;
 
 import java.time.LocalDate;

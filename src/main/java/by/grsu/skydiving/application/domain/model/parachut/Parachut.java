@@ -1,4 +1,4 @@
-package by.grsu.skydiving.application.domain.model;
+package by.grsu.skydiving.application.domain.model.parachut;
 
 import java.time.LocalDate;
 

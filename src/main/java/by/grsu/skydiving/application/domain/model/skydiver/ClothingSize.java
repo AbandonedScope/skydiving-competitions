@@ -1,4 +1,4 @@
-package by.grsu.skydiving.application.domain.model;
+package by.grsu.skydiving.application.domain.model.skydiver;
 
 import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 
