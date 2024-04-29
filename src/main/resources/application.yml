@@ -11,3 +11,4 @@ spring:
 jwt:
   secret: eWFnc2hqa2tvZHVpZnVsYXNpamtsZjthJ2Rib2ppaCBoYmtqYXNubGQ7bWtmZw==
   ttl: 1h
+  issuer: "skydiving"

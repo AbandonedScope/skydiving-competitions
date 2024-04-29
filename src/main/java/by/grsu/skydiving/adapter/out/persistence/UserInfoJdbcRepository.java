@@ -1,5 +1,6 @@
 package by.grsu.skydiving.adapter.out.persistence;
 
+import by.grsu.skydiving.application.domain.model.UserInfo;
 import by.grsu.skydiving.application.domain.model.auth.UserInfoForToken;
 import by.grsu.skydiving.application.domain.model.auth.UserRole;
 import by.grsu.skydiving.application.port.out.FindUserInfoByLoginAndPasswordPort;
@@ -22,5 +23,10 @@ public class UserInfoJdbcRepository implements FindUserInfoByLoginAndPasswordPor
                         .login(login)
                         .build()
                 );
+    }
+
+    @Override
+    public Optional<UserInfo> findBy(String login) {
+        return Optional.empty();
     }
 }
