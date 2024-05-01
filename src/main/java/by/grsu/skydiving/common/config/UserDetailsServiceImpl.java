@@ -1,8 +1,7 @@
 package by.grsu.skydiving.common.config;
 
-import by.grsu.skydiving.application.domain.exception.UserNotFoundException;
 import by.grsu.skydiving.application.domain.model.UserInfo;
-import by.grsu.skydiving.application.port.in.FindUserByLoginUseCase;
+import by.grsu.skydiving.application.port.in.GetUserByLoginUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,12 +16,11 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final FindUserByLoginUseCase findUserByLoginUseCase;
+    private final GetUserByLoginUseCase getUserByLoginUseCase;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserInfo userInfo = findUserByLoginUseCase.findByLogin(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
+        UserInfo userInfo = getUserByLoginUseCase.getByLogin(username);
 
         return buildFromUserInfo(userInfo);
     }

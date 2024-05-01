@@ -1,7 +1,6 @@
 package by.grsu.skydiving.common;
 
 import by.grsu.skydiving.application.port.in.ExtractLoginFromJwtTokenUseCase;
-import by.grsu.skydiving.application.port.in.FindUserByLoginUseCase;
 import by.grsu.skydiving.application.port.in.ValidateJwtTokenUseCase;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

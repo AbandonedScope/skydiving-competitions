@@ -12,8 +12,7 @@ import org.springframework.context.annotation.Primary;
 import java.util.Optional;
 
 
-@PersistenceAdapter
-@Primary
+
 public class UserMockRepository implements FindUserInfoByLoginAndPasswordPort {
     @Override
     public Optional<UserInfoForToken> findBy(String login, String password) {
