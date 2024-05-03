@@ -28,9 +28,7 @@ public record Job(
         }
 
         if (!errors.isEmpty()) {
-            throw ValidationException.builder()
-                    .errors(errors)
-                    .build();
+            throw ValidationException.of(errors);
         }
     }
 }

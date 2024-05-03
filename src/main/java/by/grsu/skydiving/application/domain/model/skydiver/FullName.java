@@ -20,26 +20,24 @@ public record FullName(
     private void validate() {
         Map<String, String > errors = new HashMap<>();
 
-        if (isCorrectPartOfFullName(firstName)) {
+        if (isIncorrectPartOfFullName(firstName)) {
             errors.put(FIRSTNAME_INCORRECT_VALUE_KEY, FIRSTNAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE);
         }
 
-        if (isCorrectPartOfFullName(secondName)) {
+        if (isIncorrectPartOfFullName(secondName)) {
             errors.put(SECONDNAME_INCORRECT_VALUE_KEY, SECONDNAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE);
         }
 
-        if (isCorrectPartOfFullName(patronymic)) {
+        if (isIncorrectPartOfFullName(patronymic)) {
             errors.put(PATRONYMIC_INCORRECT_VALUE_KEY, PATRONYMIC_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE);
         }
 
         if (!errors.isEmpty()) {
-            throw ValidationException.builder()
-                    .errors(errors)
-                    .build();
+            throw ValidationException.of(errors);
         }
     }
 
-    private boolean isCorrectPartOfFullName(String partOfName){
+    private boolean isIncorrectPartOfFullName(String partOfName){
         return partOfName == null || partOfName.isBlank() || partOfName.length() > 50;
     }
 }

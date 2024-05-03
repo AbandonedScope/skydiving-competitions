@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
+import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.MIN_FLIGHT_HEIGHT;
+import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.MIN_SPEED;
 
 public record FlightCharacteristics(
         Float height,
@@ -19,11 +21,11 @@ public record FlightCharacteristics(
     private void validate(){
         Map<String, String > errors = new HashMap<>();
 
-        if (height == null || height < 0) {
+        if (height == null || height < MIN_FLIGHT_HEIGHT) {
             errors.put(FLIGHT_HEIGHT_INCORRECT_VALUE_KEY, FLIGHT_HEIGHT_NULL_OR_NEGATIVE_MESSAGE);
         }
 
-        if (speed == null || speed < 0) {
+        if (speed == null || speed < MIN_SPEED) {
             errors.put(SPEED_INCORRECT_VALUE_KEY, SPEED_NULL_OR_NEGATIVE_MESSAGE);
         }
 
@@ -32,9 +34,7 @@ public record FlightCharacteristics(
         }
 
         if (!errors.isEmpty()) {
-            throw ValidationException.builder()
-                    .errors(errors)
-                    .build();
+            throw ValidationException.of(errors);
         }
     }
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
+import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.*;
 
 public record ClothingSize(
         int shoeSize,
@@ -19,22 +20,20 @@ public record ClothingSize(
     private void validate() {
         Map<String, String > errors = new HashMap<>();
 
-        if (shoeSize < 0) {
+        if (shoeSize < MIN_SKYDIVER_SHOESIZE) {
             errors.put(SHOE_SIZE_INCORRECT_VALUE_KEY, SHOE_SIZE_INCORRECT_VALUE_MESSAGE);
         }
 
-        if (jacketSize < 0) {
+        if (jacketSize < MIN_SKYDIVER_JACKETSIZE) {
             errors.put(JACKET_SIZE_INCORRECT_VALUE_KEY, JACKET_SIZE_INCORRECT_VALUE_MESSAGE);
         }
 
-        if (pantsSize < 0) {
+        if (pantsSize < MIN_SKYDIVER_PANTSSIZE) {
             errors.put(PANTS_SIZE_INCORRECT_VALUE_KEY, PANTS_SIZE_INCORRECT_VALUE_MESSAGE);
         }
 
         if (!errors.isEmpty()) {
-            throw ValidationException.builder()
-                    .errors(errors)
-                    .build();
+            throw ValidationException.of(errors);
         }
     }
 }
