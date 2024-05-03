@@ -1,36 +1,56 @@
 package by.grsu.skydiving.application.domain.model.auth;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
-import java.util.Base64;
 import java.util.Date;
 
-@Getter
 public class JwtToken {
+    @Getter
     private final String token;
+    private final SecretKey secretKey;
 
-    private JwtToken(String token) {
+    public JwtToken(String token, SecretKey key) {
         this.token = token;
+        this.secretKey = key;
+
+        validate();
     }
 
-    public JwtToken(String token, SecretKey secretKey) {
-        validate(token, secretKey);
-
+    private JwtToken(SecretKey key, String token) {
         this.token = token;
+        this.secretKey = key;
+
+        validate();
     }
 
-    private void validate(String token, SecretKey secretKey) {
+
+    public String extractLogin() {
+        return extractClaims()
+                .getSubject();
+    }
+
+    private void validate() {
+        if (isTokenExpired()) {
+            throw new TokenExpiredException();
+        }
+    }
+
+    private boolean isTokenExpired() {
+        return extractClaims()
+                .getExpiration().before(new Date());
+    }
+
+    private Claims extractClaims() {
         try {
-            Jwts.parser()
+            return Jwts.parser()
                     .verifyWith(secretKey)
                     .build()
-                    .parse(token);
+                    .parseSignedClaims(token)
+                    .getPayload();
         } catch (Exception ex) {
             throw new TokenVerificationException(ex);
         }
@@ -47,6 +67,6 @@ public class JwtToken {
                 .signWith(info.secretKey())
                 .compact();
 
-        return new JwtToken(jwtString);
+        return new JwtToken(info.secretKey(), jwtString);
     }
 }

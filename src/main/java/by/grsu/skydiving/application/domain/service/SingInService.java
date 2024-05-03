@@ -9,11 +9,10 @@ import by.grsu.skydiving.application.port.in.SignInUseCase;
 import by.grsu.skydiving.application.port.out.FindUserInfoByLoginAndPasswordPort;
 import by.grsu.skydiving.common.UseCase;
 import by.grsu.skydiving.common.config.JwtSettings;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 
-import javax.crypto.SecretKey;
+
+import static by.grsu.skydiving.application.domain.service.utils.SecretKeyUtils.getSigningKey;
 
 @UseCase
 @RequiredArgsConstructor
@@ -44,10 +43,5 @@ public class SingInService implements SignInUseCase {
                 .issuer(jwtSettings.issuer())
                 .secretKey(getSigningKey(jwtSettings.secret()))
                 .build();
-    }
-
-    private SecretKey getSigningKey(String secret) {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        return Keys.hmacShaKeyFor(keyBytes);
     }
 }
