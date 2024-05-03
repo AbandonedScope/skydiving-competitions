@@ -1,14 +1,11 @@
 package by.grsu.skydiving.application.domain.model.auth;
 
+import by.grsu.skydiving.application.domain.exception.business.TokenVerificationException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
-import java.util.Base64;
 import java.util.Date;
 
 @Getter

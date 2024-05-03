@@ -1,6 +1,6 @@
 package by.grsu.skydiving.application.domain.service;
 
-import by.grsu.skydiving.application.domain.exception.UserNotFoundException;
+import by.grsu.skydiving.application.domain.exception.business.UserNotFoundException;
 import by.grsu.skydiving.application.domain.model.auth.JwtAuthCredentials;
 import by.grsu.skydiving.application.domain.model.auth.JwtToken;
 import by.grsu.skydiving.application.domain.model.auth.JwtTokenGenerationSettings;

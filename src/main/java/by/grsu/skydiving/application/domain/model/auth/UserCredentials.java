@@ -1,13 +1,14 @@
 package by.grsu.skydiving.application.domain.model.auth;
 
-import by.grsu.skydiving.application.domain.exception.ValidationException;
+import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
+import lombok.Builder;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
 
-
+@Builder
 public record UserCredentials(
         String login,
         String password
