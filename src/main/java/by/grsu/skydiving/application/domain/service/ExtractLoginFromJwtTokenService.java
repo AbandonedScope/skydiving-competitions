@@ -19,6 +19,7 @@ public class ExtractLoginFromJwtTokenService implements ExtractLoginFromJwtToken
     public String extractLogin(String token) {
         SecretKey secretKey = getSigningKey(jwtSettings.secret());
         JwtToken jwtToken = new JwtToken(token, secretKey);
+
         return jwtToken.extractLogin();
     }
 }
