@@ -1,4 +1,4 @@
-package by.grsu.skydiving.application.domain.exception.adapter;
+package by.grsu.skydiving.adapter.exception;
 
 public class AdapterException extends RuntimeException{
     public AdapterException(String errorMessage) {
