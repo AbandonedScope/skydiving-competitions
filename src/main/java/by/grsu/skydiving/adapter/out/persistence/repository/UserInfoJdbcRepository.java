@@ -5,6 +5,6 @@ import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.Optional;
 
-public interface UserInfoRepository extends ListCrudRepository<UserInfoEntity, Integer> {
-    Optional<UserInfoEntity> findByLogin(String login);
+public interface UserInfoJdbcRepository extends ListCrudRepository<UserInfoEntity, Integer> {
+    Optional<UserInfoEntity> findByLoginAndPassword(String login, String password);
 }
