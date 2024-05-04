@@ -1,24 +1,60 @@
 package by.grsu.skydiving.application.domain.model.competition;
 
-import by.grsu.skydiving.application.domain.model.*;
+import by.grsu.skydiving.application.domain.exception.domain.CompetitionStageNumberIncorrectException;
+import by.grsu.skydiving.application.domain.exception.domain.TeamWithNameNotFoundException;
 import by.grsu.skydiving.application.domain.model.skydiver.Address;
+import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Competition {
-    private final Integer id;
-    private final String name;
-    private final List<Team> teams;
-    private final MainJudgeCollegium mainJudgeCollegium;
-    private final JudgeCollegium judgeCollegium;
-    private final LocalDate beginDate;
-    private final LocalDate endDate;
-    private final Address place;
-    private final CompetitionStages stages;
+    private Integer id;
+    private String name;
+    @Builder.Default
+    private List<Team> teams = new ArrayList<>();
+    private IndividualCompetitionSkydivers individuals;
+    private LocalDate beginDate;
+    private LocalDate endDate;
+    private Address place;
+    @Builder.Default
+    private List<CompetitionStage> stages = new ArrayList<>();
+    private CompetitionStatus status;
+
+    public void addStage(CompetitionStage stage) {
+        int nextStageNumber = stages.size() + 1;
+        if (stage.number() != nextStageNumber) {
+            throw new CompetitionStageNumberIncorrectException(stage.number(), nextStageNumber);
+        }
+
+        stages.add(stage);
+    }
+
+    public void addIndividual(Skydiver skydiver) {
+        individuals.addIndividual(skydiver);
+    }
+
+    public void moveIndividualToTeam(Skydiver individual, String teamName) {
+        individuals.removeIndividual(individual);
+        Team team = getTeamByName(teamName);
+
+        team.addSkydiver(individual);
+    }
+
+    private Team getTeamByName(String teamName) {
+        return teams.stream()
+                .filter(team -> team.name().equals(teamName))
+                .findAny()
+                .orElseThrow(() -> new TeamWithNameNotFoundException(teamName));
+    }
 }
 

@@ -14,6 +14,8 @@ public class ErrorMessagesConstants {
     public static final String PATRONYMIC_INCORRECT_VALUE_KEY = "incorrect-patronymic";
     public static final String PLACE_INCORRECT_VALUE_KEY = "incorrect-place";
     public static final String TEAM_NAME_INCORRECT_VALUE_KEY = "incorrect-teamName";
+    public static final String TEAM_SKYDIVERS_INCORRECT_VALUE_KEY = "incorrect-teamSkydivers";
+    public static final String INDIVIDUAL_COMPETITION_SKYDIVERS_INCORRECT_VALUE_KEY = "incorrect-individualCompetitionSkydivers";
     public static final String WEIGHT_INCORRECT_VALUE_KEY = "incorrect-weight";
     public static final String HEIGHT_INCORRECT_VALUE_KEY = "incorrect-height";
     public static final String BEGIN_DATE_OF_SPORT_CAREER_INCORRECT_VALUE_KEY = "incorrect-beginDateOfSportCareer";
@@ -30,6 +32,10 @@ public class ErrorMessagesConstants {
     public static final String JUMP_NUMBER_BILLABLE_INCORRECT_VALUE_KEY = "incorrect_jumpNumberBillable";
     public static final String NEXT_JUMP_NUMBER_DURING_YEAR_INCORRECT_VALUE_KEY = "incorrect_nextJumpNumberDuringYear";
     public static final String NEXT_JUMP_NUMBER_IN_COMPETITION_UNIT_INCORRECT_VALUE_KEY = "incorrect_nextJumpNumberInCompetition";
+    public static final String COMPETITION_STAGE_NUMBER_INCORRECT_VALUE_KEY = "incorrect_stageNumber";
+    public static final String COMPETITION_STAGE_MAIN_JUDGE_COLLEGIUM_VALUE_KEY = "incorrect_mainJudgeCollegium";
+    public static final String COMPETITION_STAGE_JUDGE_COLLEGIUM_VALUE_KEY = "incorrect_judgeCollegium";
+
 
     public static final String LOGIN_IS_NULL_OR_BLANK_MESSAGE = "User credential validation. Failed login check. Login is null or blank.";
     public static final String FIRSTNAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "User fullname validation. Failed firstname check. Firstname is null or blank or incorrect length.";
@@ -41,6 +47,7 @@ public class ErrorMessagesConstants {
     public static final String PANTS_SIZE_INCORRECT_VALUE_MESSAGE = "Clothing size validation. Incorrect pantssize.";
     public static final String PLACE_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "User validation. Failed place check. Place is null or blank or incorrect length.";
     public static final String TEAM_NAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Team validation. Failed team name check. TeamName is null or blank or incorrect length.";
+    public static final String TEAM_SKYDIVERS_IS_NULL_MESSAGE = "Team validation. Failed team skydivers check. Team skydivers is null or blank.";
     public static final String WEIGHT_OUT_OF_RANGE_OR_NULL_MESSAGE = "Skydiver validation. Failed weight check. Weight is null or out of range.";
     public static final String HEIGHT_OUT_OF_RANGE_OR_NULL_MESSAGE = "Skydiver validation. Failed height check. Height is null or out of range.";
     public static final String BEGIN_DATE_OF_SPORT_IS_NULL_OR_INCORRECT_DATE_MESSAGE = "Skydiver validation. Failed begin date of sport career check. Begin date of sport is null or incorrect date.";
@@ -57,4 +64,8 @@ public class ErrorMessagesConstants {
     public static final String JUMP_NUMBER_BILLABLE_IS_NULL_OR_NEGATIVE_MESSAGE = "Jumping validation. Failed jump number billable check. Jump number billable is null or negative";
     public static final String NEXT_JUMP_NUMBER_DURING_YEAR_IS_NULL_OR_NEGATIVE_MESSAGE = "Jumping validation. Failed next jump number during year check. Next jump number during year is null or negative";
     public static final String NEXT_JUMP_NUMBER_IN_COMPETITION_IS_NULL_OR_NEGATIVE_MESSAGE = "Jumping validation. Failed next jump number in competition check. Next jump number in competition height is null or negative";
+    public static final String COMPETITION_STAGE_NUMBER_NULL_OR_INVALID_MESSAGE = "Competition stage validation. Failed number of stage check. Number of stage is null or invalid";
+    public static final String COMPETITION_STAGE_MAIN_JUDGE_COLLEGIUM_NULL_MESSAGE = "Competition stage validation. Failed main judge collegium of stage check. Collegium is null";
+    public static final String COMPETITION_STAGE_JUDGE_COLLEGIUM_NULL_MESSAGE = "Competition stage validation. Failed judge collegium of stage check. Collegium is null";
+    public static final String INDIVIDUAL_COMPETITION_SKYDIVERS_NULL_MESSAGE = "Individual competition skydivers validation. Failed individual competition skydivers check. Skydivers is null";
 }
