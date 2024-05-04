@@ -1,7 +1,7 @@
 package by.grsu.skydiving.adapter.in.web.mapper;
 
-import by.grsu.skydiving.adapter.in.web.dto.SignInRequest;
-import by.grsu.skydiving.adapter.in.web.dto.SignInResponse;
+import by.grsu.skydiving.adapter.in.web.request.SignInRequest;
+import by.grsu.skydiving.adapter.in.web.response.SignInResponse;
 import by.grsu.skydiving.application.domain.model.auth.JwtAuthCredentials;
 import by.grsu.skydiving.application.domain.model.auth.JwtToken;
 import by.grsu.skydiving.application.port.in.SignInUseCase.SignInQuery;
