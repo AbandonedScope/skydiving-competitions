@@ -14,10 +14,10 @@ public record ClothingSize(
         int pantsSize
 ) {
     public ClothingSize {
-        validate();
+        validate(shoeSize, jacketSize, pantsSize);
     }
 
-    private void validate() {
+    private void validate(int shoeSize, int jacketSize, int pantsSize) {
         Map<String, String > errors = new HashMap<>();
 
         if (shoeSize < MIN_SKYDIVER_SHOESIZE) {

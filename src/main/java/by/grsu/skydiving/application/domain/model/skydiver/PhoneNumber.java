@@ -12,10 +12,10 @@ public record PhoneNumber(
         String number
 ) {
     public PhoneNumber {
-       validate();
+       validate(number);
     }
 
-    private void validate(){
+    private void validate(String number){
         Map<String, String > errors = new HashMap<>();
 
         if (number == null || PHONE_NUMBER_REGEX_PATTERN.matcher(number).matches()) {

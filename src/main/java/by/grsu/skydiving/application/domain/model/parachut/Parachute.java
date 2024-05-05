@@ -2,11 +2,11 @@ package by.grsu.skydiving.application.domain.model.parachut;
 
 import java.time.LocalDate;
 
-public record Parachut(
-        Integer parachutId,
-        Short parachutNumber,
+public record Parachute(
+        Integer parachuteId,
+        Short parachuteNumber,
         LocalDate issueDate,
         Short jumpingAmount,
-        ParachutType parachutType
+        ParachuteType parachuteType
 ) {
 }

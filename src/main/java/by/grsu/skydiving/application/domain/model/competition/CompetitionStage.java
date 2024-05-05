@@ -16,15 +16,13 @@ public record CompetitionStage(
         JudgeCollegium judgeCollegium
 ) {
     public CompetitionStage {
-        validate();
+        validate(number, mainJudgeCollegium, judgeCollegium);
     }
 
-    public void validate() {
+    public void validate(Integer number, MainJudgeCollegium mainJudgeCollegium, JudgeCollegium judgeCollegium) {
         Map<String, String> errors = new HashMap<>();
 
-        if (number == null
-                || number < 1
-        ) {
+        if (number == null || number < 1) {
             errors.put(COMPETITION_STAGE_NUMBER_INCORRECT_VALUE_KEY, COMPETITION_STAGE_NUMBER_NULL_OR_INVALID_MESSAGE);
         }
 

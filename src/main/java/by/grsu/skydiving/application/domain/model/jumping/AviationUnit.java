@@ -11,10 +11,10 @@ public record AviationUnit(
         String aviationUnitName
 ) {
     public AviationUnit{
-        validate();
+        validate(aviationUnitName);
     }
 
-    private void validate(){
+    private void validate(String aviationUnitName){
         Map<String, String > errors = new HashMap<>();
 
         if (aviationUnitName == null || aviationUnitName.isBlank() || aviationUnitName.length() > 50) {

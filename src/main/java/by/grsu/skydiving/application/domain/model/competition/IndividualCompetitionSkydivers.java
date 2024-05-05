@@ -13,7 +13,7 @@ public record IndividualCompetitionSkydivers(
         Set<Skydiver> skydivers
 ) {
     public IndividualCompetitionSkydivers {
-        validate();
+        validate(skydivers);
     }
 
     public void addIndividual(Skydiver individual) {
@@ -24,7 +24,7 @@ public record IndividualCompetitionSkydivers(
         skydivers.remove(individual);
     }
 
-    private void validate() {
+    private void validate(Set<Skydiver> skydivers) {
         Map<String, String> errors = new HashMap<>();
 
         if (skydivers == null) {

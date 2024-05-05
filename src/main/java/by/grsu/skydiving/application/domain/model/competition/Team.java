@@ -17,7 +17,7 @@ public record Team(
     private static final int MAX_TEAM_SIZE = 5;
 
     public Team {
-        validate();
+        validate(name, skydivers);
     }
 
     public void addSkydiver(Skydiver skydiver) {
@@ -32,7 +32,7 @@ public record Team(
         skydivers.remove(skydiverToRemove);
     }
 
-    private void validate() {
+    private void validate(String name, Set<Skydiver> skydivers) {
         Map<String, String> errors = new HashMap<>();
 
         if (name == null

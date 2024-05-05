@@ -59,7 +59,7 @@ public class ErrorMessagesConstants {
     public static final String PHONE_NUMBER_DO_NOT_MATCH_PATTERN_OR_NULL_MESSAGE = "Validation. Failed phone number check. Phone number is null or doesn't match the pattern.";
     public static final String FLIGHT_HEIGHT_NULL_OR_NEGATIVE_MESSAGE = "Jumping validation. Failed flight height check. Flight height is null or negative";
     public static final String SPEED_NULL_OR_NEGATIVE_MESSAGE = "Jumping validation. Failed speed check. Speed is null or negative";
-    public static final String TIME_DELAY_OF_PARACHUT_OPENING_NULL_OR_NEGATIVE_MESSAGE = "Jumping validation. Failed timeDelayOfParachutOpening check. TimeDelayOfParachutOpening is null or negative";
+    public static final String TIME_DELAY_OF_PARACHUTE_OPENING_NULL_OR_NEGATIVE_MESSAGE = "Jumping validation. Failed timeDelayOfParachuteOpening check. TimeDelayOfParachutOpening is null or negative";
     public static final String AVIATION_UNIT_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Jumping validation. Failed aviation unit check. AviationUnit is null or blank or incorrect length.";
     public static final String JUMP_NUMBER_BILLABLE_IS_NULL_OR_NEGATIVE_MESSAGE = "Jumping validation. Failed jump number billable check. Jump number billable is null or negative";
     public static final String NEXT_JUMP_NUMBER_DURING_YEAR_IS_NULL_OR_NEGATIVE_MESSAGE = "Jumping validation. Failed next jump number during year check. Next jump number during year is null or negative";
