@@ -1,6 +1,6 @@
-package by.grsu.skydiving.application.domain.exception;
+package by.grsu.skydiving.application.domain.exception.business;
 
-public class UserNotFoundException extends RuntimeException {
+public class UserNotFoundException extends BusinessException {
     public UserNotFoundException(String login) {
         super("User with login '%s' was not found".formatted(login));
     }
