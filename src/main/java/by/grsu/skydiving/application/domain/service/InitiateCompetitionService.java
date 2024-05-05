@@ -3,18 +3,20 @@ package by.grsu.skydiving.application.domain.service;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStatus;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase;
+import by.grsu.skydiving.application.port.out.SaveCompetitionPort;
 import by.grsu.skydiving.common.UseCase;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class InitiateCompetitionService implements InitiateCompetitionUseCase {
+    private final SaveCompetitionPort savePort;
+
     @Override
     public Competition initiateCompetition(InitiateCompetitionCommand command) {
         Competition competition = buildCompetition(command);
 
-
-        return null;
+        return savePort.save(competition);
     }
 
     private Competition buildCompetition(InitiateCompetitionCommand command) {

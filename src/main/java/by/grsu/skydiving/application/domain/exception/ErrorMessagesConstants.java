@@ -53,7 +53,7 @@ public class ErrorMessagesConstants {
     public static final String BEGIN_DATE_OF_SPORT_IS_NULL_OR_INCORRECT_DATE_MESSAGE = "Skydiver validation. Failed begin date of sport career check. Begin date of sport is null or incorrect date.";
     public static final String SPORT_SPECIALIZATION_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Skydiver validation. Failed sport specialization check. Sport specialization is null or blank or incorrect length.";
     public static final String SPORT_DEGREE_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Skydiver validation. Failed sport degree check. Sport degree is null or blank or incorrect length.";
-    public static final String ADDRESS_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Parent validation. Failed address check. Address is null or blank or incorrect length.";
+    public static final String ADDRESS_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Address validation. Failed address check. Address is null or blank or incorrect length.";
     public static final String JOB_NAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Parent job validation. Job name name check. Job name is null or blank or incorrect length.";
     public static final String JOB_POSITION_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Parent job validation. Failed job position check. Job position is null or blank or incorrect length.";
     public static final String PHONE_NUMBER_DO_NOT_MATCH_PATTERN_OR_NULL_MESSAGE = "Validation. Failed phone number check. Phone number is null or doesn't match the pattern.";

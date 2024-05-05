@@ -1,9 +1,12 @@
 package by.grsu.skydiving.application.domain.model.competition;
 
+import by.grsu.skydiving.application.domain.exception.domain.InvalidCompetitionStatusNumberException;
 import by.grsu.skydiving.application.domain.model.common.AdjacencyMatrix;
 import by.grsu.skydiving.application.domain.model.common.EntityStatus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
@@ -22,6 +25,13 @@ public enum CompetitionStatus implements EntityStatus<CompetitionStatus> {
 
     private final int number;
     private final String description;
+
+    public static CompetitionStatus of(int number) {
+        return Arrays.stream(CompetitionStatus.values())
+                .filter(status -> status.number == number)
+                .findFirst()
+                .orElseThrow(() -> new InvalidCompetitionStatusNumberException(number));
+    }
 
     @Override
     public AdjacencyMatrix<CompetitionStatus> getAdjacencyMatrix() {

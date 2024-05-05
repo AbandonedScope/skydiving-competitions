@@ -39,7 +39,6 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}")
 
-
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

@@ -13,8 +13,14 @@
 
     <include file="v-0.0.1/db.changelog-v-0.0.1.xml" relativeToChangelogFile="true"/>
 
-    <changeSet id="3" author="Maksim Makhanko">
+    <changeSet id="2" author="Maksim Makhanko">
         <tagDatabase tag="v.0.0.1"/>
+    </changeSet>
+
+    <include file="v-0.0.2/db.changelog-v-0.0.2.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="4" author="Maksim Makhanko">
+        <tagDatabase tag="v.0.0.2"/>
     </changeSet>
 
 </databaseChangeLog>
