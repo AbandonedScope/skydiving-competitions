@@ -1,4 +1,4 @@
-package by.grsu.skydiving.adapter.in.web.dto;
+package by.grsu.skydiving.adapter.in.web.response;
 
 public record SignUpResponse(
         String firstName,

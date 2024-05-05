@@ -1,6 +1,6 @@
 package by.grsu.skydiving.common.config;
 
-import by.grsu.skydiving.application.domain.model.UserInfo;
+import by.grsu.skydiving.application.domain.model.auth.UserAuthInfo;
 import by.grsu.skydiving.application.port.in.GetUserByLoginUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,26 +20,26 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserInfo userInfo = getUserByLoginUseCase.getByLogin(username);
+        UserAuthInfo userAuthInfo = getUserByLoginUseCase.getByLogin(username);
 
-        return buildFromUserInfo(userInfo);
+        return buildFromUserInfo(userAuthInfo);
     }
 
-    private UserDetails buildFromUserInfo(UserInfo userInfo) {
+    private UserDetails buildFromUserInfo(UserAuthInfo userAuthInfo) {
         return new UserDetails() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
-                return List.of(new SimpleGrantedAuthority(userInfo.role().name()));
+                return List.of(new SimpleGrantedAuthority(userAuthInfo.role().name()));
             }
 
             @Override
             public String getPassword() {
-                return userInfo.credentials().password();
+                return userAuthInfo.credentials().password();
             }
 
             @Override
             public String getUsername() {
-                return userInfo.credentials().login();
+                return userAuthInfo.credentials().login();
             }
 
             @Override

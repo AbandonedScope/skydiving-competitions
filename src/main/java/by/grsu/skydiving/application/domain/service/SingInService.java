@@ -11,7 +11,6 @@ import by.grsu.skydiving.common.UseCase;
 import by.grsu.skydiving.common.config.JwtSettings;
 import lombok.RequiredArgsConstructor;
 
-
 import static by.grsu.skydiving.application.domain.service.utils.SecretKeyUtils.getSigningKey;
 
 @UseCase

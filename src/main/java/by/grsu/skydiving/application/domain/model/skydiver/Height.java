@@ -5,8 +5,10 @@ import by.grsu.skydiving.application.domain.exception.domain.ValidationException
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
-import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.*;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.HEIGHT_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.HEIGHT_OUT_OF_RANGE_OR_NULL_MESSAGE;
+import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.MAX_SKYDIVER_HEIGHT;
+import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.MIN_SKYDIVER_HEIGHT;
 
 public record Height(
         Float height

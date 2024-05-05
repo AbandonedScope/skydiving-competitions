@@ -5,7 +5,8 @@ import by.grsu.skydiving.application.domain.exception.domain.ValidationException
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.ADDRESS_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.ADDRESS_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE;
 
 public record Address(
         String address

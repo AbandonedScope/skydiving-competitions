@@ -45,6 +45,13 @@ public class Competition {
         stages.add(stage);
     }
 
+    public CompetitionStage getStage(int stageNumber) {
+        return stages.stream()
+                .filter(stage -> stage.number() == stageNumber)
+                .findFirst()
+                .orElseThrow();
+    }
+
     public void addIndividual(Skydiver skydiver) {
         individuals.addIndividual(skydiver);
     }

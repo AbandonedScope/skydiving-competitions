@@ -1,7 +1,6 @@
 package by.grsu.skydiving.application.domain.service;
 
 import by.grsu.skydiving.application.domain.model.competition.Competition;
-import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStatus;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase;
 import by.grsu.skydiving.application.port.out.SaveCompetitionPort;
@@ -17,7 +16,7 @@ public class InitiateCompetitionService implements InitiateCompetitionUseCase {
     public Competition initiateCompetition(InitiateCompetitionCommand command) {
         Competition competition = buildCompetition(command);
 
-        return savePort.save(competition);
+        return savePort.saveInitial(competition);
     }
 
     private Competition buildCompetition(InitiateCompetitionCommand command) {

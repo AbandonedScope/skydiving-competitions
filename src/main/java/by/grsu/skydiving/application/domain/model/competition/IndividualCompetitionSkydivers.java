@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.INDIVIDUAL_COMPETITION_SKYDIVERS_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.INDIVIDUAL_COMPETITION_SKYDIVERS_NULL_MESSAGE;
 
 public record IndividualCompetitionSkydivers(
         Set<Skydiver> skydivers
