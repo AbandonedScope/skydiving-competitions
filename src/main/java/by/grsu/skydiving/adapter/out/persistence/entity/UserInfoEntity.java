@@ -12,7 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class UserInfoEntity {
     @Id
     @Column("id")
-    private Integer userInfoId;
+    private Integer userId;
     private String login;
     private String password;
     private String firstName;

@@ -27,6 +27,7 @@ val mapstructVersion = "1.5.5.Final"
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security");
     implementation("org.mapstruct:mapstruct:${mapstructVersion}")
     implementation("io.jsonwebtoken:jjwt:${jjwtVersion}")
     implementation("org.liquibase:liquibase-core")
@@ -35,8 +36,9 @@ dependencies {
 
     runtimeOnly("org.postgresql:postgresql")
 
-    annotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}")
     annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}")
+
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
