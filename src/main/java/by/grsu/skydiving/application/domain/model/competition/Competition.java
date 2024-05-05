@@ -1,5 +1,6 @@
 package by.grsu.skydiving.application.domain.model.competition;
 
+import by.grsu.skydiving.application.domain.exception.business.CompetitionStagesLimitExceededException;
 import by.grsu.skydiving.application.domain.exception.domain.CompetitionStageNumberIncorrectException;
 import by.grsu.skydiving.application.domain.exception.domain.TeamWithNameNotFoundException;
 import by.grsu.skydiving.application.domain.model.skydiver.Address;
@@ -28,12 +29,17 @@ public class Competition {
     private Address place;
     @Builder.Default
     private List<CompetitionStage> stages = new ArrayList<>();
+    private Integer numberOfStages;
     private CompetitionStatus status;
 
     public void addStage(CompetitionStage stage) {
         int nextStageNumber = stages.size() + 1;
         if (stage.number() != nextStageNumber) {
             throw new CompetitionStageNumberIncorrectException(stage.number(), nextStageNumber);
+        }
+
+        if (nextStageNumber > numberOfStages) {
+            throw new CompetitionStagesLimitExceededException(numberOfStages, nextStageNumber);
         }
 
         stages.add(stage);

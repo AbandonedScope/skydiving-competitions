@@ -25,4 +25,6 @@ public class CompetitionEntity {
     private String address;
     @Column("status")
     private Integer status;
+    @Column("number_of_stages")
+    private Integer numberOfStages;
 }

@@ -6,6 +6,7 @@ public record InitiateCompetitionRequest(
         String name,
         LocalDate beginDate,
         LocalDate endDate,
-        String place
+        String place,
+        Integer numberOfStages
 ) {
 }

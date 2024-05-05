@@ -8,10 +8,8 @@ import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase.InitiateCompetitionCommand;
 import by.grsu.skydiving.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @WebAdapter
 @RestController
@@ -22,6 +20,7 @@ public class CompetitionController {
     private final CompetitionMapper mapper;
 
     @PostMapping("/initial")
+    @ResponseStatus(HttpStatus.CREATED)
     public InitiateCompetitionResponse initiateCompetitionCreation(@RequestBody
                                                                    InitiateCompetitionRequest request) {
         InitiateCompetitionCommand command = mapper.toCommand(request);

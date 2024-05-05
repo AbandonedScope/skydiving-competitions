@@ -14,7 +14,8 @@ public interface InitiateCompetitionUseCase {
             String name,
             LocalDate beginDate,
             LocalDate endDate,
-            Address placeOfCompetition
+            Address placeOfCompetition,
+            Integer numberOfStages
     ) {
     }
 }
