@@ -1,17 +1,16 @@
 package by.grsu.skydiving.application.domain.model.skydiver;
 
 import lombok.Builder;
-import lombok.Data;
 
 import java.time.LocalDate;
 
 @Builder
 public record Skydiver (
-    long id,
+    Long id,
     FullName fullName,
     Gender gender,
     LocalDate dateOfBirth,
-    Place placeOfBirth,
+    Address placeOfBirth,
     PhoneNumber phoneNumber,
     FullName couchName,
     Height height,

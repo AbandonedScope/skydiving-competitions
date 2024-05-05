@@ -1,6 +1,6 @@
 package by.grsu.skydiving.application.domain.service;
 
-import by.grsu.skydiving.application.domain.model.UserInfo;
+import by.grsu.skydiving.application.domain.model.auth.UserAuthInfo;
 import by.grsu.skydiving.application.domain.model.auth.UserCredentials;
 import by.grsu.skydiving.application.port.in.GenerateUserCredentialsUseCase;
 import by.grsu.skydiving.application.port.in.GenerateUserCredentialsUseCase.GenerateCredentialsCommand;
@@ -16,11 +16,11 @@ public class SignUpUserService implements SignUpUserUseCase {
     private final GenerateUserCredentialsUseCase generateCredentialsUseCase;
 
     @Override
-    public UserInfo signUp(SignUpUserCommand command) {
+    public UserAuthInfo signUp(SignUpUserCommand command) {
         GenerateCredentialsCommand credentialsCommand = buildGenerateCredentialsCommand(command);
         UserCredentials credentials = generateCredentialsUseCase.generate(credentialsCommand);
 
-        UserInfo newUser = UserInfo.builder()
+        UserAuthInfo newUser = UserAuthInfo.builder()
                 .name(command.fullName())
                 .role(command.role())
                 .credentials(credentials)

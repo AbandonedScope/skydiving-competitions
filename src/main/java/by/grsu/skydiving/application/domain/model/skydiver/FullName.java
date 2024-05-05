@@ -14,10 +14,10 @@ public record FullName(
         String patronymic
 ) {
     public FullName {
-        validate();
+        validate(firstName, secondName, patronymic);
     }
 
-    private void validate() {
+    private void validate(String firstName, String secondName, String patronymic) {
         Map<String, String > errors = new HashMap<>();
 
         if (isIncorrectPartOfFullName(firstName)) {

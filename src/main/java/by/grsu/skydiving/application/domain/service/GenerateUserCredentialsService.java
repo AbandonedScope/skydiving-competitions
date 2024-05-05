@@ -1,12 +1,14 @@
 package by.grsu.skydiving.application.domain.service;
 
-import by.grsu.skydiving.application.domain.model.FullName;
 import by.grsu.skydiving.application.domain.model.auth.UserCredentials;
+import by.grsu.skydiving.application.domain.model.skydiver.FullName;
 import by.grsu.skydiving.application.port.in.GenerateUserCredentialsUseCase;
 import by.grsu.skydiving.common.UseCase;
 import lombok.RequiredArgsConstructor;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;

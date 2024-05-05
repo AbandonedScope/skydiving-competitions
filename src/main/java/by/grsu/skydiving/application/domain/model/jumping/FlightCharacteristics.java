@@ -12,13 +12,13 @@ import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstan
 public record FlightCharacteristics(
         Float height,
         Float speed,
-        Float timeDelayOfParachutOpening
+        Float timeDelayOfParachuteOpening
 ) {
     public FlightCharacteristics{
-        validate();
+        validate(height, speed, timeDelayOfParachuteOpening);
     }
 
-    private void validate(){
+    private void validate(Float height, Float speed, Float timeDelayOfParachuteOpening){
         Map<String, String > errors = new HashMap<>();
 
         if (height == null || height < MIN_FLIGHT_HEIGHT) {
@@ -29,8 +29,8 @@ public record FlightCharacteristics(
             errors.put(SPEED_INCORRECT_VALUE_KEY, SPEED_NULL_OR_NEGATIVE_MESSAGE);
         }
 
-        if (timeDelayOfParachutOpening == null || timeDelayOfParachutOpening < 0) {
-            errors.put(TIME_DELAY_OF_PARACHUT_OPENING_INCORRECT_VALUE_KEY, TIME_DELAY_OF_PARACHUT_OPENING_NULL_OR_NEGATIVE_MESSAGE);
+        if (timeDelayOfParachuteOpening == null || timeDelayOfParachuteOpening < 0) {
+            errors.put(TIME_DELAY_OF_PARACHUT_OPENING_INCORRECT_VALUE_KEY, TIME_DELAY_OF_PARACHUTE_OPENING_NULL_OR_NEGATIVE_MESSAGE);
         }
 
         if (!errors.isEmpty()) {

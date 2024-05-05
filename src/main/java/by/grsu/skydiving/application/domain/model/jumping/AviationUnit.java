@@ -5,16 +5,17 @@ import by.grsu.skydiving.application.domain.exception.domain.ValidationException
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.AVIATION_UNIT_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.AVIATION_UNIT_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE;
 
 public record AviationUnit(
         String aviationUnitName
 ) {
     public AviationUnit{
-        validate();
+        validate(aviationUnitName);
     }
 
-    private void validate(){
+    private void validate(String aviationUnitName){
         Map<String, String > errors = new HashMap<>();
 
         if (aviationUnitName == null || aviationUnitName.isBlank() || aviationUnitName.length() > 50) {

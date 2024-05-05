@@ -1,7 +1,7 @@
 package by.grsu.skydiving.application.port.in;
 
-import by.grsu.skydiving.application.domain.model.UserInfo;
+import by.grsu.skydiving.application.domain.model.auth.UserAuthInfo;
 
 public interface GetUserByLoginUseCase {
-    UserInfo getByLogin(String login);
+    UserAuthInfo getByLogin(String login);
 }
