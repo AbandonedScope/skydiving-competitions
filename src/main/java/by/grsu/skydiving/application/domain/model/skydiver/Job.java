@@ -13,10 +13,10 @@ public record Job(
         PhoneNumber jobPhoneNumber
 ) {
     public Job{
-        validate();
+        validate(jobName, jobPosition);
     }
 
-    private void validate(){
+    private void validate(String jobName, String jobPosition){
         Map<String, String > errors = new HashMap<>();
 
         if (jobName == null || jobName.isBlank() || jobName.length() > 50) {

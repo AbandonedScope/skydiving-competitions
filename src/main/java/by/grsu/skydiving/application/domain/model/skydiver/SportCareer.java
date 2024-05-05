@@ -14,10 +14,10 @@ public record SportCareer (
        String sportDegree
 ){
     public SportCareer{
-        validate();
+        validate(beginDateOfSportCareer, sportSpecialization, sportDegree);
     }
 
-    private void validate(){
+    private void validate(LocalDate beginDateOfSportCareer, String sportSpecialization, String sportDegree){
         Map<String, String > errors = new HashMap<>();
 
         if (beginDateOfSportCareer != null && beginDateOfSportCareer.isAfter(LocalDate.now())) {

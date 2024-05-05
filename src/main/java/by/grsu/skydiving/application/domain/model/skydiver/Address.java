@@ -11,6 +11,10 @@ public record Address(
         String address
 ) {
     public Address {
+        validate(address);
+    }
+
+    private void validate(String address){
         Map<String, String > errors = new HashMap<>();
 
         if (address == null || address.isBlank() || address.length() > 100) {

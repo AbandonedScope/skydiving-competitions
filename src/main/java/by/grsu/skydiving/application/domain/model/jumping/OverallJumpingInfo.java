@@ -6,17 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
-import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.TIME_DELAY_OF_PARACHUT_OPENING_NULL_OR_NEGATIVE_MESSAGE;
 
 public record OverallJumpingInfo(
         Short nextJumpNumberInCompetition,
         Short nextJumpNumberDuringYear,
-        Short jumpNumberBillable) {
+        Short jumpNumberBillable
+) {
     public OverallJumpingInfo{
-        validate();
+        validate(nextJumpNumberInCompetition, nextJumpNumberDuringYear, jumpNumberBillable);
     }
 
-    private void validate(){
+    private void validate(Short nextJumpNumberInCompetition, Short nextJumpNumberDuringYear, Short jumpNumberBillable){
         Map<String, String > errors = new HashMap<>();
 
         if (nextJumpNumberDuringYear == null || nextJumpNumberDuringYear < 0) {

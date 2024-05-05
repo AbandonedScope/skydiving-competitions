@@ -12,10 +12,10 @@ public record Height(
         Float height
 ) {
     public Height {
-       validate();
+       validate(height);
     }
 
-    private void validate(){
+    private void validate(Float height){
         Map<String, String > errors = new HashMap<>();
 
         if (height == null || height < MIN_SKYDIVER_HEIGHT || height > MAX_SKYDIVER_HEIGHT) {
