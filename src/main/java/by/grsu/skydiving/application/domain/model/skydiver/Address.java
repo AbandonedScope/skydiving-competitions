@@ -10,11 +10,7 @@ import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConsta
 public record Address(
         String address
 ) {
-    public Address{
-        validate();
-    }
-
-    private void validate(){
+    public Address {
         Map<String, String > errors = new HashMap<>();
 
         if (address == null || address.isBlank() || address.length() > 100) {

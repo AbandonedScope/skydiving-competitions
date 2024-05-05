@@ -6,16 +6,15 @@ import lombok.Builder;
 
 import java.time.LocalDate;
 
-public interface CreateInitialCompetitionUseCase {
-    Competition createInitial(CreateCompetitionCommand command);
+public interface InitiateCompetitionUseCase {
+    Competition initiateCompetition(InitiateCompetitionCommand command);
 
     @Builder
-    record CreateCompetitionCommand(
+    record InitiateCompetitionCommand(
             String name,
             LocalDate beginDate,
             LocalDate endDate,
-            Address placeOfCompetition,
-            int numberOfStages
+            Address placeOfCompetition
     ) {
     }
 }

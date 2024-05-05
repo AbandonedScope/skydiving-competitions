@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Competition {
-    private Integer id;
+    private Long id;
     private String name;
     @Builder.Default
     private List<Team> teams = new ArrayList<>();
