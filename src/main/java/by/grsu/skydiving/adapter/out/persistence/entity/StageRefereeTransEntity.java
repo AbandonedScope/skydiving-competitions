@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Getter
@@ -21,6 +22,7 @@ public class StageRefereeTransEntity {
     private String workPerformed;
     @Column("is_main_collegium")
     private boolean isMainCollegium;
+
 
     public void setIsMainCollegium(boolean isMainCollegium) {
         this.isMainCollegium = isMainCollegium;

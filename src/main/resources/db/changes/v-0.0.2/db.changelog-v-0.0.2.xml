@@ -7,4 +7,5 @@
     <include file="010-changeset-competition-stage-table.xml" relativeToChangelogFile="true"/>
     <include file="020-changeset-referee-table.xml" relativeToChangelogFile="true"/>
     <include file="030-changeset-competition-stage-referee-trans-table.xml" relativeToChangelogFile="true"/>
+    <include file="040-changeset-referee-changeCategoryColumnDataType-table.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
