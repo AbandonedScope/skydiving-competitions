@@ -37,7 +37,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/sign-in").permitAll()
                         .requestMatchers("/api/v1/auth/sign-up").permitAll()
                         .requestMatchers("/api/v1/competitions/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)

@@ -1,0 +1,39 @@
+package by.grsu.skydiving.adapter.out.persistence.repository;
+
+import by.grsu.skydiving.adapter.out.persistence.entity.SkydiverEntity;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.SkydiverShortInfoProjection;
+import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public interface SkydiverJdbcRepository extends CrudRepository<SkydiverEntity, Long> {
+
+    @Query("""
+            select exists(select 1
+                          from skydiver
+                              left join user_info on user_info.id = skydiver.id
+                          where
+                              user_info.first_name = :firstName
+                            and user_info.second_name = :secondName
+                            and user_info.patronymic = :patronymic
+                            and skydiver.birth_date = :birthDate
+                          );
+            """)
+    boolean findByBirthDateAndFullName(String firstName, String secondName, String patronymic, LocalDate birthDate);
+
+    @Query("""
+            select skydiver.id,
+                   user_info.first_name,
+                   user_info.second_name,
+                   user_info.patronymic,
+                   skydiver.begin_of_sport_career,
+                   skydiver.sport_specialization,
+                   skydiver.sport_degree
+            from skydiver
+            left join user_info on user_info.id = skydiver.id
+            limit :limit offset :offset
+            """)
+    List<SkydiverShortInfoProjection> getPage(long limit, long offset);
+}

@@ -17,6 +17,10 @@ public record FullName(
         validate(firstName, secondName, patronymic);
     }
 
+    public String formatted() {
+        return secondName.concat(" ".concat(firstName)).concat(" ".concat(patronymic));
+    }
+
     private void validate(String firstName, String secondName, String patronymic) {
         Map<String, String > errors = new HashMap<>();
 

@@ -47,12 +47,12 @@ public class ErrorMessagesConstants {
     public static final String PANTS_SIZE_INCORRECT_VALUE_MESSAGE = "Clothing size validation. Incorrect pantssize.";
     public static final String PLACE_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "User validation. Failed place check. Place is null or blank or incorrect length.";
     public static final String TEAM_NAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Team validation. Failed team name check. TeamName is null or blank or incorrect length.";
-    public static final String TEAM_SKYDIVERS_IS_NULL_MESSAGE = "Team validation. Failed team skydivers check. Team skydivers is null or blank.";
+    public static final String TEAM_SKYDIVERS_IS_NULL_MESSAGE = "Team validation. Failed team page check. Team page is null or blank.";
     public static final String WEIGHT_OUT_OF_RANGE_OR_NULL_MESSAGE = "Skydiver validation. Failed weight check. Weight is null or out of range.";
     public static final String HEIGHT_OUT_OF_RANGE_OR_NULL_MESSAGE = "Skydiver validation. Failed height check. Height is null or out of range.";
     public static final String BEGIN_DATE_OF_SPORT_IS_NULL_OR_INCORRECT_DATE_MESSAGE = "Skydiver validation. Failed begin date of sport career check. Begin date of sport is null or incorrect date.";
     public static final String SPORT_SPECIALIZATION_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Skydiver validation. Failed sport specialization check. Sport specialization is null or blank or incorrect length.";
-    public static final String SPORT_DEGREE_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Skydiver validation. Failed sport degree check. Sport degree is null or blank or incorrect length.";
+    public static final String SPORT_DEGREE_IS_NULL_MESSAGE = "Skydiver validation. Failed sport degree check. Sport degree is null.";
     public static final String ADDRESS_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Address validation. Failed address check. Address is null or blank or incorrect length.";
     public static final String JOB_NAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Parent job validation. Job name name check. Job name is null or blank or incorrect length.";
     public static final String JOB_POSITION_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE = "Parent job validation. Failed job position check. Job position is null or blank or incorrect length.";
@@ -67,5 +67,5 @@ public class ErrorMessagesConstants {
     public static final String COMPETITION_STAGE_NUMBER_NULL_OR_INVALID_MESSAGE = "Competition stage validation. Failed number of stage check. Number of stage is null or invalid";
     public static final String COMPETITION_STAGE_MAIN_JUDGE_COLLEGIUM_NULL_MESSAGE = "Competition stage validation. Failed main judge collegium of stage check. Collegium is null";
     public static final String COMPETITION_STAGE_JUDGE_COLLEGIUM_NULL_MESSAGE = "Competition stage validation. Failed judge collegium of stage check. Collegium is null";
-    public static final String INDIVIDUAL_COMPETITION_SKYDIVERS_NULL_MESSAGE = "Individual competition skydivers validation. Failed individual competition skydivers check. Skydivers is null";
+    public static final String INDIVIDUAL_COMPETITION_SKYDIVERS_NULL_MESSAGE = "Individual competition page validation. Failed individual competition page check. Skydivers is null";
 }
