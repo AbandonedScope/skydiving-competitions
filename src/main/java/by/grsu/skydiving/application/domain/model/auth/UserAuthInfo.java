@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record UserAuthInfo(
-        Integer userId,
+        Long userId,
         FullName name,
         UserRole role,
         UserCredentials credentials

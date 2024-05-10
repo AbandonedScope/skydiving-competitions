@@ -6,7 +6,7 @@ import by.grsu.skydiving.application.domain.model.auth.JwtToken;
 import by.grsu.skydiving.application.domain.model.auth.JwtTokenGenerationSettings;
 import by.grsu.skydiving.application.domain.model.auth.UserInfoForToken;
 import by.grsu.skydiving.application.port.in.SignInUseCase;
-import by.grsu.skydiving.application.port.out.FindUserInfoByLoginAndPasswordPort;
+import by.grsu.skydiving.application.port.out.FindUserInfoPort;
 import by.grsu.skydiving.common.UseCase;
 import by.grsu.skydiving.common.config.JwtSettings;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import static by.grsu.skydiving.application.domain.service.utils.SecretKeyUtils.
 @RequiredArgsConstructor
 public class SingInService implements SignInUseCase {
     private final JwtSettings jwtSettings;
-    private final FindUserInfoByLoginAndPasswordPort findPort;
+    private final FindUserInfoPort findPort;
 
     @Override
     public JwtAuthCredentials signIn(SignInQuery query) {
