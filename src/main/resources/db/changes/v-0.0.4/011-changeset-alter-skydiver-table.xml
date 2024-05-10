@@ -3,18 +3,18 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 		                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet id="10" author="Maksim Makhanko">
+    <changeSet id="14" author="Maksim Makhanko">
         <sqlFile dbms="postgresql"
                  relativeToChangelogFile="true"
                  splitStatements="true"
                  stripComments="true"
-                 path="scripts/001-alter-login-and-password-nullable.sql"/>
+                 path="scripts/011-alter-skydiver-table-add-is-deleted.sql"/>
         <rollback>
             <sqlFile dbms="postgresql"
                      relativeToChangelogFile="true"
                      splitStatements="true"
                      stripComments="true"
-                     path="scripts/001-alter-login-and-password-not-null.sql"/>
+                     path="scripts/011-alter-skydiver-table-drop-is-deleted.sql"/>
         </rollback>
     </changeSet>
 </databaseChangeLog>

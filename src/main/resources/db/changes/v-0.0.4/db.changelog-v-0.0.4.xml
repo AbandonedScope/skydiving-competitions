@@ -4,6 +4,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 		                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <include file="001-changeset-alter-user-info-table.xml" relativeToChangelogFile="true"/>
+    <include file="002-changeset-alter-user-info-table.xml" relativeToChangelogFile="true"/>
+    <include file="003-changeset-create-user-info-view.xml" relativeToChangelogFile="true"/>
     <include file="010-changeset-create-skydiver-table.xml" relativeToChangelogFile="true"/>
+    <include file="011-changeset-alter-skydiver-table.xml" relativeToChangelogFile="true"/>
+    <include file="012-changeset-create-skydiver-view.xml" relativeToChangelogFile="true"/>
     <include file="020-changeset-create-passport-info-table.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

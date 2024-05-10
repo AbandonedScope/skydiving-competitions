@@ -1,0 +1,1 @@
+drop view if exists user_info_view;

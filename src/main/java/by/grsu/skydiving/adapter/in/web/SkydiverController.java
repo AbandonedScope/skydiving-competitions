@@ -11,6 +11,7 @@ import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
 import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
 import by.grsu.skydiving.application.port.in.AddSkydiverUseCase;
 import by.grsu.skydiving.application.port.in.GetSkydiversPageUseCase;
+import by.grsu.skydiving.application.port.in.SoftDeleteSkydiverUseCase;
 import by.grsu.skydiving.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class SkydiverController {
     private final AddSkydiverUseCase addUseCase;
     private final GetSkydiversPageUseCase pageUseCase;
+    private final SoftDeleteSkydiverUseCase softDeleteUseCase;
     private final SkydiverMapper mapper;
 
     @PostMapping
@@ -44,5 +46,11 @@ public class SkydiverController {
         DomainPage<SkydiverShortInfo> page = pageUseCase.getPage(pageQuery);
 
         return mapper.toResponse(page);
+    }
+
+    @DeleteMapping("/{skydiverId}")
+    public void softDelete(@PathVariable
+                           long skydiverId) {
+        softDeleteUseCase.softDelete(skydiverId);
     }
 }

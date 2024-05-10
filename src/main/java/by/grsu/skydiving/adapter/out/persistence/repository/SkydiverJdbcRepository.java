@@ -2,6 +2,7 @@ package by.grsu.skydiving.adapter.out.persistence.repository;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.SkydiverEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.SkydiverShortInfoProjection;
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -12,7 +13,7 @@ public interface SkydiverJdbcRepository extends CrudRepository<SkydiverEntity, L
 
     @Query("""
             select exists(select 1
-                          from skydiver
+                          from skydiver_view as skydiver
                               left join user_info on user_info.id = skydiver.id
                           where
                               user_info.first_name = :firstName
@@ -31,9 +32,19 @@ public interface SkydiverJdbcRepository extends CrudRepository<SkydiverEntity, L
                    skydiver.begin_of_sport_career,
                    skydiver.sport_specialization,
                    skydiver.sport_degree
-            from skydiver
+            from skydiver_view as skydiver
             left join user_info on user_info.id = skydiver.id
-            limit :limit offset :offset
+            limit :limit offset :offset;
             """)
     List<SkydiverShortInfoProjection> getPage(long limit, long offset);
+
+    @Modifying
+    @Query("""
+            update skydiver
+            set is_deleted = :deleted
+            where id = :skydiverId
+            """)
+    void updateByIdSetDeleted(long skydiverId, boolean deleted);
+
+    boolean existsById(long id);
 }

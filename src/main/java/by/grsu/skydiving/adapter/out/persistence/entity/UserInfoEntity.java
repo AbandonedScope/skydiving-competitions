@@ -8,7 +8,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Getter
 @Setter
-@Table("user_info")
+@Table("user_info_view")
 public class UserInfoEntity implements UserInfoWithoutCredentials {
     @Id
     @Column("id")

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Table("skydiver")
+@Table("skydiver_view")
 public class SkydiverEntity implements Persistable<Long> {
     @Id
     @Column("id")

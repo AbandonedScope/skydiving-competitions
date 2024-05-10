@@ -1,6 +1,5 @@
 package by.grsu.skydiving.adapter.out.persistence.repository;
 
-import by.grsu.skydiving.adapter.out.persistence.UserInfoJdbcRepository;
 import by.grsu.skydiving.adapter.out.persistence.entity.PassportInfoEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.SkydiverEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoEntity;
@@ -13,9 +12,7 @@ import by.grsu.skydiving.application.domain.model.skydiver.FullName;
 import by.grsu.skydiving.application.domain.model.skydiver.Passport;
 import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
 import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
-import by.grsu.skydiving.application.port.out.ExistsSkydiverByFullnameAndBirthDatePort;
-import by.grsu.skydiving.application.port.out.GetSkydiverPagePort;
-import by.grsu.skydiving.application.port.out.SaveNewSkydiverPort;
+import by.grsu.skydiving.application.port.out.*;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +23,8 @@ import java.util.List;
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
-        ExistsSkydiverByFullnameAndBirthDatePort, GetSkydiverPagePort {
+        ExistsSkydiverByFullnameAndBirthDatePort, GetSkydiverPagePort,
+        UpdateSkydiverPort, ExistsSkydiverByIdPort {
     private final SkydiverJdbcRepository skydiverJdbcRepository;
     private final UserInfoJdbcRepository userInfoJdbcRepository;
     private final PasswordInfoJdbcRepository passwordInfoJdbcRepository;
@@ -73,5 +71,17 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
                 .currentPage(++pageNumber)
                 .page(skydiver)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void setDeleted(long skydiverId, boolean isDeleted) {
+        skydiverJdbcRepository.updateByIdSetDeleted(skydiverId, isDeleted);
+        userInfoJdbcRepository.updateByIdSetDeleted(skydiverId, isDeleted);
+    }
+
+    @Override
+    public boolean exists(long skydiverId) {
+        return skydiverJdbcRepository.existsById(skydiverId);
     }
 }
