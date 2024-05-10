@@ -1,6 +1,5 @@
 package by.grsu.skydiving.adapter.out.persistence.repository;
 
-import by.grsu.skydiving.adapter.out.persistence.UserInfoJdbcRepository;
 import by.grsu.skydiving.adapter.out.persistence.entity.PassportInfoEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.SkydiverEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoEntity;
