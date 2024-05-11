@@ -10,7 +10,10 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedSourcePolicy = ReportingPolicy.WARN, unmappedTargetPolicy = ReportingPolicy.WARN)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedSourcePolicy = ReportingPolicy.WARN,
+        unmappedTargetPolicy = ReportingPolicy.WARN)
+
 public interface CollegiumRefereeMapper {
     @Mapping(target = "referee.info.firstName", source = "refereeEntity.userInfoEntity.firstName")
     @Mapping(target = "referee.info.secondName", source = "refereeEntity.userInfoEntity.secondName")
