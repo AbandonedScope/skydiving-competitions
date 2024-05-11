@@ -1,7 +1,7 @@
-package by.grsu.skydiving.adapter.out.persistence;
+package by.grsu.skydiving.adapter.out.persistence.repository;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoEntity;
-import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoWithoutCredentials;
+import by.grsu.skydiving.adapter.out.persistence.projections.UserInfoWithoutCredentials;
 import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.Optional;

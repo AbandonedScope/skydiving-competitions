@@ -1,5 +1,6 @@
 package by.grsu.skydiving.adapter.out.persistence.entity;
 
+import by.grsu.skydiving.adapter.out.persistence.projections.UserInfoWithoutCredentials;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;

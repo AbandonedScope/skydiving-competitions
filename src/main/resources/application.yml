@@ -3,8 +3,8 @@ spring:
     name: "skydiving-competitions"
   datasource:
     url: jdbc:postgresql://localhost:5432/skydiving
-    password: password
-    username: user
+    password: postgres
+    username: postgres
   liquibase:
     change-log: "db/changes/db.changelog-master.xml"
 
