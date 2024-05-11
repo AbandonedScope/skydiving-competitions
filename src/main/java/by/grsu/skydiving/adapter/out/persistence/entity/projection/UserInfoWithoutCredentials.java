@@ -1,4 +1,4 @@
-package by.grsu.skydiving.adapter.out.persistence.projections;
+package by.grsu.skydiving.adapter.out.persistence.entity.projection;
 
 public interface UserInfoWithoutCredentials {
     Long getUserId();

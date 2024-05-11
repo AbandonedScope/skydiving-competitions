@@ -63,13 +63,20 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
     @Override
     public DomainPage<SkydiverShortInfo> getPage(long pageNumber, int pageSize) {
         long offset = pageNumber * pageSize;
+        long totalRows = skydiverJdbcRepository.count();
+        int totalPages =(int) totalRows / pageSize;
+        if (totalRows % pageSize > 0) {
+            totalPages++;
+        }
+
         List<SkydiverShortInfoProjection> list = skydiverJdbcRepository.getPage(pageSize, offset);
         List<SkydiverShortInfo> skydiver = skydiverEntityMapper.toDomain(list);
 
         return DomainPage.<SkydiverShortInfo>builder()
                 .pageSize(pageSize)
                 .currentPage(++pageNumber)
-                .page(skydiver)
+                .totalPages(totalPages)
+                .content(skydiver)
                 .build();
     }
 

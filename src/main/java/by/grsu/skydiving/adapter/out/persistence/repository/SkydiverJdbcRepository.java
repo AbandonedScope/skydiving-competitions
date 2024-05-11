@@ -31,7 +31,9 @@ public interface SkydiverJdbcRepository extends CrudRepository<SkydiverEntity, L
                    user_info.patronymic,
                    skydiver.begin_of_sport_career,
                    skydiver.sport_specialization,
-                   skydiver.sport_degree
+                   skydiver.sport_degree,
+                   skydiver.is_internal,
+                   skydiver.gender
             from skydiver_view as skydiver
             left join user_info on user_info.id = skydiver.id
             limit :limit offset :offset;

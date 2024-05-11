@@ -8,6 +8,7 @@ import java.util.List;
 public record DomainPage<T>(
         long currentPage,
         int pageSize,
-        List<T> page
+        int totalPages,
+        List<T> content
 ) {
 }
