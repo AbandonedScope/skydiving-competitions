@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface SkydiverJdbcRepository extends CrudRepository<SkydiverEntity, Long> {
 
@@ -49,4 +50,8 @@ public interface SkydiverJdbcRepository extends CrudRepository<SkydiverEntity, L
     void updateByIdSetDeleted(long skydiverId, boolean deleted);
 
     boolean existsById(long id);
+
+    List<SkydiverShortInfoProjection> filter(Map<String, Object> filters, long limit, long offset);
+
+    Long countFiltered(Map<String, Object> filters, long limit, long offset);
 }

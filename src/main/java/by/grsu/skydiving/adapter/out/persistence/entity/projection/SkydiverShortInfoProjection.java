@@ -1,7 +1,10 @@
 package by.grsu.skydiving.adapter.out.persistence.entity.projection;
 
+import lombok.Builder;
+
 import java.time.LocalDate;
 
+@Builder
 public record SkydiverShortInfoProjection(
         Long id,
         String firstName,
