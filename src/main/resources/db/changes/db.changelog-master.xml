@@ -34,5 +34,4 @@
     <changeSet id="17" author="Maksim Makhanko">
         <tagDatabase tag="v.0.0.4"/>
     </changeSet>
-
 </databaseChangeLog>
