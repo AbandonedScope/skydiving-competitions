@@ -1,6 +1,5 @@
 package by.grsu.skydiving.adapter.out.persistence.entity;
 
-import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -16,5 +15,5 @@ public class RefereeEntity {
     private Long id;
     @Column("user_info_id")
     private Integer userInfoId;
-    private RefereeCategory category;
+    private Short category;
 }

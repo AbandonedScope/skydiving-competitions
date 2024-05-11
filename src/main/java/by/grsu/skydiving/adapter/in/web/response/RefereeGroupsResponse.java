@@ -4,5 +4,6 @@ import java.util.Set;
 
 public record RefereeGroupsResponse(
         Set<RefereeResponse> mainCollegium,
-        Set<RefereeResponse> collegium) {
+        Set<RefereeResponse> collegium
+        ) {
 }
