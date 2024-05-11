@@ -11,12 +11,12 @@ import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConsta
 public record AviationUnit(
         String aviationUnitName
 ) {
-    public AviationUnit{
+    public AviationUnit {
         validate(aviationUnitName);
     }
 
-    private void validate(String aviationUnitName){
-        Map<String, String > errors = new HashMap<>();
+    private void validate(String aviationUnitName) {
+        Map<String, String> errors = new HashMap<>();
 
         if (aviationUnitName == null || aviationUnitName.isBlank() || aviationUnitName.length() > 50) {
             errors.put(AVIATION_UNIT_INCORRECT_VALUE_KEY, AVIATION_UNIT_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE);

@@ -22,7 +22,7 @@ public record FullName(
     }
 
     private void validate(String firstName, String secondName, String patronymic) {
-        Map<String, String > errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
 
         if (isIncorrectPartOfFullName(firstName)) {
             errors.put(FIRSTNAME_INCORRECT_VALUE_KEY, FIRSTNAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE);
@@ -41,7 +41,7 @@ public record FullName(
         }
     }
 
-    private boolean isIncorrectPartOfFullName(String partOfName){
+    private boolean isIncorrectPartOfFullName(String partOfName) {
         return partOfName == null || partOfName.isBlank() || partOfName.length() > 50;
     }
 }

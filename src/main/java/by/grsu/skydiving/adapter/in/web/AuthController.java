@@ -46,7 +46,7 @@ public class AuthController {
     @PostMapping("/regen/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public UserCredentialsResponse regen(@PathVariable
-                                long userId) {
+                                         long userId) {
         UserCredentials userCredentials = userCredentialsUseCase.regenerate(userId);
 
         return authMapper.toResponse(userCredentials);
