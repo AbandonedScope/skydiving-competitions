@@ -9,11 +9,11 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Getter
 @Setter
-@Table("user_info")
+@Table("user_info_view")
 public class UserInfoEntity implements UserInfoWithoutCredentials {
     @Id
     @Column("id")
-    private Integer userId;
+    private Long userId;
     private String login;
     private String password;
     private String firstName;

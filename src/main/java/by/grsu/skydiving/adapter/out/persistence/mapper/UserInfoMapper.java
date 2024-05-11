@@ -6,6 +6,7 @@ import by.grsu.skydiving.application.domain.model.auth.UserAuthInfo;
 import by.grsu.skydiving.application.domain.model.auth.UserInfoForToken;
 import by.grsu.skydiving.application.domain.model.auth.UserRole;
 import by.grsu.skydiving.application.domain.model.common.UserInfo;
+import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -23,6 +24,12 @@ public interface UserInfoMapper {
     @Mapping(target = "login", source = "credentials.login")
     @Mapping(target = "password", source = "credentials.password")
     UserInfoEntity toEntity(UserAuthInfo info);
+
+    @Mapping(target = "firstName", source = "name.firstName")
+    @Mapping(target = "secondName", source = "name.secondName")
+    @Mapping(target = "patronymic", source = "name.patronymic")
+    @Mapping(target = "role", constant = "2")
+    UserInfoEntity toEntity(Skydiver info);
 
     @Mapping(target = "name.firstName", source = "firstName")
     @Mapping(target = "name.secondName", source = "secondName")

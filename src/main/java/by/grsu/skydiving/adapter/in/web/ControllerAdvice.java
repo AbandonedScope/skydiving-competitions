@@ -1,5 +1,7 @@
 package by.grsu.skydiving.adapter.in.web;
 
+import by.grsu.skydiving.application.domain.exception.business.BusinessException;
+import by.grsu.skydiving.application.domain.exception.business.SkydiverWithNameAndBirthDateAlreadyExistsException;
 import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,29 @@ public class ControllerAdvice {
 
         problemDetail.setProperty("errors", ex.getErrors());
         problemDetail.setTitle("validation-error");
+
+        log.error(ex.getMessage());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(SkydiverWithNameAndBirthDateAlreadyExistsException.class)
+    public ProblemDetail handleSkydiverWithNameAndBirthDateAlreadyExistsException(SkydiverWithNameAndBirthDateAlreadyExistsException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+
+        problemDetail.setDetail(ex.getMessage());
+        problemDetail.setTitle("skydiver-creation-error");
+        problemDetail.setProperty("errorType", "business-error-type-conflict");
+
+        log.error(ex.getMessage());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ProblemDetail handleBusinessException(BusinessException ex) {
+        ProblemDetail problemDetail = getProblemDetailBusiness();
+
+        problemDetail.setDetail(ex.getMessage());
+        problemDetail.setTitle("business-error");
 
         log.error(ex.getMessage());
         return problemDetail;

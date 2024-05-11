@@ -1,0 +1,83 @@
+###
+POST http://localhost:8080/api/v1/auth/sign-up
+Content-Type: application/json
+
+{
+  "firstName": "Кирилл",
+  "secondName": "Васько",
+  "patronymic": "Андреевич",
+  "role": 0
+}
+
+###
+POST http://localhost:8080/api/v1/auth/sign-up
+Content-Type: application/json
+
+{
+  "firstName": "Максим",
+  "secondName": "Маханько",
+  "patronymic": "Витальевич",
+  "role": 0
+}
+
+###
+POST http://localhost:8080/api/v1/competitions/initial
+Content-Type: application/json
+
+{
+  "name": "Гродненские региональные соревнования",
+  "beginDate": "2024-05-14",
+  "endDate": "2024-05-24",
+  "place": "Гродно, ул. Белые Росы 57, кв 7",
+  "numberOfStages": 2
+}
+
+###
+POST http://localhost:8080/api/v1/competitions/1/stage
+Content-Type: application/json
+
+{
+  "mainCollegium": [
+    {
+      "refereeId": 1,
+      "workPerformed": "Очень важная"
+    }
+  ],
+  "collegium": [
+    {
+      "refereeId": 2,
+      "workPerformed": "Не очень важная"
+    }
+  ],
+  "stageNumber": 1
+}
+
+###
+POST http://localhost:8080/api/v1/skydivers
+Content-Type: application/json
+
+{
+  "firstName": "Максим",
+  "secondName": "Маханько",
+  "patronymic": "Витальевич",
+  "gender": "MALE",
+  "birthDate": "2002-12-11",
+  "placeOfBirth": "город Берёзовка",
+  "placeOfWork": "ООО Модсен",
+  "education": "Среднее",
+  "phone": "+375259373579",
+  "passportDetails": {
+    "series": "KH",
+    "number": "1234567",
+    "personalNumber": "12345678910121",
+    "issuingAuthority": "Лидский РОВД Гродненской области",
+    "issuedDate": "2013-12-11"
+  }
+}
+
+###
+GET http://localhost:8080/api/v1/skydivers/page?number=1&size=1
+
+###
+POST http://localhost:8080/api/v1/auth/regen/19
+Content-Type: application/x-www-form-urlencoded
