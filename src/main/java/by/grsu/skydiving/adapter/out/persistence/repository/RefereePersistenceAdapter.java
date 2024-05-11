@@ -16,8 +16,7 @@ public class RefereePersistenceAdapter implements FindRefereesPort {
 
     @Override
     public Optional<RefereeGroups> findRefereesByCompetitionStageId(Long competitionStageId) {
-        var referees = refereeJdbcRepository.findByCompetitionId(competitionStageId).get();
-
-        return Optional.of(refereeEntityMapper.toDomain(referees));
+        return refereeJdbcRepository.findByCompetitionId(competitionStageId)
+                .map(refereeEntityMapper::toDomain);
     }
 }

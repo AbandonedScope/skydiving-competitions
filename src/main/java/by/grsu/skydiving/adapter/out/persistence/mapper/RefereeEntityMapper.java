@@ -14,10 +14,11 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+@Mapper(
+        componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedSourcePolicy = ReportingPolicy.WARN,
-        unmappedTargetPolicy = ReportingPolicy.WARN)
-
+        unmappedTargetPolicy = ReportingPolicy.WARN
+)
 public interface RefereeEntityMapper {
     @Mapping(target = "referee.info.name.firstName", source = "firstName")
     @Mapping(target = "referee.info.name.secondName", source = "secondName")
