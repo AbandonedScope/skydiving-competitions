@@ -2,6 +2,8 @@ package by.grsu.skydiving.adapter.in.web;
 
 import by.grsu.skydiving.adapter.in.web.mapper.RefereeMapper;
 import by.grsu.skydiving.adapter.in.web.response.RefereeGroupsResponse;
+import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
+import by.grsu.skydiving.application.port.in.DeleteRefereeUseCase;
 import by.grsu.skydiving.application.port.in.DeleteRefereeFromCompetitionStageUseCase;
 import by.grsu.skydiving.application.port.in.GetRefereesGroupsByCompetitionStageIdUseCase;
 import by.grsu.skydiving.common.WebAdapter;
@@ -14,16 +16,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/referees")
 @RequiredArgsConstructor
 public class RefereesController {
-    private final GetRefereesGroupsByCompetitionStageIdUseCase getRefereesGroupsByCompetitionStageIdUseCase;
+    private final GetRefereesGroupsByCompetitionStageIdUseCase getRefereesGroupsUseCase;
+    private final DeleteRefereeUseCase deleteRefereeUseCase;
     private final DeleteRefereeFromCompetitionStageUseCase deleteRefereeFromCompetitionStageUseCase;
     private final RefereeMapper mapper;
 
-    @PostMapping("/{competitionStageId}")
+    @PostMapping("/competitionStage/{competitionStageId}")
     @ResponseStatus(HttpStatus.OK)
-    public RefereeGroupsResponse addStageToCompetition(@PathVariable Long competitionStageId) {
-        var referees = getRefereesGroupsByCompetitionStageIdUseCase.findRefereesByCompetitionStageId(competitionStageId);
+    public RefereeGroupsResponse getRefereeGroupsByCompetitionStageId(@PathVariable Long competitionStageId) {
+        RefereeGroups referees = getRefereesGroupsUseCase.findRefereesByCompetitionStageId(competitionStageId);
 
         return mapper.toResponse(referees);
+    }
+
+    @DeleteMapping("/{refereeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteReferee(@PathVariable Long refereeId) {
+         deleteRefereeUseCase.deleteRefereeByRefereeId(refereeId);
     }
 
     @DeleteMapping("/{refereeId}/competitionStage/{competitionStageId}")

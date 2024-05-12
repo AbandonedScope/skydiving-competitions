@@ -22,7 +22,6 @@ public class StageRefereeTransEntity {
     @Column("is_main_collegium")
     private boolean isMainCollegium;
 
-
     public void setIsMainCollegium(boolean isMainCollegium) {
         this.isMainCollegium = isMainCollegium;
     }

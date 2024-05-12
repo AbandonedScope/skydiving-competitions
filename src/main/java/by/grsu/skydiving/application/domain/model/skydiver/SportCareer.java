@@ -11,13 +11,13 @@ import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConsta
 public record SportCareer(
         LocalDate beginDateOfSportCareer,
         String sportSpecialization,
-        String sportDegree
+        SportDegree sportDegree
 ) {
     public SportCareer {
         validate(beginDateOfSportCareer, sportSpecialization, sportDegree);
     }
 
-    private void validate(LocalDate beginDateOfSportCareer, String sportSpecialization, String sportDegree) {
+    private void validate(LocalDate beginDateOfSportCareer, String sportSpecialization, SportDegree sportDegree) {
         Map<String, String> errors = new HashMap<>();
 
         if (beginDateOfSportCareer != null && beginDateOfSportCareer.isAfter(LocalDate.now())) {
@@ -28,8 +28,8 @@ public record SportCareer(
             errors.put(SPORT_SPECIALIZATION_INCORRECT_VALUE_KEY, SPORT_SPECIALIZATION_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE);
         }
 
-        if (sportDegree != null && !sportDegree.isBlank() && sportDegree.length() > 50) {
-            errors.put(SPORT_DEGREE_INCORRECT_VALUE_KEY, SPORT_DEGREE_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE);
+        if (sportDegree == null) {
+            errors.put(SPORT_DEGREE_INCORRECT_VALUE_KEY, SPORT_DEGREE_IS_NULL_MESSAGE);
         }
 
         if (!errors.isEmpty()) {

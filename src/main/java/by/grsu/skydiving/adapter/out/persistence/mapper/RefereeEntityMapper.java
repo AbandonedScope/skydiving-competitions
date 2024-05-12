@@ -1,6 +1,6 @@
 package by.grsu.skydiving.adapter.out.persistence.mapper;
 
-import by.grsu.skydiving.adapter.out.persistence.projections.CollegiumRefereeProjection;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.CollegiumRefereeProjection;
 import by.grsu.skydiving.application.domain.model.competition.CollegiumReferee;
 import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
 import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
@@ -14,8 +14,11 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedSourcePolicy = ReportingPolicy.WARN, unmappedTargetPolicy = ReportingPolicy.WARN)
-
+@Mapper(
+        componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedSourcePolicy = ReportingPolicy.WARN,
+        unmappedTargetPolicy = ReportingPolicy.WARN
+)
 public interface RefereeEntityMapper {
     @Mapping(target = "referee.info.name.firstName", source = "firstName")
     @Mapping(target = "referee.info.name.secondName", source = "secondName")

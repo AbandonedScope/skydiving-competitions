@@ -4,7 +4,8 @@ import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoEntity;
 import by.grsu.skydiving.adapter.out.persistence.mapper.UserInfoMapper;
 import by.grsu.skydiving.application.domain.model.auth.UserAuthInfo;
 import by.grsu.skydiving.application.domain.model.auth.UserInfoForToken;
-import by.grsu.skydiving.application.port.out.FindUserInfoByLoginAndPasswordPort;
+import by.grsu.skydiving.application.domain.model.common.UserInfo;
+import by.grsu.skydiving.application.port.out.FindUserInfoPort;
 import by.grsu.skydiving.application.port.out.SaveUserPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.Optional;
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class UserInfoPersistenceAdapter implements SaveUserPort,
-        FindUserInfoByLoginAndPasswordPort {
+        FindUserInfoPort {
     private final UserInfoJdbcRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final UserInfoMapper userInfoMapper;
@@ -30,6 +31,12 @@ public class UserInfoPersistenceAdapter implements SaveUserPort,
     @Override
     public Optional<UserAuthInfo> findBy(String login) {
         return repository.findByLogin(login)
+                .map(userInfoMapper::toDomain);
+    }
+
+    @Override
+    public Optional<UserInfo> findById(long userId) {
+        return repository.findByUserId(userId)
                 .map(userInfoMapper::toDomain);
     }
 
