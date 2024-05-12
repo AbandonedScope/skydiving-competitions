@@ -8,23 +8,23 @@ import java.util.Map;
 
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
 
-public record SportCareer (
-       LocalDate beginDateOfSportCareer,
-       String sportSpecialization,
-       String sportDegree
-){
-    public SportCareer{
+public record SportCareer(
+        LocalDate beginDateOfSportCareer,
+        String sportSpecialization,
+        String sportDegree
+) {
+    public SportCareer {
         validate(beginDateOfSportCareer, sportSpecialization, sportDegree);
     }
 
-    private void validate(LocalDate beginDateOfSportCareer, String sportSpecialization, String sportDegree){
-        Map<String, String > errors = new HashMap<>();
+    private void validate(LocalDate beginDateOfSportCareer, String sportSpecialization, String sportDegree) {
+        Map<String, String> errors = new HashMap<>();
 
         if (beginDateOfSportCareer != null && beginDateOfSportCareer.isAfter(LocalDate.now())) {
             errors.put(BEGIN_DATE_OF_SPORT_CAREER_INCORRECT_VALUE_KEY, BEGIN_DATE_OF_SPORT_IS_NULL_OR_INCORRECT_DATE_MESSAGE);
         }
 
-        if(sportSpecialization != null && !sportSpecialization.isBlank() && sportSpecialization.length() > 50) {
+        if (sportSpecialization != null && !sportSpecialization.isBlank() && sportSpecialization.length() > 50) {
             errors.put(SPORT_SPECIALIZATION_INCORRECT_VALUE_KEY, SPORT_SPECIALIZATION_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE);
         }
 

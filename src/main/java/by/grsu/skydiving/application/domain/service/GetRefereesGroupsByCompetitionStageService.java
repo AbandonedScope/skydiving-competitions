@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class GetRefereesGroupsByCompetitionStageService implements GetRefereesGroupsByCompetitionStageIdUseCase{
-        FindRefereesPort findRefereesPort;
+public class GetRefereesGroupsByCompetitionStageService implements GetRefereesGroupsByCompetitionStageIdUseCase {
+    FindRefereesPort findRefereesPort;
 
     @Override
     public RefereeGroups findRefereesByCompetitionStageId(Long competitionStageId) {

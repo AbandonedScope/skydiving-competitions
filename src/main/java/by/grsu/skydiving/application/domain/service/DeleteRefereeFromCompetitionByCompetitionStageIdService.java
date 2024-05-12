@@ -8,10 +8,10 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class DeleteRefereeFromCompetitionByCompetitionStageIdService implements DeleteRefereeFromCompetitionStageUseCase {
-    private  final DeleteRefereeFromCompetitionStagePort deleteRefereeFromCompetitionStagePort;
+    private final DeleteRefereeFromCompetitionStagePort deleteRefereeFromCompetitionStagePort;
 
     @Override
-    public void deleteRefereeFromCompetitionByCompetitionStageId(Long competitionStageId, Integer refereeId) {
+    public void deleteRefereeFromCompetitionByCompetitionStageId(Long competitionStageId, Long refereeId) {
         deleteRefereeFromCompetitionStagePort.deleteRefereeFromCompetitionByCompetitionStageId(competitionStageId, refereeId);
     }
 }

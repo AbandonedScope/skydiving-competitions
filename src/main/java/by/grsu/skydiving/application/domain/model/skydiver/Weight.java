@@ -17,8 +17,8 @@ public record Weight(
         validate(weight);
     }
 
-    private void validate(Float weight){
-        Map<String, String > errors = new HashMap<>();
+    private void validate(Float weight) {
+        Map<String, String> errors = new HashMap<>();
 
         if (weight == null || weight < MIN_SKYDIVER_WEIGHT || weight > MAX_SKYDIVER_WEIGHT) {
             errors.put(WEIGHT_INCORRECT_VALUE_KEY, WEIGHT_OUT_OF_RANGE_OR_NULL_MESSAGE);

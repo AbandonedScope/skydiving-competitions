@@ -12,12 +12,12 @@ public record OverallJumpingInfo(
         Short nextJumpNumberDuringYear,
         Short jumpNumberBillable
 ) {
-    public OverallJumpingInfo{
+    public OverallJumpingInfo {
         validate(nextJumpNumberInCompetition, nextJumpNumberDuringYear, jumpNumberBillable);
     }
 
-    private void validate(Short nextJumpNumberInCompetition, Short nextJumpNumberDuringYear, Short jumpNumberBillable){
-        Map<String, String > errors = new HashMap<>();
+    private void validate(Short nextJumpNumberInCompetition, Short nextJumpNumberDuringYear, Short jumpNumberBillable) {
+        Map<String, String> errors = new HashMap<>();
 
         if (nextJumpNumberDuringYear == null || nextJumpNumberDuringYear < 0) {
             errors.put(NEXT_JUMP_NUMBER_DURING_YEAR_INCORRECT_VALUE_KEY, NEXT_JUMP_NUMBER_DURING_YEAR_IS_NULL_OR_NEGATIVE_MESSAGE);

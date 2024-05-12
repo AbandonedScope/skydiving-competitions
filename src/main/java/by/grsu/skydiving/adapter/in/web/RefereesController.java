@@ -26,9 +26,9 @@ public class RefereesController {
         return mapper.toResponse(referees);
     }
 
-    @DeleteMapping("competitionStage/{competitionStageId}/referee/{refereeId}")
+    @DeleteMapping("/{refereeId}/competitionStage/{competitionStageId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addStageToCompetition(@PathVariable Long competitionStageId, @PathVariable Integer refereeId) {
-         deleteRefereeFromCompetitionStageUseCase.deleteRefereeFromCompetitionByCompetitionStageId(competitionStageId, refereeId);
+    public void addStageToCompetition(@PathVariable Long competitionStageId, @PathVariable Long refereeId) {
+        deleteRefereeFromCompetitionStageUseCase.deleteRefereeFromCompetitionByCompetitionStageId(competitionStageId, refereeId);
     }
 }
