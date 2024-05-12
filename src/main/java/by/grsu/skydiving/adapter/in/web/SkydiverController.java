@@ -6,9 +6,12 @@ import by.grsu.skydiving.adapter.in.web.response.PageResponse;
 import by.grsu.skydiving.adapter.in.web.response.SkydiverResponse;
 import by.grsu.skydiving.adapter.in.web.response.SkydiverShortInfoResponse;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
+import by.grsu.skydiving.application.domain.model.common.FilterQuery;
 import by.grsu.skydiving.application.domain.model.common.GetPageQuery;
+import by.grsu.skydiving.application.domain.model.skydiver.Gender;
 import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
 import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
+import by.grsu.skydiving.application.domain.model.skydiver.SportDegree;
 import by.grsu.skydiving.application.port.in.AddSkydiverUseCase;
 import by.grsu.skydiving.application.port.in.GetSkydiversPageUseCase;
 import by.grsu.skydiving.application.port.in.SoftDeleteSkydiverUseCase;
@@ -38,11 +41,32 @@ public class SkydiverController {
     }
 
     @GetMapping("/page")
-    public PageResponse<SkydiverShortInfoResponse> getSkydiverPage(@RequestParam
-                                                                   long number,
-                                                                   @RequestParam
-                                                                   int size) {
-        GetPageQuery pageQuery = new GetPageQuery(number, size);
+    public PageResponse<SkydiverShortInfoResponse> getSkydiverPage(
+            @RequestParam
+            long number,
+            @RequestParam
+            int size,
+            @RequestParam(required = false)
+            String name,
+            @RequestParam(required = false)
+            Gender gender,
+            @RequestParam(required = false)
+            SportDegree sportDegree,
+            @RequestParam(required = false)
+            Boolean isInternal
+    ) {
+        FilterQuery filterQuery = FilterQuery.builder()
+                .gender(gender)
+                .sportDegree(sportDegree)
+                .name(name)
+                .isInternal(isInternal)
+                .build();
+        GetPageQuery pageQuery = GetPageQuery.builder()
+                .pageNumber(number)
+                .pageSize(size)
+                .filterQuery(filterQuery)
+                .build();
+
         DomainPage<SkydiverShortInfo> page = pageUseCase.getPage(pageQuery);
 
         return mapper.toResponse(page);

@@ -6,8 +6,8 @@ public interface AddStageToCompetitionUseCase {
     CompetitionStage addStage(AddStageCommand command);
 
     record AddStageCommand(
-        Long competitionId,
-        CompetitionStage stage
+            Long competitionId,
+            CompetitionStage stage
     ) {
     }
 }

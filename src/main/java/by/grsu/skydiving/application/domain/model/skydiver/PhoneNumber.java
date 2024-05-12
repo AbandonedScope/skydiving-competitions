@@ -13,11 +13,11 @@ public record PhoneNumber(
         String number
 ) {
     public PhoneNumber {
-       validate(number);
+        validate(number);
     }
 
-    private void validate(String number){
-        Map<String, String > errors = new HashMap<>();
+    private void validate(String number) {
+        Map<String, String> errors = new HashMap<>();
 
         if (number == null || PHONE_NUMBER_REGEX_PATTERN.matcher(number).matches()) {
             errors.put(PHONE_NUMBER_INCORRECT_VALUE_KEY, PHONE_NUMBER_DO_NOT_MATCH_PATTERN_OR_NULL_MESSAGE);

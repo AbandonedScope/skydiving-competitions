@@ -18,7 +18,7 @@ public record ClothingSize(
     }
 
     private void validate(int shoeSize, int jacketSize, int pantsSize) {
-        Map<String, String > errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
 
         if (shoeSize < MIN_SKYDIVER_SHOESIZE) {
             errors.put(SHOE_SIZE_INCORRECT_VALUE_KEY, SHOE_SIZE_INCORRECT_VALUE_MESSAGE);
