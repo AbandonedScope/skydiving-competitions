@@ -19,7 +19,7 @@ public interface RefereeJdbcRepository extends ListCrudRepository<RefereeEntity,
                 left join user_info on referee.user_info_id = user_info.id
             where competition_stage_id = :competitionStageId
             """)
-    Optional<List<CollegiumRefereeProjection>> findByCompetitionId(Long refereeId);
+    Optional<List<CollegiumRefereeProjection>> findByCompetitionId(Long competitionStageId);
 
     @Modifying
     @Query("""
