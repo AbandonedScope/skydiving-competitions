@@ -21,7 +21,7 @@ public class RefereesController {
     private final DeleteRefereeFromCompetitionStageUseCase deleteRefereeFromCompetitionStageUseCase;
     private final RefereeMapper mapper;
 
-    @PostMapping("/competitionStage/{competitionStageId}")
+    @GetMapping("/competitionStage/{competitionStageId}")
     @ResponseStatus(HttpStatus.OK)
     public RefereeGroupsResponse getRefereeGroupsByCompetitionStageId(@PathVariable Long competitionStageId) {
         RefereeGroups referees = getRefereesGroupsUseCase.findRefereesByCompetitionStageId(competitionStageId);
@@ -37,7 +37,7 @@ public class RefereesController {
 
     @DeleteMapping("/{refereeId}/competitionStage/{competitionStageId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addStageToCompetition(@PathVariable Long competitionStageId, @PathVariable Long refereeId) {
+    public void deleteRefereeByCompetitionStageIdAndRefereeId(@PathVariable Long competitionStageId, @PathVariable Long refereeId) {
         deleteRefereeFromCompetitionStageUseCase.deleteRefereeFromCompetitionByCompetitionStageId(competitionStageId, refereeId);
     }
 }
