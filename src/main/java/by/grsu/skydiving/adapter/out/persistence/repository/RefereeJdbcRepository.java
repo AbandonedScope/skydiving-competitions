@@ -1,8 +1,8 @@
 package by.grsu.skydiving.adapter.out.persistence.repository;
 
-import by.grsu.skydiving.adapter.out.persistence.projections.CollegiumRefereeProjection;
 import by.grsu.skydiving.adapter.out.persistence.entity.RefereeEntity;
 import org.springframework.data.jdbc.repository.query.Modifying;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.CollegiumRefereeProjection;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 

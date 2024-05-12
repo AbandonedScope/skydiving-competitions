@@ -1,7 +1,7 @@
 package by.grsu.skydiving.adapter.out.persistence.mapper;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoEntity;
-import by.grsu.skydiving.adapter.out.persistence.projections.UserInfoWithoutCredentials;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.UserInfoWithoutCredentials;
 import by.grsu.skydiving.application.domain.model.auth.UserAuthInfo;
 import by.grsu.skydiving.application.domain.model.auth.UserInfoForToken;
 import by.grsu.skydiving.application.domain.model.auth.UserRole;

@@ -18,7 +18,7 @@ public record UserCredentials(
     }
 
     private void validate(String login, String password) {
-        Map<String, String > errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
 
         if (login == null || login.isBlank()) {
             errors.put(LOGIN_NULL_OR_BLANK_KEY, LOGIN_IS_NULL_OR_BLANK_MESSAGE);

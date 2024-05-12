@@ -1,7 +1,7 @@
 package by.grsu.skydiving.adapter.in.web.mapper;
 
-import by.grsu.skydiving.adapter.in.web.request.SkydiverRequest;
 import by.grsu.skydiving.adapter.in.web.request.PassportDetailsRequest;
+import by.grsu.skydiving.adapter.in.web.request.SkydiverRequest;
 import by.grsu.skydiving.adapter.in.web.response.*;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.skydiver.*;

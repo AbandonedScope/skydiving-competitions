@@ -8,23 +8,22 @@ import by.grsu.skydiving.adapter.out.persistence.mapper.PassportInfoMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.SkydiverEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.UserInfoMapper;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
-import by.grsu.skydiving.application.domain.model.skydiver.FullName;
-import by.grsu.skydiving.application.domain.model.skydiver.Passport;
-import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
-import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
+import by.grsu.skydiving.application.domain.model.skydiver.*;
 import by.grsu.skydiving.application.port.out.*;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
         ExistsSkydiverByFullnameAndBirthDatePort, GetSkydiverPagePort,
-        UpdateSkydiverPort, ExistsSkydiverByIdPort {
+        UpdateSkydiverPort, ExistsSkydiverByIdPort, FilterSkydiversShortInfoPort {
     private final SkydiverJdbcRepository skydiverJdbcRepository;
     private final UserInfoJdbcRepository userInfoJdbcRepository;
     private final PasswordInfoJdbcRepository passwordInfoJdbcRepository;
@@ -62,15 +61,7 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
 
     @Override
     public DomainPage<SkydiverShortInfo> getPage(long pageNumber, int pageSize) {
-        long offset = pageNumber * pageSize;
-        List<SkydiverShortInfoProjection> list = skydiverJdbcRepository.getPage(pageSize, offset);
-        List<SkydiverShortInfo> skydiver = skydiverEntityMapper.toDomain(list);
-
-        return DomainPage.<SkydiverShortInfo>builder()
-                .pageSize(pageSize)
-                .currentPage(++pageNumber)
-                .page(skydiver)
-                .build();
+        return filter(HashMap.newHashMap(2), pageNumber, pageSize);
     }
 
     @Override
@@ -83,5 +74,40 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
     @Override
     public boolean exists(long skydiverId) {
         return skydiverJdbcRepository.existsById(skydiverId);
+    }
+
+    @Override
+    public DomainPage<SkydiverShortInfo> filter(Map<String, Object> filters, long pageNumber, int pageSize) {
+        fixFilters(filters);
+        long offset = pageNumber * pageSize;
+
+        List<SkydiverShortInfoProjection> list = skydiverJdbcRepository.filter(new HashMap<>(filters), pageSize, offset);
+        List<SkydiverShortInfo> skydiver = skydiverEntityMapper.toDomain(list);
+        long totalRows = skydiverJdbcRepository.countFiltered(new HashMap<>(filters), pageSize, offset);
+
+        int totalPages = (int) totalRows / pageSize;
+        if (totalRows % pageSize > 0) {
+            totalPages++;
+        }
+
+        return DomainPage.<SkydiverShortInfo>builder()
+                .pageSize(pageSize)
+                .currentPage(++pageNumber)
+                .totalPages(totalPages)
+                .content(skydiver)
+                .build();
+    }
+
+    void fixFilters(Map<String, Object> filters) {
+        Gender gender = (Gender) filters.get("gender");
+        if (gender != null) {
+            filters.put("gender", gender.ordinal());
+        }
+
+        String name = (String) filters.get("name");
+        if (name != null) {
+            name = "%".concat(name).concat("%");
+            filters.put("name", name);
+        }
     }
 }

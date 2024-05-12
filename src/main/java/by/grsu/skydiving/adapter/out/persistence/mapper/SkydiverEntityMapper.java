@@ -52,6 +52,7 @@ public interface SkydiverEntityMapper {
     @Mapping(target = "sportCareer.beginDateOfSportCareer", source = "beginDateOfSportCareer")
     @Mapping(target = "sportCareer.sportSpecialization", source = "sportSpecialization")
     @Mapping(target = "sportCareer.sportDegree", source = "sportDegree")
+    @Mapping(target = "isInternal", source = "isInternal")
     SkydiverShortInfo toDomain(SkydiverShortInfoProjection entity);
 
     List<SkydiverShortInfo> toDomain(List<SkydiverShortInfoProjection> entities);

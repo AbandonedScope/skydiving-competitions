@@ -1,6 +1,6 @@
 package by.grsu.skydiving.adapter.out.persistence.mapper;
 
-import by.grsu.skydiving.adapter.out.persistence.projections.CollegiumRefereeProjection;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.CollegiumRefereeProjection;
 import by.grsu.skydiving.application.domain.model.competition.CollegiumReferee;
 import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
 import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;

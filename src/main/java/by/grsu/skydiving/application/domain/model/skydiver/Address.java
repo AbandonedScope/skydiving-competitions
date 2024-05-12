@@ -15,8 +15,8 @@ public record Address(
         validate(address);
     }
 
-    private void validate(String address){
-        Map<String, String > errors = new HashMap<>();
+    private void validate(String address) {
+        Map<String, String> errors = new HashMap<>();
 
         if (address == null || address.isBlank() || address.length() > 100) {
             errors.put(ADDRESS_INCORRECT_VALUE_KEY, ADDRESS_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE);
