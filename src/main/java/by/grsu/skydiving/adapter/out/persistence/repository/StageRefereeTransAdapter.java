@@ -10,7 +10,7 @@ public class StageRefereeTransAdapter implements DeleteRefereeFromCompetitionSta
     private final StageRefereeTransJdbcRepository stageRefereeTransJdbcRepository;
 
     @Override
-    public void deleteRefereeFromCompetitionByCompetitionStageId(Long competitionStageId, Long refereeId) {
-        stageRefereeTransJdbcRepository.deleteByCompetitionStageIdAndRefereeId(competitionStageId, refereeId);
+    public int deleteRefereeFromCompetitionByCompetitionStageId(Long competitionStageId, Long refereeId) {
+        return stageRefereeTransJdbcRepository.deleteByCompetitionStageIdAndRefereeId(competitionStageId, refereeId);
     }
 }

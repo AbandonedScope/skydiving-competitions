@@ -3,8 +3,8 @@ package by.grsu.skydiving.adapter.in.web;
 import by.grsu.skydiving.adapter.in.web.mapper.RefereeMapper;
 import by.grsu.skydiving.adapter.in.web.response.RefereeGroupsResponse;
 import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
-import by.grsu.skydiving.application.port.in.DeleteRefereeUseCase;
 import by.grsu.skydiving.application.port.in.DeleteRefereeFromCompetitionStageUseCase;
+import by.grsu.skydiving.application.port.in.DeleteRefereeUseCase;
 import by.grsu.skydiving.application.port.in.GetRefereesGroupsByCompetitionStageIdUseCase;
 import by.grsu.skydiving.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class RefereesController {
     @DeleteMapping("/{refereeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteReferee(@PathVariable Long refereeId) {
-         deleteRefereeUseCase.deleteRefereeByRefereeId(refereeId);
+        deleteRefereeUseCase.deleteRefereeByRefereeId(refereeId);
     }
 
     @DeleteMapping("/{refereeId}/competitionStage/{competitionStageId}")

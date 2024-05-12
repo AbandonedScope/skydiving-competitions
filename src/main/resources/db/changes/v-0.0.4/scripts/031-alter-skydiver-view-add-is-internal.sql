@@ -1,4 +1,5 @@
-create or replace view skydiver_view
+create
+or replace view skydiver_view
 as
 select id,
        gender,

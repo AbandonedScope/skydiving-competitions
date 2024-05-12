@@ -1,9 +1,8 @@
 package by.grsu.skydiving.adapter.out.persistence.repository;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.RefereeEntity;
-import org.springframework.data.jdbc.repository.query.Modifying;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.CollegiumRefereeProjection;
-import by.grsu.skydiving.adapter.out.persistence.projections.CollegiumRefereeProjection;
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
@@ -24,9 +23,9 @@ public interface RefereeJdbcRepository extends ListCrudRepository<RefereeEntity,
 
     @Modifying
     @Query("""
-           update referee
-           set is_deleted = true
-           where referee.id = :refereeId
-           """)
+            update referee
+            set is_deleted = true
+            where referee.id = :refereeId
+            """)
     int deleteRefereeByRefereeId(Long refereeId);
 }

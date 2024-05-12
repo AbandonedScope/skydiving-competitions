@@ -12,5 +12,5 @@ public interface StageRefereeTransJdbcRepository extends ListCrudRepository<Stag
             delete from competition_stage_referee_trans as comStTrans
             where comStTrans.referee_id = :refereeId and comStTrans.competition_stage_id = :competitionStageId
             """)
-    void deleteByCompetitionStageIdAndRefereeId(Long competitionStageId, Long refereeId);
+    int deleteByCompetitionStageIdAndRefereeId(Long competitionStageId, Long refereeId);
 }

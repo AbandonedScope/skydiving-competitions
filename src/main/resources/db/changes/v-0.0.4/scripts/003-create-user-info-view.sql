@@ -1,4 +1,5 @@
-create or replace view user_info_view
+create
+or replace view user_info_view
 as
 select id,
        login,
