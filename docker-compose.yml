@@ -9,3 +9,16 @@ services:
       POSTGRES_PASSWORD: "postgres"
     ports:
       - "5432:5432"
+    volumes:
+      - ./persistence/postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  skydivers-back:
+    image: abandonedscope/skydiving-back:latest
+    container_name: skydivers-back
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/skydiving"
+      SPRING_DATASOURCE_USERNAME: "postgres"
+      SPRING_DATASOURCE_PASSWORD: "postgres"
+      SPRING_LIQUIBASE_CONTEXTS: "dev"
+    ports:
+      - "8080:8080"
