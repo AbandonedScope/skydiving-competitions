@@ -13,8 +13,8 @@ public class DeleteRefereeService implements DeleteRefereeUseCase {
 
     @Override
     public void deleteRefereeByRefereeId(Long refereeId) {
-        int affectedRows = deleteRefereePort.deleteRefereeByRefereeId(refereeId);
-        if(affectedRows == 0){
+        int affectedRowsCount = deleteRefereePort.deleteRefereeByRefereeId(refereeId);
+        if (affectedRowsCount == 0) {
             throw new RefereeNotFoundException(refereeId);
         }
     }
