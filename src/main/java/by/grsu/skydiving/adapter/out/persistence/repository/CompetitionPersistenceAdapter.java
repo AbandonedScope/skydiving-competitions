@@ -3,11 +3,14 @@ package by.grsu.skydiving.adapter.out.persistence.repository;
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionStageEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.StageRefereeTransEntity;
+import by.grsu.skydiving.adapter.out.persistence.entity.TeamEntity;
 import by.grsu.skydiving.adapter.out.persistence.mapper.CompetitionEntityMapper;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
+import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.port.out.FindCompetitionPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionPort;
+import by.grsu.skydiving.application.port.out.SaveCompetitionTeamsPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,7 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort, FindC
     private final CompetitionJdbcRepository competitionRepository;
     private final CompetitionStageJdbcRepository stageRepository;
     private final StageRefereeTransJdbcRepository transRepository;
+    private final SaveCompetitionTeamsPort teamPort;
     private final CompetitionEntityMapper mapper;
 
     @Override
@@ -39,9 +43,11 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort, FindC
         CompetitionEntity entity = mapper.toEntity(competition);
         entity = competitionRepository.save(entity);
         List<CompetitionStage> stages = saveStages(competition);
+        List<Team> teams = teamPort.saveTeams(competition);
 
         competition = mapper.toDomain(entity);
         competition.setStages(stages);
+        competition.setTeams(teams);
 
         return competition;
     }

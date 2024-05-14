@@ -3,18 +3,18 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 		                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet id="1" author="Maksim Makhanko" context="dev, prod">
+    <changeSet id="25" author="Maksim Makhanko" context="dev, prod">
         <sqlFile dbms="postgresql"
                  relativeToChangelogFile="true"
                  splitStatements="true"
                  stripComments="true"
-                 path="001-create-user-info-table.sql"/>
+                 path="scripts/010-create-competition-member-detail-table.sql"/>
         <rollback>
             <sqlFile dbms="postgresql"
                      relativeToChangelogFile="true"
                      splitStatements="true"
                      stripComments="true"
-                     path="001-drop-user-info-table.sql"/>
+                     path="scripts/010-drop-competition-member-detail-table.sql"/>
         </rollback>
     </changeSet>
 </databaseChangeLog>

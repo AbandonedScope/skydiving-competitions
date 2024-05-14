@@ -2,6 +2,8 @@ package by.grsu.skydiving.application.domain.model.competition;
 
 import by.grsu.skydiving.application.domain.exception.business.CompetitionStagesLimitExceededException;
 import by.grsu.skydiving.application.domain.exception.domain.CompetitionStageNumberIncorrectException;
+import by.grsu.skydiving.application.domain.exception.domain.DomainException;
+import by.grsu.skydiving.application.domain.exception.domain.TeamAlreadyPresentedInCompetitionException;
 import by.grsu.skydiving.application.domain.exception.domain.TeamWithNameNotFoundException;
 import by.grsu.skydiving.application.domain.model.skydiver.Address;
 import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
@@ -57,17 +59,31 @@ public class Competition {
     }
 
     public void moveIndividualToTeam(Skydiver individual, String teamName) {
-        individuals.removeIndividual(individual);
-        Team team = getTeamByName(teamName);
-
-        team.addSkydiver(individual);
+//        individuals.removeIndividual(individual);
+//        Team team = getTeamByName(teamName);
+//
+//        team.addSkydiver(individual);
     }
 
-    private Team getTeamByName(String teamName) {
+    public Team getTeamByName(String teamName) {
         return teams.stream()
                 .filter(team -> team.name().equals(teamName))
                 .findAny()
                 .orElseThrow(() -> new TeamWithNameNotFoundException(teamName));
+    }
+
+    public void addTeam(Team team) {
+        String teamName = team.name();
+        if (isTeamPresent(teamName)) {
+            throw new TeamAlreadyPresentedInCompetitionException(teamName, this.name);
+        }
+
+        teams.add(team);
+    }
+
+    private boolean isTeamPresent(String teamName) {
+        return teams.stream()
+                .anyMatch(team -> team.name().equals(teamName));
     }
 }
 

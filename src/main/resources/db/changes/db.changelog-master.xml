@@ -37,7 +37,13 @@
 
     <include file="v-0.0.5/db.changelog-v-0.0.5.xml" relativeToChangelogFile="true"/>
 
-    <changeSet id="22" author="Katya Anashkevich">
+    <changeSet id="23" author="Katya Anashkevich">
         <tagDatabase tag="v.0.0.5"/>
+    </changeSet>
+
+    <include file="v-0.0.6/db.changelog-v-0.0.6.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="27" author="Maksim Makhanko">
+        <tagDatabase tag="v.0.0.6"/>
     </changeSet>
 </databaseChangeLog>

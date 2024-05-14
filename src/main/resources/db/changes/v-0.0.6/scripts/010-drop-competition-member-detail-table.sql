@@ -1,0 +1,1 @@
+drop table if exists competition_member_detail;

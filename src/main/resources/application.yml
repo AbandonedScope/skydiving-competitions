@@ -7,6 +7,7 @@ spring:
     username: postgres
   liquibase:
     change-log: "db/changes/db.changelog-master.xml"
+    contexts: "dev"
 
 jwt:
   secret: eWFnc2hqa2tvZHVpZnVsYXNpamtsZjthJ2Rib2ppaCBoYmtqYXNubGQ7bWtmZw==
