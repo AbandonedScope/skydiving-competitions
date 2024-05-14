@@ -29,6 +29,7 @@ public interface SkydiverMapper {
     @Mapping(target = "weight", source = "weight.weight")
     SkydiverResponse toResponse(Skydiver skydiver);
 
+    @Mapping(target = "sportCareer", source = "sportCareer.sportDegree")
     SkydiverShortInfoResponse toResponse(SkydiverShortInfo shortInfo);
 
     PageResponse<SkydiverShortInfoResponse> toResponse(DomainPage<SkydiverShortInfo> domainPage);

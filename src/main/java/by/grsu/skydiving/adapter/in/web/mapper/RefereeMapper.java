@@ -20,12 +20,6 @@ import java.util.Set;
         unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface RefereeMapper {
-    @Mapping(target = "firstName", source = "referee.name.firstName")
-    @Mapping(target = "secondName", source = "referee.name.secondName")
-    @Mapping(target = "patronymic", source = "referee.name.patronymic")
-    @Mapping(target = "category", source = "referee.category")
-    @Mapping(target = "id", source = "referee.id")
-    RefereeResponse toResponse(CollegiumReferee referee);
 
     @Mapping(target = "name.firstName", source = "firstName")
     @Mapping(target = "name.secondName", source = "secondName")
@@ -33,20 +27,24 @@ public interface RefereeMapper {
     @Mapping(target = "category", source = "category")
     Referee toDomain(AddRefereeRequest refereeRequest);
 
+    @Mapping(target = "firstName", source = "referee.name.firstName")
+    @Mapping(target = "secondName", source = "referee.name.secondName")
+    @Mapping(target = "patronymic", source = "referee.name.patronymic")
+    @Mapping(target = "category", source = "referee.category")
+    @Mapping(target = "id", source = "referee.id")
+    RefereeResponse toResponse(CollegiumReferee referee);
+
     @Mapping(target = "id", source = "id")
     @Mapping(target = "firstName", source = "name.firstName")
     @Mapping(target = "secondName", source = "name.secondName")
     @Mapping(target = "patronymic", source = "name.patronymic")
     RefereeResponse toResponse(Referee referee);
 
+    @Mapping(target = "mainCollegium", source = "mainCollegium")
+    @Mapping(target = "collegium", source = "collegium")
+    RefereeGroupsResponse toResponse(RefereeGroups groups);
+
     Set<RefereeResponse> toResponses(Set<CollegiumReferee> referees);
-
-    default RefereeGroupsResponse toResponse(RefereeGroups groups) {
-        var mainCollegium = toResponses(groups.mainCollegium());
-        var collegium = toResponses(groups.collegium());
-
-        return new RefereeGroupsResponse(mainCollegium, collegium);
-    }
 
     default short map(RefereeCategory category) {
         return (short) category.ordinal();

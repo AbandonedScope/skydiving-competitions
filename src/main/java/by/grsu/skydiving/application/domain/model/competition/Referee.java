@@ -7,6 +7,6 @@ public record Referee(
         @With
         Long id,
         FullName name,
-        Integer category
+        RefereeCategory category
 ) {
 }

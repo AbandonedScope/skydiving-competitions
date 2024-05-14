@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CollegiumRefereeProjection {
     private Long id;
-    private String category;
+    private short category;
     private String workPerformed;
     private boolean isMainCollegium;
     private Long competitionStageId;

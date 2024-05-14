@@ -45,18 +45,24 @@ public interface RefereeEntityMapper {
         return RefereeCategory.valueOf(category);
     }
 
-    default RefereeCategory map(String category) {
-        return RefereeCategory.valueOf(category);
-    }
-
     default RefereeGroups toDomain(List<CollegiumRefereeProjection> referees) {
-        Set<CollegiumReferee> mainCollegium = extractCollegiumReferee(referees, CollegiumRefereeProjection::getIsMainCollegium);
-        Set<CollegiumReferee> collegium = extractCollegiumReferee(referees, collegiumReferee -> !collegiumReferee.getIsMainCollegium());
+        Set<CollegiumReferee> mainCollegium = extractCollegiumReferee(
+                referees,
+                CollegiumRefereeProjection::getIsMainCollegium
+        );
+
+        Set<CollegiumReferee> collegium = extractCollegiumReferee(
+                referees,
+                collegiumReferee -> !collegiumReferee.getIsMainCollegium()
+        );
 
         return new RefereeGroups(mainCollegium, collegium);
     }
 
     default Set<CollegiumReferee> extractCollegiumReferee(List<CollegiumRefereeProjection> trans, Predicate<CollegiumRefereeProjection> filter) {
-        return trans.stream().filter(filter).map(this::toDomain).collect(Collectors.toSet());
+        return trans.stream()
+                .filter(filter)
+                .map(this::toDomain)
+                .collect(Collectors.toSet());
     }
 }

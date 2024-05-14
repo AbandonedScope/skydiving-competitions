@@ -4,6 +4,6 @@ public record AddRefereeRequest(
         String firstName,
         String secondName,
         String patronymic,
-        Integer category
+        String category
 ) {
 }
