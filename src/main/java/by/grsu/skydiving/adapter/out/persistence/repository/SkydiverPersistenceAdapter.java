@@ -26,7 +26,7 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
         UpdateSkydiverPort, ExistsSkydiverByIdPort, FilterSkydiversShortInfoPort {
     private final SkydiverJdbcRepository skydiverJdbcRepository;
     private final UserInfoJdbcRepository userInfoJdbcRepository;
-    private final PasswordInfoJdbcRepository passwordInfoJdbcRepository;
+    private final PassportInfoJdbcRepository passportInfoJdbcRepository;
     private final SkydiverEntityMapper skydiverEntityMapper;
     private final UserInfoMapper userInfoMapper;
     private final PassportInfoMapper passportInfoMapper;
@@ -39,12 +39,13 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
 
         skydiver = skydiver.withId(userId);
         SkydiverEntity skydiverEntity = skydiverEntityMapper.toEntity(skydiver);
+        skydiverEntity.setNew(true);
         skydiverEntity = skydiverJdbcRepository.save(skydiverEntity);
         Long skydiverId = skydiverEntity.getId();
 
         Passport passport = skydiver.passport();
         PassportInfoEntity passportEntity = passportInfoMapper.toEntity(passport, skydiverId);
-        passportEntity = passwordInfoJdbcRepository.save(passportEntity);
+        passportEntity = passportInfoJdbcRepository.save(passportEntity);
 
         return skydiverEntityMapper.toDomain(skydiverEntity, userInfo, passportEntity);
     }
@@ -78,7 +79,7 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
 
     @Override
     public DomainPage<SkydiverShortInfo> filter(Map<String, Object> filters, long pageNumber, int pageSize) {
-        fixFilters(filters);
+        formatFilters(filters);
         long offset = pageNumber * pageSize;
 
         List<SkydiverShortInfoProjection> list = skydiverJdbcRepository.filter(new HashMap<>(filters), pageSize, offset);
@@ -98,7 +99,7 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
                 .build();
     }
 
-    void fixFilters(Map<String, Object> filters) {
+    void formatFilters(Map<String, Object> filters) {
         Gender gender = (Gender) filters.get("gender");
         if (gender != null) {
             filters.put("gender", gender.ordinal());

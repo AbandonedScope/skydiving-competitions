@@ -1,9 +1,13 @@
 package by.grsu.skydiving.adapter.in.web;
 
 import by.grsu.skydiving.adapter.in.web.mapper.RefereeMapper;
+import by.grsu.skydiving.adapter.in.web.request.AddRefereeRequest;
+import by.grsu.skydiving.adapter.in.web.response.AddRefereeResponse;
 import by.grsu.skydiving.adapter.in.web.response.RefereeGroupsResponse;
+import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
 import by.grsu.skydiving.application.port.in.DeleteRefereeFromCompetitionStageUseCase;
+import by.grsu.skydiving.application.port.in.AddRefereeUseCase;
 import by.grsu.skydiving.application.port.in.DeleteRefereeUseCase;
 import by.grsu.skydiving.application.port.in.GetRefereesGroupsByCompetitionStageIdUseCase;
 import by.grsu.skydiving.common.WebAdapter;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class RefereesController {
     private final GetRefereesGroupsByCompetitionStageIdUseCase getRefereesGroupsUseCase;
     private final DeleteRefereeUseCase deleteRefereeUseCase;
+    private final AddRefereeUseCase addRefereeUseCase;
     private final DeleteRefereeFromCompetitionStageUseCase deleteRefereeFromCompetitionStageUseCase;
     private final RefereeMapper mapper;
 
@@ -39,5 +44,14 @@ public class RefereesController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRefereeByCompetitionStageIdAndRefereeId(@PathVariable Long competitionStageId, @PathVariable Long refereeId) {
         deleteRefereeFromCompetitionStageUseCase.deleteRefereeFromCompetitionByCompetitionStageId(competitionStageId, refereeId);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public AddRefereeResponse addReferee(@RequestBody AddRefereeRequest refereeRequest) {
+        Referee referee = mapper.toDomain(refereeRequest);
+        Long refereeId = addRefereeUseCase.addReferee(referee);
+
+        return new AddRefereeResponse(refereeId);
     }
 }

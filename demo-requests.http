@@ -1,23 +1,23 @@
 ###
-POST http://localhost:8080/api/v1/auth/sign-up
+POST http://localhost:8080/api/v1/referees
 Content-Type: application/json
 
 {
   "firstName": "Кирилл",
   "secondName": "Васько",
   "patronymic": "Андреевич",
-  "role": 0
+  "category": "FIRST"
 }
 
 ###
-POST http://localhost:8080/api/v1/auth/sign-up
+POST http://localhost:8080/api/v1/referees
 Content-Type: application/json
 
 {
   "firstName": "Максим",
   "secondName": "Маханько",
   "patronymic": "Витальевич",
-  "role": 0
+  "category": "SECOND"
 }
 
 ###
@@ -53,6 +53,38 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:8080/api/v1/competitions/1/stage
+Content-Type: application/json
+
+{
+  "mainCollegium": [
+    {
+      "refereeId": 1,
+      "workPerformed": "Очень важная"
+    },
+    {
+      "refereeId": 2,
+      "workPerformed": "Очень важная"
+    }
+  ],
+  "collegium": [
+    {
+      "refereeId": 2,
+      "workPerformed": "Не очень важная"
+    }
+  ],
+  "stageNumber": 2
+}
+
+###
+GET http://localhost:8080/api/v1/referees/competitionStage/1
+Content-Type: application/x-www-form-urlencoded
+
+###
+GET http://localhost:8080/api/v1/referees/competitionStage/2
+Content-Type: application/x-www-form-urlencoded
+
+###
 POST http://localhost:8080/api/v1/skydivers
 Content-Type: application/json
 
@@ -79,5 +111,5 @@ Content-Type: application/json
 GET http://localhost:8080/api/v1/skydivers/page?number=1&size=15
 
 ###
-POST http://localhost:8080/api/v1/auth/regen/19
+POST http://localhost:8080/api/v1/auth/regen/1
 Content-Type: application/x-www-form-urlencoded

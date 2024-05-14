@@ -16,7 +16,7 @@ public interface RefereeJdbcRepository extends ListCrudRepository<RefereeEntity,
             trans.competition_stage_id, trans.is_main_collegium, trans.work_performed
             from competition_stage_referee_trans as trans
                 left join referee on trans.referee_id = referee.id
-                left join user_info on referee.user_info_id = user_info.id
+                left join user_info on referee.id = user_info.id
             where competition_stage_id = :competitionStageId
             """)
     Optional<List<CollegiumRefereeProjection>> findByCompetitionId(Long competitionStageId);
