@@ -20,20 +20,23 @@ import java.util.Set;
         unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface RefereeMapper {
-    @Mapping(target = "firstName", source = "referee.info.name.firstName")
-    @Mapping(target = "secondName", source = "referee.info.name.secondName")
-    @Mapping(target = "patronymic", source = "referee.info.name.patronymic")
+    @Mapping(target = "firstName", source = "referee.name.firstName")
+    @Mapping(target = "secondName", source = "referee.name.secondName")
+    @Mapping(target = "patronymic", source = "referee.name.patronymic")
     @Mapping(target = "category", source = "referee.category")
     @Mapping(target = "id", source = "referee.id")
     RefereeResponse toResponse(CollegiumReferee referee);
 
-    @Mapping(target = "info.name.firstName", source = "firstName")
-    @Mapping(target = "info.name.secondName", source = "secondName")
-    @Mapping(target = "info.name.patronymic", source = "patronymic")
+    @Mapping(target = "name.firstName", source = "firstName")
+    @Mapping(target = "name.secondName", source = "secondName")
+    @Mapping(target = "name.patronymic", source = "patronymic")
     @Mapping(target = "category", source = "category")
     Referee toDomain(AddRefereeRequest refereeRequest);
 
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "firstName", source = "name.firstName")
+    @Mapping(target = "secondName", source = "name.secondName")
+    @Mapping(target = "patronymic", source = "name.patronymic")
     RefereeResponse toResponse(Referee referee);
 
     Set<RefereeResponse> toResponses(Set<CollegiumReferee> referees);

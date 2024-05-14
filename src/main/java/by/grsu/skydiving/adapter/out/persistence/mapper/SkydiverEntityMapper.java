@@ -27,7 +27,7 @@ public interface SkydiverEntityMapper {
     @Mapping(target = "sportSpecialization", source = "sportCareer.sportSpecialization")
     @Mapping(target = "sportDegree", source = "sportCareer.sportDegree")
     @Mapping(target = "couchName", ignore = true)
-    @Mapping(target = "new", constant = "true")
+    @Mapping(target = "new", ignore = true)
     SkydiverEntity toEntity(Skydiver skydiver);
 
     @Mapping(target = "id", source = "userInfo.userId")

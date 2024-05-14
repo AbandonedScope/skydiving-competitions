@@ -39,6 +39,7 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
 
         skydiver = skydiver.withId(userId);
         SkydiverEntity skydiverEntity = skydiverEntityMapper.toEntity(skydiver);
+        skydiverEntity.setNew(true);
         skydiverEntity = skydiverJdbcRepository.save(skydiverEntity);
         Long skydiverId = skydiverEntity.getId();
 
@@ -78,7 +79,7 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
 
     @Override
     public DomainPage<SkydiverShortInfo> filter(Map<String, Object> filters, long pageNumber, int pageSize) {
-        fixFilters(filters);
+        formatFilters(filters);
         long offset = pageNumber * pageSize;
 
         List<SkydiverShortInfoProjection> list = skydiverJdbcRepository.filter(new HashMap<>(filters), pageSize, offset);
@@ -98,7 +99,7 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
                 .build();
     }
 
-    void fixFilters(Map<String, Object> filters) {
+    void formatFilters(Map<String, Object> filters) {
         Gender gender = (Gender) filters.get("gender");
         if (gender != null) {
             filters.put("gender", gender.ordinal());

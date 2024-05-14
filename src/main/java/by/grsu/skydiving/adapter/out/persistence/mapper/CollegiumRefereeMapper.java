@@ -16,11 +16,13 @@ import java.util.List;
         unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface CollegiumRefereeMapper {
-    @Mapping(target = "referee.info.firstName", source = "refereeEntity.userInfoEntity.firstName")
-    @Mapping(target = "referee.info.secondName", source = "refereeEntity.userInfoEntity.secondName")
-    @Mapping(target = "referee.info.patronymic", source = "refereeEntity.userInfoEntity.patronymic")
+    @Mapping(target = "referee.name.firstName", source = "firstName")
+    @Mapping(target = "referee.name.secondName", source = "secondName")
+    @Mapping(target = "referee.name.patronymic", source = "patronymic")
     @Mapping(target = "workPerformed", source = "workPerformed")
-    @Mapping(target = "referee.category", source = "refereeEntity.category")
+    @Mapping(target = "referee.category", source = "category")
+    CollegiumReferee toDomain(CollegiumRefereeProjection entities);
+
     List<CollegiumReferee> toDomains(List<CollegiumRefereeProjection> entities);
 
 

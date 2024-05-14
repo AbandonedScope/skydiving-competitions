@@ -22,17 +22,17 @@ import java.util.stream.Collectors;
         unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface RefereeEntityMapper {
-    @Mapping(target = "referee.info.name.firstName", source = "firstName")
-    @Mapping(target = "referee.info.name.secondName", source = "secondName")
-    @Mapping(target = "referee.info.name.patronymic", source = "patronymic")
+    @Mapping(target = "referee.name.firstName", source = "firstName")
+    @Mapping(target = "referee.name.secondName", source = "secondName")
+    @Mapping(target = "referee.name.patronymic", source = "patronymic")
     @Mapping(target = "workPerformed", source = "workPerformed")
     @Mapping(target = "referee.category", source = "category")
     @Mapping(target = "referee.id", source = "id")
     CollegiumReferee toDomain(CollegiumRefereeProjection entity);
 
     @Mapping(target="id", source = "id")
-    @Mapping(target = "userInfoId", source = "id")
     @Mapping(target = "category", source="category")
+    @Mapping(target = "new", ignore = true)
     RefereeEntity toEntity(Referee domain);
 
     Referee toDomain(RefereeEntity entity);

@@ -25,6 +25,7 @@ public interface AuthMapper {
     @Mapping(target = "fullName.patronymic", source = "patronymic")
     SignUpUserCommand toCommand(SignUpRequest request);
 
+    @Mapping(target = "id", source = "userId")
     @Mapping(target = "firstName", source = "name.firstName")
     @Mapping(target = "secondName", source = "name.secondName")
     @Mapping(target = "patronymic", source = "name.patronymic")

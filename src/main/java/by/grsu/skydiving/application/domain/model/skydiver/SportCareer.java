@@ -14,10 +14,10 @@ public record SportCareer(
         SportDegree sportDegree
 ) {
     public SportCareer {
-        validate(beginDateOfSportCareer, sportSpecialization, sportDegree);
+        validate(beginDateOfSportCareer, sportSpecialization);
     }
 
-    private void validate(LocalDate beginDateOfSportCareer, String sportSpecialization, SportDegree sportDegree) {
+    private void validate(LocalDate beginDateOfSportCareer, String sportSpecialization) {
         Map<String, String> errors = new HashMap<>();
 
         if (beginDateOfSportCareer != null && beginDateOfSportCareer.isAfter(LocalDate.now())) {
@@ -26,10 +26,6 @@ public record SportCareer(
 
         if (sportSpecialization != null && !sportSpecialization.isBlank() && sportSpecialization.length() > 50) {
             errors.put(SPORT_SPECIALIZATION_INCORRECT_VALUE_KEY, SPORT_SPECIALIZATION_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE);
-        }
-
-        if (sportDegree == null) {
-            errors.put(SPORT_DEGREE_INCORRECT_VALUE_KEY, SPORT_DEGREE_IS_NULL_MESSAGE);
         }
 
         if (!errors.isEmpty()) {

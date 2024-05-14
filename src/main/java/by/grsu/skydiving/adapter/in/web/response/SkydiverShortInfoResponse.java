@@ -5,7 +5,7 @@ import by.grsu.skydiving.application.domain.model.skydiver.Gender;
 public record SkydiverShortInfoResponse(
         Long id,
         FullNameResponse name,
-        SportCareerResponse career,
+        SportCareerResponse sportCareer,
         Gender gender,
         boolean isInternal
 ) {

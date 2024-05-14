@@ -1,7 +1,6 @@
 package by.grsu.skydiving.adapter.out.persistence.repository;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.RefereeEntity;
-import by.grsu.skydiving.adapter.out.persistence.entity.SkydiverEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoEntity;
 import by.grsu.skydiving.adapter.out.persistence.mapper.RefereeEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.UserInfoMapper;
@@ -40,11 +39,14 @@ public class RefereePersistenceAdapter implements FindRefereesPort, DeleteRefere
     @Transactional
     public Long save(Referee referee) {
         UserInfoEntity userInfo = userInfoMapper.toEntity(referee);
-        long userId = userInfoJdbcRepository.save(userInfo).getUserId();
+        userInfo = userInfoJdbcRepository.save(userInfo);
+        UserInfo info = userInfoMapper.toUserInfoDomain(userInfo);
+        long userId = info.userId();
 
-        UserInfo info = referee.info().withUserId(userId);
-        referee = referee.withInfo(info).withId(userId);
+        referee = referee.withId(userId);
         RefereeEntity refereeEntity = refereeEntityMapper.toEntity(referee);
+        refereeEntity.setNew(true);
+
         refereeEntity = refereeJdbcRepository.save(refereeEntity);
 
         return refereeEntity.getId();
