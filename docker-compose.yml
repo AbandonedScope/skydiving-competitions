@@ -11,7 +11,7 @@ services:
       - "5432:5432"
 
   skydivers-back:
-    image: abandonedscope/skydiving-back:v-0.0.6
+    image: abandonedscope/skydiving-back:latest
     container_name: skydivers-back
     depends_on:
       - postgres
