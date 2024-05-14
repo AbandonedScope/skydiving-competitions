@@ -5,6 +5,7 @@ import by.grsu.skydiving.adapter.out.persistence.mapper.UserInfoMapper;
 import by.grsu.skydiving.application.domain.model.auth.UserAuthInfo;
 import by.grsu.skydiving.application.domain.model.auth.UserInfoForToken;
 import by.grsu.skydiving.application.domain.model.common.UserInfo;
+import by.grsu.skydiving.application.port.out.ExistsUserByLoginPort;
 import by.grsu.skydiving.application.port.out.FindUserInfoPort;
 import by.grsu.skydiving.application.port.out.SaveUserPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class UserInfoPersistenceAdapter implements SaveUserPort,
-        FindUserInfoPort {
+        FindUserInfoPort, ExistsUserByLoginPort {
     private final UserInfoJdbcRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final UserInfoMapper userInfoMapper;
@@ -46,5 +47,10 @@ public class UserInfoPersistenceAdapter implements SaveUserPort,
 
         userInfoEntity.setPassword(passwordEncoder.encode(userAuthInfo.credentials().password()));
         repository.save(userInfoEntity);
+    }
+
+    @Override
+    public boolean existsByLogin(String login) {
+        return repository.existsByLogin(login);
     }
 }
