@@ -26,7 +26,7 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
         UpdateSkydiverPort, ExistsSkydiverByIdPort, FilterSkydiversShortInfoPort {
     private final SkydiverJdbcRepository skydiverJdbcRepository;
     private final UserInfoJdbcRepository userInfoJdbcRepository;
-    private final PasswordInfoJdbcRepository passwordInfoJdbcRepository;
+    private final PassportInfoJdbcRepository passportInfoJdbcRepository;
     private final SkydiverEntityMapper skydiverEntityMapper;
     private final UserInfoMapper userInfoMapper;
     private final PassportInfoMapper passportInfoMapper;
@@ -44,7 +44,7 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
 
         Passport passport = skydiver.passport();
         PassportInfoEntity passportEntity = passportInfoMapper.toEntity(passport, skydiverId);
-        passportEntity = passwordInfoJdbcRepository.save(passportEntity);
+        passportEntity = passportInfoJdbcRepository.save(passportEntity);
 
         return skydiverEntityMapper.toDomain(skydiverEntity, userInfo, passportEntity);
     }

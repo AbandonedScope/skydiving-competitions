@@ -1,8 +1,10 @@
 package by.grsu.skydiving.adapter.in.web.mapper;
 
+import by.grsu.skydiving.adapter.in.web.request.AddRefereeRequest;
 import by.grsu.skydiving.adapter.in.web.response.RefereeGroupsResponse;
 import by.grsu.skydiving.adapter.in.web.response.RefereeResponse;
 import by.grsu.skydiving.application.domain.model.competition.CollegiumReferee;
+import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
 import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
 import org.mapstruct.Mapper;
@@ -24,6 +26,15 @@ public interface RefereeMapper {
     @Mapping(target = "category", source = "referee.category")
     @Mapping(target = "id", source = "referee.id")
     RefereeResponse toResponse(CollegiumReferee referee);
+
+    @Mapping(target = "info.name.firstName", source = "firstName")
+    @Mapping(target = "info.name.secondName", source = "secondName")
+    @Mapping(target = "info.name.patronymic", source = "patronymic")
+    @Mapping(target = "category", source = "category")
+    Referee toDomain(AddRefereeRequest refereeRequest);
+
+    @Mapping(target = "id", source = "id")
+    RefereeResponse toResponse(Referee referee);
 
     Set<RefereeResponse> toResponses(Set<CollegiumReferee> referees);
 

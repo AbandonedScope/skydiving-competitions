@@ -1,7 +1,9 @@
 package by.grsu.skydiving.adapter.out.persistence.mapper;
 
+import by.grsu.skydiving.adapter.out.persistence.entity.RefereeEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.CollegiumRefereeProjection;
 import by.grsu.skydiving.application.domain.model.competition.CollegiumReferee;
+import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
 import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
 import org.mapstruct.Mapper;
@@ -28,12 +30,23 @@ public interface RefereeEntityMapper {
     @Mapping(target = "referee.id", source = "id")
     CollegiumReferee toDomain(CollegiumRefereeProjection entity);
 
+    @Mapping(target="id", source = "id")
+    @Mapping(target = "userInfoId", source = "id")
+    @Mapping(target = "category", source="category")
+    RefereeEntity toEntity(Referee domain);
+
+    Referee toDomain(RefereeEntity entity);
+
     default short map(RefereeCategory category) {
         return (short) category.ordinal();
     }
 
-    default RefereeCategory map(short role) {
-        return RefereeCategory.valueOf(role);
+    default RefereeCategory map(short category) {
+        return RefereeCategory.valueOf(category);
+    }
+
+    default RefereeCategory map(String category) {
+        return RefereeCategory.valueOf(category);
     }
 
     default RefereeGroups toDomain(List<CollegiumRefereeProjection> referees) {
