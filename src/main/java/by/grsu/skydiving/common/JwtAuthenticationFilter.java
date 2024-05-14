@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String login = extractLoginUseCase.extractLogin(jwt);
 
         if (StringUtils.isNotEmpty(login)
-            && SecurityContextHolder.getContext().getAuthentication() == null) {
+                && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(login);
 
             if (validateJwtTokenUseCase.isValid(jwt)) {

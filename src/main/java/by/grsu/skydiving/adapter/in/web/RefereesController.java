@@ -6,6 +6,7 @@ import by.grsu.skydiving.adapter.in.web.response.AddRefereeResponse;
 import by.grsu.skydiving.adapter.in.web.response.RefereeGroupsResponse;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
+import by.grsu.skydiving.application.port.in.DeleteRefereeFromCompetitionStageUseCase;
 import by.grsu.skydiving.application.port.in.AddRefereeUseCase;
 import by.grsu.skydiving.application.port.in.DeleteRefereeUseCase;
 import by.grsu.skydiving.application.port.in.GetRefereesGroupsByCompetitionStageIdUseCase;
@@ -22,6 +23,7 @@ public class RefereesController {
     private final GetRefereesGroupsByCompetitionStageIdUseCase getRefereesGroupsUseCase;
     private final DeleteRefereeUseCase deleteRefereeUseCase;
     private final AddRefereeUseCase addRefereeUseCase;
+    private final DeleteRefereeFromCompetitionStageUseCase deleteRefereeFromCompetitionStageUseCase;
     private final RefereeMapper mapper;
 
     @GetMapping("/competitionStage/{competitionStageId}")
@@ -35,7 +37,13 @@ public class RefereesController {
     @DeleteMapping("/{refereeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteReferee(@PathVariable Long refereeId) {
-         deleteRefereeUseCase.deleteRefereeByRefereeId(refereeId);
+        deleteRefereeUseCase.deleteRefereeByRefereeId(refereeId);
+    }
+
+    @DeleteMapping("/{refereeId}/competitionStage/{competitionStageId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteRefereeByCompetitionStageIdAndRefereeId(@PathVariable Long competitionStageId, @PathVariable Long refereeId) {
+        deleteRefereeFromCompetitionStageUseCase.deleteRefereeFromCompetitionByCompetitionStageId(competitionStageId, refereeId);
     }
 
     @PostMapping

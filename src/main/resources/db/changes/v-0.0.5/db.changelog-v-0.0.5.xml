@@ -6,4 +6,5 @@
     <include file="001-changeset-alter-competition.xml" relativeToChangelogFile="true"/>
     <include file="002-changeset-alter-referee.xml" relativeToChangelogFile="true"/>
     <include file="2024_05_14-changeset-alter-referee.xml" relativeToChangelogFile="true"/>
+    <include file="003-changeset-seed-data.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

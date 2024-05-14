@@ -2,7 +2,7 @@ package by.grsu.skydiving.application.domain.model.competition;
 
 import by.grsu.skydiving.application.domain.exception.domain.TeamSizeLimitExceededException;
 import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
-import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
+import lombok.With;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,33 +11,35 @@ import java.util.Set;
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
 
 public record Team(
+        @With
+        Long id,
         String name,
-        Set<Skydiver> skydivers
+        Set<TeamMember> members
 ) {
     private static final int MAX_TEAM_SIZE = 5;
 
     public Team {
-        validate(name, skydivers);
+        validate(name, members);
     }
 
-    public void addSkydiver(Skydiver skydiver) {
-        if (skydivers.size() >= MAX_TEAM_SIZE) {
+    public void addSkydiver(TeamMember skydiver) {
+        if (members.size() >= MAX_TEAM_SIZE) {
             throw new TeamSizeLimitExceededException(MAX_TEAM_SIZE);
         }
 
-        skydivers.add(skydiver);
+        members.add(skydiver);
     }
 
-    public void removeSkydiver(Skydiver skydiverToRemove) {
-        skydivers.remove(skydiverToRemove);
+    public void removeSkydiver(TeamMember skydiverToRemove) {
+        members.remove(skydiverToRemove);
     }
 
-    private void validate(String name, Set<Skydiver> skydivers) {
+    private void validate(String name, Set<TeamMember> skydivers) {
         Map<String, String> errors = new HashMap<>();
 
         if (name == null
-            || name.isBlank()
-            || name.length() > 40) {
+                || name.isBlank()
+                || name.length() > 40) {
             errors.put(TEAM_NAME_INCORRECT_VALUE_KEY, TEAM_NAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE);
         }
 
