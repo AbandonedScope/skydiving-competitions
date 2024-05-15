@@ -1,6 +1,5 @@
 package by.grsu.skydiving.common.config;
 
-import by.grsu.skydiving.application.domain.model.auth.UserRole;
 import by.grsu.skydiving.common.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -36,8 +35,9 @@ public class SecurityConfig {
                 .cors(this::corsConfigurer)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/auth/sign-in").permitAll()
-                        .requestMatchers("/api/v1/auth/sign-up").hasAuthority(UserRole.ADMIN.name())
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/v1/auth/sign-up").permitAll()
+                        .requestMatchers("/api/v1/competitions/**").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)

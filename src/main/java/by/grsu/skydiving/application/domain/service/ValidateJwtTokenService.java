@@ -1,7 +1,6 @@
 package by.grsu.skydiving.application.domain.service;
 
 import by.grsu.skydiving.application.domain.model.auth.JwtToken;
-import by.grsu.skydiving.application.domain.service.utils.SecretKeyUtils;
 import by.grsu.skydiving.application.port.in.ValidateJwtTokenUseCase;
 import by.grsu.skydiving.common.UseCase;
 import by.grsu.skydiving.common.config.JwtSettings;

@@ -1,0 +1,115 @@
+###
+POST http://localhost:8080/api/v1/referees
+Content-Type: application/json
+
+{
+  "firstName": "Кирилл",
+  "secondName": "Васько",
+  "patronymic": "Андреевич",
+  "category": "FIRST"
+}
+
+###
+POST http://localhost:8080/api/v1/referees
+Content-Type: application/json
+
+{
+  "firstName": "Максим",
+  "secondName": "Маханько",
+  "patronymic": "Витальевич",
+  "category": "SECOND"
+}
+
+###
+POST http://localhost:8080/api/v1/competitions/initial
+Content-Type: application/json
+
+{
+  "name": "Гродненские региональные соревнования",
+  "beginDate": "2024-05-14",
+  "endDate": "2024-05-24",
+  "place": "Гродно, ул. Белые Росы 57, кв 7",
+  "numberOfStages": 2
+}
+
+###
+POST http://localhost:8080/api/v1/competitions/1/stage
+Content-Type: application/json
+
+{
+  "mainCollegium": [
+    {
+      "refereeId": 1,
+      "workPerformed": "Очень важная"
+    }
+  ],
+  "collegium": [
+    {
+      "refereeId": 2,
+      "workPerformed": "Не очень важная"
+    }
+  ],
+  "stageNumber": 1
+}
+
+###
+POST http://localhost:8080/api/v1/competitions/1/stage
+Content-Type: application/json
+
+{
+  "mainCollegium": [
+    {
+      "refereeId": 1,
+      "workPerformed": "Очень важная"
+    },
+    {
+      "refereeId": 2,
+      "workPerformed": "Очень важная"
+    }
+  ],
+  "collegium": [
+    {
+      "refereeId": 2,
+      "workPerformed": "Не очень важная"
+    }
+  ],
+  "stageNumber": 2
+}
+
+###
+GET http://localhost:8080/api/v1/referees/competitionStage/1
+Content-Type: application/x-www-form-urlencoded
+
+###
+GET http://localhost:8080/api/v1/referees/competitionStage/2
+Content-Type: application/x-www-form-urlencoded
+
+###
+POST http://localhost:8080/api/v1/skydivers
+Content-Type: application/json
+
+{
+  "firstName": "Максим",
+  "secondName": "Маханько",
+  "patronymic": "Витальевич",
+  "gender": "MALE",
+  "birthDate": "2002-12-11",
+  "placeOfBirth": "город Берёзовка",
+  "placeOfWork": "ООО Модсен",
+  "education": "Среднее",
+  "phone": "+375259373579",
+  "passportDetails": {
+    "series": "KH",
+    "number": "1234567",
+    "personalNumber": "12345678910121",
+    "issuingAuthority": "Лидский РОВД Гродненской области",
+    "issuedDate": "2013-12-11"
+  }
+}
+
+###
+GET http://localhost:8080/api/v1/skydivers/page?number=1&size=15
+
+###
+POST http://localhost:8080/api/v1/auth/regen/1
+Content-Type: application/x-www-form-urlencoded

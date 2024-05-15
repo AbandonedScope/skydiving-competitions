@@ -1,0 +1,1 @@
+drop view team_view;

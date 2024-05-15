@@ -3,12 +3,17 @@ spring:
     name: "skydiving-competitions"
   datasource:
     url: jdbc:postgresql://localhost:5432/skydiving
-    password: password
-    username: user
+    password: postgres
+    username: postgres
   liquibase:
     change-log: "db/changes/db.changelog-master.xml"
+    contexts: "dev"
 
 jwt:
   secret: eWFnc2hqa2tvZHVpZnVsYXNpamtsZjthJ2Rib2ppaCBoYmtqYXNubGQ7bWtmZw==
   ttl: 1h
   issuer: "skydiving"
+
+logging:
+  level:
+    org.springframework.jdbc.core: TRACE

@@ -1,19 +1,19 @@
 package by.grsu.skydiving.application.domain.service;
 
-import by.grsu.skydiving.application.domain.exception.UserNotFoundException;
-import by.grsu.skydiving.application.domain.model.UserInfo;
+import by.grsu.skydiving.application.domain.exception.business.UserNotFoundException;
+import by.grsu.skydiving.application.domain.model.auth.UserAuthInfo;
 import by.grsu.skydiving.application.port.in.GetUserByLoginUseCase;
-import by.grsu.skydiving.application.port.out.FindUserInfoByLoginAndPasswordPort;
+import by.grsu.skydiving.application.port.out.FindUserInfoPort;
 import by.grsu.skydiving.common.UseCase;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class GetUserByLoginService implements GetUserByLoginUseCase {
-    private final FindUserInfoByLoginAndPasswordPort findUserInfoPort;
+    private final FindUserInfoPort findUserInfoPort;
 
     @Override
-    public UserInfo getByLogin(String login) {
+    public UserAuthInfo getByLogin(String login) {
         return findUserInfoPort.findBy(login)
                 .orElseThrow(() -> new UserNotFoundException(login));
     }

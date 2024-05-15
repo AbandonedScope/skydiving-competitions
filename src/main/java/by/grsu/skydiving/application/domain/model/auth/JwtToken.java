@@ -1,5 +1,6 @@
 package by.grsu.skydiving.application.domain.model.auth;
 
+import by.grsu.skydiving.application.domain.exception.business.TokenVerificationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.Getter;
