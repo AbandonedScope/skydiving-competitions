@@ -53,5 +53,5 @@ public interface SkydiverJdbcRepository extends CrudRepository<SkydiverEntity, L
 
     List<SkydiverShortInfoProjection> filter(Map<String, Object> filters, long limit, long offset);
 
-    Long countFiltered(Map<String, Object> filters, long limit, long offset);
+    Long countFiltered(Map<String, Object> filters);
 }
