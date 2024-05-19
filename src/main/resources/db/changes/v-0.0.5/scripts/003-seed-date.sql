@@ -10,3 +10,4 @@ INSERT INTO public.passport_info (id, skydiver_id, series, number, personal_numb
 INSERT INTO public.competition (id, name, begin_date, end_date, address, status, number_of_stages, is_deleted) VALUES (1, 'Гродненские региональные соревнования', '2024-05-14 00:00:00.000000', '2024-05-24 00:00:00.000000', 'Гродно, ул. Белые Росы 57, кв 7', 1, 2, false);
 INSERT INTO public.competition_stage (id, competition_id, number) VALUES (1, 1, 1);
 INSERT INTO public.competition_stage_referee_trans (id, competition_stage_id, referee_id, work_performed, is_main_collegium) VALUES (1, 1, 1, 'Очень важная', true);
+INSERT INTO public.competition_stage_referee_trans (id, competition_stage_id, referee_id, work_performed, is_main_collegium) VALUES (2, 1, 2, 'Не очень важная', false);
