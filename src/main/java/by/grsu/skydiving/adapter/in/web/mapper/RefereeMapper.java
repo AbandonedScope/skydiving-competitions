@@ -2,7 +2,7 @@ package by.grsu.skydiving.adapter.in.web.mapper;
 
 import by.grsu.skydiving.adapter.in.web.request.AddRefereeRequest;
 import by.grsu.skydiving.adapter.in.web.response.PageResponse;
-import by.grsu.skydiving.adapter.in.web.response.PagedRefereeResponse;
+import by.grsu.skydiving.adapter.in.web.response.RefereeShortInfoResponse;
 import by.grsu.skydiving.adapter.in.web.response.RefereeGroupsResponse;
 import by.grsu.skydiving.adapter.in.web.response.RefereeResponse;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
@@ -43,9 +43,9 @@ public interface RefereeMapper {
     @Mapping(target = "firstName", source = "name.firstName")
     @Mapping(target = "secondName", source = "name.secondName")
     @Mapping(target = "patronymic", source = "name.patronymic")
-    PagedRefereeResponse toResponse(Referee shortInfo);
+    RefereeShortInfoResponse toResponse(Referee shortInfo);
 
-    PageResponse<PagedRefereeResponse> toResponse(DomainPage<Referee> domainPage);
+    PageResponse<RefereeShortInfoResponse> toResponse(DomainPage<Referee> domainPage);
 
     Set<RefereeResponse> toResponses(Set<CollegiumReferee> referees);
 }

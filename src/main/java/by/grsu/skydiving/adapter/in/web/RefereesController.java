@@ -4,7 +4,7 @@ import by.grsu.skydiving.adapter.in.web.mapper.RefereeMapper;
 import by.grsu.skydiving.adapter.in.web.request.AddRefereeRequest;
 import by.grsu.skydiving.adapter.in.web.response.AddRefereeResponse;
 import by.grsu.skydiving.adapter.in.web.response.PageResponse;
-import by.grsu.skydiving.adapter.in.web.response.PagedRefereeResponse;
+import by.grsu.skydiving.adapter.in.web.response.RefereeShortInfoResponse;
 import by.grsu.skydiving.adapter.in.web.response.RefereeGroupsResponse;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.common.FilterQuery;
@@ -64,7 +64,7 @@ public class RefereesController {
     }
 
     @GetMapping("/page")
-    public PageResponse<PagedRefereeResponse> getRefereePage(
+    public PageResponse<RefereeShortInfoResponse> getRefereePage(
             @RequestParam
             long number,
             @RequestParam

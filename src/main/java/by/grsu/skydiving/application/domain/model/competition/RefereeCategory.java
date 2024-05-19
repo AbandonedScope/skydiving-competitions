@@ -8,7 +8,7 @@ public enum RefereeCategory {
 
     public static RefereeCategory of(int ordinal) {
         return Arrays.stream(RefereeCategory.values())
-                .filter(gender -> gender.ordinal() == ordinal)
+                .filter(category -> category.ordinal() == ordinal)
                 .findFirst()
                 .orElseThrow();
     }

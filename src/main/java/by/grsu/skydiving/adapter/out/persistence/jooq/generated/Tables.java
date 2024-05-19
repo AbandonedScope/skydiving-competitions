@@ -4,13 +4,25 @@
 package generated;
 
 
-import generated.tables.*;
+import generated.tables.Competition;
+import generated.tables.CompetitionMemberDetail;
+import generated.tables.CompetitionStage;
+import generated.tables.CompetitionStageRefereeTrans;
+import generated.tables.PassportInfo;
+import generated.tables.Referee;
+import generated.tables.RefereeView;
+import generated.tables.Skydiver;
+import generated.tables.SkydiverView;
+import generated.tables.Team;
+import generated.tables.TeamView;
+import generated.tables.UserInfo;
+import generated.tables.UserInfoView;
 
 
 /**
  * Convenience access to all tables in public.
  */
-@SuppressWarnings({"all", "unchecked", "rawtypes", "this-escape"})
+@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class Tables {
 
     /**
