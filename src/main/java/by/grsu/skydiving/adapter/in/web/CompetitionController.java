@@ -59,7 +59,7 @@ public class CompetitionController {
 
     @PostMapping("/{competitionId}/team")
     @ResponseStatus(HttpStatus.CREATED)
-    public TeamResponse addCommandToCompetition(
+    public TeamResponse addTeamToCompetition(
             @PathVariable
             Long competitionId,
             @RequestBody
@@ -70,4 +70,6 @@ public class CompetitionController {
 
         return new TeamResponse(team.id());
     }
+
+
 }

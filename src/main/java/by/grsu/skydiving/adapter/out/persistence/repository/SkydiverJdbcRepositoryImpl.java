@@ -8,6 +8,7 @@ import static org.jooq.impl.DSL.noCondition;
 import static org.jooq.impl.DSL.space;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.SkydiverShortInfoProjection;
+import by.grsu.skydiving.application.domain.model.skydiver.SportDegree;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -79,7 +80,7 @@ public class SkydiverJdbcRepositoryImpl {
                 concat(USER_INFO_VIEW.FIRST_NAME, space(1)),
                 concat(USER_INFO_VIEW.PATRONYMIC, space(1))
             ).like((String) value);
-            case "sportDegree" -> SKYDIVER_VIEW.SPORT_DEGREE.eq((Integer) value);
+            case "sportDegree" -> SKYDIVER_VIEW.SPORT_DEGREE.eq(((SportDegree) value).ordinal());
             case "isInternal" -> SKYDIVER_VIEW.IS_INTERNAL.eq((Boolean) value);
             case null, default -> noCondition();
         };
