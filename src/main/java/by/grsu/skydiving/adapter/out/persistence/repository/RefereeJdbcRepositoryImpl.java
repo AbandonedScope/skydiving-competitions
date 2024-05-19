@@ -1,20 +1,9 @@
 package by.grsu.skydiving.adapter.out.persistence.repository;
 
-import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeProjection;
 import lombok.RequiredArgsConstructor;
-import org.jooq.Condition;
 import org.jooq.DSLContext;
-import org.jooq.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Map;
-
-import static generated.Tables.SKYDIVER_VIEW;
-import static generated.Tables.USER_INFO_VIEW;
-import static org.jooq.impl.DSL.*;
 
 @Repository
 @RequiredArgsConstructor
