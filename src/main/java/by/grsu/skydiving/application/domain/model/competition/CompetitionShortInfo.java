@@ -8,6 +8,7 @@ public record CompetitionShortInfo(
     String name,
     LocalDate beginDate,
     LocalDate endDate,
-    Address place
+    Address place,
+    CompetitionStatus status
 ) {
 }

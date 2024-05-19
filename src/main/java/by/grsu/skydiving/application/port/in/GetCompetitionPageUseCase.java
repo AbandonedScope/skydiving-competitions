@@ -8,7 +8,7 @@ public interface GetCompetitionPageUseCase {
     DomainPage<CompetitionShortInfo> getPage(GetPageQuery<CompetitionFilterQuery> query);
 
     record CompetitionFilterQuery(
-        Boolean isActive
+        Boolean isCompleted
     ) {
     }
 }

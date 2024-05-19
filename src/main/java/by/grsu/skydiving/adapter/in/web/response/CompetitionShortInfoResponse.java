@@ -7,6 +7,7 @@ public record CompetitionShortInfoResponse(
     String name,
     LocalDate beginDate,
     LocalDate endDate,
-    String place
+    String place,
+    String status
 ) {
 }

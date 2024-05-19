@@ -38,9 +38,9 @@ public class GetCompetitionPageService implements GetCompetitionPageUseCase {
     private Map<String, Object> buildFilters(CompetitionFilterQuery query) {
         Map<String, Object> filters = HashMap.newHashMap(1);
 
-        Boolean isActive = query.isActive();
-        if (isActive != null) {
-            filters.put("isActive", isActive);
+        Boolean isCompleted = query.isCompleted();
+        if (isCompleted != null) {
+            filters.put("isCompleted", isCompleted);
         }
 
         return filters;

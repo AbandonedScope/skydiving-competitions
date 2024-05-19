@@ -5,6 +5,7 @@ import static org.jooq.impl.DSL.count;
 import static org.jooq.impl.DSL.noCondition;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionEntity;
+import by.grsu.skydiving.application.domain.model.competition.CompetitionStatus;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -63,9 +64,21 @@ public class CompetitionJdbcRepositoryImpl {
         Object value = entry.getValue();
 
         return switch (key) {
-            case "status" -> COMPETITION_VIEW.STATUS.eq((Integer) value);
+            case "isCompleted" -> buildIsCompleted((Boolean) value);
             case null, default -> noCondition();
         };
+    }
+
+    private Condition buildIsCompleted(boolean isCompleted) {
+        if (isCompleted) {
+            return COMPETITION_VIEW.STATUS.eq(CompetitionStatus.COMPLETED.getNumber());
+        }
+
+        return COMPETITION_VIEW.STATUS.in(
+            CompetitionStatus.INITIAL.getNumber(),
+            CompetitionStatus.CREATED.getNumber(),
+            CompetitionStatus.RUNNING.getNumber()
+        );
     }
 
     private RowMapper<CompetitionEntity> rowMapper() {

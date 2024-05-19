@@ -8,7 +8,6 @@ import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionShortInfo;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
-import by.grsu.skydiving.application.domain.model.competition.CompetitionStatus;
 import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.port.out.FilterCompetitionShortInfoPort;
 import by.grsu.skydiving.application.port.out.FindCompetitionPort;
@@ -69,7 +68,7 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
         long offset = pageNumber * pageSize;
 
         List<CompetitionEntity> list = competitionRepository.filter(new HashMap<>(filters), pageSize, offset);
-        List<CompetitionShortInfo> skydiver = mapper.toDomainShortInfos(list);
+        List<CompetitionShortInfo> competitionShortInfos = mapper.toDomainShortInfos(list);
         long totalRows = competitionRepository.countFiltered(new HashMap<>(filters));
 
         int totalPages = (int) totalRows / pageSize;
@@ -81,7 +80,7 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
             .pageSize(pageSize)
             .currentPage(++pageNumber)
             .totalPages(totalPages)
-            .content(skydiver)
+            .content(competitionShortInfos)
             .build();
     }
 
@@ -130,9 +129,9 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     }
 
     void formatFilters(Map<String, Object> filters) {
-        Boolean isActive = (Boolean) filters.get("isActive");
-        if (isActive != null && isActive) {
-            filters.put("status", CompetitionStatus.RUNNING.getNumber());
+        Boolean isCompleted = (Boolean) filters.get("isCompleted");
+        if (isCompleted != null) {
+            filters.put("isCompleted", isCompleted);
         }
     }
 }

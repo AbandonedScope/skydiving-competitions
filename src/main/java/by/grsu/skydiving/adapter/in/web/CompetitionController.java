@@ -53,12 +53,12 @@ public class CompetitionController {
         @RequestParam
         int size,
         @RequestParam(required = false)
-        Boolean isActive
+        Boolean isCompleted
     ) {
         var getPageQuery = GetPageQuery.<CompetitionFilterQuery>builder()
             .pageNumber(number)
             .pageSize(size)
-            .filterQuery(new CompetitionFilterQuery(isActive))
+            .filterQuery(new CompetitionFilterQuery(isCompleted))
             .build();
 
         var domainPage = pageUseCase.getPage(getPageQuery);
