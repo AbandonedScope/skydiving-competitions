@@ -8,6 +8,7 @@ import generated.tables.Competition;
 import generated.tables.CompetitionMemberDetail;
 import generated.tables.CompetitionStage;
 import generated.tables.CompetitionStageRefereeTrans;
+import generated.tables.CompetitionView;
 import generated.tables.PassportInfo;
 import generated.tables.Referee;
 import generated.tables.Skydiver;
@@ -43,6 +44,11 @@ public class Tables {
      * The table <code>public.competition_stage_referee_trans</code>.
      */
     public static final CompetitionStageRefereeTrans COMPETITION_STAGE_REFEREE_TRANS = CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS;
+
+    /**
+     * The table <code>public.competition_view</code>.
+     */
+    public static final CompetitionView COMPETITION_VIEW = CompetitionView.COMPETITION_VIEW;
 
     /**
      * The table <code>public.passport_info</code>.

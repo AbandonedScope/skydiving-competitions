@@ -113,3 +113,9 @@ GET http://localhost:8080/api/v1/skydivers/page?number=1&size=15&name=Махан
 ###
 POST http://localhost:8080/api/v1/auth/regen/1
 Content-Type: application/x-www-form-urlencoded
+
+###
+GET http://localhost:8080/api/v1/competitions?
+    number=1&
+    size=5&
+    isActive=false

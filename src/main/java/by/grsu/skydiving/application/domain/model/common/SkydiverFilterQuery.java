@@ -5,7 +5,7 @@ import by.grsu.skydiving.application.domain.model.skydiver.SportDegree;
 import lombok.Builder;
 
 @Builder
-public record FilterQuery(
+public record SkydiverFilterQuery(
         SportDegree sportDegree,
         Gender gender,
         String name,
