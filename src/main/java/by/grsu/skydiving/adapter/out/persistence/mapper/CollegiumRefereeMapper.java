@@ -25,12 +25,15 @@ public interface CollegiumRefereeMapper {
 
     List<CollegiumReferee> toDomains(List<CollegiumRefereeProjection> entities);
 
-
-    default short map(RefereeCategory category) {
-        return (short) category.ordinal();
+    default RefereeCategory mapRefereeCategory(Integer ordinal) {
+        return ordinal == null
+                ? null
+                : RefereeCategory.of(ordinal);
     }
 
-    default RefereeCategory map(short role) {
-        return RefereeCategory.valueOf(role);
+    default Integer mapRefereeCategory(RefereeCategory refereeCategory) {
+        return refereeCategory == null
+                ? null
+                : refereeCategory.ordinal();
     }
 }

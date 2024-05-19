@@ -3,7 +3,6 @@ package by.grsu.skydiving.adapter.out.persistence.repository;
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionStageEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.StageRefereeTransEntity;
-import by.grsu.skydiving.adapter.out.persistence.entity.TeamEntity;
 import by.grsu.skydiving.adapter.out.persistence.mapper.CompetitionEntityMapper;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;

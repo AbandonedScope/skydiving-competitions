@@ -2,11 +2,13 @@ package by.grsu.skydiving.adapter.out.persistence.repository;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.RefereeEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.CollegiumRefereeProjection;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeProjection;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface RefereeJdbcRepository extends ListCrudRepository<RefereeEntity, Long> {
@@ -28,4 +30,8 @@ public interface RefereeJdbcRepository extends ListCrudRepository<RefereeEntity,
             where referee.id = :refereeId
             """)
     int deleteRefereeByRefereeId(Long refereeId);
+
+    List<RefereeProjection> filter(Map<String, Object> filters, long limit, long offset);
+
+    Long countFiltered(Map<String, Object> filters);
 }

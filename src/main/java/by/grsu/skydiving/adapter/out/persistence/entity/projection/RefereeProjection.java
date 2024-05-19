@@ -9,7 +9,7 @@ import lombok.Setter;
 @Builder
 public class RefereeProjection {
     private Long id;
-    private short category;
+    private Integer category;
     private String firstName;
     private String secondName;
     private String patronymic;
