@@ -2,7 +2,6 @@ package by.grsu.skydiving.application.domain.model.competition;
 
 import by.grsu.skydiving.application.domain.exception.business.CompetitionStagesLimitExceededException;
 import by.grsu.skydiving.application.domain.exception.domain.CompetitionStageNumberIncorrectException;
-import by.grsu.skydiving.application.domain.exception.domain.DomainException;
 import by.grsu.skydiving.application.domain.exception.domain.TeamAlreadyPresentedInCompetitionException;
 import by.grsu.skydiving.application.domain.exception.domain.TeamWithNameNotFoundException;
 import by.grsu.skydiving.application.domain.model.skydiver.Address;

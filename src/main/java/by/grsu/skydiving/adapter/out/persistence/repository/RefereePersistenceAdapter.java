@@ -2,23 +2,30 @@ package by.grsu.skydiving.adapter.out.persistence.repository;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.RefereeEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoEntity;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeProjection;
 import by.grsu.skydiving.adapter.out.persistence.mapper.RefereeEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.UserInfoMapper;
+import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.common.UserInfo;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
+import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
 import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
 import by.grsu.skydiving.application.port.out.DeleteRefereePort;
+import by.grsu.skydiving.application.port.out.FilterRefereesPort;
 import by.grsu.skydiving.application.port.out.FindRefereesPort;
 import by.grsu.skydiving.application.port.out.SaveRefereePort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class RefereePersistenceAdapter implements FindRefereesPort, DeleteRefereePort, SaveRefereePort {
+public class RefereePersistenceAdapter implements FindRefereesPort, DeleteRefereePort, SaveRefereePort, FilterRefereesPort {
     private final RefereeJdbcRepository refereeJdbcRepository;
     private final RefereeEntityMapper refereeEntityMapper;
     private final UserInfoJdbcRepository userInfoJdbcRepository;
@@ -50,5 +57,40 @@ public class RefereePersistenceAdapter implements FindRefereesPort, DeleteRefere
         refereeEntity = refereeJdbcRepository.save(refereeEntity);
 
         return refereeEntity.getId();
+    }
+
+    @Override
+    public DomainPage<Referee> filter(Map<String, Object> filters, long pageNumber, int pageSize) {
+        formatFilters(filters);
+        long offset = pageNumber * pageSize;
+
+        List<RefereeProjection> list = refereeJdbcRepository.filter(new HashMap<>(filters), pageSize, offset);
+        List<Referee> referees = refereeEntityMapper.toDomains(list);
+        long totalRows = refereeJdbcRepository.countFiltered(new HashMap<>(filters));
+
+        int totalPages = (int) totalRows / pageSize;
+        if (totalRows % pageSize > 0) {
+            totalPages++;
+        }
+
+        return DomainPage.<Referee>builder()
+                .pageSize(pageSize)
+                .currentPage(++pageNumber)
+                .totalPages(totalPages)
+                .content(referees)
+                .build();
+    }
+
+    void formatFilters(Map<String, Object> filters) {
+        RefereeCategory category = (RefereeCategory) filters.get("category");
+        if (category != null) {
+            filters.put("gender", category.ordinal());
+        }
+
+        String name = (String) filters.get("name");
+        if (name != null) {
+            name = "%".concat(name).concat("%");
+            filters.put("name", name);
+        }
     }
 }

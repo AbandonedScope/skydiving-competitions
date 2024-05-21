@@ -20,6 +20,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 @WebAdapter
 @RestController
 @RequestMapping("api/v1/skydivers")
@@ -55,12 +59,14 @@ public class SkydiverController {
             @RequestParam(required = false)
             Boolean isInternal
     ) {
-        FilterQuery filterQuery = FilterQuery.builder()
-                .gender(gender)
-                .sportDegree(sportDegree)
-                .name(name)
-                .isInternal(isInternal)
-                .build();
+        Map<String, Object> filters = HashMap.newHashMap(7);
+        filters.put("name", name);
+        filters.put("gender", gender);
+        filters.put("sportDegree", sportDegree);
+        filters.put("isInternal", isInternal);
+        filters.values().removeIf(Objects::isNull);
+
+        FilterQuery filterQuery = new FilterQuery(filters);
         GetPageQuery pageQuery = GetPageQuery.builder()
                 .pageNumber(number)
                 .pageSize(size)

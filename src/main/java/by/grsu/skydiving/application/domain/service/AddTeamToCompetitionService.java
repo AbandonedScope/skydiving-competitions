@@ -6,7 +6,6 @@ import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionUseCase;
 import by.grsu.skydiving.application.port.out.ExistsTeamByNamePort;
-import by.grsu.skydiving.application.port.out.FindCompetitionPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionPort;
 import by.grsu.skydiving.common.UseCase;
 import lombok.RequiredArgsConstructor;

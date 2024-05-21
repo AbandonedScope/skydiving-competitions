@@ -10,6 +10,7 @@ import generated.tables.CompetitionStage;
 import generated.tables.CompetitionStageRefereeTrans;
 import generated.tables.PassportInfo;
 import generated.tables.Referee;
+import generated.tables.RefereeView;
 import generated.tables.Skydiver;
 import generated.tables.SkydiverView;
 import generated.tables.Team;
@@ -53,6 +54,11 @@ public class Tables {
      * The table <code>public.referee</code>.
      */
     public static final Referee REFEREE = Referee.REFEREE;
+
+    /**
+     * The table <code>public.referee_view</code>.
+     */
+    public static final RefereeView REFEREE_VIEW = RefereeView.REFEREE_VIEW;
 
     /**
      * The table <code>public.skydiver</code>.

@@ -4,19 +4,21 @@ import by.grsu.skydiving.application.domain.exception.business.PageNumberInvalid
 import by.grsu.skydiving.application.domain.exception.business.PageSizeInvalidException;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.common.GetPageQuery;
-import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
-import by.grsu.skydiving.application.port.in.GetSkydiversPageUseCase;
-import by.grsu.skydiving.application.port.out.FilterSkydiversShortInfoPort;
+import by.grsu.skydiving.application.domain.model.competition.Referee;
+import by.grsu.skydiving.application.port.in.GetFilteredRefereesUseCase;
+import by.grsu.skydiving.application.port.out.FilterRefereesPort;
 import by.grsu.skydiving.common.UseCase;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Map;
+
 @UseCase
 @RequiredArgsConstructor
-public class GetSkydiversPageService implements GetSkydiversPageUseCase {
-    private final FilterSkydiversShortInfoPort filterPort;
+public class GetRefereesPagedService implements GetFilteredRefereesUseCase {
+    private final FilterRefereesPort filterRefereesPort;
 
     @Override
-    public DomainPage<SkydiverShortInfo> getPage(GetPageQuery query) {
+    public DomainPage<Referee> getPage(GetPageQuery query) {
         long pageNumber = query.pageNumber();
         int pageSize = query.pageSize();
 
@@ -29,6 +31,7 @@ public class GetSkydiversPageService implements GetSkydiversPageUseCase {
         }
         --pageNumber;
 
-        return filterPort.filter(query.filterQuery().filters(), pageNumber, pageSize);
+        Map<String, Object> filters = query.filterQuery().filters();
+        return filterRefereesPort.filter(filters, pageNumber, pageSize);
     }
 }

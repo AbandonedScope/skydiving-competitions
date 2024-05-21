@@ -10,6 +10,7 @@ import generated.tables.CompetitionStage;
 import generated.tables.CompetitionStageRefereeTrans;
 import generated.tables.PassportInfo;
 import generated.tables.Referee;
+import generated.tables.RefereeView;
 import generated.tables.Skydiver;
 import generated.tables.SkydiverView;
 import generated.tables.Team;
@@ -69,6 +70,11 @@ public class Public extends SchemaImpl {
     public final Referee REFEREE = Referee.REFEREE;
 
     /**
+     * The table <code>public.referee_view</code>.
+     */
+    public final RefereeView REFEREE_VIEW = RefereeView.REFEREE_VIEW;
+
+    /**
      * The table <code>public.skydiver</code>.
      */
     public final Skydiver SKYDIVER = Skydiver.SKYDIVER;
@@ -120,6 +126,7 @@ public class Public extends SchemaImpl {
             CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS,
             PassportInfo.PASSPORT_INFO,
             Referee.REFEREE,
+            RefereeView.REFEREE_VIEW,
             Skydiver.SKYDIVER,
             SkydiverView.SKYDIVER_VIEW,
             Team.TEAM,

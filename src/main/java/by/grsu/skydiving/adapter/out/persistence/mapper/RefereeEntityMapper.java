@@ -2,6 +2,7 @@ package by.grsu.skydiving.adapter.out.persistence.mapper;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.RefereeEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.CollegiumRefereeProjection;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeProjection;
 import by.grsu.skydiving.application.domain.model.competition.CollegiumReferee;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
@@ -30,20 +31,21 @@ public interface RefereeEntityMapper {
     @Mapping(target = "referee.id", source = "id")
     CollegiumReferee toDomain(CollegiumRefereeProjection entity);
 
-    @Mapping(target="id", source = "id")
-    @Mapping(target = "category", source="category")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "category", source = "category")
     @Mapping(target = "new", ignore = true)
     RefereeEntity toEntity(Referee domain);
 
+    @Mapping(target = "name.firstName", source = "firstName")
+    @Mapping(target = "name.secondName", source = "secondName")
+    @Mapping(target = "name.patronymic", source = "patronymic")
+    @Mapping(target = "category", source = "category")
+    @Mapping(target = "id", source = "id")
+    Referee toDomain(RefereeProjection entities);
+
+    List<Referee> toDomains(List<RefereeProjection> entities);
+
     Referee toDomain(RefereeEntity entity);
-
-    default short map(RefereeCategory category) {
-        return (short) category.ordinal();
-    }
-
-    default RefereeCategory map(short category) {
-        return RefereeCategory.valueOf(category);
-    }
 
     default RefereeGroups toDomain(List<CollegiumRefereeProjection> referees) {
         Set<CollegiumReferee> mainCollegium = extractCollegiumReferee(
@@ -64,5 +66,17 @@ public interface RefereeEntityMapper {
                 .filter(filter)
                 .map(this::toDomain)
                 .collect(Collectors.toSet());
+    }
+
+    default RefereeCategory mapRefereeCategory(Integer ordinal) {
+        return ordinal == null
+                ? null
+                : RefereeCategory.of(ordinal);
+    }
+
+    default Integer mapRefereeCategory(RefereeCategory refereeCategory) {
+        return refereeCategory == null
+                ? null
+                : refereeCategory.ordinal();
     }
 }
