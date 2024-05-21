@@ -4,6 +4,8 @@ import by.grsu.skydiving.application.domain.exception.business.PageNumberInvalid
 import by.grsu.skydiving.application.domain.exception.business.PageSizeInvalidException;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.common.GetPageQuery;
+import by.grsu.skydiving.application.domain.model.common.SkydiverFilterQuery;
+import by.grsu.skydiving.application.domain.model.skydiver.Gender;
 import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
 import by.grsu.skydiving.application.port.in.GetSkydiversPageUseCase;
 import by.grsu.skydiving.application.port.out.FilterSkydiversShortInfoPort;

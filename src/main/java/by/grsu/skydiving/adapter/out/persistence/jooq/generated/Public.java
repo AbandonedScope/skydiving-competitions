@@ -8,6 +8,7 @@ import generated.tables.Competition;
 import generated.tables.CompetitionMemberDetail;
 import generated.tables.CompetitionStage;
 import generated.tables.CompetitionStageRefereeTrans;
+import generated.tables.CompetitionView;
 import generated.tables.PassportInfo;
 import generated.tables.Referee;
 import generated.tables.RefereeView;
@@ -17,10 +18,8 @@ import generated.tables.Team;
 import generated.tables.TeamView;
 import generated.tables.UserInfo;
 import generated.tables.UserInfoView;
-
 import java.util.Arrays;
 import java.util.List;
-
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
@@ -58,6 +57,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.competition_stage_referee_trans</code>.
      */
     public final CompetitionStageRefereeTrans COMPETITION_STAGE_REFEREE_TRANS = CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS;
+
+    /**
+     * The table <code>public.competition_view</code>.
+     */
+    public final CompetitionView COMPETITION_VIEW = CompetitionView.COMPETITION_VIEW;
 
     /**
      * The table <code>public.passport_info</code>.
@@ -124,6 +128,7 @@ public class Public extends SchemaImpl {
             CompetitionMemberDetail.COMPETITION_MEMBER_DETAIL,
             CompetitionStage.COMPETITION_STAGE,
             CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS,
+            CompetitionView.COMPETITION_VIEW,
             PassportInfo.PASSPORT_INFO,
             Referee.REFEREE,
             RefereeView.REFEREE_VIEW,
