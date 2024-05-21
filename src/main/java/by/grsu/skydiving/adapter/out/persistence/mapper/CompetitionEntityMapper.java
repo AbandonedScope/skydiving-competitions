@@ -6,17 +6,17 @@ import by.grsu.skydiving.adapter.out.persistence.entity.StageRefereeTransEntity;
 import by.grsu.skydiving.application.domain.model.RefereeCollegium;
 import by.grsu.skydiving.application.domain.model.competition.CollegiumReferee;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
+import by.grsu.skydiving.application.domain.model.competition.CompetitionShortInfo;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStatus;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
-
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
@@ -47,6 +47,11 @@ public interface CompetitionEntityMapper {
 
     @Mapping(target = "place.address", source = "address")
     Competition toDomain(CompetitionEntity entity);
+
+    @Mapping(target = "place.address", source = "address")
+    CompetitionShortInfo toDomainShortInfo(CompetitionEntity entity);
+
+    List<CompetitionShortInfo> toDomainShortInfos(List<CompetitionEntity> entity);
 
     @Mapping(target = "place.address", source = "entity.address")
     @Mapping(target = "stages", source = "stageEntities")
