@@ -5,7 +5,7 @@ import by.grsu.skydiving.application.domain.model.common.GetPageQuery;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionShortInfo;
 
 public interface GetCompetitionPageUseCase {
-    DomainPage<CompetitionShortInfo> getPage(GetPageQuery<CompetitionFilterQuery> query);
+    DomainPage<CompetitionShortInfo> getPage(GetPageQuery query);
 
     record CompetitionFilterQuery(
         Boolean isCompleted

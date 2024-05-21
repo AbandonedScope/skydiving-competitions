@@ -18,8 +18,10 @@ import generated.tables.Team;
 import generated.tables.TeamView;
 import generated.tables.UserInfo;
 import generated.tables.UserInfoView;
+
 import java.util.Arrays;
 import java.util.List;
+
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;

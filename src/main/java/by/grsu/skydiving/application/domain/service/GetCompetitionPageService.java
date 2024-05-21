@@ -8,8 +8,6 @@ import by.grsu.skydiving.application.domain.model.competition.CompetitionShortIn
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase;
 import by.grsu.skydiving.application.port.out.FilterCompetitionShortInfoPort;
 import by.grsu.skydiving.common.UseCase;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
@@ -18,7 +16,7 @@ public class GetCompetitionPageService implements GetCompetitionPageUseCase {
     private final FilterCompetitionShortInfoPort filterPort;
 
     @Override
-    public DomainPage<CompetitionShortInfo> getPage(GetPageQuery<CompetitionFilterQuery> query) {
+    public DomainPage<CompetitionShortInfo> getPage(GetPageQuery query) {
         long pageNumber = query.pageNumber();
         int pageSize = query.pageSize();
 
@@ -31,18 +29,6 @@ public class GetCompetitionPageService implements GetCompetitionPageUseCase {
         }
         --pageNumber;
 
-        Map<String, Object> filters = buildFilters(query.filterQuery());
-        return filterPort.filter(filters, pageNumber, pageSize);
-    }
-
-    private Map<String, Object> buildFilters(CompetitionFilterQuery query) {
-        Map<String, Object> filters = HashMap.newHashMap(1);
-
-        Boolean isCompleted = query.isCompleted();
-        if (isCompleted != null) {
-            filters.put("isCompleted", isCompleted);
-        }
-
-        return filters;
+        return filterPort.filter(query.filterQuery().filters(), pageNumber, pageSize);
     }
 }

@@ -5,11 +5,8 @@ import by.grsu.skydiving.adapter.in.web.mapper.TeamMapper;
 import by.grsu.skydiving.adapter.in.web.request.AddStageRequest;
 import by.grsu.skydiving.adapter.in.web.request.InitiateCompetitionRequest;
 import by.grsu.skydiving.adapter.in.web.request.TeamRequest;
-import by.grsu.skydiving.adapter.in.web.response.AddStageResponse;
-import by.grsu.skydiving.adapter.in.web.response.CompetitionShortInfoResponse;
-import by.grsu.skydiving.adapter.in.web.response.InitiateCompetitionResponse;
-import by.grsu.skydiving.adapter.in.web.response.PageResponse;
-import by.grsu.skydiving.adapter.in.web.response.TeamResponse;
+import by.grsu.skydiving.adapter.in.web.response.*;
+import by.grsu.skydiving.application.domain.model.common.FilterQuery;
 import by.grsu.skydiving.application.domain.model.common.GetPageQuery;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
@@ -25,14 +22,11 @@ import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase.Initiate
 import by.grsu.skydiving.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @WebAdapter
 @RestController
@@ -55,10 +49,15 @@ public class CompetitionController {
         @RequestParam(required = false)
         Boolean isCompleted
     ) {
+        Map<String, Object> filters = HashMap.newHashMap(3);
+        filters.put("isCompleted", isCompleted);
+        filters.values().removeIf(Objects::isNull);
+
+        FilterQuery filterQuery = new FilterQuery(filters);
         var getPageQuery = GetPageQuery.<CompetitionFilterQuery>builder()
             .pageNumber(number)
             .pageSize(size)
-            .filterQuery(new CompetitionFilterQuery(isCompleted))
+            .filterQuery(filterQuery)
             .build();
 
         var domainPage = pageUseCase.getPage(getPageQuery);
