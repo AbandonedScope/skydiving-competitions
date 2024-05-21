@@ -52,4 +52,8 @@
     <changeSet id="28" author="Maksim Makhanko">
         <tagDatabase tag="v.0.0.7"/>
     </changeSet>
+
+    <changeSet id="29" author="Katya Anashkevich">
+        <tagDatabase tag="v.0.0.7"/>
+    </changeSet>
 </databaseChangeLog>
