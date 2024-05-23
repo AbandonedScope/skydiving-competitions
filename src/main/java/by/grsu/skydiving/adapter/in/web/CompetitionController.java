@@ -25,6 +25,7 @@ import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase.CompetitionFilterQuery;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase.InitiateCompetitionCommand;
+import by.grsu.skydiving.application.port.in.UpdateTeamInCompetitionUseCase;
 import by.grsu.skydiving.application.port.out.UpdateCompetitionUseCase;
 import by.grsu.skydiving.application.port.out.UpdateCompetitionUseCase.UpdateCompetitionCommand;
 import by.grsu.skydiving.common.WebAdapter;
@@ -55,6 +56,7 @@ public class CompetitionController {
     private final GetCompetitionPageUseCase pageUseCase;
     private final UpdateCompetitionUseCase updateCompetitionUseCase;
     private final DeleteCompetitionUseCase deleteCompetitionUseCase;
+    private final UpdateTeamInCompetitionUseCase updateTeamInCompetitionUseCase;
     private final CompetitionMapper competitionMapper;
     private final TeamMapper teamMapper;
 
@@ -115,7 +117,7 @@ public class CompetitionController {
         @RequestBody
         TeamRequest request
     ) {
-        AddTeamToCompetitionCommand command = teamMapper.toCommand(competitionId, request);
+        AddTeamToCompetitionCommand command = teamMapper.toAddCommand(competitionId, request);
         Team team = addTeamUseCase.addTeam(command);
 
         return new TeamResponse(team.id());
@@ -132,6 +134,21 @@ public class CompetitionController {
         Competition competition = updateCompetitionUseCase.updateCompetition(command);
 
         return competitionMapper.toShortResponse(competition);
+    }
+
+    @PutMapping("/{competitionId}/team/{teamId}")
+    public TeamResponse updateTeamInCompetition(
+        @PathVariable
+        Long competitionId,
+        @PathVariable
+        Long teamId,
+        @RequestBody
+        TeamRequest request
+    ) {
+        var updateTeamInCompetitionCommand = teamMapper.toUpdateCommand(competitionId, teamId, request);
+
+        Team team = updateTeamInCompetitionUseCase.updateTeam(updateTeamInCompetitionCommand);
+        return new TeamResponse(team.id());
     }
 
     @DeleteMapping("/{competitionId}")

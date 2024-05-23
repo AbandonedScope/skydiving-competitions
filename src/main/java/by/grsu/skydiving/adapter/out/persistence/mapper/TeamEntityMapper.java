@@ -4,14 +4,13 @@ import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionMemberDetails
 import by.grsu.skydiving.adapter.out.persistence.entity.TeamEntity;
 import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.domain.model.competition.TeamMember;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
@@ -24,7 +23,7 @@ public interface TeamEntityMapper {
     @Mapping(target = "id", source = "entity.id")
     @Mapping(target = "name", source = "entity.name")
     @Mapping(target = "members", source = "members")
-    Team toDomain(TeamEntity entity, Set<CompetitionMemberDetailsEntity> members);
+    Team toDomain(TeamEntity entity, Collection<CompetitionMemberDetailsEntity> members);
 
     TeamEntity toEntity(Team domain);
 

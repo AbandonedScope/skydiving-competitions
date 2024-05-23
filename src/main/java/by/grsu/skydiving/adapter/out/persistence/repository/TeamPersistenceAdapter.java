@@ -7,16 +7,21 @@ import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.port.out.ExistsTeamByNamePort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionTeamsPort;
+import by.grsu.skydiving.application.port.out.SaveTeamPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
-        ExistsTeamByNamePort {
+    ExistsTeamByNamePort, SaveTeamPort {
     private final TeamJdbcRepository teamRepository;
     private final CompetitionMemberDetailsJdbcRepository membersRepository;
     private final TeamEntityMapper mapper;
@@ -32,19 +37,33 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
         List<Team> saveTeams = new ArrayList<>();
         for (TeamEntity teamEntity : teamsEntities) {
             Team unsavedTeam = unsavedTeams.stream()
-                    .filter(team -> team.name().equals(teamEntity.getName()))
-                    .findAny()
-                    .get();
+                .filter(team -> team.name().equals(teamEntity.getName()))
+                .findAny()
+                .orElseThrow();
 
             saveTeams.add(unsavedTeam.withId(teamEntity.getId()));
         }
 
         List<CompetitionMemberDetailsEntity> members = saveTeams.stream()
-                .flatMap(team -> mapper.toMembers(team, competitionId).stream())
-                .toList();
+            .flatMap(team -> mapper.toMembers(team, competitionId).stream())
+            .toList();
         members = saveMembers(members);
 
         return mapToDomains(teamsEntities, members);
+    }
+
+    @Override
+    public Team saveTeam(Team team, long competitionId) {
+        TeamEntity teamEntity = mapper.toEntity(team);
+
+        teamEntity = teamRepository.save(teamEntity);
+        List<CompetitionMemberDetailsEntity> teamMembers = membersRepository.findByTeamId(teamEntity.getId());
+        membersRepository.deleteAll(teamMembers);
+
+        List<CompetitionMemberDetailsEntity> members = mapper.toMembers(team, competitionId);
+        members = saveMembers(members);
+
+        return mapper.toDomain(teamEntity, members);
     }
 
     @Override
@@ -60,12 +79,12 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
         Map<Long, Set<CompetitionMemberDetailsEntity>> membersGroupedByTeamId = groupByTeamId(members);
 
         return teams.stream()
-                .map(teamEntity -> {
-                    Long teamId = teamEntity.getId();
-                    Set<CompetitionMemberDetailsEntity> membersOfTeam = membersGroupedByTeamId.get(teamId);
-                    return mapper.toDomain(teamEntity, membersOfTeam);
-                })
-                .toList();
+            .map(teamEntity -> {
+                Long teamId = teamEntity.getId();
+                Set<CompetitionMemberDetailsEntity> membersOfTeam = membersGroupedByTeamId.get(teamId);
+                return mapper.toDomain(teamEntity, membersOfTeam);
+            })
+            .toList();
     }
 
     private Map<Long, Set<CompetitionMemberDetailsEntity>> groupByTeamId(List<CompetitionMemberDetailsEntity> members) {
