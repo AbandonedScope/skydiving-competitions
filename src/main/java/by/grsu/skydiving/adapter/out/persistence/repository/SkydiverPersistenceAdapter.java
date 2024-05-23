@@ -8,16 +8,24 @@ import by.grsu.skydiving.adapter.out.persistence.mapper.PassportInfoMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.SkydiverEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.UserInfoMapper;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
-import by.grsu.skydiving.application.domain.model.skydiver.*;
-import by.grsu.skydiving.application.port.out.*;
+import by.grsu.skydiving.application.domain.model.skydiver.FullName;
+import by.grsu.skydiving.application.domain.model.skydiver.Gender;
+import by.grsu.skydiving.application.domain.model.skydiver.Passport;
+import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
+import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
+import by.grsu.skydiving.application.port.out.ExistsSkydiverByFullnameAndBirthDatePort;
+import by.grsu.skydiving.application.port.out.ExistsSkydiverByIdPort;
+import by.grsu.skydiving.application.port.out.FilterSkydiversShortInfoPort;
+import by.grsu.skydiving.application.port.out.GetSkydiverPagePort;
+import by.grsu.skydiving.application.port.out.SaveNewSkydiverPort;
+import by.grsu.skydiving.application.port.out.UpdateSkydiverPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
@@ -107,7 +115,6 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
 
         String name = (String) filters.get("name");
         if (name != null) {
-            name = "%".concat(name).concat("%");
             filters.put("name", name);
         }
     }
