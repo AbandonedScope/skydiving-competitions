@@ -13,6 +13,7 @@ import by.grsu.skydiving.application.port.out.FilterCompetitionShortInfoPort;
 import by.grsu.skydiving.application.port.out.FindCompetitionPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionTeamsPort;
+import by.grsu.skydiving.application.port.out.SoftDeleteCompetitionPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
-    FindCompetitionPort, FilterCompetitionShortInfoPort {
+    FindCompetitionPort, FilterCompetitionShortInfoPort, SoftDeleteCompetitionPort {
     private final CompetitionJdbcRepository competitionRepository;
     private final CompetitionStageJdbcRepository stageRepository;
     private final StageRefereeTransJdbcRepository transRepository;
@@ -82,6 +83,11 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
             .totalPages(totalPages)
             .content(competitionShortInfos)
             .build();
+    }
+
+    @Override
+    public void deleteCompetition(Long competitionId) {
+        competitionRepository.softDeleteCompetitionById(competitionId);
     }
 
     private List<CompetitionStage> saveStages(Competition competition) {

@@ -5,6 +5,7 @@ import by.grsu.skydiving.adapter.in.web.mapper.TeamMapper;
 import by.grsu.skydiving.adapter.in.web.request.AddStageRequest;
 import by.grsu.skydiving.adapter.in.web.request.InitiateCompetitionRequest;
 import by.grsu.skydiving.adapter.in.web.request.TeamRequest;
+import by.grsu.skydiving.adapter.in.web.request.UpdateCompetitionRequest;
 import by.grsu.skydiving.adapter.in.web.response.AddStageResponse;
 import by.grsu.skydiving.adapter.in.web.response.CompetitionShortInfoResponse;
 import by.grsu.skydiving.adapter.in.web.response.InitiateCompetitionResponse;
@@ -24,6 +25,8 @@ import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase.CompetitionFilterQuery;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase.InitiateCompetitionCommand;
+import by.grsu.skydiving.application.port.out.UpdateCompetitionUseCase;
+import by.grsu.skydiving.application.port.out.UpdateCompetitionUseCase.UpdateCompetitionCommand;
 import by.grsu.skydiving.common.WebAdapter;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +37,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,6 +53,7 @@ public class CompetitionController {
     private final AddStageToCompetitionUseCase addStageUseCase;
     private final AddTeamToCompetitionUseCase addTeamUseCase;
     private final GetCompetitionPageUseCase pageUseCase;
+    private final UpdateCompetitionUseCase updateCompetitionUseCase;
     private final DeleteCompetitionUseCase deleteCompetitionUseCase;
     private final CompetitionMapper competitionMapper;
     private final TeamMapper teamMapper;
@@ -74,7 +79,7 @@ public class CompetitionController {
             .build();
 
         var domainPage = pageUseCase.getPage(getPageQuery);
-        return competitionMapper.toResponse(domainPage);
+        return competitionMapper.toShortResponse(domainPage);
     }
 
 
@@ -114,6 +119,19 @@ public class CompetitionController {
         Team team = addTeamUseCase.addTeam(command);
 
         return new TeamResponse(team.id());
+    }
+
+    @PutMapping("/{competitionId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CompetitionShortInfoResponse updateCompetition(@PathVariable
+                                                          Long competitionId,
+                                                          @RequestBody
+                                                          UpdateCompetitionRequest request) {
+        UpdateCompetitionCommand command = competitionMapper.toCommand(competitionId, request);
+
+        Competition competition = updateCompetitionUseCase.updateCompetition(command);
+
+        return competitionMapper.toShortResponse(competition);
     }
 
     @DeleteMapping("/{competitionId}")

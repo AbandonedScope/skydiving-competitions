@@ -6,14 +6,13 @@ import by.grsu.skydiving.application.domain.exception.domain.TeamAlreadyPresente
 import by.grsu.skydiving.application.domain.exception.domain.TeamWithNameNotFoundException;
 import by.grsu.skydiving.application.domain.model.skydiver.Address;
 import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -78,6 +77,11 @@ public class Competition {
         }
 
         teams.add(team);
+    }
+
+    public boolean canBeUpdated() {
+        return status != CompetitionStatus.RUNNING
+                && status != CompetitionStatus.COMPLETED;
     }
 
     private boolean isTeamPresent(String teamName) {
