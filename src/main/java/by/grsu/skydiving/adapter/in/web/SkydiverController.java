@@ -18,7 +18,19 @@ import by.grsu.skydiving.application.port.in.SoftDeleteSkydiverUseCase;
 import by.grsu.skydiving.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @WebAdapter
 @RestController
@@ -55,12 +67,14 @@ public class SkydiverController {
             @RequestParam(required = false)
             Boolean isInternal
     ) {
-        FilterQuery filterQuery = FilterQuery.builder()
-                .gender(gender)
-                .sportDegree(sportDegree)
-                .name(name)
-                .isInternal(isInternal)
-                .build();
+        Map<String, Object> filters = HashMap.newHashMap(7);
+        filters.put("name", name);
+        filters.put("gender", gender);
+        filters.put("sportDegree", sportDegree);
+        filters.put("isInternal", isInternal);
+        filters.values().removeIf(Objects::isNull);
+
+        FilterQuery filterQuery = new FilterQuery(filters);
         GetPageQuery pageQuery = GetPageQuery.builder()
                 .pageNumber(number)
                 .pageSize(size)

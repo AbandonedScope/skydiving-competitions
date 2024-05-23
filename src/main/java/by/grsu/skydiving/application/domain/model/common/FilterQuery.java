@@ -1,14 +1,10 @@
 package by.grsu.skydiving.application.domain.model.common;
-
-import by.grsu.skydiving.application.domain.model.skydiver.Gender;
-import by.grsu.skydiving.application.domain.model.skydiver.SportDegree;
 import lombok.Builder;
+
+import java.util.Map;
 
 @Builder
 public record FilterQuery(
-        SportDegree sportDegree,
-        Gender gender,
-        String name,
-        Boolean isInternal
+        Map<String, Object> filters
 ) {
 }

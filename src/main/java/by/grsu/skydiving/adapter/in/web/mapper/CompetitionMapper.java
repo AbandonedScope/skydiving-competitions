@@ -3,7 +3,11 @@ package by.grsu.skydiving.adapter.in.web.mapper;
 import by.grsu.skydiving.adapter.in.web.request.AddStageRequest;
 import by.grsu.skydiving.adapter.in.web.request.CollegiumRefereeRequest;
 import by.grsu.skydiving.adapter.in.web.request.InitiateCompetitionRequest;
+import by.grsu.skydiving.adapter.in.web.response.CompetitionShortInfoResponse;
+import by.grsu.skydiving.adapter.in.web.response.PageResponse;
+import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.competition.CollegiumReferee;
+import by.grsu.skydiving.application.domain.model.competition.CompetitionShortInfo;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.port.in.AddStageToCompetitionUseCase.AddStageCommand;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase.InitiateCompetitionCommand;
@@ -26,6 +30,11 @@ public interface CompetitionMapper {
     @Mapping(target = "stage.mainCollegium.collegium", source = "request.mainCollegium")
     @Mapping(target = "stage.collegium.collegium", source = "request.collegium")
     AddStageCommand toCommand(Long competitionId, AddStageRequest request);
+
+    @Mapping(target = "place", source = "place.address")
+    CompetitionShortInfoResponse toResponse(CompetitionShortInfo domain);
+
+    PageResponse<CompetitionShortInfoResponse> toResponse(DomainPage<CompetitionShortInfo> domain);
 
     default CollegiumReferee map(CollegiumRefereeRequest request) {
         return CollegiumReferee.builder()

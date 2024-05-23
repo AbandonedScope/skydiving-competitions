@@ -84,7 +84,7 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
 
         List<SkydiverShortInfoProjection> list = skydiverJdbcRepository.filter(new HashMap<>(filters), pageSize, offset);
         List<SkydiverShortInfo> skydiver = skydiverEntityMapper.toDomain(list);
-        long totalRows = skydiverJdbcRepository.countFiltered(new HashMap<>(filters), pageSize, offset);
+        long totalRows = skydiverJdbcRepository.countFiltered(new HashMap<>(filters));
 
         int totalPages = (int) totalRows / pageSize;
         if (totalRows % pageSize > 0) {

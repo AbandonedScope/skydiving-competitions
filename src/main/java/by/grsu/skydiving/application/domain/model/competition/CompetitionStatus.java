@@ -3,15 +3,14 @@ package by.grsu.skydiving.application.domain.model.competition;
 import by.grsu.skydiving.application.domain.exception.domain.InvalidCompetitionStatusNumberException;
 import by.grsu.skydiving.application.domain.model.common.AdjacencyMatrix;
 import by.grsu.skydiving.application.domain.model.common.EntityStatus;
+import java.util.Arrays;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
-import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
 public enum CompetitionStatus implements EntityStatus<CompetitionStatus> {
-    INITIAL(1, "Competition was just created, some fields con de not initialized."),
+    INITIAL(1, "Competition was just created, some fields can be not initialized."),
     CREATED(2, "Competition is completely initialized."),
     RUNNING(3, "Competition is currently running."),
     COMPLETED(4, "Competition ended.");

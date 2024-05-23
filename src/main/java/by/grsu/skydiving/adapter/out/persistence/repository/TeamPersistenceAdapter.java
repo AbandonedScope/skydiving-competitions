@@ -30,7 +30,7 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
         List<TeamEntity> teamsEntities = mapper.toEntities(unsavedTeams);
         teamsEntities = teamRepository.saveAll(teamsEntities);
         List<Team> saveTeams = new ArrayList<>();
-        for (TeamEntity teamEntity: teamsEntities) {
+        for (TeamEntity teamEntity : teamsEntities) {
             Team unsavedTeam = unsavedTeams.stream()
                     .filter(team -> team.name().equals(teamEntity.getName()))
                     .findAny()

@@ -5,9 +5,9 @@ import by.grsu.skydiving.adapter.in.web.mapper.TeamMapper;
 import by.grsu.skydiving.adapter.in.web.request.AddStageRequest;
 import by.grsu.skydiving.adapter.in.web.request.InitiateCompetitionRequest;
 import by.grsu.skydiving.adapter.in.web.request.TeamRequest;
-import by.grsu.skydiving.adapter.in.web.response.AddStageResponse;
-import by.grsu.skydiving.adapter.in.web.response.InitiateCompetitionResponse;
-import by.grsu.skydiving.adapter.in.web.response.TeamResponse;
+import by.grsu.skydiving.adapter.in.web.response.*;
+import by.grsu.skydiving.application.domain.model.common.FilterQuery;
+import by.grsu.skydiving.application.domain.model.common.GetPageQuery;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
 import by.grsu.skydiving.application.domain.model.competition.Team;
@@ -15,12 +15,18 @@ import by.grsu.skydiving.application.port.in.AddStageToCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.AddStageToCompetitionUseCase.AddStageCommand;
 import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase.AddTeamToCompetitionCommand;
+import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase;
+import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase.CompetitionFilterQuery;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase.InitiateCompetitionCommand;
 import by.grsu.skydiving.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @WebAdapter
 @RestController
@@ -30,8 +36,34 @@ public class CompetitionController {
     private final InitiateCompetitionUseCase initiateUseCase;
     private final AddStageToCompetitionUseCase addStageUseCase;
     private final AddTeamToCompetitionUseCase addTeamUseCase;
+    private final GetCompetitionPageUseCase pageUseCase;
     private final CompetitionMapper competitionMapper;
     private final TeamMapper teamMapper;
+
+    @GetMapping
+    public PageResponse<CompetitionShortInfoResponse> getActiveAndLastCompetitions(
+        @RequestParam
+        long number,
+        @RequestParam
+        int size,
+        @RequestParam(required = false)
+        Boolean isCompleted
+    ) {
+        Map<String, Object> filters = HashMap.newHashMap(3);
+        filters.put("isCompleted", isCompleted);
+        filters.values().removeIf(Objects::isNull);
+
+        FilterQuery filterQuery = new FilterQuery(filters);
+        var getPageQuery = GetPageQuery.<CompetitionFilterQuery>builder()
+            .pageNumber(number)
+            .pageSize(size)
+            .filterQuery(filterQuery)
+            .build();
+
+        var domainPage = pageUseCase.getPage(getPageQuery);
+        return competitionMapper.toResponse(domainPage);
+    }
+
 
     @PostMapping("/initial")
     @ResponseStatus(HttpStatus.CREATED)
@@ -46,10 +78,10 @@ public class CompetitionController {
     @PostMapping("/{competitionId}/stage")
     @ResponseStatus(HttpStatus.CREATED)
     public AddStageResponse addStageToCompetition(
-            @PathVariable
-            Long competitionId,
-            @RequestBody
-            AddStageRequest request
+        @PathVariable
+        Long competitionId,
+        @RequestBody
+        AddStageRequest request
     ) {
         AddStageCommand command = competitionMapper.toCommand(competitionId, request);
         CompetitionStage stage = addStageUseCase.addStage(command);
@@ -59,11 +91,11 @@ public class CompetitionController {
 
     @PostMapping("/{competitionId}/team")
     @ResponseStatus(HttpStatus.CREATED)
-    public TeamResponse addCommandToCompetition(
-            @PathVariable
-            Long competitionId,
-            @RequestBody
-            TeamRequest request
+    public TeamResponse addTeamToCompetition(
+        @PathVariable
+        Long competitionId,
+        @RequestBody
+        TeamRequest request
     ) {
         AddTeamToCompetitionCommand command = teamMapper.toCommand(competitionId, request);
         Team team = addTeamUseCase.addTeam(command);

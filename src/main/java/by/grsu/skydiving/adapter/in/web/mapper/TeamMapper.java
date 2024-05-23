@@ -18,7 +18,7 @@ import org.mapstruct.ReportingPolicy;
 public interface TeamMapper {
     @Mapping(target = "competitionId", source = "competitionId")
     @Mapping(target = "team", source = "request")
-    AddTeamToCompetitionCommand toCommand( long competitionId, TeamRequest request);
+    AddTeamToCompetitionCommand toCommand(long competitionId, TeamRequest request);
 
     @Mapping(target = "members", source = "members")
     Team toDomain(TeamRequest request);
