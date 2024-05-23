@@ -9,6 +9,7 @@ import generated.tables.CompetitionMemberDetail;
 import generated.tables.CompetitionStage;
 import generated.tables.CompetitionStageRefereeTrans;
 import generated.tables.CompetitionView;
+import generated.tables.Jumping;
 import generated.tables.PassportInfo;
 import generated.tables.Referee;
 import generated.tables.RefereeView;
@@ -50,6 +51,11 @@ public class Tables {
      * The table <code>public.competition_view</code>.
      */
     public static final CompetitionView COMPETITION_VIEW = CompetitionView.COMPETITION_VIEW;
+
+    /**
+     * The table <code>public.jumping</code>.
+     */
+    public static final Jumping JUMPING = Jumping.JUMPING;
 
     /**
      * The table <code>public.passport_info</code>.

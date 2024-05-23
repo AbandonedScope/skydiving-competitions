@@ -1,0 +1,20 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="2024-05-19T17:05:51Z" author="Katya Anashkevich" context="dev, prod">
+        <sqlFile dbms="postgresql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"
+                 path="scripts/2024.05.22-create-jumping-table.sql"/>
+        <rollback>
+            <sqlFile dbms="postgresql"
+                     relativeToChangelogFile="true"
+                     splitStatements="true"
+                     stripComments="true"
+                     path="scripts/2024.05.22-drop-jumping-table.sql"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
