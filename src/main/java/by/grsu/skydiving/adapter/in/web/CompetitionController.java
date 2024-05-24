@@ -7,6 +7,7 @@ import by.grsu.skydiving.adapter.in.web.request.InitiateCompetitionRequest;
 import by.grsu.skydiving.adapter.in.web.request.TeamRequest;
 import by.grsu.skydiving.adapter.in.web.request.UpdateCompetitionRequest;
 import by.grsu.skydiving.adapter.in.web.response.AddStageResponse;
+import by.grsu.skydiving.adapter.in.web.response.CompetitionResponse;
 import by.grsu.skydiving.adapter.in.web.response.CompetitionShortInfoResponse;
 import by.grsu.skydiving.adapter.in.web.response.InitiateCompetitionResponse;
 import by.grsu.skydiving.adapter.in.web.response.PageResponse;
@@ -24,6 +25,7 @@ import by.grsu.skydiving.application.port.in.DeleteCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.DeleteTeamFromCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase.CompetitionFilterQuery;
+import by.grsu.skydiving.application.port.in.GetCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase.InitiateCompetitionCommand;
 import by.grsu.skydiving.application.port.in.UpdateTeamInCompetitionUseCase;
@@ -55,12 +57,21 @@ public class CompetitionController {
     private final AddStageToCompetitionUseCase addStageUseCase;
     private final AddTeamToCompetitionUseCase addTeamUseCase;
     private final GetCompetitionPageUseCase pageUseCase;
+    private final GetCompetitionUseCase getCompetitionUseCase;
     private final UpdateCompetitionUseCase updateCompetitionUseCase;
     private final DeleteCompetitionUseCase deleteCompetitionUseCase;
     private final UpdateTeamInCompetitionUseCase updateTeamInCompetitionUseCase;
     private final DeleteTeamFromCompetitionUseCase deleteTeamFromCompetitionUseCase;
     private final CompetitionMapper competitionMapper;
     private final TeamMapper teamMapper;
+
+    @GetMapping("/{competitionId}")
+    public CompetitionResponse getCompetitionById(@PathVariable
+                                                  long competitionId) {
+        var competition = getCompetitionUseCase.getCompetition(competitionId);
+
+        return competitionMapper.toResponse(competition);
+    }
 
     @GetMapping
     public PageResponse<CompetitionShortInfoResponse> getActiveAndLastCompetitions(

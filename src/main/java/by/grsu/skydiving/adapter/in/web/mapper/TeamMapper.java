@@ -2,8 +2,8 @@ package by.grsu.skydiving.adapter.in.web.mapper;
 
 import by.grsu.skydiving.adapter.in.web.request.TeamMemberRequest;
 import by.grsu.skydiving.adapter.in.web.request.TeamRequest;
+import by.grsu.skydiving.application.domain.model.competition.CompetitionMember;
 import by.grsu.skydiving.application.domain.model.competition.Team;
-import by.grsu.skydiving.application.domain.model.competition.TeamMember;
 import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase.AddTeamToCompetitionCommand;
 import by.grsu.skydiving.application.port.in.UpdateTeamInCompetitionUseCase.UpdateTeamInCompetitionCommand;
 import org.mapstruct.Mapper;
@@ -28,5 +28,5 @@ public interface TeamMapper {
     @Mapping(target = "members", source = "members")
     Team toDomain(TeamRequest request);
 
-    TeamMember toDomain(TeamMemberRequest request);
+    CompetitionMember toDomain(TeamMemberRequest request);
 }

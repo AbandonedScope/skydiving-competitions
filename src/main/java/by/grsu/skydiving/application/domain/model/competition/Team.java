@@ -17,7 +17,7 @@ public record Team(
         Long id,
         String name,
         @With
-        Set<TeamMember> members
+        Set<CompetitionMember> members
 ) {
     private static final int MAX_TEAM_SIZE = 5;
 
@@ -25,7 +25,7 @@ public record Team(
         validate(name, members);
     }
 
-    public void addSkydiver(TeamMember skydiver) {
+    public void addSkydiver(CompetitionMember skydiver) {
         if (members.size() >= MAX_TEAM_SIZE) {
             throw new TeamSizeLimitExceededException(MAX_TEAM_SIZE);
         }
@@ -33,11 +33,11 @@ public record Team(
         members.add(skydiver);
     }
 
-    public void removeSkydiver(TeamMember skydiverToRemove) {
+    public void removeSkydiver(CompetitionMember skydiverToRemove) {
         members.remove(skydiverToRemove);
     }
 
-    private void validate(String name, Set<TeamMember> skydivers) {
+    private void validate(String name, Set<CompetitionMember> skydivers) {
         Map<String, String> errors = new HashMap<>();
 
         if (name == null

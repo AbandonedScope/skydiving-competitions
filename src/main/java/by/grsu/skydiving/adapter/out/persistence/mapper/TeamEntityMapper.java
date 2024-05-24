@@ -2,8 +2,8 @@ package by.grsu.skydiving.adapter.out.persistence.mapper;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionMemberDetailsEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.TeamEntity;
+import by.grsu.skydiving.application.domain.model.competition.CompetitionMember;
 import by.grsu.skydiving.application.domain.model.competition.Team;
-import by.grsu.skydiving.application.domain.model.competition.TeamMember;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +18,7 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface TeamEntityMapper {
-    TeamMember toDomain(CompetitionMemberDetailsEntity entity);
+    CompetitionMember toDomain(CompetitionMemberDetailsEntity entity);
 
     @Mapping(target = "id", source = "entity.id")
     @Mapping(target = "name", source = "entity.name")
@@ -32,7 +32,7 @@ public interface TeamEntityMapper {
     default List<CompetitionMemberDetailsEntity> toMembers(Team team, long competitionId) {
         long teamId = team.id();
         List<CompetitionMemberDetailsEntity> members = new ArrayList<>();
-        for (TeamMember member : team.members()) {
+        for (CompetitionMember member : team.members()) {
             var memberDetails = CompetitionMemberDetailsEntity.builder()
                     .skydiverId(member.skydiverId())
                     .isJunior(false)

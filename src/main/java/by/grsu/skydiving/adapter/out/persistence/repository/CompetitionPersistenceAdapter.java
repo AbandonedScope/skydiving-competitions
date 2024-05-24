@@ -11,6 +11,7 @@ import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
 import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.port.out.FilterCompetitionShortInfoPort;
 import by.grsu.skydiving.application.port.out.FindCompetitionPort;
+import by.grsu.skydiving.application.port.out.GetMembersOfCompetitionPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionTeamsPort;
 import by.grsu.skydiving.application.port.out.SoftDeleteCompetitionPort;
@@ -32,6 +33,7 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     private final CompetitionStageJdbcRepository stageRepository;
     private final StageRefereeTransJdbcRepository transRepository;
     private final SaveCompetitionTeamsPort teamPort;
+    private final GetMembersOfCompetitionPort getMembersOfCompetitionPort;
     private final CompetitionEntityMapper mapper;
 
     @Override
@@ -60,7 +62,9 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     @Override
     public Optional<Competition> findById(Long id) {
         return competitionRepository.findById(id)
-            .map(this::mapToDomain);
+            .map(this::mapToDomain)
+            .map(this::enrichWithMembers)
+            .map(this::enrichWithStages);
     }
 
     @Override
@@ -108,6 +112,21 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
         return savedStages;
     }
 
+    private Competition enrichWithMembers(Competition competition) {
+        var members = getMembersOfCompetitionPort.getByCompetitionId(competition.getId());
+        var teams = members.teams();
+        var individuals = members.individuals();
+
+        competition.setTeams(teams);
+        competition.setIndividuals(individuals);
+
+        return competition;
+    }
+
+    private Competition enrichWithStages(Competition competition) {
+        return competition;
+    }
+
     private List<StageRefereeTransEntity> extractStageRefereeTrans(List<CompetitionStage> stages) {
         return stages.stream()
             .flatMap(stage -> Stream.concat(extractMainCollegium(stage), extractCollegium(stage)))
@@ -134,7 +153,7 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
         return mapper.toDomain(entity, stages);
     }
 
-    void formatFilters(Map<String, Object> filters) {
+    private void formatFilters(Map<String, Object> filters) {
         Boolean isCompleted = (Boolean) filters.get("isCompleted");
         if (isCompleted != null) {
             filters.put("isCompleted", isCompleted);

@@ -5,10 +5,10 @@ import by.grsu.skydiving.application.domain.exception.domain.CompetitionStageNum
 import by.grsu.skydiving.application.domain.exception.domain.TeamAlreadyPresentedInCompetitionException;
 import by.grsu.skydiving.application.domain.exception.domain.TeamWithNameNotFoundException;
 import by.grsu.skydiving.application.domain.model.skydiver.Address;
-import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +23,7 @@ public class Competition {
     private String name;
     @Builder.Default
     private List<Team> teams = new ArrayList<>();
-    private IndividualCompetitionSkydivers individuals;
+    private Set<CompetitionMember> individuals;
     private LocalDate beginDate;
     private LocalDate endDate;
     private Address place;
@@ -50,17 +50,6 @@ public class Competition {
                 .filter(stage -> stage.number() == stageNumber)
                 .findFirst()
                 .orElseThrow();
-    }
-
-    public void addIndividual(Skydiver skydiver) {
-        individuals.addIndividual(skydiver);
-    }
-
-    public void moveIndividualToTeam(Skydiver individual, String teamName) {
-//        individuals.removeIndividual(individual);
-//        Team team = getTeamByName(teamName);
-//
-//        team.addSkydiver(individual);
     }
 
     public Team getTeamByName(String teamName) {
