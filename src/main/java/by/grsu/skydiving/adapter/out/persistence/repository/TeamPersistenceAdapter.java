@@ -74,7 +74,8 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
 
     @Override
     public void deleteTeamFromCompetition(long competitionId, long teamId) {
-        membersRepository.deleteByTeamIdAndCompetitionId(teamId, competitionId);
+        List<CompetitionMemberDetailsEntity> members = membersRepository.findByTeamIdAndCompetitionId(teamId, competitionId);
+        membersRepository.deleteAll(members);
     }
 
     private List<CompetitionMemberDetailsEntity> saveMembers(List<CompetitionMemberDetailsEntity> members) {
