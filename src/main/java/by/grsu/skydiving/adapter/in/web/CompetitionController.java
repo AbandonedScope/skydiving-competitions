@@ -21,6 +21,7 @@ import by.grsu.skydiving.application.port.in.AddStageToCompetitionUseCase.AddSta
 import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase.AddTeamToCompetitionCommand;
 import by.grsu.skydiving.application.port.in.DeleteCompetitionUseCase;
+import by.grsu.skydiving.application.port.in.DeleteTeamFromCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase.CompetitionFilterQuery;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase;
@@ -57,6 +58,7 @@ public class CompetitionController {
     private final UpdateCompetitionUseCase updateCompetitionUseCase;
     private final DeleteCompetitionUseCase deleteCompetitionUseCase;
     private final UpdateTeamInCompetitionUseCase updateTeamInCompetitionUseCase;
+    private final DeleteTeamFromCompetitionUseCase deleteTeamFromCompetitionUseCase;
     private final CompetitionMapper competitionMapper;
     private final TeamMapper teamMapper;
 
@@ -149,6 +151,16 @@ public class CompetitionController {
 
         Team team = updateTeamInCompetitionUseCase.updateTeam(updateTeamInCompetitionCommand);
         return new TeamResponse(team.id());
+    }
+
+    @DeleteMapping("/{competitionId}/team/{teamId}")
+    public void deleteTeamInCompetition(
+        @PathVariable
+        Long competitionId,
+        @PathVariable
+        Long teamId
+    ) {
+        deleteTeamFromCompetitionUseCase.delete(competitionId, teamId);
     }
 
     @DeleteMapping("/{competitionId}")
