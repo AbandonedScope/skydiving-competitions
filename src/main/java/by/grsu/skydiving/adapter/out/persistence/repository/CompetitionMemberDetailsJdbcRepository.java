@@ -5,5 +5,7 @@ import java.util.List;
 import org.springframework.data.repository.ListCrudRepository;
 
 public interface CompetitionMemberDetailsJdbcRepository extends ListCrudRepository<CompetitionMemberDetailsEntity, Long> {
-    List<CompetitionMemberDetailsEntity> findByTeamId(Long competitionId);
+    List<CompetitionMemberDetailsEntity> findByTeamId(Long teamId);
+
+    void deleteByTeamIdAndCompetitionId(Long teamId, Long competitionId);
 }

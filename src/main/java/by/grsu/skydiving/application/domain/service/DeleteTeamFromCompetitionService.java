@@ -21,6 +21,6 @@ public class DeleteTeamFromCompetitionService implements DeleteTeamFromCompetiti
             throw new TryToUpdateImmutableCompetitionException("Competition can't be updated");
         }
 
-        deleteTeamFromCompetitionPort.delete(competitionId, teamId);
+        deleteTeamFromCompetitionPort.deleteTeamFromCompetition(competitionId, teamId);
     }
 }

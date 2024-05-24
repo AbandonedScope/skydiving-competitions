@@ -5,6 +5,7 @@ import by.grsu.skydiving.adapter.out.persistence.entity.TeamEntity;
 import by.grsu.skydiving.adapter.out.persistence.mapper.TeamEntityMapper;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.Team;
+import by.grsu.skydiving.application.port.out.DeleteTeamFromCompetitionPort;
 import by.grsu.skydiving.application.port.out.ExistsTeamByNamePort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionTeamsPort;
 import by.grsu.skydiving.application.port.out.SaveTeamPort;
@@ -21,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
-    ExistsTeamByNamePort, SaveTeamPort {
+    ExistsTeamByNamePort, SaveTeamPort, DeleteTeamFromCompetitionPort {
     private final TeamJdbcRepository teamRepository;
     private final CompetitionMemberDetailsJdbcRepository membersRepository;
     private final TeamEntityMapper mapper;
@@ -69,6 +70,11 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
     @Override
     public boolean exists(String teamName) {
         return teamRepository.existsByName(teamName);
+    }
+
+    @Override
+    public void deleteTeamFromCompetition(long competitionId, long teamId) {
+        membersRepository.deleteByTeamIdAndCompetitionId(teamId, competitionId);
     }
 
     private List<CompetitionMemberDetailsEntity> saveMembers(List<CompetitionMemberDetailsEntity> members) {
