@@ -3,23 +3,31 @@ package by.grsu.skydiving.adapter.in.web.mapper;
 import by.grsu.skydiving.adapter.in.web.request.AddStageRequest;
 import by.grsu.skydiving.adapter.in.web.request.CollegiumRefereeRequest;
 import by.grsu.skydiving.adapter.in.web.request.InitiateCompetitionRequest;
+import by.grsu.skydiving.adapter.in.web.request.UpdateCompetitionRequest;
+import by.grsu.skydiving.adapter.in.web.response.CompetitionResponse;
 import by.grsu.skydiving.adapter.in.web.response.CompetitionShortInfoResponse;
 import by.grsu.skydiving.adapter.in.web.response.PageResponse;
+import by.grsu.skydiving.adapter.in.web.response.RefereeResponse;
+import by.grsu.skydiving.application.domain.model.RefereeCollegium;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.competition.CollegiumReferee;
+import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionShortInfo;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.port.in.AddStageToCompetitionUseCase.AddStageCommand;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase.InitiateCompetitionCommand;
+import by.grsu.skydiving.application.port.out.UpdateCompetitionUseCase.UpdateCompetitionCommand;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedSourcePolicy = ReportingPolicy.WARN,
-        unmappedTargetPolicy = ReportingPolicy.WARN
+    componentModel = MappingConstants.ComponentModel.SPRING,
+    unmappedSourcePolicy = ReportingPolicy.WARN,
+    unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface CompetitionMapper {
 
@@ -31,15 +39,43 @@ public interface CompetitionMapper {
     @Mapping(target = "stage.collegium.collegium", source = "request.collegium")
     AddStageCommand toCommand(Long competitionId, AddStageRequest request);
 
-    @Mapping(target = "place", source = "place.address")
-    CompetitionShortInfoResponse toResponse(CompetitionShortInfo domain);
+    @Mapping(target = "id", source = "competitionId")
+    @Mapping(target = "name", source = "request.name")
+    @Mapping(target = "beginDate", source = "request.beginDate")
+    @Mapping(target = "endDate", source = "request.endDate")
+    @Mapping(target = "place", source = "request.place")
+    @Mapping(target = "numberOfStages", source = "request.numberOfStages")
+    UpdateCompetitionCommand toCommand(Long competitionId, UpdateCompetitionRequest request);
 
-    PageResponse<CompetitionShortInfoResponse> toResponse(DomainPage<CompetitionShortInfo> domain);
+    @Mapping(target = "place", source = "place.address")
+    CompetitionResponse toResponse(Competition competition);
+
+    @Mapping(target = "place", source = "place.address")
+    CompetitionShortInfoResponse toShortResponse(CompetitionShortInfo domain);
+
+    @Mapping(target = "place", source = "place.address")
+    CompetitionShortInfoResponse toShortResponse(Competition domain);
+
+    PageResponse<CompetitionShortInfoResponse> toShortResponse(DomainPage<CompetitionShortInfo> domain);
+
+    default Set<RefereeResponse> map(RefereeCollegium domain) {
+        return domain.collegium().stream()
+            .map(collegiumReferee -> RefereeResponse.builder()
+                .id(collegiumReferee.referee().id())
+                .firstName(collegiumReferee.referee().name().firstName())
+                .secondName(collegiumReferee.referee().name().secondName())
+                .patronymic(collegiumReferee.referee().name().patronymic())
+                .category(collegiumReferee.referee().category())
+                .workPerformed(collegiumReferee.workPerformed())
+                .build()
+            )
+            .collect(Collectors.toSet());
+    }
 
     default CollegiumReferee map(CollegiumRefereeRequest request) {
         return CollegiumReferee.builder()
-                .referee(new Referee(request.refereeId(), null, null))
-                .workPerformed(request.workPerformed())
-                .build();
+            .referee(new Referee(request.refereeId(), null, null))
+            .workPerformed(request.workPerformed())
+            .build();
     }
 }
