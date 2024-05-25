@@ -111,3 +111,7 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+//
+//tasks.withType<nu.studer.gradle.jooq.JooqGenerate> {
+//    enabled = false
+//}
