@@ -1,9 +1,8 @@
-package by.grsu.skydiving.adapter.out.persistence.repository;
+package by.grsu.skydiving.adapter.out.persistence;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionEntity;
-import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionStageEntity;
-import by.grsu.skydiving.adapter.out.persistence.entity.StageRefereeTransEntity;
 import by.grsu.skydiving.adapter.out.persistence.mapper.CompetitionEntityMapper;
+import by.grsu.skydiving.adapter.out.persistence.repository.CompetitionJdbcRepository;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionShortInfo;
@@ -12,16 +11,16 @@ import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.port.out.FilterCompetitionShortInfoPort;
 import by.grsu.skydiving.application.port.out.FindCompetitionPort;
 import by.grsu.skydiving.application.port.out.GetMembersOfCompetitionPort;
+import by.grsu.skydiving.application.port.out.GetStagesOfCompetitionPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionPort;
+import by.grsu.skydiving.application.port.out.SaveCompetitionStagesPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionTeamsPort;
 import by.grsu.skydiving.application.port.out.SoftDeleteCompetitionPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,8 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     FindCompetitionPort, FilterCompetitionShortInfoPort, SoftDeleteCompetitionPort {
     private final CompetitionJdbcRepository competitionRepository;
-    private final CompetitionStageJdbcRepository stageRepository;
-    private final StageRefereeTransJdbcRepository transRepository;
+    private final SaveCompetitionStagesPort saveStagesPort;
+    private final GetStagesOfCompetitionPort getStagesOfCompetitionPort;
     private final SaveCompetitionTeamsPort teamPort;
     private final GetMembersOfCompetitionPort getMembersOfCompetitionPort;
     private final CompetitionEntityMapper mapper;
@@ -49,7 +48,7 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     public Competition save(Competition competition) {
         CompetitionEntity entity = mapper.toEntity(competition);
         entity = competitionRepository.save(entity);
-        List<CompetitionStage> stages = saveStages(competition);
+        List<CompetitionStage> stages = saveStagesPort.saveStages(competition);
         List<Team> teams = teamPort.saveTeams(competition);
 
         competition = mapper.toDomain(entity);
@@ -60,9 +59,9 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     }
 
     @Override
-    public Optional<Competition> findById(Long id) {
+    public Optional<Competition> findFullById(Long id) {
         return competitionRepository.findById(id)
-            .map(this::mapToDomain)
+            .map(mapper::toDomain)
             .map(this::enrichWithMembers)
             .map(this::enrichWithStages);
     }
@@ -94,23 +93,6 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
         competitionRepository.softDeleteCompetitionById(competitionId);
     }
 
-    private List<CompetitionStage> saveStages(Competition competition) {
-        List<CompetitionStage> stages = competition.getStages();
-        List<CompetitionStageEntity> stageEntities = mapper.toEntities(stages, competition.getId());
-        stageEntities = stageRepository.saveAll(stageEntities);
-        List<CompetitionStage> savedStages = new ArrayList<>();
-        for (int i = 0; i < stages.size(); i++) {
-            CompetitionStage stage = stages.get(i);
-            CompetitionStage savedStage =
-                mapper.toDomain(stageEntities.get(i), stage.mainCollegium(), stage.collegium());
-            savedStages.add(savedStage);
-        }
-
-        List<StageRefereeTransEntity> trans = extractStageRefereeTrans(savedStages);
-        saveStageRefereeTrans(trans);
-
-        return savedStages;
-    }
 
     private Competition enrichWithMembers(Competition competition) {
         var members = getMembersOfCompetitionPort.getByCompetitionId(competition.getId());
@@ -124,33 +106,10 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     }
 
     private Competition enrichWithStages(Competition competition) {
+        var stages = getStagesOfCompetitionPort.getByCompetitionId(competition.getId());
+        competition.setStages(stages);
+
         return competition;
-    }
-
-    private List<StageRefereeTransEntity> extractStageRefereeTrans(List<CompetitionStage> stages) {
-        return stages.stream()
-            .flatMap(stage -> Stream.concat(extractMainCollegium(stage), extractCollegium(stage)))
-            .toList();
-    }
-
-    private Stream<StageRefereeTransEntity> extractMainCollegium(CompetitionStage stage) {
-        return stage.mainCollegium().collegium().stream()
-            .map(collegiumReferee -> mapper.toEntity(collegiumReferee, stage.id(), true));
-    }
-
-    private Stream<StageRefereeTransEntity> extractCollegium(CompetitionStage stage) {
-        return stage.collegium().collegium().stream()
-            .map(collegiumReferee -> mapper.toEntity(collegiumReferee, stage.id(), false));
-    }
-
-    private void saveStageRefereeTrans(List<StageRefereeTransEntity> trans) {
-        transRepository.saveAll(trans);
-    }
-
-    private Competition mapToDomain(CompetitionEntity entity) {
-        List<CompetitionStageEntity> stages = stageRepository.findByCompetitionId(entity.getId());
-
-        return mapper.toDomain(entity, stages);
     }
 
     private void formatFilters(Map<String, Object> filters) {

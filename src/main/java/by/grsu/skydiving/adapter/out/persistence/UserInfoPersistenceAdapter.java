@@ -1,17 +1,17 @@
-package by.grsu.skydiving.adapter.out.persistence.repository;
+package by.grsu.skydiving.adapter.out.persistence;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoEntity;
 import by.grsu.skydiving.adapter.out.persistence.mapper.UserInfoMapper;
+import by.grsu.skydiving.adapter.out.persistence.repository.UserInfoJdbcRepository;
 import by.grsu.skydiving.application.domain.model.auth.UserAuthInfo;
 import by.grsu.skydiving.application.domain.model.auth.UserInfoForToken;
 import by.grsu.skydiving.application.domain.model.common.UserInfo;
 import by.grsu.skydiving.application.port.out.FindUserInfoPort;
 import by.grsu.skydiving.application.port.out.SaveUserPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Optional;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
