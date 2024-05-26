@@ -1,7 +1,9 @@
 package by.grsu.skydiving.adapter.in.web;
 
 import by.grsu.skydiving.application.domain.exception.business.BusinessException;
+import by.grsu.skydiving.application.domain.exception.business.IncorrectPasswordException;
 import by.grsu.skydiving.application.domain.exception.business.SkydiverWithNameAndBirthDateAlreadyExistsException;
+import by.grsu.skydiving.application.domain.exception.business.UserNotFoundException;
 import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,17 @@ public class ControllerAdvice {
         problemDetail.setDetail(ex.getMessage());
         problemDetail.setTitle("skydiver-creation-error");
         problemDetail.setProperty("errorType", "business-error-type-conflict");
+
+        log.error(ex.getMessage());
+        return problemDetail;
+    }
+
+    @ExceptionHandler({IncorrectPasswordException.class, UserNotFoundException.class})
+    public ProblemDetail handleAuthExceptions(BusinessException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+
+        problemDetail.setDetail(ex.getMessage());
+        problemDetail.setTitle("business-error");
 
         log.error(ex.getMessage());
         return problemDetail;
