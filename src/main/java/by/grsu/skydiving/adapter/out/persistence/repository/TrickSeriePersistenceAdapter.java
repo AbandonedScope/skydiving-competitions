@@ -16,7 +16,7 @@ import java.util.List;
 
 @PersistenceAdapter
 @AllArgsConstructor
-public class TrickSerieAdapter implements SaveTrickRefereeingPort {
+public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort {
     private final TrickSerieJdbcRepository trickSerieJdbcRepository;
     private final CompetitionMemberDetailsJdbcRepository memberDetailsJdbcRepository;
     private final TrickSerieMapper mapper;
@@ -33,9 +33,11 @@ public class TrickSerieAdapter implements SaveTrickRefereeingPort {
     }
 
     private List<TrickSerieEntity> mapToEntities(TrickRefereeingFullInfo fullInfo, CompetitionMemberDetailsEntity memberDetails){
-        List<TrickSerieEntity> trickSerieEntities = new ArrayList<TrickSerieEntity>();
-        List<Long> refereesIds = fullInfo.referees().stream().map(Referee::id).toList();
-        refereesIds.forEach(id -> trickSerieEntities.add(
+        List<TrickSerieEntity> trickSerieEntities = new ArrayList<>();
+        fullInfo.referees().stream()
+                .map(Referee::id)
+                .toList()
+        .forEach(id -> trickSerieEntities.add(
                 TrickSerieEntity.builder()
                         .refereeId(id)
                         .roundNumber(fullInfo.roundNumber())

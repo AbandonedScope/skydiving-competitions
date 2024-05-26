@@ -12,6 +12,6 @@ public record TrickSerie(
         Integer roundNumber,
         Float timeWithoutPenalty,
         Float totalPenalty,
-        Boolean isTimeSubbmited
+        Boolean isTimeSubmitted
 ) {
 }

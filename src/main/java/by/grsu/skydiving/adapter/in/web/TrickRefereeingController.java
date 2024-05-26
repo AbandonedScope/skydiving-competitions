@@ -12,11 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @WebAdapter
 @RestController
-@RequestMapping("api/v1/trickRefereeing")
+@RequestMapping("api/v1/trick-refereeing")
 @RequiredArgsConstructor
 public class TrickRefereeingController {
     private final AddTrickRefereeingUseCase addTrickRefereeingUseCase;
@@ -25,13 +26,13 @@ public class TrickRefereeingController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TrickRefereeingResponse addTrickRefereeing (@RequestBody
+    public TrickRefereeingResponse addTrickRefereeing(@RequestBody
                                                        AddTrickRefereeingRequest request) {
-        AddTrickRefereeingUseCase.AddTrickRefereeingCommand command = refereeingMapper.toCommand(request);
+        var command = refereeingMapper.toCommand(request);
         TrickRefereeing trickRefereeing = addTrickRefereeingUseCase.addTrickRefereeing(command);
-        List<TrickSerieShortInfoResponse> trickSeriesResponses = serieMapper.toResponses(trickRefereeing.trickSeries());
+        List<TrickSerieShortInfoResponse> trickSeriesResponses = new ArrayList<>();
+        trickRefereeing.trickSeries().forEach(t -> trickSeriesResponses.add(serieMapper.toResponse(t, request)));
 
         return refereeingMapper.toResponse(trickSeriesResponses, request, trickRefereeing.skydiverNumber());
     }
-
 }

@@ -22,9 +22,7 @@ public class AddTrickRefereeingService implements AddTrickRefereeingUseCase {
     @Override
     public TrickRefereeing addTrickRefereeing(AddTrickRefereeingCommand command) {
         RefereeGroups groups = refereesUseCase.findRefereesByCompetitionStageId(command.competitionId()); // TODO: check it later with new info from customer
-        List<Referee> referees = groups.collegium().stream()
-                .map(CollegiumReferee::referee)
-                .toList();
+        List<Referee> referees = groups.getReferees();
 
         TrickRefereeingFullInfo fullInfo = TrickRefereeingFullInfo.builder()
                 .referees(referees)
@@ -35,8 +33,5 @@ public class AddTrickRefereeingService implements AddTrickRefereeingUseCase {
                 .build();
 
         return saveTrickRefereeingPort.saveAll(fullInfo);
-
     }
-
-
 }
