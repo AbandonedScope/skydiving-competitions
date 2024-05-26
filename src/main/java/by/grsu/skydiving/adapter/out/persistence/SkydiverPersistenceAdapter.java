@@ -1,4 +1,4 @@
-package by.grsu.skydiving.adapter.out.persistence.repository;
+package by.grsu.skydiving.adapter.out.persistence;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.PassportInfoEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.SkydiverEntity;
@@ -7,6 +7,9 @@ import by.grsu.skydiving.adapter.out.persistence.entity.projection.SkydiverShort
 import by.grsu.skydiving.adapter.out.persistence.mapper.PassportInfoMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.SkydiverEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.UserInfoMapper;
+import by.grsu.skydiving.adapter.out.persistence.repository.PassportInfoJdbcRepository;
+import by.grsu.skydiving.adapter.out.persistence.repository.SkydiverJdbcRepository;
+import by.grsu.skydiving.adapter.out.persistence.repository.UserInfoJdbcRepository;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.skydiver.FullName;
 import by.grsu.skydiving.application.domain.model.skydiver.Gender;

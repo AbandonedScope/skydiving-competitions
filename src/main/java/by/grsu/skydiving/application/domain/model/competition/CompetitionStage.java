@@ -1,20 +1,27 @@
 package by.grsu.skydiving.application.domain.model.competition;
 
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.COMPETITION_STAGE_JUDGE_COLLEGIUM_NULL_MESSAGE;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.COMPETITION_STAGE_JUDGE_COLLEGIUM_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.COMPETITION_STAGE_MAIN_JUDGE_COLLEGIUM_NULL_MESSAGE;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.COMPETITION_STAGE_MAIN_JUDGE_COLLEGIUM_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.COMPETITION_STAGE_NUMBER_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.COMPETITION_STAGE_NUMBER_NULL_OR_INVALID_MESSAGE;
+
 import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 import by.grsu.skydiving.application.domain.model.RefereeCollegium;
-import lombok.Builder;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-
-import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
+import lombok.Builder;
+import lombok.With;
 
 @Builder
 public record CompetitionStage(
         Long id,
         Integer number,
+        @With
         RefereeCollegium mainCollegium,
+        @With
         RefereeCollegium collegium
 ) {
     public CompetitionStage {

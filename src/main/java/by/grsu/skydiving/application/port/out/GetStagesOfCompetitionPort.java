@@ -1,6 +1,6 @@
 package by.grsu.skydiving.application.port.out;
 
-import generated.tables.CompetitionStage;
+import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
 import java.util.List;
 
 public interface GetStagesOfCompetitionPort {

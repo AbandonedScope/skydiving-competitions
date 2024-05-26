@@ -14,7 +14,7 @@ public class GetCompetitionService implements GetCompetitionUseCase {
 
     @Override
     public Competition getCompetition(Long competitionId) {
-        return findPort.findById(competitionId)
+        return findPort.findFullById(competitionId)
                 .orElseThrow(() -> new CompetitionNotFoundException(competitionId));
     }
 }

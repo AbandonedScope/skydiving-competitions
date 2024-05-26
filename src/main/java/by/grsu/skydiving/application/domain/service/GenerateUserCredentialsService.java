@@ -79,7 +79,11 @@ public class GenerateUserCredentialsService implements GenerateUserCredentialsUs
     }
 
     public Stream<Character> getRandomSpecialChars(int count) {
-        IntStream specialChars = random.ints(count, 33, 45);
-        return specialChars.mapToObj(data -> (char) data);
+        IntStream specialChars = IntStream.generate(() -> random.nextInt(33, 45))
+                .filter(data -> data != 34 && data != 39)
+                .limit(count);
+
+        return specialChars
+                .mapToObj(data -> (char) data);
     }
 }

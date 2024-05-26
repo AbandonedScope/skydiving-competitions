@@ -1,10 +1,12 @@
-package by.grsu.skydiving.adapter.out.persistence.repository;
+package by.grsu.skydiving.adapter.out.persistence;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.RefereeEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeProjection;
 import by.grsu.skydiving.adapter.out.persistence.mapper.RefereeEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.UserInfoMapper;
+import by.grsu.skydiving.adapter.out.persistence.repository.RefereeJdbcRepository;
+import by.grsu.skydiving.adapter.out.persistence.repository.UserInfoJdbcRepository;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.common.UserInfo;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
@@ -15,17 +17,17 @@ import by.grsu.skydiving.application.port.out.FilterRefereesPort;
 import by.grsu.skydiving.application.port.out.FindRefereesPort;
 import by.grsu.skydiving.application.port.out.SaveRefereePort;
 import by.grsu.skydiving.common.PersistenceAdapter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class RefereePersistenceAdapter implements FindRefereesPort, DeleteRefereePort, SaveRefereePort, FilterRefereesPort {
+public class RefereePersistenceAdapter
+    implements FindRefereesPort, DeleteRefereePort, SaveRefereePort, FilterRefereesPort {
     private final RefereeJdbcRepository refereeJdbcRepository;
     private final RefereeEntityMapper refereeEntityMapper;
     private final UserInfoJdbcRepository userInfoJdbcRepository;
@@ -34,7 +36,7 @@ public class RefereePersistenceAdapter implements FindRefereesPort, DeleteRefere
     @Override
     public Optional<RefereeGroups> findRefereesByCompetitionStageId(Long competitionStageId) {
         return refereeJdbcRepository.findByCompetitionId(competitionStageId)
-                .map(refereeEntityMapper::toDomain);
+            .map(refereeEntityMapper::toDomain);
     }
 
     @Override
@@ -74,11 +76,11 @@ public class RefereePersistenceAdapter implements FindRefereesPort, DeleteRefere
         }
 
         return DomainPage.<Referee>builder()
-                .pageSize(pageSize)
-                .currentPage(++pageNumber)
-                .totalPages(totalPages)
-                .content(referees)
-                .build();
+            .pageSize(pageSize)
+            .currentPage(++pageNumber)
+            .totalPages(totalPages)
+            .content(referees)
+            .build();
     }
 
     void formatFilters(Map<String, Object> filters) {

@@ -9,7 +9,7 @@ import java.time.Duration;
 public record JwtTokenGenerationSettings(
         String issuer,
         String subject,
-        int userId,
+        long userId,
         UserRole userRole,
         Duration ttl,
         SecretKey secretKey
