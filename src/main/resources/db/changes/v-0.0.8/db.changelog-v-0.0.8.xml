@@ -6,4 +6,7 @@
     <include file="2024.05.22-changeset-jumping-table.xml" relativeToChangelogFile="true"/>
     <include file="2024.05.22-changeset-trick-serie-table.xml" relativeToChangelogFile="true"/>
     <include file="2024.05.22-changeset-trick-attempt-table.xml" relativeToChangelogFile="true"/>
+    <include file="2024.05.25-changeset-alter-trick-serie-table.xml" relativeToChangelogFile="true"/>
+    <include file="2024.05.26-changeset-add-isTimeSubmitted-column.xml" relativeToChangelogFile="true"/>
+    <include file="2024.05.26-changeset-change-null-constraints.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
