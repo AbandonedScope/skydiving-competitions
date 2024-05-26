@@ -3,6 +3,8 @@ package by.grsu.skydiving.adapter.out.persistence.repository;
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionMemberDetailsEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.CompetitionMemberDetailsWithFullNameAndTeamName;
 import java.util.List;
+
+import by.grsu.skydiving.application.domain.model.competition.CompetitionMember;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
@@ -32,4 +34,5 @@ public interface CompetitionMemberDetailsJdbcRepository extends ListCrudReposito
     List<CompetitionMemberDetailsWithFullNameAndTeamName> findByCompetitionId(Long competitionId);
 
     List<CompetitionMemberDetailsEntity> findByTeamIdAndCompetitionId(Long teamId, Long competitionId);
+    CompetitionMemberDetailsEntity findBySkydiverIdAndCompetitionId(Long skydiverId, Long competitionId);
 }
