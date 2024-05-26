@@ -36,7 +36,6 @@ public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort {
         List<TrickSerieEntity> trickSerieEntities = new ArrayList<>();
         fullInfo.referees().stream()
                 .map(Referee::id)
-                .toList()
         .forEach(id -> trickSerieEntities.add(
                 TrickSerieEntity.builder()
                         .refereeId(id)
