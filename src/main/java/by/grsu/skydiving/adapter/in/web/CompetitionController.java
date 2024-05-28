@@ -3,6 +3,7 @@ package by.grsu.skydiving.adapter.in.web;
 import by.grsu.skydiving.adapter.in.web.mapper.CompetitionMapper;
 import by.grsu.skydiving.adapter.in.web.mapper.TeamMapper;
 import by.grsu.skydiving.adapter.in.web.request.AddStageRequest;
+import by.grsu.skydiving.adapter.in.web.request.CompetitionMemberRequest;
 import by.grsu.skydiving.adapter.in.web.request.InitiateCompetitionRequest;
 import by.grsu.skydiving.adapter.in.web.request.TeamRequest;
 import by.grsu.skydiving.adapter.in.web.request.UpdateCompetitionRequest;
@@ -15,8 +16,10 @@ import by.grsu.skydiving.adapter.in.web.response.TeamResponse;
 import by.grsu.skydiving.application.domain.model.common.FilterQuery;
 import by.grsu.skydiving.application.domain.model.common.GetPageQuery;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
+import by.grsu.skydiving.application.domain.model.competition.CompetitionMember;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
 import by.grsu.skydiving.application.domain.model.competition.Team;
+import by.grsu.skydiving.application.port.in.AddIndividualToCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.AddStageToCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.AddStageToCompetitionUseCase.AddStageCommand;
 import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase;
@@ -62,6 +65,7 @@ public class CompetitionController {
     private final DeleteCompetitionUseCase deleteCompetitionUseCase;
     private final UpdateTeamInCompetitionUseCase updateTeamInCompetitionUseCase;
     private final DeleteTeamFromCompetitionUseCase deleteTeamFromCompetitionUseCase;
+    private final AddIndividualToCompetitionUseCase addIndividualToCompetitionUseCase;
     private final CompetitionMapper competitionMapper;
     private final TeamMapper teamMapper;
 
@@ -134,6 +138,16 @@ public class CompetitionController {
         Team team = addTeamUseCase.addTeam(command);
 
         return new TeamResponse(team.id());
+    }
+
+    @PostMapping("{competitionId}/individual")
+    public void addIndividualToCompetition(@PathVariable
+                                           long competitionId,
+                                           @RequestBody
+                                           CompetitionMemberRequest request) {
+        CompetitionMember individual = teamMapper.toDomain(request);
+
+        addIndividualToCompetitionUseCase.addIndividualToCompetition(competitionId, individual);
     }
 
     @PutMapping("/{competitionId}")

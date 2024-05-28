@@ -6,10 +6,12 @@ import by.grsu.skydiving.adapter.out.persistence.mapper.TeamEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.repository.CompetitionMemberDetailsJdbcRepository;
 import by.grsu.skydiving.adapter.out.persistence.repository.TeamJdbcRepository;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
+import by.grsu.skydiving.application.domain.model.competition.CompetitionMember;
 import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.port.out.DeleteTeamFromCompetitionPort;
 import by.grsu.skydiving.application.port.out.ExistsTeamByNamePort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionTeamsPort;
+import by.grsu.skydiving.application.port.out.SaveIndividualsPort;
 import by.grsu.skydiving.application.port.out.SaveTeamPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import java.util.ArrayList;
@@ -24,7 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
-    ExistsTeamByNamePort, SaveTeamPort, DeleteTeamFromCompetitionPort {
+    ExistsTeamByNamePort, SaveTeamPort, DeleteTeamFromCompetitionPort,
+    SaveIndividualsPort {
     private final TeamJdbcRepository teamRepository;
     private final CompetitionMemberDetailsJdbcRepository membersRepository;
     private final TeamEntityMapper mapper;
@@ -67,6 +70,24 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
         members = saveMembers(members);
 
         return mapper.toDomain(teamEntity, members);
+    }
+
+    @Override
+    public void saveIndividuals(Set<CompetitionMember> individuals, long competitionId) {
+        List<CompetitionMemberDetailsEntity> teamMembers = membersRepository.findIndividualsByCompetitionId(competitionId);
+        membersRepository.deleteAll(teamMembers);
+
+        List<CompetitionMemberDetailsEntity> entities = individuals.stream()
+            .map(individual -> CompetitionMemberDetailsEntity.builder()
+                .skydiverId(individual.skydiverId())
+                .isJunior(false)
+                .competitionId(competitionId)
+                .memberNumber(individual.memberNumber())
+                .build()
+            )
+            .toList();
+
+        saveMembers(entities);
     }
 
     @Override

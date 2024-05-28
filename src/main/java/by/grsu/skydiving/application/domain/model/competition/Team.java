@@ -37,6 +37,10 @@ public record Team(
         members.remove(skydiverToRemove);
     }
 
+    public boolean containsMember(CompetitionMember member) {
+        return members.contains(member);
+    }
+
     private void validate(String name, Set<CompetitionMember> skydivers) {
         Map<String, String> errors = new HashMap<>();
 

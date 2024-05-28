@@ -15,6 +15,7 @@ import by.grsu.skydiving.application.port.out.GetStagesOfCompetitionPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionStagesPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionTeamsPort;
+import by.grsu.skydiving.application.port.out.SaveIndividualsPort;
 import by.grsu.skydiving.application.port.out.SoftDeleteCompetitionPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     private final SaveCompetitionStagesPort saveStagesPort;
     private final GetStagesOfCompetitionPort getStagesOfCompetitionPort;
     private final SaveCompetitionTeamsPort teamPort;
+    private final SaveIndividualsPort saveIndividualsPort;
     private final GetMembersOfCompetitionPort getMembersOfCompetitionPort;
     private final CompetitionEntityMapper mapper;
 
@@ -50,10 +52,13 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
         entity = competitionRepository.save(entity);
         List<CompetitionStage> stages = saveStagesPort.saveStages(competition);
         List<Team> teams = teamPort.saveTeams(competition);
+        saveIndividualsPort.saveIndividuals(competition.getIndividuals(), competition.getId());
 
         competition = mapper.toDomain(entity);
         competition.setStages(stages);
         competition.setTeams(teams);
+
+
 
         return competition;
     }

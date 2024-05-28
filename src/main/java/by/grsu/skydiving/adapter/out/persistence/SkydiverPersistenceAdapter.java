@@ -19,6 +19,7 @@ import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
 import by.grsu.skydiving.application.port.out.ExistsSkydiverByFullnameAndBirthDatePort;
 import by.grsu.skydiving.application.port.out.ExistsSkydiverByIdPort;
 import by.grsu.skydiving.application.port.out.FilterSkydiversShortInfoPort;
+import by.grsu.skydiving.application.port.out.FindSkydiverByIdPort;
 import by.grsu.skydiving.application.port.out.GetSkydiverPagePort;
 import by.grsu.skydiving.application.port.out.SaveNewSkydiverPort;
 import by.grsu.skydiving.application.port.out.UpdateSkydiverPort;
@@ -27,6 +28,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
         ExistsSkydiverByFullnameAndBirthDatePort, GetSkydiverPagePort,
-        UpdateSkydiverPort, ExistsSkydiverByIdPort, FilterSkydiversShortInfoPort {
+        UpdateSkydiverPort, ExistsSkydiverByIdPort, FilterSkydiversShortInfoPort,
+    FindSkydiverByIdPort {
     private final SkydiverJdbcRepository skydiverJdbcRepository;
     private final UserInfoJdbcRepository userInfoJdbcRepository;
     private final PassportInfoJdbcRepository passportInfoJdbcRepository;
@@ -59,6 +62,12 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
         passportEntity = passportInfoJdbcRepository.save(passportEntity);
 
         return skydiverEntityMapper.toDomain(skydiverEntity, userInfo, passportEntity);
+    }
+
+    @Override
+    public Optional<SkydiverShortInfo> findById(long skydiverId) {
+        return skydiverJdbcRepository.findById(skydiverId)
+            .map(skydiverEntityMapper::toDomain);
     }
 
     @Override
