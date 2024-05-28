@@ -6,4 +6,5 @@
     <include file="001-changeset-team-table.xml" relativeToChangelogFile="true"/>
     <include file="010-changeset-competition-member-detail-table.xml" relativeToChangelogFile="true"/>
     <include file="020-changeset-team-view.xml" relativeToChangelogFile="true"/>
+    <include file="2024.05.26-changeset-teamId-to-null.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

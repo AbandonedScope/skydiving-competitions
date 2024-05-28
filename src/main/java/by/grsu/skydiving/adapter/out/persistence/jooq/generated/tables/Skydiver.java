@@ -6,7 +6,9 @@ package generated.tables;
 
 import generated.Keys;
 import generated.Public;
+
 import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;

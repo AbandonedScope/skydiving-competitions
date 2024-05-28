@@ -8,12 +8,13 @@ import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.domain.model.skydiver.FullName;
 import by.grsu.skydiving.application.port.out.GetMembersOfCompetitionPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
+import lombok.RequiredArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor

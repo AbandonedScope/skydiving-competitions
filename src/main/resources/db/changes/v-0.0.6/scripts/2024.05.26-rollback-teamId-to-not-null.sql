@@ -1,0 +1,1 @@
+alter table competition_member_detail alter column team_id drop not null;
