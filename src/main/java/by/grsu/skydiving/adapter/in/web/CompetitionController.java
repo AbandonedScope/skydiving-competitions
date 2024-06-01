@@ -1,37 +1,26 @@
 package by.grsu.skydiving.adapter.in.web;
 
 import by.grsu.skydiving.adapter.in.web.mapper.CompetitionMapper;
-import by.grsu.skydiving.adapter.in.web.mapper.TeamMapper;
 import by.grsu.skydiving.adapter.in.web.request.AddStageRequest;
-import by.grsu.skydiving.adapter.in.web.request.CompetitionMemberRequest;
 import by.grsu.skydiving.adapter.in.web.request.InitiateCompetitionRequest;
-import by.grsu.skydiving.adapter.in.web.request.TeamRequest;
 import by.grsu.skydiving.adapter.in.web.request.UpdateCompetitionRequest;
 import by.grsu.skydiving.adapter.in.web.response.AddStageResponse;
 import by.grsu.skydiving.adapter.in.web.response.CompetitionResponse;
 import by.grsu.skydiving.adapter.in.web.response.CompetitionShortInfoResponse;
 import by.grsu.skydiving.adapter.in.web.response.InitiateCompetitionResponse;
 import by.grsu.skydiving.adapter.in.web.response.PageResponse;
-import by.grsu.skydiving.adapter.in.web.response.TeamResponse;
 import by.grsu.skydiving.application.domain.model.common.FilterQuery;
 import by.grsu.skydiving.application.domain.model.common.GetPageQuery;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
-import by.grsu.skydiving.application.domain.model.competition.CompetitionMember;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
-import by.grsu.skydiving.application.domain.model.competition.Team;
-import by.grsu.skydiving.application.port.in.AddIndividualToCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.AddStageToCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.AddStageToCompetitionUseCase.AddStageCommand;
-import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase;
-import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase.AddTeamToCompetitionCommand;
 import by.grsu.skydiving.application.port.in.DeleteCompetitionUseCase;
-import by.grsu.skydiving.application.port.in.DeleteTeamFromCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase.CompetitionFilterQuery;
 import by.grsu.skydiving.application.port.in.GetCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase.InitiateCompetitionCommand;
-import by.grsu.skydiving.application.port.in.UpdateTeamInCompetitionUseCase;
 import by.grsu.skydiving.application.port.out.UpdateCompetitionUseCase;
 import by.grsu.skydiving.application.port.out.UpdateCompetitionUseCase.UpdateCompetitionCommand;
 import by.grsu.skydiving.common.WebAdapter;
@@ -58,16 +47,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class CompetitionController {
     private final InitiateCompetitionUseCase initiateUseCase;
     private final AddStageToCompetitionUseCase addStageUseCase;
-    private final AddTeamToCompetitionUseCase addTeamUseCase;
     private final GetCompetitionPageUseCase pageUseCase;
     private final GetCompetitionUseCase getCompetitionUseCase;
     private final UpdateCompetitionUseCase updateCompetitionUseCase;
     private final DeleteCompetitionUseCase deleteCompetitionUseCase;
-    private final UpdateTeamInCompetitionUseCase updateTeamInCompetitionUseCase;
-    private final DeleteTeamFromCompetitionUseCase deleteTeamFromCompetitionUseCase;
-    private final AddIndividualToCompetitionUseCase addIndividualToCompetitionUseCase;
     private final CompetitionMapper competitionMapper;
-    private final TeamMapper teamMapper;
 
     @GetMapping("/{competitionId}")
     public CompetitionResponse getCompetitionById(@PathVariable
@@ -126,30 +110,6 @@ public class CompetitionController {
         return new AddStageResponse(competitionId, stage.id());
     }
 
-    @PostMapping("/{competitionId}/team")
-    @ResponseStatus(HttpStatus.CREATED)
-    public TeamResponse addTeamToCompetition(
-        @PathVariable
-        Long competitionId,
-        @RequestBody
-        TeamRequest request
-    ) {
-        AddTeamToCompetitionCommand command = teamMapper.toAddCommand(competitionId, request);
-        Team team = addTeamUseCase.addTeam(command);
-
-        return new TeamResponse(team.id());
-    }
-
-    @PostMapping("{competitionId}/individual")
-    public void addIndividualToCompetition(@PathVariable
-                                           long competitionId,
-                                           @RequestBody
-                                           CompetitionMemberRequest request) {
-        CompetitionMember individual = teamMapper.toDomain(request);
-
-        addIndividualToCompetitionUseCase.addIndividualToCompetition(competitionId, individual);
-    }
-
     @PutMapping("/{competitionId}")
     @ResponseStatus(HttpStatus.CREATED)
     public CompetitionShortInfoResponse updateCompetition(@PathVariable
@@ -161,31 +121,6 @@ public class CompetitionController {
         Competition competition = updateCompetitionUseCase.updateCompetition(command);
 
         return competitionMapper.toShortResponse(competition);
-    }
-
-    @PutMapping("/{competitionId}/team/{teamId}")
-    public TeamResponse updateTeamInCompetition(
-        @PathVariable
-        Long competitionId,
-        @PathVariable
-        Long teamId,
-        @RequestBody
-        TeamRequest request
-    ) {
-        var updateTeamInCompetitionCommand = teamMapper.toUpdateCommand(competitionId, teamId, request);
-
-        Team team = updateTeamInCompetitionUseCase.updateTeam(updateTeamInCompetitionCommand);
-        return new TeamResponse(team.id());
-    }
-
-    @DeleteMapping("/{competitionId}/team/{teamId}")
-    public void deleteTeamInCompetition(
-        @PathVariable
-        Long competitionId,
-        @PathVariable
-        Long teamId
-    ) {
-        deleteTeamFromCompetitionUseCase.delete(competitionId, teamId);
     }
 
     @DeleteMapping("/{competitionId}")
