@@ -21,10 +21,8 @@ import generated.tables.TrickAttempt;
 import generated.tables.TrickSerie;
 import generated.tables.UserInfo;
 import generated.tables.UserInfoView;
-
 import java.util.Arrays;
 import java.util.List;
-
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;

@@ -2,15 +2,33 @@ package by.grsu.skydiving.adapter.out.persistence.repository;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.SkydiverEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.SkydiverShortInfoProjection;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-
 public interface SkydiverJdbcRepository extends CrudRepository<SkydiverEntity, Long> {
+
+    @Query("""
+        select skydiver.id,
+               user_info.first_name,
+               user_info.second_name,
+               user_info.patronymic,
+               skydiver.begin_of_sport_career,
+               skydiver.sport_specialization,
+               skydiver.sport_degree,
+               skydiver.is_internal,
+               skydiver.gender
+        from skydiver_view as skydiver
+            left join user_info on user_info.id = skydiver.id
+        where
+            skydiver.id = :skidiverId
+        """)
+    Optional<SkydiverShortInfoProjection> findById(long skidiverId);
+
 
     @Query("""
             select exists(select 1
