@@ -33,6 +33,12 @@ public record Team(
         members.add(skydiver);
     }
 
+    public CompetitionMember getById(long skydiverId) {
+        return members.stream()
+            .filter(skydiver -> skydiver.skydiverId() == skydiverId)
+            .findFirst().orElseThrow();
+    }
+
     public void removeSkydiver(CompetitionMember skydiverToRemove) {
         members.remove(skydiverToRemove);
     }

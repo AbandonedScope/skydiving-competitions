@@ -4,8 +4,10 @@ import by.grsu.skydiving.adapter.in.web.mapper.TeamMapper;
 import by.grsu.skydiving.adapter.in.web.request.CompetitionMemberRequest;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionMember;
 import by.grsu.skydiving.application.port.in.AddIndividualToCompetitionUseCase;
+import by.grsu.skydiving.application.port.in.DeleteIndividualFromCompetitionUseCase;
 import by.grsu.skydiving.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class IndividualsController {
     private final AddIndividualToCompetitionUseCase addIndividualToCompetitionUseCase;
+    private final DeleteIndividualFromCompetitionUseCase deleteIndividualFromCompetitionUseCase;
     private final TeamMapper teamMapper;
 
     @PostMapping("/competition/{competitionId}")
@@ -30,4 +33,11 @@ public class IndividualsController {
         addIndividualToCompetitionUseCase.addIndividualToCompetition(competitionId, individual);
     }
 
+    @DeleteMapping("/{individualId}/competition/{competitionId}")
+    public void deleteIndividualFromCompetition(@PathVariable
+                                                long competitionId,
+                                                @PathVariable
+                                                long individualId) {
+        deleteIndividualFromCompetitionUseCase.delete(competitionId, individualId);
+    }
 }

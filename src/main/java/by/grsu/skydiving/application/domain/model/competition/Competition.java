@@ -79,7 +79,9 @@ public class Competition {
             .memberNumber(memberNumber)
             .build();
 
-        if (individuals.contains(individual)) {
+        if (individuals.stream()
+            .anyMatch(ind -> ind.skydiverId().equals(skydiver.id()))
+        ) {
             throw new IndividualAlreadyPresentedInCompetitionException(individual.skydiverId(), this.name);
         }
 
@@ -95,6 +97,10 @@ public class Competition {
         individuals.add(individual);
     }
 
+    public void removeIndividual(long individualId) {
+        individuals.removeIf(member -> member.skydiverId() == individualId);
+    }
+
     public MembersOfCompetition getMembers() {
         return MembersOfCompetition.builder()
             .teams(teams)
@@ -102,9 +108,25 @@ public class Competition {
             .build();
     }
 
+    public Team getTeamById(long teamId) {
+        return teams.stream()
+            .filter(team -> team.id() == teamId)
+            .findFirst().orElseThrow();
+    }
+
+    public CompetitionMember getIndividualById(long individualId) {
+        return individuals.stream()
+            .filter(individual -> individual.skydiverId() == individualId)
+            .findFirst().orElseThrow();
+    }
+
     public boolean canBeUpdated() {
         return status != CompetitionStatus.RUNNING
                && status != CompetitionStatus.COMPLETED;
+    }
+
+    public boolean canMoveMembers() {
+        return status != CompetitionStatus.COMPLETED;
     }
 
     private boolean isTeamPresent(String teamName) {

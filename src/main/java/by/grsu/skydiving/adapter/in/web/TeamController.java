@@ -1,12 +1,14 @@
 package by.grsu.skydiving.adapter.in.web;
 
 import by.grsu.skydiving.adapter.in.web.mapper.TeamMapper;
+import by.grsu.skydiving.adapter.in.web.request.ExchangeTeamMemberWithIndividualRequest;
 import by.grsu.skydiving.adapter.in.web.request.TeamRequest;
 import by.grsu.skydiving.adapter.in.web.response.MembersOfCompetitionResponse;
 import by.grsu.skydiving.adapter.in.web.response.TeamResponse;
 import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.DeleteTeamFromCompetitionUseCase;
+import by.grsu.skydiving.application.port.in.ExchangeTeamMemberWithIndividualUseCase;
 import by.grsu.skydiving.application.port.in.GetMembersOfCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.UpdateTeamInCompetitionUseCase;
 import by.grsu.skydiving.common.WebAdapter;
@@ -30,6 +32,7 @@ public class TeamController {
     private final AddTeamToCompetitionUseCase addTeamUseCase;
     private final GetMembersOfCompetitionUseCase getMembersOfCompetitionUseCase;
     private final UpdateTeamInCompetitionUseCase updateTeamInCompetitionUseCase;
+    private final ExchangeTeamMemberWithIndividualUseCase exchangeTeamMemberWithIndividualUseCase;
     private final DeleteTeamFromCompetitionUseCase deleteTeamFromCompetitionUseCase;
     private final TeamMapper mapper;
 
@@ -77,5 +80,18 @@ public class TeamController {
         Long teamId
     ) {
         deleteTeamFromCompetitionUseCase.delete(competitionId, teamId);
+    }
+
+    @PutMapping("/{teamId}/competition/{competitionId}/exchange")
+    public void exchangeTeamMemberWithIndividual(
+        @PathVariable
+        Long competitionId,
+        @PathVariable
+        Long teamId,
+        @RequestBody
+        ExchangeTeamMemberWithIndividualRequest request
+    ) {
+        var command = mapper.toExchangeCommand(competitionId, teamId, request);
+        exchangeTeamMemberWithIndividualUseCase.exchange(command);
     }
 }
