@@ -1,9 +1,8 @@
 package by.grsu.skydiving.application.domain.service;
 
-import by.grsu.skydiving.application.domain.exception.business.TryToUpdateImmutableCompetitionException;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.skydiver.Address;
-import by.grsu.skydiving.application.port.in.GetCompetitionUseCase;
+import by.grsu.skydiving.application.port.in.GetUpdatableCompetitionUseCase;
 import by.grsu.skydiving.application.port.out.SaveCompetitionPort;
 import by.grsu.skydiving.application.port.out.UpdateCompetitionUseCase;
 import by.grsu.skydiving.common.UseCase;
@@ -12,16 +11,12 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class UpdateCompetitionService implements UpdateCompetitionUseCase {
-    private final GetCompetitionUseCase getCompetitionUseCase;
+    private final GetUpdatableCompetitionUseCase getCompetitionUseCase;
     private final SaveCompetitionPort saveCompetitionPort;
 
     @Override
     public Competition updateCompetition(UpdateCompetitionCommand command) {
-        Competition competition = getCompetitionUseCase.getCompetition(command.id());
-
-        if (!competition.canBeUpdated()) {
-            throw new TryToUpdateImmutableCompetitionException("Competition can't be updated");
-        }
+        Competition competition = getCompetitionUseCase.getCompetitionThatCanBeUpdated(command.id());
 
         updateCompetition(competition, command);
         competition = saveCompetitionPort.save(competition);

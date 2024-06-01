@@ -33,8 +33,18 @@ public record Team(
         members.add(skydiver);
     }
 
+    public CompetitionMember getById(long skydiverId) {
+        return members.stream()
+            .filter(skydiver -> skydiver.skydiverId() == skydiverId)
+            .findFirst().orElseThrow();
+    }
+
     public void removeSkydiver(CompetitionMember skydiverToRemove) {
         members.remove(skydiverToRemove);
+    }
+
+    public boolean containsMember(CompetitionMember member) {
+        return members.contains(member);
     }
 
     private void validate(String name, Set<CompetitionMember> skydivers) {

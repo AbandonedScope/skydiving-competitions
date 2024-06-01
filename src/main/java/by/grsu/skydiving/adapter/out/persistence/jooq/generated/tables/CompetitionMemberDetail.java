@@ -60,7 +60,7 @@ public class CompetitionMemberDetail extends TableImpl<Record> {
     /**
      * The column <code>public.competition_member_detail.team_id</code>.
      */
-    public final TableField<Record, Long> TEAM_ID = createField(DSL.name("team_id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<Record, Long> TEAM_ID = createField(DSL.name("team_id"), SQLDataType.BIGINT, this, "");
 
     /**
      * The column <code>public.competition_member_detail.member_number</code>.

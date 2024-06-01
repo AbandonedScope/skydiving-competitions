@@ -20,4 +20,6 @@ public interface UserInfoJdbcRepository extends ListCrudRepository<UserInfoEntit
             where id = :userId
             """)
     void updateByIdSetDeleted(long userId, boolean deleted);
+
+    boolean existsByLogin(String login);
 }

@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record JwtAuthCredentials(
-        int userId,
+        long userId,
         JwtToken accessToken,
         UserRole userRole
 ) {

@@ -62,7 +62,7 @@ public class TrickSerie extends TableImpl<Record> {
     /**
      * The column <code>public.trick_serie.score</code>.
      */
-    public final TableField<Record, Integer> SCORE = createField(DSL.name("score"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<Record, Integer> SCORE = createField(DSL.name("score"), SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>public.trick_serie.serie_number</code>.
@@ -72,7 +72,17 @@ public class TrickSerie extends TableImpl<Record> {
     /**
      * The column <code>public.trick_serie.time_without_penalty</code>.
      */
-    public final TableField<Record, Double> TIME_WITHOUT_PENALTY = createField(DSL.name("time_without_penalty"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<Record, Double> TIME_WITHOUT_PENALTY = createField(DSL.name("time_without_penalty"), SQLDataType.DOUBLE, this, "");
+
+    /**
+     * The column <code>public.trick_serie.round_number</code>.
+     */
+    public final TableField<Record, Integer> ROUND_NUMBER = createField(DSL.name("round_number"), SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>public.trick_serie.is_time_submitted</code>.
+     */
+    public final TableField<Record, Boolean> IS_TIME_SUBMITTED = createField(DSL.name("is_time_submitted"), SQLDataType.BOOLEAN.defaultValue(DSL.field(DSL.raw("false"), SQLDataType.BOOLEAN)), this, "");
 
     private TrickSerie(Name alias, Table<Record> aliased) {
         this(alias, aliased, null);

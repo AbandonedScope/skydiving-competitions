@@ -2,12 +2,16 @@ package by.grsu.skydiving.application.domain.model.competition;
 
 import by.grsu.skydiving.application.domain.exception.business.CompetitionStagesLimitExceededException;
 import by.grsu.skydiving.application.domain.exception.domain.CompetitionStageNumberIncorrectException;
+import by.grsu.skydiving.application.domain.exception.domain.IndividualAlreadyPresentedInCompetitionException;
 import by.grsu.skydiving.application.domain.exception.domain.TeamAlreadyPresentedInCompetitionException;
 import by.grsu.skydiving.application.domain.exception.domain.TeamWithNameNotFoundException;
+import by.grsu.skydiving.application.domain.exception.domain.TryToAddIndividualThatInTeamException;
 import by.grsu.skydiving.application.domain.model.skydiver.Address;
+import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,16 +51,16 @@ public class Competition {
 
     public CompetitionStage getStage(int stageNumber) {
         return stages.stream()
-                .filter(stage -> stage.number() == stageNumber)
-                .findFirst()
-                .orElseThrow();
+            .filter(stage -> stage.number() == stageNumber)
+            .findFirst()
+            .orElseThrow();
     }
 
     public Team getTeamByName(String teamName) {
         return teams.stream()
-                .filter(team -> team.name().equals(teamName))
-                .findAny()
-                .orElseThrow(() -> new TeamWithNameNotFoundException(teamName));
+            .filter(team -> team.name().equals(teamName))
+            .findAny()
+            .orElseThrow(() -> new TeamWithNameNotFoundException(teamName));
     }
 
     public void addTeam(Team team) {
@@ -68,14 +72,66 @@ public class Competition {
         teams.add(team);
     }
 
+    public void addIndividual(SkydiverShortInfo skydiver, int memberNumber) {
+        CompetitionMember individual = CompetitionMember.builder()
+            .skydiverId(skydiver.id())
+            .name(skydiver.name())
+            .memberNumber(memberNumber)
+            .build();
+
+        if (individuals.stream()
+            .anyMatch(ind -> ind.skydiverId().equals(skydiver.id()))
+        ) {
+            throw new IndividualAlreadyPresentedInCompetitionException(individual.skydiverId(), this.name);
+        }
+
+        Optional<Team> teamWithIndividualToAdd = teams.stream()
+            .filter(team -> team.containsMember(individual))
+            .findAny();
+
+        if (teamWithIndividualToAdd.isPresent()) {
+            Team team = teamWithIndividualToAdd.get();
+            throw new TryToAddIndividualThatInTeamException(individual.skydiverId(), team.name(), this.name);
+        }
+
+        individuals.add(individual);
+    }
+
+    public void removeIndividual(long individualId) {
+        individuals.removeIf(member -> member.skydiverId() == individualId);
+    }
+
+    public MembersOfCompetition getMembers() {
+        return MembersOfCompetition.builder()
+            .teams(teams)
+            .individuals(individuals)
+            .build();
+    }
+
+    public Team getTeamById(long teamId) {
+        return teams.stream()
+            .filter(team -> team.id() == teamId)
+            .findFirst().orElseThrow();
+    }
+
+    public CompetitionMember getIndividualById(long individualId) {
+        return individuals.stream()
+            .filter(individual -> individual.skydiverId() == individualId)
+            .findFirst().orElseThrow();
+    }
+
     public boolean canBeUpdated() {
         return status != CompetitionStatus.RUNNING
-                && status != CompetitionStatus.COMPLETED;
+               && status != CompetitionStatus.COMPLETED;
+    }
+
+    public boolean canMoveMembers() {
+        return status != CompetitionStatus.COMPLETED;
     }
 
     private boolean isTeamPresent(String teamName) {
         return teams.stream()
-                .anyMatch(team -> team.name().equals(teamName));
+            .anyMatch(team -> team.name().equals(teamName));
     }
 }
 
