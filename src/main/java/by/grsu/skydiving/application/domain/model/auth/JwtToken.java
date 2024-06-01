@@ -3,11 +3,10 @@ package by.grsu.skydiving.application.domain.model.auth;
 import by.grsu.skydiving.application.domain.exception.business.TokenVerificationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import lombok.Getter;
-
-import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.util.Date;
+import javax.crypto.SecretKey;
+import lombok.Getter;
 
 public class JwtToken {
     @Getter
@@ -28,6 +27,10 @@ public class JwtToken {
         validate();
     }
 
+    public Long extractId() {
+        return extractClaims()
+            .get("id", Long.class);
+    }
 
     public String extractLogin() {
         return extractClaims()
