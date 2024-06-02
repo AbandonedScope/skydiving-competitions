@@ -1,4 +1,4 @@
-package by.grsu.skydiving.adapter.out.persistence.repository;
+package by.grsu.skydiving.adapter.out.persistence.repository.fragments;
 
 import static generated.Tables.COMPETITION_VIEW;
 import static org.jooq.impl.DSL.count;

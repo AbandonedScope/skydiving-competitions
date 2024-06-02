@@ -1,4 +1,4 @@
-package by.grsu.skydiving.adapter.out.persistence.repository;
+package by.grsu.skydiving.adapter.out.persistence.repository.fragments;
 
 import static generated.Tables.SKYDIVER_VIEW;
 import static generated.Tables.USER_INFO_VIEW;

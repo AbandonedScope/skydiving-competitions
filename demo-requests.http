@@ -196,3 +196,57 @@ Content-Type: application/json
   "teamMemberId": 4,
   "individualId": 5
 }
+
+###
+POST http://localhost:8080/api/v1/trick-refereeing/attempts
+Content-Type: application/json
+
+{
+  "trickSerieId": 1,
+  "trickAttempts": {
+    "TURN_1": {
+      "arrowPenalty": 40,
+      "dPenalty" : 40,
+      "minusPenalty" : 40
+    },
+    "TURN_2" : {
+      "dPenalty" : 40,
+      "minusPenalty" : 40
+    },
+    "BACK_LOOP_1" : {
+      "dPenalty" : 40,
+      "plusMinusPenalty" : 0
+    }
+  }
+}
+
+###
+GET http://localhost:8080/api/v1/jumping/competition/1/skydiver/4
+
+###
+POST http://localhost:8080/api/v1/jumping/competition/1
+Content-Type: application/json
+
+{
+  "accuracy": 8,
+  "memberNumber": 2,
+  "jumpingNumber": 2,
+  "performanceDate": "2024-06-02"
+}
+
+###
+GET http://localhost:8080/api/v1/jumping/competition/1/skydiver/4/list
+
+###
+PUT http://localhost:8080/api/v1/jumping/competition/1/skydiver/4
+Content-Type: application/json
+
+{
+  "id": 2,
+  "number": 1,
+  "accuracy": 7,
+  "performanceDate": "2024-06-01"
+}
+
+###
+DELETE http://localhost:8080/api/v1/jumping/2/competition/1
