@@ -9,13 +9,13 @@ import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereein
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerie;
 import by.grsu.skydiving.application.port.out.SaveTrickRefereeingPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @PersistenceAdapter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort {
     private final TrickSerieJdbcRepository trickSerieJdbcRepository;
     private final CompetitionMemberDetailsJdbcRepository memberDetailsJdbcRepository;
