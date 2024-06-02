@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public record CreateJumpingRequest(
     int accuracy,
     int memberNumber,
+    int jumpingNumber,
     LocalDate performanceDate
 ) {
 }

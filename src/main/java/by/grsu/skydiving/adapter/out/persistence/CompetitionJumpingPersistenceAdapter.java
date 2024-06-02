@@ -5,6 +5,7 @@ import by.grsu.skydiving.adapter.out.persistence.repository.JumpingInfoJdbcRepos
 import by.grsu.skydiving.application.domain.model.jumping.JumpingInfo;
 import by.grsu.skydiving.application.domain.model.jumping.NextJumpingNumber;
 import by.grsu.skydiving.application.port.out.CreateCompetitionJumpingPort;
+import by.grsu.skydiving.application.port.out.DeleteJumpingPort;
 import by.grsu.skydiving.application.port.out.GetCompetitionJumpingPort;
 import by.grsu.skydiving.application.port.out.GetListOfJumpingForCompetitionMemberPort;
 import by.grsu.skydiving.application.port.out.GetNextNumberOfJumpingPort;
@@ -22,7 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class CompetitionJumpingPersistenceAdapter
     implements CreateCompetitionJumpingPort, GetNextNumberOfJumpingPort,
     GetListOfJumpingForCompetitionMemberPort, GetCompetitionJumpingPort,
-    UpdateCompetitionJumpingPort {
+    UpdateCompetitionJumpingPort, DeleteJumpingPort {
     private final JumpingInfoJdbcRepository repository;
     private final JumpingInfoEntityMapper mapper;
     @Value("${jumping.limit-per-member}")
@@ -71,5 +72,10 @@ public class CompetitionJumpingPersistenceAdapter
         entity = repository.save(entity);
 
         return mapper.toDomain(entity);
+    }
+
+    @Override
+    public void deleteById(long jumpingId) {
+        repository.deleteById(jumpingId);
     }
 }

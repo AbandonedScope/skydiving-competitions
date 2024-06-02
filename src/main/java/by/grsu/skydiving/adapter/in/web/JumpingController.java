@@ -10,12 +10,14 @@ import by.grsu.skydiving.application.domain.model.jumping.CompetitionMemberJumpi
 import by.grsu.skydiving.application.domain.model.jumping.JumpingInfo;
 import by.grsu.skydiving.application.domain.model.jumping.NextJumpingNumber;
 import by.grsu.skydiving.application.port.in.CreateCompetitionJumpingUseCase;
+import by.grsu.skydiving.application.port.in.DeleteJumpingUseCase;
 import by.grsu.skydiving.application.port.in.GetListOfJumpingForCompetitionMemberUseCase;
 import by.grsu.skydiving.application.port.in.UpdateCompetitionJumpingUseCase;
 import by.grsu.skydiving.application.port.out.GetNextNumberOfJumpingPort;
 import by.grsu.skydiving.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +36,7 @@ public class JumpingController {
     private final GetNextNumberOfJumpingPort getNextNumberOfJumpingPort;
     private final GetListOfJumpingForCompetitionMemberUseCase getListOfJumpingForCompetitionMemberUseCase;
     private final UpdateCompetitionJumpingUseCase updateCompetitionJumpingUseCase;
+    private final DeleteJumpingUseCase deleteJumpingUseCase;
     private final JumpingMapper mapper;
 
     @PostMapping("/competition/{competitionId}")
@@ -90,5 +93,15 @@ public class JumpingController {
 
         JumpingInfo jumpingInfo = updateCompetitionJumpingUseCase.update(updateCommand);
         return mapper.toResponse(jumpingInfo);
+    }
+
+    @DeleteMapping("/{jumpingId}/competition/{competitionId}")
+    public void deleteJumping(
+        @PathVariable
+        long jumpingId,
+        @PathVariable
+        long competitionId
+    ) {
+        deleteJumpingUseCase.delete(competitionId, jumpingId);
     }
 }

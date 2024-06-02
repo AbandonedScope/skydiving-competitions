@@ -201,6 +201,17 @@ Content-Type: application/json
 GET http://localhost:8080/api/v1/jumping/competition/1/skydiver/4
 
 ###
+POST http://localhost:8080/api/v1/jumping/competition/1
+Content-Type: application/json
+
+{
+  "accuracy": 8,
+  "memberNumber": 2,
+  "jumpingNumber": 2,
+  "performanceDate": "2024-06-02"
+}
+
+###
 GET http://localhost:8080/api/v1/jumping/competition/1/skydiver/4/list
 
 ###
@@ -213,3 +224,6 @@ Content-Type: application/json
   "accuracy": 7,
   "performanceDate": "2024-06-01"
 }
+
+###
+DELETE http://localhost:8080/api/v1/jumping/2/competition/1
