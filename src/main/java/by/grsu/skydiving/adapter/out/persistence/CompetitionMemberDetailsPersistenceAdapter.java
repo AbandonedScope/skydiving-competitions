@@ -8,6 +8,7 @@ import by.grsu.skydiving.application.domain.model.competition.MembersOfCompetiti
 import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.domain.model.skydiver.FullName;
 import by.grsu.skydiving.application.port.in.GetCompetitionMemberByMemberNumberPort;
+import by.grsu.skydiving.application.port.out.GetCompetitionMemberPort;
 import by.grsu.skydiving.application.port.out.GetMembersOfCompetitionPort;
 import by.grsu.skydiving.application.port.out.UpdateCompetitionMemberPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
@@ -23,12 +24,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CompetitionMemberDetailsPersistenceAdapter
     implements GetMembersOfCompetitionPort, UpdateCompetitionMemberPort,
-    GetCompetitionMemberByMemberNumberPort {
+    GetCompetitionMemberByMemberNumberPort, GetCompetitionMemberPort {
     private final CompetitionMemberDetailsJdbcRepository repository;
 
     @Override
     public Optional<CompetitionMember> getByCompetitionIdAndMemberNumber(long competitionId, int memberNumber) {
         return repository.findByCompetitionIdAndMemberNumber(competitionId, memberNumber)
+            .map(this::mapToCompetitionMember);
+    }
+
+    @Override
+    public Optional<CompetitionMember> getByCompetitionIdAndSkydiverId(long competitionId, long skydiverId) {
+        return repository.findByCompetitionIdAndSkydiverId(competitionId, skydiverId)
             .map(this::mapToCompetitionMember);
     }
 

@@ -2,8 +2,12 @@ package by.grsu.skydiving.adapter.in.web;
 
 import by.grsu.skydiving.adapter.in.web.mapper.JumpingMapper;
 import by.grsu.skydiving.adapter.in.web.request.CreateJumpingRequest;
+import by.grsu.skydiving.adapter.in.web.response.CompetitionMemberJumpingResponse;
 import by.grsu.skydiving.adapter.in.web.response.NextJumpingNumberResponse;
+import by.grsu.skydiving.application.domain.model.jumping.CompetitionMemberJumping;
+import by.grsu.skydiving.application.domain.model.jumping.NextJumpingNumber;
 import by.grsu.skydiving.application.port.in.CreateCompetitionJumpingUseCase;
+import by.grsu.skydiving.application.port.in.GetListOfJumpingForCompetitionMemberUseCase;
 import by.grsu.skydiving.application.port.out.GetNextNumberOfJumpingPort;
 import by.grsu.skydiving.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
@@ -21,20 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/jumping")
 @RequiredArgsConstructor
 public class JumpingController {
-    private final GetNextNumberOfJumpingPort getNextNumberOfJumpingPort;
     private final CreateCompetitionJumpingUseCase createCompetitionJumpingUseCase;
+    private final GetNextNumberOfJumpingPort getNextNumberOfJumpingPort;
+    private final GetListOfJumpingForCompetitionMemberUseCase getListOfJumpingForCompetitionMemberUseCase;
     private final JumpingMapper mapper;
-
-    @GetMapping("/competition/{competitionId}/skydiver/{skydiverId}")
-    public NextJumpingNumberResponse getNextJumpingNumber(
-        @PathVariable
-        long competitionId,
-        @PathVariable
-        long skydiverId
-    ) {
-        int nextNumberOfJumping = getNextNumberOfJumpingPort.genNextNumberOfJumping(competitionId, skydiverId);
-        return new NextJumpingNumberResponse(nextNumberOfJumping);
-    }
 
     @PostMapping("/competition/{competitionId}")
     @ResponseStatus(HttpStatus.CREATED)
@@ -48,4 +42,41 @@ public class JumpingController {
 
         createCompetitionJumpingUseCase.create(createCompetitionJumpingCommand);
     }
+
+    @GetMapping("/competition/{competitionId}/skydiver/{skydiverId}")
+    public NextJumpingNumberResponse getNextJumpingNumber(
+        @PathVariable
+        long competitionId,
+        @PathVariable
+        long skydiverId
+    ) {
+        NextJumpingNumber nextJumpingNumber =
+            getNextNumberOfJumpingPort.genNextNumberOfJumping(competitionId, skydiverId);
+        return new NextJumpingNumberResponse(
+            nextJumpingNumber.nextJumpingNumber(),
+            nextJumpingNumber.isLimitReached()
+        );
+    }
+
+    @GetMapping("/competition/{competitionId}/skydiver/{skydiverId}/list")
+    public CompetitionMemberJumpingResponse getJumping(
+        @PathVariable
+        long competitionId,
+        @PathVariable
+        long skydiverId
+    ) {
+        CompetitionMemberJumping competitionMemberJumping =
+            getListOfJumpingForCompetitionMemberUseCase.getListOfJumping(competitionId, skydiverId);
+
+        return mapper.toResponse(competitionId, skydiverId, competitionMemberJumping);
+    }
+
+//    @PutMapping("/competition/{competitionId}/skydiver/{skydiverId}")
+//    public void updatejumping(
+//        @PathVariable
+//        long competitionId,
+//        @PathVariable
+//        long skydiverid,
+//
+//        )
 }

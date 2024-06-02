@@ -14,7 +14,8 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface JumpingInfoEntityMapper {
     @Mapping(target = "id", source = "jumpingInfoId")
-    @Mapping(target = "competitionMemberDetailsId", source = "competitionMemberDetailId")
-    @Mapping(target = "number", source = "number")
     JumpingInfoEntity toEntity(JumpingInfo domain);
+
+    @Mapping(target = "jumpingInfoId", source = "id")
+    JumpingInfo toDomain(JumpingInfoEntity entity);
 }

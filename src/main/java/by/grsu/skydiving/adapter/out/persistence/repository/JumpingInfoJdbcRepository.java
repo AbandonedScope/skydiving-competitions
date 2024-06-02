@@ -1,10 +1,13 @@
 package by.grsu.skydiving.adapter.out.persistence.repository;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.JumpingInfoEntity;
+import java.util.List;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
 public interface JumpingInfoJdbcRepository extends ListCrudRepository<JumpingInfoEntity, Long> {
+
+    List<JumpingInfoEntity> findByCompetitionMemberDetailsId(long competitionMemberDetailsId);
 
     @Query("""
 SELECT count(*) + 1

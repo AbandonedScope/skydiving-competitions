@@ -9,6 +9,9 @@ spring:
     change-log: "db/changes/db.changelog-master.xml"
     contexts: "dev"
 
+jumping:
+  limit-per-member: 10
+
 jwt:
   secret: eWFnc2hqa2tvZHVpZnVsYXNpamtsZjthJ2Rib2ppaCBoYmtqYXNubGQ7bWtmZw==
   ttl: 1h
