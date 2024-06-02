@@ -1,7 +1,16 @@
-package by.grsu.skydiving.adapter.out.persistence.repository;
+package by.grsu.skydiving.adapter.out.persistence.repository.fragments;
+
+import static generated.Tables.REFEREE_VIEW;
+import static generated.Tables.USER_INFO_VIEW;
+import static org.jooq.impl.DSL.concat;
+import static org.jooq.impl.DSL.count;
+import static org.jooq.impl.DSL.noCondition;
+import static org.jooq.impl.DSL.space;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeProjection;
 import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
@@ -9,13 +18,6 @@ import org.jooq.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Map;
-
-import static generated.Tables.REFEREE_VIEW;
-import static generated.Tables.USER_INFO_VIEW;
-import static org.jooq.impl.DSL.*;
 
 @Repository
 @RequiredArgsConstructor
