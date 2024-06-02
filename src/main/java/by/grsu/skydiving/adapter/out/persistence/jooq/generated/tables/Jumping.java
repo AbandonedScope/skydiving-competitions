@@ -68,12 +68,12 @@ public class Jumping extends TableImpl<Record> {
     /**
      * The column <code>public.jumping.height</code>.
      */
-    public final TableField<Record, Double> HEIGHT = createField(DSL.name("height"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<Record, Double> HEIGHT = createField(DSL.name("height"), SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.jumping.speed</code>.
      */
-    public final TableField<Record, Double> SPEED = createField(DSL.name("speed"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<Record, Double> SPEED = createField(DSL.name("speed"), SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.jumping.accuracy</code>.

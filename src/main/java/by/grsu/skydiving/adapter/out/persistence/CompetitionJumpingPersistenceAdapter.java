@@ -5,11 +5,14 @@ import by.grsu.skydiving.adapter.out.persistence.repository.JumpingInfoJdbcRepos
 import by.grsu.skydiving.application.domain.model.jumping.JumpingInfo;
 import by.grsu.skydiving.application.domain.model.jumping.NextJumpingNumber;
 import by.grsu.skydiving.application.port.out.CreateCompetitionJumpingPort;
+import by.grsu.skydiving.application.port.out.GetCompetitionJumpingPort;
 import by.grsu.skydiving.application.port.out.GetListOfJumpingForCompetitionMemberPort;
 import by.grsu.skydiving.application.port.out.GetNextNumberOfJumpingPort;
+import by.grsu.skydiving.application.port.out.UpdateCompetitionJumpingPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +21,8 @@ import org.springframework.beans.factory.annotation.Value;
 @RequiredArgsConstructor
 public class CompetitionJumpingPersistenceAdapter
     implements CreateCompetitionJumpingPort, GetNextNumberOfJumpingPort,
-    GetListOfJumpingForCompetitionMemberPort {
+    GetListOfJumpingForCompetitionMemberPort, GetCompetitionJumpingPort,
+    UpdateCompetitionJumpingPort {
     private final JumpingInfoJdbcRepository repository;
     private final JumpingInfoEntityMapper mapper;
     @Value("${jumping.limit-per-member}")
@@ -49,8 +53,23 @@ public class CompetitionJumpingPersistenceAdapter
 
     @Override
     public List<JumpingInfo> getList(long competitionMemberDetailsId) {
-        return repository.findByCompetitionMemberDetailsId(competitionMemberDetailsId).stream()
+        return repository.findByCompetitionMemberDetailsIdOrderByNumberAsc(competitionMemberDetailsId).stream()
             .map(mapper::toDomain)
             .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
+    public Optional<JumpingInfo> getJumpingInfo(long jumpingId) {
+        return repository.findById(jumpingId)
+            .map(mapper::toDomain);
+    }
+
+    @Override
+    public JumpingInfo update(JumpingInfo jumpingInfo) {
+        var entity = mapper.toEntity(jumpingInfo);
+
+        entity = repository.save(entity);
+
+        return mapper.toDomain(entity);
     }
 }

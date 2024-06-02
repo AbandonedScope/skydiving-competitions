@@ -24,4 +24,11 @@
                  stripComments="true"
                  path="scripts/2024.06.02-rename-accurancy-column.sql"/>
     </changeSet>
+    <changeSet id="2024-06-02T18:42:11Z" author="Maksim Makhanko" context="dev, prod">
+        <sqlFile dbms="postgresql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"
+                 path="scripts/2024.06.02-drop-not-null-constrains.sql"/>
+    </changeSet>
 </databaseChangeLog>

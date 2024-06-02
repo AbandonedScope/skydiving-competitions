@@ -2,12 +2,15 @@ package by.grsu.skydiving.adapter.out.persistence.repository;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.JumpingInfoEntity;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
 public interface JumpingInfoJdbcRepository extends ListCrudRepository<JumpingInfoEntity, Long> {
 
-    List<JumpingInfoEntity> findByCompetitionMemberDetailsId(long competitionMemberDetailsId);
+    Optional<JumpingInfoEntity> findById(long id);
+
+    List<JumpingInfoEntity> findByCompetitionMemberDetailsIdOrderByNumberAsc(long competitionMemberDetailsId);
 
     @Query("""
 SELECT count(*) + 1

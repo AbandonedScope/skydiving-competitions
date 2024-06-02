@@ -13,9 +13,9 @@ import org.mapstruct.ReportingPolicy;
     unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface JumpingInfoEntityMapper {
-    @Mapping(target = "id", source = "jumpingInfoId")
+    @Mapping(target = "id", source = "id")
     JumpingInfoEntity toEntity(JumpingInfo domain);
 
-    @Mapping(target = "jumpingInfoId", source = "id")
+    @Mapping(target = "id", source = "id")
     JumpingInfo toDomain(JumpingInfoEntity entity);
 }

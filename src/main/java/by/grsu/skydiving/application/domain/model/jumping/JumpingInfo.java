@@ -3,10 +3,10 @@ package by.grsu.skydiving.application.domain.model.jumping;
 import java.time.LocalDate;
 import lombok.Builder;
 
-@Builder
+@Builder(toBuilder = true)
 public record JumpingInfo(
-        Long jumpingInfoId,
-        Long competitionMemberDetailId,
+        Long id,
+        Long competitionMemberDetailsId,
         Long skydiverId,
         OverallJumpingInfo overallJumpingInfo,
         Integer accuracy,

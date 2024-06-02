@@ -25,7 +25,7 @@ public class CreateCompetitionJumpingService implements CreateCompetitionJumping
                 .orElseThrow();
 
         JumpingInfo jumpingInfo = JumpingInfo.builder()
-            .competitionMemberDetailId(competitionMember.id())
+            .competitionMemberDetailsId(competitionMember.id())
             .skydiverId(competitionMember.skydiverId())
             .performanceDate(command.performanceDate())
             .accuracy(command.accuracy())

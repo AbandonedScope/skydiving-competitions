@@ -2,12 +2,16 @@ package by.grsu.skydiving.adapter.in.web;
 
 import by.grsu.skydiving.adapter.in.web.mapper.JumpingMapper;
 import by.grsu.skydiving.adapter.in.web.request.CreateJumpingRequest;
+import by.grsu.skydiving.adapter.in.web.request.UpdateJumpingRequest;
 import by.grsu.skydiving.adapter.in.web.response.CompetitionMemberJumpingResponse;
+import by.grsu.skydiving.adapter.in.web.response.JumpingInfoResponse;
 import by.grsu.skydiving.adapter.in.web.response.NextJumpingNumberResponse;
 import by.grsu.skydiving.application.domain.model.jumping.CompetitionMemberJumping;
+import by.grsu.skydiving.application.domain.model.jumping.JumpingInfo;
 import by.grsu.skydiving.application.domain.model.jumping.NextJumpingNumber;
 import by.grsu.skydiving.application.port.in.CreateCompetitionJumpingUseCase;
 import by.grsu.skydiving.application.port.in.GetListOfJumpingForCompetitionMemberUseCase;
+import by.grsu.skydiving.application.port.in.UpdateCompetitionJumpingUseCase;
 import by.grsu.skydiving.application.port.out.GetNextNumberOfJumpingPort;
 import by.grsu.skydiving.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -28,6 +33,7 @@ public class JumpingController {
     private final CreateCompetitionJumpingUseCase createCompetitionJumpingUseCase;
     private final GetNextNumberOfJumpingPort getNextNumberOfJumpingPort;
     private final GetListOfJumpingForCompetitionMemberUseCase getListOfJumpingForCompetitionMemberUseCase;
+    private final UpdateCompetitionJumpingUseCase updateCompetitionJumpingUseCase;
     private final JumpingMapper mapper;
 
     @PostMapping("/competition/{competitionId}")
@@ -38,7 +44,7 @@ public class JumpingController {
         @RequestBody
         CreateJumpingRequest createJumpingRequest
     ) {
-        var createCompetitionJumpingCommand = mapper.toCommand(competitionId, createJumpingRequest);
+        var createCompetitionJumpingCommand = mapper.toCreateCommand(competitionId, createJumpingRequest);
 
         createCompetitionJumpingUseCase.create(createCompetitionJumpingCommand);
     }
@@ -71,12 +77,18 @@ public class JumpingController {
         return mapper.toResponse(competitionId, skydiverId, competitionMemberJumping);
     }
 
-//    @PutMapping("/competition/{competitionId}/skydiver/{skydiverId}")
-//    public void updatejumping(
-//        @PathVariable
-//        long competitionId,
-//        @PathVariable
-//        long skydiverid,
-//
-//        )
+    @PutMapping("/competition/{competitionId}/skydiver/{skydiverId}")
+    public JumpingInfoResponse updateJumping(
+        @PathVariable
+        long competitionId,
+        @PathVariable
+        long skydiverId,
+        @RequestBody
+        UpdateJumpingRequest request
+    ) {
+        var updateCommand = mapper.toUpdateCommand(competitionId, skydiverId, request);
+
+        JumpingInfo jumpingInfo = updateCompetitionJumpingUseCase.update(updateCommand);
+        return mapper.toResponse(jumpingInfo);
+    }
 }
