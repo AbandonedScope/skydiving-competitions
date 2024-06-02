@@ -196,3 +196,6 @@ Content-Type: application/json
   "teamMemberId": 4,
   "individualId": 5
 }
+
+###
+GET http://localhost:8080/api/v1/jumping/competition/1/skydiver/4
