@@ -198,6 +198,29 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:8080/api/v1/trick-refereeing/attempts
+Content-Type: application/json
+
+{
+  "trickSerieId": 1,
+  "trickAttempts": {
+    "TURN_1": {
+      "arrowPenalty": 40,
+      "dPenalty" : 40,
+      "minusPenalty" : 40
+    },
+    "TURN_2" : {
+      "dPenalty" : 40,
+      "minusPenalty" : 40
+    },
+    "BACK_LOOP_1" : {
+      "dPenalty" : 40,
+      "plusMinusPenalty" : 0
+    }
+  }
+}
+
+###
 GET http://localhost:8080/api/v1/jumping/competition/1/skydiver/4
 
 ###
