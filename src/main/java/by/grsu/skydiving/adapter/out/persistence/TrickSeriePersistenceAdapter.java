@@ -1,18 +1,19 @@
-package by.grsu.skydiving.adapter.out.persistence.repository;
+package by.grsu.skydiving.adapter.out.persistence;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionMemberDetailsEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.TrickSerieEntity;
 import by.grsu.skydiving.adapter.out.persistence.mapper.TrickSerieMapper;
+import by.grsu.skydiving.adapter.out.persistence.repository.CompetitionMemberDetailsJdbcRepository;
+import by.grsu.skydiving.adapter.out.persistence.repository.TrickSerieJdbcRepository;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeing;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeingFullInfo;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerie;
 import by.grsu.skydiving.application.port.out.SaveTrickRefereeingPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
-import lombok.AllArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
 
 @PersistenceAdapter
 @AllArgsConstructor

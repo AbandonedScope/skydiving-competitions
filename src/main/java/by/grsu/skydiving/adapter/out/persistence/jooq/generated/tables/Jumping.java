@@ -58,7 +58,7 @@ public class Jumping extends TableImpl<Record> {
     /**
      * The column <code>public.jumping.referee_id</code>.
      */
-    public final TableField<Record, Long> REFEREE_ID = createField(DSL.name("referee_id"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<Record, Long> REFEREE_ID = createField(DSL.name("referee_id"), SQLDataType.BIGINT, this, "");
 
     /**
      * The column <code>public.jumping.attempt_number</code>.
@@ -76,9 +76,9 @@ public class Jumping extends TableImpl<Record> {
     public final TableField<Record, Double> SPEED = createField(DSL.name("speed"), SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
-     * The column <code>public.jumping.accurancy</code>.
+     * The column <code>public.jumping.accuracy</code>.
      */
-    public final TableField<Record, Double> ACCURANCY = createField(DSL.name("accurancy"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<Record, Double> ACCURACY = createField(DSL.name("accuracy"), SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
      * The column <code>public.jumping.time_delay_of_parachut_opening</code>.
@@ -119,6 +119,11 @@ public class Jumping extends TableImpl<Record> {
      * The column <code>public.jumping.parachut_id</code>.
      */
     public final TableField<Record, Long> PARACHUT_ID = createField(DSL.name("parachut_id"), SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>public.jumping.skydiver_id</code>.
+     */
+    public final TableField<Record, Long> SKYDIVER_ID = createField(DSL.name("skydiver_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     private Jumping(Name alias, Table<Record> aliased) {
         this(alias, aliased, null);
@@ -170,11 +175,12 @@ public class Jumping extends TableImpl<Record> {
 
     @Override
     public List<ForeignKey<Record, ?>> getReferences() {
-        return Arrays.asList(Keys.JUMPING__JUMPING_COMPETITION_MEMBER_DETAIL_ID_FKEY, Keys.JUMPING__JUMPING_REFEREE_ID_FKEY);
+        return Arrays.asList(Keys.JUMPING__JUMPING_COMPETITION_MEMBER_DETAIL_ID_FKEY, Keys.JUMPING__JUMPING_REFEREE_ID_FKEY, Keys.JUMPING__JUMPING_SKYDIVER_ID_FKEY);
     }
 
     private transient CompetitionMemberDetail _competitionMemberDetail;
     private transient Referee _referee;
+    private transient Skydiver _skydiver;
 
     /**
      * Get the implicit join path to the
@@ -195,6 +201,16 @@ public class Jumping extends TableImpl<Record> {
             _referee = new Referee(this, Keys.JUMPING__JUMPING_REFEREE_ID_FKEY);
 
         return _referee;
+    }
+
+    /**
+     * Get the implicit join path to the <code>public.skydiver</code> table.
+     */
+    public Skydiver skydiver() {
+        if (_skydiver == null)
+            _skydiver = new Skydiver(this, Keys.JUMPING__JUMPING_SKYDIVER_ID_FKEY);
+
+        return _skydiver;
     }
 
     @Override

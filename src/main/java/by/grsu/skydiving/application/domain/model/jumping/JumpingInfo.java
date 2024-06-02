@@ -1,11 +1,16 @@
 package by.grsu.skydiving.application.domain.model.jumping;
 
 import java.time.LocalDate;
+import lombok.Builder;
 
+@Builder
 public record JumpingInfo(
-        int jumpingInfoId,
+        Long jumpingInfoId,
+        Long competitionMemberDetailId,
+        Long skydiverId,
         OverallJumpingInfo overallJumpingInfo,
-        short exerciseNumber,
+        Integer accuracy,
+        Integer number,
         LocalDate performanceDate,
         FlightCharacteristics flightCharacteristics,
         AviationUnit aviationUnit,
