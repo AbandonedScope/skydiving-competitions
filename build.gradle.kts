@@ -86,9 +86,11 @@ repositories {
 
 val jjwtVersion = "0.12.5"
 val mapstructVersion = "1.5.5.Final"
+val openApiVersion = "2.5.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${openApiVersion}")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security");
     implementation("org.mapstruct:mapstruct:${mapstructVersion}")
