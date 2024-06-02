@@ -2,6 +2,9 @@ package by.grsu.skydiving.common.config;
 
 import by.grsu.skydiving.application.domain.model.auth.UserAuthInfo;
 import by.grsu.skydiving.application.port.in.GetUserByLoginUseCase;
+import java.util.Collection;
+import java.util.List;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,9 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -26,41 +26,56 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private UserDetails buildFromUserInfo(UserAuthInfo userAuthInfo) {
-        return new UserDetails() {
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                return List.of(new SimpleGrantedAuthority(userAuthInfo.role().name()));
-            }
+        return new UserDetailsWithId(userAuthInfo);
+    }
 
-            @Override
-            public String getPassword() {
-                return userAuthInfo.credentials().password();
-            }
+    public static class UserDetailsWithId implements UserDetails {
+        private final String roleName;
+        private final String password;
+        private final String username;
+        @Getter
+        private final long id;
 
-            @Override
-            public String getUsername() {
-                return userAuthInfo.credentials().login();
-            }
+        public UserDetailsWithId(UserAuthInfo userAuthInfo) {
+            roleName = userAuthInfo.role().name();
+            password = userAuthInfo.credentials().password();
+            username = userAuthInfo.credentials().login();
+            id = userAuthInfo.userId();
+        }
 
-            @Override
-            public boolean isAccountNonExpired() {
-                return true;
-            }
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+            return List.of(new SimpleGrantedAuthority(roleName));
+        }
 
-            @Override
-            public boolean isAccountNonLocked() {
-                return true;
-            }
+        @Override
+        public String getPassword() {
+            return password;
+        }
 
-            @Override
-            public boolean isCredentialsNonExpired() {
-                return true;
-            }
+        @Override
+        public String getUsername() {
+            return username;
+        }
 
-            @Override
-            public boolean isEnabled() {
-                return true;
-            }
-        };
+        @Override
+        public boolean isAccountNonExpired() {
+            return true;
+        }
+
+        @Override
+        public boolean isAccountNonLocked() {
+            return true;
+        }
+
+        @Override
+        public boolean isCredentialsNonExpired() {
+            return true;
+        }
+
+        @Override
+        public boolean isEnabled() {
+            return true;
+        }
     }
 }

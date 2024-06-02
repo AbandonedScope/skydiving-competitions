@@ -138,7 +138,25 @@ GET http://localhost:8080/api/v1/competitions?
     isCompleted=false
 
 ###
-POST http://localhost:8080/api/v1/competitions/1/team
+POST http://localhost:8080/api/v1/teams/competition/1
+Content-Type: application/json
+
+{
+  "name": "Команда Парней",
+  "members": [
+    {
+      "memberNumber": 1,
+      "skydiverId": 3
+    },
+    {
+      "memberNumber": 2,
+      "skydiverId": 4
+    }
+  ]
+}
+
+###
+PUT http://localhost:8080/api/v1/teams/1/competition/1
 Content-Type: application/json
 
 {
@@ -157,6 +175,27 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8080/api/v1/competitions/1
+
+###
+DELETE http://localhost:8080/api/v1/individuals/5/competition/1
+
+###
+POST http://localhost:8080/api/v1/individuals/competition/1
+Content-Type: application/json
+
+{
+  "skydiverId": 5,
+  "memberNumber": 3
+}
+
+###
+PUT http://localhost:8080/api/v1/teams/1/competition/1/exchange
+Content-Type: application/json
+
+{
+  "teamMemberId": 4,
+  "individualId": 5
+}
 
 ###
 POST http://localhost:8080/api/v1/trick-refereeing/attempts

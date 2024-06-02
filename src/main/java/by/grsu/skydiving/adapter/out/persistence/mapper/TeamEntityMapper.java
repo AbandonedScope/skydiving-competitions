@@ -4,9 +4,9 @@ import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionMemberDetails
 import by.grsu.skydiving.adapter.out.persistence.entity.TeamEntity;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionMember;
 import by.grsu.skydiving.application.domain.model.competition.Team;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -27,23 +27,9 @@ public interface TeamEntityMapper {
 
     TeamEntity toEntity(Team domain);
 
+    CompetitionMemberDetailsEntity toEntity(CompetitionMember domain);
+
+    List<CompetitionMemberDetailsEntity> toMembersEntities(Set<CompetitionMember> domain);
+
     List<TeamEntity> toEntities(List<Team> domains);
-
-    default List<CompetitionMemberDetailsEntity> toMembers(Team team, long competitionId) {
-        long teamId = team.id();
-        List<CompetitionMemberDetailsEntity> members = new ArrayList<>();
-        for (CompetitionMember member : team.members()) {
-            var memberDetails = CompetitionMemberDetailsEntity.builder()
-                    .skydiverId(member.skydiverId())
-                    .isJunior(false)
-                    .competitionId(competitionId)
-                    .teamId(teamId)
-                    .memberNumber(member.memberNumber())
-                    .build();
-
-            members.add(memberDetails);
-        }
-
-        return members;
-    }
 }

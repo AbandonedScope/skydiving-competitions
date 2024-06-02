@@ -33,6 +33,27 @@ public interface CompetitionMemberDetailsJdbcRepository extends ListCrudReposito
 """)
     List<CompetitionMemberDetailsWithFullNameAndTeamName> findByCompetitionId(Long competitionId);
 
+    @Query("""
+            select
+                cmd.id,
+                cmd.is_junior,
+                cmd.team_id,
+                cmd.skydiver_id,
+                u.first_name,
+                u.second_name,
+                u.patronymic,
+                cmd.competition_id,
+                cmd.member_number,
+                (cmd.team_id is null) as is_individual
+            from competition_member_detail cmd
+            join  skydiver_view as s on cmd.skydiver_id = s.id
+            join user_info_view as u on s.id = u.id
+            where cmd.competition_id = :competitionId
+            and team_id is null;
+            
+""")
+    List<CompetitionMemberDetailsEntity> findIndividualsByCompetitionId(Long competitionId);
+
     List<CompetitionMemberDetailsEntity> findByTeamIdAndCompetitionId(Long teamId, Long competitionId);
     CompetitionMemberDetailsEntity findBySkydiverIdAndCompetitionId(Long skydiverId, Long competitionId);
 }
