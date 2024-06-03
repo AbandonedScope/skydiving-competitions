@@ -1,18 +1,24 @@
 package by.grsu.skydiving.adapter.in.web.mapper;
 
+import static org.mapstruct.MappingConstants.ComponentModel;
+
 import by.grsu.skydiving.adapter.in.web.request.SignInRequest;
 import by.grsu.skydiving.adapter.in.web.request.SignUpRequest;
 import by.grsu.skydiving.adapter.in.web.response.SignInResponse;
 import by.grsu.skydiving.adapter.in.web.response.SignUpResponse;
 import by.grsu.skydiving.adapter.in.web.response.UserCredentialsResponse;
-import by.grsu.skydiving.application.domain.model.auth.*;
+import by.grsu.skydiving.adapter.in.web.response.UserInfoResponse;
+import by.grsu.skydiving.application.domain.model.auth.JwtAuthCredentials;
+import by.grsu.skydiving.application.domain.model.auth.JwtToken;
+import by.grsu.skydiving.application.domain.model.auth.UserAuthInfo;
+import by.grsu.skydiving.application.domain.model.auth.UserCredentials;
+import by.grsu.skydiving.application.domain.model.auth.UserRole;
+import by.grsu.skydiving.application.domain.model.common.UserInfo;
 import by.grsu.skydiving.application.port.in.SignInUseCase.SignInQuery;
 import by.grsu.skydiving.application.port.in.SignUpUserUseCase.SignUpUserCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-
-import static org.mapstruct.MappingConstants.ComponentModel;
 
 @Mapper(
         componentModel = ComponentModel.SPRING,
@@ -32,6 +38,12 @@ public interface AuthMapper {
     @Mapping(target = "login", source = "credentials.login")
     @Mapping(target = "password", source = "credentials.password")
     SignUpResponse toResponse(UserAuthInfo info);
+
+    @Mapping(target = "id", source = "userId")
+    @Mapping(target = "firstName", source = "name.firstName")
+    @Mapping(target = "secondName", source = "name.secondName")
+    @Mapping(target = "patronymic", source = "name.patronymic")
+    UserInfoResponse toResponse(UserInfo userInfo);
 
     UserCredentialsResponse toResponse(UserCredentials credentials);
 
