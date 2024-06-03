@@ -1,6 +1,9 @@
 package by.grsu.skydiving.common.config;
 
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
 import by.grsu.skydiving.common.JwtAuthenticationFilter;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +21,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
-import java.util.List;
-
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -36,6 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/auth/sign-in").permitAll()
                         .requestMatchers("/api/v1/auth/sign-up").permitAll()
+                    .requestMatchers("/api/v1/auth/user-info").authenticated()
                         .requestMatchers("/api/v1/competitions/**").permitAll()
                         .anyRequest().permitAll()
                 )
