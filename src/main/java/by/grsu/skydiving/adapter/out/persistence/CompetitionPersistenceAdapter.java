@@ -8,6 +8,7 @@ import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionShortInfo;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
 import by.grsu.skydiving.application.domain.model.competition.Team;
+import by.grsu.skydiving.application.port.out.ExistsCompetitionPort;
 import by.grsu.skydiving.application.port.out.FilterCompetitionShortInfoPort;
 import by.grsu.skydiving.application.port.out.FindCompetitionPort;
 import by.grsu.skydiving.application.port.out.GetMembersOfCompetitionPort;
@@ -28,7 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
-    FindCompetitionPort, FilterCompetitionShortInfoPort, SoftDeleteCompetitionPort {
+    FindCompetitionPort, FilterCompetitionShortInfoPort,
+    SoftDeleteCompetitionPort, ExistsCompetitionPort {
     private final CompetitionJdbcRepository competitionRepository;
     private final SaveCompetitionStagesPort saveStagesPort;
     private final GetStagesOfCompetitionPort getStagesOfCompetitionPort;
@@ -61,6 +63,11 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
 
 
         return competition;
+    }
+
+    @Override
+    public boolean existsById(long competitionId) {
+        return competitionRepository.existsById(competitionId);
     }
 
     @Override

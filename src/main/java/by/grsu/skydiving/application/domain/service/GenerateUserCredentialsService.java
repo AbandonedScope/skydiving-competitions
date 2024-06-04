@@ -3,34 +3,61 @@ package by.grsu.skydiving.application.domain.service;
 import by.grsu.skydiving.application.domain.model.auth.UserCredentials;
 import by.grsu.skydiving.application.domain.model.skydiver.FullName;
 import by.grsu.skydiving.application.port.in.GenerateUserCredentialsUseCase;
+import by.grsu.skydiving.application.port.out.ExistsUserByLoginPort;
 import by.grsu.skydiving.common.UseCase;
-import lombok.RequiredArgsConstructor;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class GenerateUserCredentialsService implements GenerateUserCredentialsUseCase {
+    private final ExistsUserByLoginPort existsUserByLoginPort;
     private final Random random = new Random();
 
     @Override
     public UserCredentials generate(GenerateCredentialsCommand command) {
-        String generatedLogin = generateLogin(command.fullName());
+        int length = 1;
+        String generatedLogin = generateLogin(command, length);
+        while (existsUserByLoginPort.existsByLogin(generatedLogin)) {
+            length++;
+            generatedLogin = generateLogin(command, length);
+        }
+
         String generatedPassword = generateSecureRandomPassword();
 
         return new UserCredentials(generatedLogin, generatedPassword);
     }
 
-    private String generateLogin(FullName fullName) {
-        String secondName = fullName.secondName();
+    private String generateLogin(GenerateCredentialsCommand command, int length) {
+        FullName fullName = command.fullName();
         String firstName = fullName.firstName();
         String patronymic = fullName.patronymic();
-        String russianLogin = secondName.concat("." + firstName.charAt(0) + patronymic.charAt(0));
+
+        String loginSecondNamePart = fullName.secondName();
+        StringBuilder loginFirstNamePart = new StringBuilder(length);
+        StringBuilder loginPatronymicPart = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            if (firstName.length() > i) {
+                loginFirstNamePart.append(firstName.charAt(i));
+            }
+
+            if (patronymic.length() > i) {
+                loginPatronymicPart.append(patronymic.charAt(i));
+            }
+
+            if (length > firstName.length() && length > patronymic.length()) {
+                loginPatronymicPart.append(getRandomAlphabets(1, false).findFirst().get());
+            }
+        }
+
+
+
+        String russianLogin = loginSecondNamePart.concat("." + loginFirstNamePart).concat("." + loginPatronymicPart);
 
         return convertCyrillic(russianLogin);
     }

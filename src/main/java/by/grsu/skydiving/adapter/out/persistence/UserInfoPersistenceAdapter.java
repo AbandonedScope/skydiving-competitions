@@ -42,11 +42,11 @@ public class UserInfoPersistenceAdapter implements SaveUserPort,
     }
 
     @Override
-    public void save(UserAuthInfo userAuthInfo) {
+    public long save(UserAuthInfo userAuthInfo) {
         UserInfoEntity userInfoEntity = userInfoMapper.toEntity(userAuthInfo);
 
         userInfoEntity.setPassword(passwordEncoder.encode(userAuthInfo.credentials().password()));
-        repository.save(userInfoEntity);
+        return repository.save(userInfoEntity).getUserId();
     }
 
     @Override
