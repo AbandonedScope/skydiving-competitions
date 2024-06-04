@@ -1,12 +1,17 @@
-package by.grsu.skydiving.adapter.out.persistence.repository;
+package by.grsu.skydiving.adapter.out.persistence;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionMemberDetailsEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.TrickSerieEntity;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeingProjection;
 import by.grsu.skydiving.adapter.out.persistence.mapper.TrickSerieMapper;
+import by.grsu.skydiving.adapter.out.persistence.repository.CompetitionMemberDetailsJdbcRepository;
+import by.grsu.skydiving.adapter.out.persistence.repository.TrickSerieJdbcRepository;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
+import by.grsu.skydiving.application.domain.model.trickRefereeing.Refereeing;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeing;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeingFullInfo;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerie;
+import by.grsu.skydiving.application.port.out.GetRefereeingsPort;
 import by.grsu.skydiving.application.port.out.SaveTrickRefereeingPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +21,7 @@ import java.util.List;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort {
+public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, GetRefereeingsPort {
     private final TrickSerieJdbcRepository trickSerieJdbcRepository;
     private final CompetitionMemberDetailsJdbcRepository memberDetailsJdbcRepository;
     private final TrickSerieMapper mapper;
@@ -30,6 +35,13 @@ public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort {
         List<TrickSerie> domains = mapper.toDomains(savedEntities);
 
         return mapper.toDomain(domains, fullInfo,competitionMemberDetailsEntity.getMemberNumber());
+    }
+
+    @Override
+    public List<Refereeing> getCurrentRefeerings(Long refereeId) {
+       List<RefereeingProjection> projections = trickSerieJdbcRepository.getRefereeingsByRefereeId(refereeId);
+
+       return mapper.toRefereeingDomains(projections);
     }
 
     private List<TrickSerieEntity> mapToEntities(TrickRefereeingFullInfo fullInfo, CompetitionMemberDetailsEntity memberDetails){

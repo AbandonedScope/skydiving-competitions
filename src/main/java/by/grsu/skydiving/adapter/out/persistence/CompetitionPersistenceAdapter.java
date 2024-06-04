@@ -98,7 +98,6 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
         competitionRepository.softDeleteCompetitionById(competitionId);
     }
 
-
     private Competition enrichWithMembers(Competition competition) {
         var members = getMembersOfCompetitionPort.getByCompetitionId(competition.getId());
         var teams = members.teams();
