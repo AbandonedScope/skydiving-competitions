@@ -18,6 +18,7 @@ import by.grsu.skydiving.application.port.in.AddTrickAttemptsUseCase;
 import by.grsu.skydiving.application.port.in.AddTrickRefereeingUseCase;
 import by.grsu.skydiving.application.port.in.GetRefereeingsUseCase;
 import by.grsu.skydiving.common.WebAdapter;
+import by.grsu.skydiving.common.config.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -65,13 +66,14 @@ public class TrickRefereeingController {
     @GetMapping("/current")
     @ResponseStatus(HttpStatus.OK)
     public List<RefereeingResponse> getRefereeings(){
-        Long refereeId = Long.valueOf(getAuthentication().getName());
-        List<Refereeing> refereeings = getRefereeingsUseCase.getCurrentRefereeing(refereeId);
+        List<Refereeing> refereeings = getRefereeingsUseCase.getCurrentRefereeing(getCurrentUserId());
 
         return serieMapper.toResponses(refereeings);
     }
 
-    public Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
+    public Long getCurrentUserId() {
+        var currentUser = (UserDetailsServiceImpl.UserDetailsWithId)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return currentUser.getId();
     }
 }
