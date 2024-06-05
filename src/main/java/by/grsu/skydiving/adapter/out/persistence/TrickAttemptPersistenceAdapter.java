@@ -1,6 +1,7 @@
-package by.grsu.skydiving.adapter.out.persistence.repository;
+package by.grsu.skydiving.adapter.out.persistence;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.TrickAttemptEntity;
+import by.grsu.skydiving.adapter.out.persistence.repository.TrickAttemptJdbcRepository;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
 import by.grsu.skydiving.application.port.out.SaveTrickAttemptsPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
