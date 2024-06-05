@@ -1,6 +1,6 @@
 package by.grsu.skydiving.application.domain.service;
 
-import by.grsu.skydiving.adapter.out.persistence.TrickAttemptPersistenceAdapter;
+import by.grsu.skydiving.adapter.out.persistence.repository.TrickAttemptPersistenceAdapter;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttempt;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttemptsIncome;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttemptsWithScore;
