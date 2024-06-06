@@ -6,10 +6,8 @@ package generated.tables;
 
 import generated.Keys;
 import generated.Public;
-
 import java.util.Arrays;
 import java.util.List;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;

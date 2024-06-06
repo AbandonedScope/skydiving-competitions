@@ -16,7 +16,6 @@ import generated.tables.Team;
 import generated.tables.TrickAttempt;
 import generated.tables.TrickSerie;
 import generated.tables.UserInfo;
-
 import org.jooq.ForeignKey;
 import org.jooq.Record;
 import org.jooq.TableField;

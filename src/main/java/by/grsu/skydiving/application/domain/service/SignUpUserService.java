@@ -26,9 +26,9 @@ public class SignUpUserService implements SignUpUserUseCase {
                 .credentials(credentials)
                 .build();
 
-        long userId = saveUserPort.save(newUser);
+        saveUserPort.save(newUser);
 
-        return newUser.withUserId(userId);
+        return newUser;
     }
 
     private GenerateCredentialsCommand buildGenerateCredentialsCommand(SignUpUserCommand command) {

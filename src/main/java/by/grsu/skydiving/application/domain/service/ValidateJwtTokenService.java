@@ -1,14 +1,13 @@
 package by.grsu.skydiving.application.domain.service;
 
+import static by.grsu.skydiving.application.domain.service.utils.SecretKeyUtils.getSigningKey;
+
 import by.grsu.skydiving.application.domain.model.auth.JwtToken;
 import by.grsu.skydiving.application.port.in.ValidateJwtTokenUseCase;
 import by.grsu.skydiving.common.UseCase;
-import by.grsu.skydiving.common.config.JwtSettings;
-import lombok.RequiredArgsConstructor;
-
+import by.grsu.skydiving.common.config.security.JwtSettings;
 import javax.crypto.SecretKey;
-
-import static by.grsu.skydiving.application.domain.service.utils.SecretKeyUtils.getSigningKey;
+import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
