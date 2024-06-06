@@ -41,7 +41,8 @@ public interface CompetitionStageEntityMapper {
     @Mapping(target = "number", source = "entity.number")
     @Mapping(target = "mainCollegium", source = "mainCollegium")
     @Mapping(target = "collegium", source = "collegium")
-    CompetitionStage toDomain(CompetitionStageEntity entity, RefereeCollegium mainCollegium, RefereeCollegium collegium);
+    CompetitionStage toDomain(CompetitionStageEntity entity, RefereeCollegium mainCollegium,
+                              RefereeCollegium collegium);
 
     CompetitionStage toDomain(CompetitionStageEntity entity);
 
@@ -66,7 +67,8 @@ public interface CompetitionStageEntityMapper {
         return toDomain(entity, mainCollegium, collegium);
     }
 
-    default Set<CollegiumReferee> extractCollegiumReferee(List<StageRefereeTransEntity> trans, Predicate<StageRefereeTransEntity> filter) {
+    default Set<CollegiumReferee> extractCollegiumReferee(List<StageRefereeTransEntity> trans,
+                                                          Predicate<StageRefereeTransEntity> filter) {
         return trans.stream()
             .filter(filter)
             .map(this::toDomain)

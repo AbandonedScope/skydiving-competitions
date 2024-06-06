@@ -73,7 +73,8 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
 
     @Override
     public void saveIndividuals(Set<CompetitionMember> individuals, long competitionId) {
-        List<CompetitionMemberDetailsEntity> teamMembers = membersRepository.findIndividualsByCompetitionId(competitionId);
+        List<CompetitionMemberDetailsEntity> teamMembers =
+            membersRepository.findIndividualsByCompetitionId(competitionId);
         membersRepository.deleteAll(teamMembers);
 
         List<CompetitionMemberDetailsEntity> entities = individuals.stream()
@@ -96,7 +97,8 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
 
     @Override
     public void deleteTeamFromCompetition(long competitionId, long teamId) {
-        List<CompetitionMemberDetailsEntity> members = membersRepository.findByTeamIdAndCompetitionId(teamId, competitionId);
+        List<CompetitionMemberDetailsEntity> members =
+            membersRepository.findByTeamIdAndCompetitionId(teamId, competitionId);
         membersRepository.deleteAll(members);
     }
 

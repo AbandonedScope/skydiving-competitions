@@ -13,9 +13,9 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedSourcePolicy = ReportingPolicy.WARN,
-        unmappedTargetPolicy = ReportingPolicy.WARN
+    componentModel = MappingConstants.ComponentModel.SPRING,
+    unmappedSourcePolicy = ReportingPolicy.WARN,
+    unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface CompetitionEntityMapper {
 

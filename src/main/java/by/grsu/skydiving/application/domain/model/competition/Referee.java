@@ -4,9 +4,9 @@ import by.grsu.skydiving.application.domain.model.skydiver.FullName;
 import lombok.With;
 
 public record Referee(
-        @With
-        Long id,
-        FullName name,
-        RefereeCategory category
+    @With
+    Long id,
+    FullName name,
+    RefereeCategory category
 ) {
 }

@@ -17,12 +17,12 @@ import lombok.With;
 
 @Builder
 public record CompetitionStage(
-        Long id,
-        Integer number,
-        @With
-        RefereeCollegium mainCollegium,
-        @With
-        RefereeCollegium collegium
+    Long id,
+    Integer number,
+    @With
+    RefereeCollegium mainCollegium,
+    @With
+    RefereeCollegium collegium
 ) {
     public CompetitionStage {
         validate(number, mainCollegium, collegium);
@@ -36,7 +36,8 @@ public record CompetitionStage(
         }
 
         if (mainRefereeCollegium == null) {
-            errors.put(COMPETITION_STAGE_MAIN_JUDGE_COLLEGIUM_VALUE_KEY, COMPETITION_STAGE_MAIN_JUDGE_COLLEGIUM_NULL_MESSAGE);
+            errors.put(COMPETITION_STAGE_MAIN_JUDGE_COLLEGIUM_VALUE_KEY,
+                COMPETITION_STAGE_MAIN_JUDGE_COLLEGIUM_NULL_MESSAGE);
         }
 
         if (refereeCollegium == null) {

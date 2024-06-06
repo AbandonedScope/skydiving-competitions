@@ -22,17 +22,17 @@ public class RegenerateUserCredentialsService implements RegenerateUserCredentia
     @Override
     public UserCredentials regenerate(long userId) {
         UserInfo userInfo = findUserInfoPort.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId));
+            .orElseThrow(() -> new UserNotFoundException(userId));
 
         GenerateCredentialsCommand credentialsCommand = new GenerateCredentialsCommand(userInfo.name());
         UserCredentials credentials = generateCredentialsUseCase.generate(credentialsCommand);
 
         UserAuthInfo userWithCredentials = UserAuthInfo.builder()
-                .userId(userId)
-                .name(userInfo.name())
-                .role(userInfo.role())
-                .credentials(credentials)
-                .build();
+            .userId(userId)
+            .name(userInfo.name())
+            .role(userInfo.role())
+            .credentials(credentials)
+            .build();
 
         saveUserPort.save(userWithCredentials);
 

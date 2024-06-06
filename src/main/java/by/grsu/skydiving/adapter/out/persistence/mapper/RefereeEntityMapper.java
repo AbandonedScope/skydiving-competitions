@@ -7,20 +7,19 @@ import by.grsu.skydiving.application.domain.model.competition.CollegiumReferee;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
 import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 @Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedSourcePolicy = ReportingPolicy.WARN,
-        unmappedTargetPolicy = ReportingPolicy.WARN
+    componentModel = MappingConstants.ComponentModel.SPRING,
+    unmappedSourcePolicy = ReportingPolicy.WARN,
+    unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface RefereeEntityMapper {
     @Mapping(target = "referee.name.firstName", source = "firstName")
@@ -49,34 +48,35 @@ public interface RefereeEntityMapper {
 
     default RefereeGroups toDomain(List<CollegiumRefereeProjection> referees) {
         Set<CollegiumReferee> mainCollegium = extractCollegiumReferee(
-                referees,
-                CollegiumRefereeProjection::getIsMainCollegium
+            referees,
+            CollegiumRefereeProjection::getIsMainCollegium
         );
 
         Set<CollegiumReferee> collegium = extractCollegiumReferee(
-                referees,
-                collegiumReferee -> !collegiumReferee.getIsMainCollegium()
+            referees,
+            collegiumReferee -> !collegiumReferee.getIsMainCollegium()
         );
 
         return new RefereeGroups(mainCollegium, collegium);
     }
 
-    default Set<CollegiumReferee> extractCollegiumReferee(List<CollegiumRefereeProjection> trans, Predicate<CollegiumRefereeProjection> filter) {
+    default Set<CollegiumReferee> extractCollegiumReferee(List<CollegiumRefereeProjection> trans,
+                                                          Predicate<CollegiumRefereeProjection> filter) {
         return trans.stream()
-                .filter(filter)
-                .map(this::toDomain)
-                .collect(Collectors.toSet());
+            .filter(filter)
+            .map(this::toDomain)
+            .collect(Collectors.toSet());
     }
 
     default RefereeCategory mapRefereeCategory(Integer ordinal) {
         return ordinal == null
-                ? null
-                : RefereeCategory.of(ordinal);
+            ? null
+            : RefereeCategory.of(ordinal);
     }
 
     default Integer mapRefereeCategory(RefereeCategory refereeCategory) {
         return refereeCategory == null
-                ? null
-                : refereeCategory.ordinal();
+            ? null
+            : refereeCategory.ordinal();
     }
 }

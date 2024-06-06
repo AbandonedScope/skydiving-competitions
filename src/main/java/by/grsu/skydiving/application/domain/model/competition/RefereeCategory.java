@@ -8,8 +8,8 @@ public enum RefereeCategory {
 
     public static RefereeCategory of(int ordinal) {
         return Arrays.stream(RefereeCategory.values())
-                .filter(category -> category.ordinal() == ordinal)
-                .findFirst()
-                .orElseThrow();
+            .filter(category -> category.ordinal() == ordinal)
+            .findFirst()
+            .orElseThrow();
     }
 }

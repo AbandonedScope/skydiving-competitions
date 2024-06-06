@@ -61,7 +61,6 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
         competition.setTeams(teams);
 
 
-
         return competition;
     }
 

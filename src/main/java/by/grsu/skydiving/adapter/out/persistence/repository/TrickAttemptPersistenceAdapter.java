@@ -1,23 +1,27 @@
 package by.grsu.skydiving.adapter.out.persistence.repository;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.TrickAttemptEntity;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
+import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyMetrics;
+import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyType;
+import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyValues;
+import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttempt;
+import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttemptsIncome;
+import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickType;
 import by.grsu.skydiving.application.port.out.SaveTrickAttemptsPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
-import lombok.RequiredArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class TrickAttemptPersistenceAdapter implements SaveTrickAttemptsPort {
     private final TrickAttemptJdbcRepository trickAttemptJdbcRepository;
 
-    public List<TrickAttempt> saveAll(TrickAttemptsIncome trickAttempts){
+    public List<TrickAttempt> saveAll(TrickAttemptsIncome trickAttempts) {
         List<TrickAttemptEntity> entities = new ArrayList<>();
         trickAttempts.trickAttempts()
-                .forEach((key, value) -> entities.add(mapToEntity(trickAttempts.trickSerieId(), key, value)));
+            .forEach((key, value) -> entities.add(mapToEntity(trickAttempts.trickSerieId(), key, value)));
 
         List<TrickAttemptEntity> savedEntities = trickAttemptJdbcRepository.saveAll(entities);
         List<TrickAttempt> attemptsDomains = new ArrayList<>();
@@ -26,19 +30,19 @@ public class TrickAttemptPersistenceAdapter implements SaveTrickAttemptsPort {
         return attemptsDomains;
     }
 
-    private TrickAttemptEntity mapToEntity(Long trickSerieId, TrickType trickType, PenaltyValues penalties){
+    private TrickAttemptEntity mapToEntity(Long trickSerieId, TrickType trickType, PenaltyValues penalties) {
         return TrickAttemptEntity.builder()
-                .trickSerieId(trickSerieId)
-                .trickType(trickType.ordinal())
-                .arrowPenalty(penalties.arrowPenalty())
-                .dPenalty(penalties.dPenalty())
-                .sPenalty(penalties.sPenalty())
-                .plusMinusPenalty(penalties.plusMinusPenalty())
-                .minusPenalty(penalties.minusPenalty())
-                .build();
+            .trickSerieId(trickSerieId)
+            .trickType(trickType.ordinal())
+            .arrowPenalty(penalties.arrowPenalty())
+            .dPenalty(penalties.dPenalty())
+            .sPenalty(penalties.sPenalty())
+            .plusMinusPenalty(penalties.plusMinusPenalty())
+            .minusPenalty(penalties.minusPenalty())
+            .build();
     }
 
-    private TrickAttempt mapToDomain(TrickAttemptEntity entity){
+    private TrickAttempt mapToDomain(TrickAttemptEntity entity) {
         List<PenaltyMetrics> metrics = new ArrayList<>();
         metrics.add(getPenaltyMetrics(PenaltyType.ARROW_PENALTY, entity.getArrowPenalty()));
         metrics.add(getPenaltyMetrics(PenaltyType.S_PENALTY, entity.getSPenalty()));
@@ -47,18 +51,18 @@ public class TrickAttemptPersistenceAdapter implements SaveTrickAttemptsPort {
         metrics.add(getPenaltyMetrics(PenaltyType.MINUS_PENALTY, entity.getMinusPenalty()));
 
         return TrickAttempt.builder()
-                .id(entity.getId())
-                .trickType(TrickType.of(entity.getTrickType()))
-                .trickSerieId(entity.getTrickSerieId())
-                .penalties(metrics)
-                .build();
+            .id(entity.getId())
+            .trickType(TrickType.of(entity.getTrickType()))
+            .trickSerieId(entity.getTrickSerieId())
+            .penalties(metrics)
+            .build();
     }
 
-    private PenaltyMetrics getPenaltyMetrics(PenaltyType type, Integer value){
+    private PenaltyMetrics getPenaltyMetrics(PenaltyType type, Integer value) {
         PenaltyMetrics metrics = PenaltyMetrics.builder()
-                .penaltyValue(value)
-                .penaltyType(type)
-                .build();
+            .penaltyValue(value)
+            .penaltyType(type)
+            .build();
         metrics = metrics.withPenaltyValueTime(metrics.getPenaltyTimeFromPenalty());
 
         return metrics;

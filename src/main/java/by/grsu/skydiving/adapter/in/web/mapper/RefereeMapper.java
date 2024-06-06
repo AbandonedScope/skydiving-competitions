@@ -2,24 +2,23 @@ package by.grsu.skydiving.adapter.in.web.mapper;
 
 import by.grsu.skydiving.adapter.in.web.request.AddRefereeRequest;
 import by.grsu.skydiving.adapter.in.web.response.PageResponse;
-import by.grsu.skydiving.adapter.in.web.response.RefereeShortInfoResponse;
 import by.grsu.skydiving.adapter.in.web.response.RefereeGroupsResponse;
 import by.grsu.skydiving.adapter.in.web.response.RefereeResponse;
+import by.grsu.skydiving.adapter.in.web.response.RefereeShortInfoResponse;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.competition.CollegiumReferee;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
+import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
-import java.util.Set;
-
 @Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedSourcePolicy = ReportingPolicy.WARN,
-        unmappedTargetPolicy = ReportingPolicy.WARN
+    componentModel = MappingConstants.ComponentModel.SPRING,
+    unmappedSourcePolicy = ReportingPolicy.WARN,
+    unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface RefereeMapper {
 

@@ -9,8 +9,8 @@ public interface SignInUseCase {
 
     @Builder
     record SignInQuery(
-            String login,
-            String password
+        String login,
+        String password
     ) {
     }
 }

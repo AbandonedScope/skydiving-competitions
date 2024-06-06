@@ -5,13 +5,13 @@ import lombok.With;
 
 @Builder
 public record PenaltyMetrics(
-        PenaltyType penaltyType,
-        Integer penaltyValue,
-        @With
-        Float penaltyValueTime
+    PenaltyType penaltyType,
+    Integer penaltyValue,
+    @With
+    Float penaltyValueTime
 ) {
-    public Float getPenaltyTimeFromPenalty(){
-        return switch(penaltyType){
+    public Float getPenaltyTimeFromPenalty() {
+        return switch (penaltyType) {
             case D_PENALTY,
                  S_PENALTY,
                  PLUS_MINUS_PENALTY -> getBluePenaltyDegreeEquivalentInSeconds();
@@ -20,8 +20,8 @@ public record PenaltyMetrics(
         };
     }
 
-    private Float getBluePenaltyDegreeEquivalentInSeconds(){
-        return switch (penaltyValue){
+    private Float getBluePenaltyDegreeEquivalentInSeconds() {
+        return switch (penaltyValue) {
             case 40 -> 0.4f;
             case 70 -> 0.7f;
             case 100 -> 16f;
@@ -29,11 +29,11 @@ public record PenaltyMetrics(
         };
     }
 
-    private Float getGreenPenaltyDegreeEquivalentInSeconds(){
-        if (penaltyValue > 90){
+    private Float getGreenPenaltyDegreeEquivalentInSeconds() {
+        if (penaltyValue > 90) {
             return 16f;
         }
 
-        return penaltyValue/5f;
+        return penaltyValue / 5f;
     }
 }

@@ -1,15 +1,14 @@
 package by.grsu.skydiving.application.domain.model.skydiver;
 
-import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.ADDRESS_INCORRECT_VALUE_KEY;
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.ADDRESS_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE;
 
+import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
+import java.util.HashMap;
+import java.util.Map;
+
 public record Address(
-        String address
+    String address
 ) {
     public Address {
         validate(address);

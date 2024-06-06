@@ -1,7 +1,6 @@
 package by.grsu.skydiving.application.domain.exception;
 
 import by.grsu.skydiving.application.domain.exception.domain.DomainException;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -13,11 +12,11 @@ public class TransitionUnavailableException extends DomainException {
     private final Long id;
 
     public TransitionUnavailableException(
-            String message,
-            Enum<?> from,
-            Enum<?> to,
-            List<? extends Enum<?>> availableTransfers,
-            Long id
+        String message,
+        Enum<?> from,
+        Enum<?> to,
+        List<? extends Enum<?>> availableTransfers,
+        Long id
     ) {
         super(message);
         this.from = from;
@@ -27,10 +26,10 @@ public class TransitionUnavailableException extends DomainException {
     }
 
     public TransitionUnavailableException(
-            String message,
-            Enum<?> from,
-            Enum<?> to,
-            Long id
+        String message,
+        Enum<?> from,
+        Enum<?> to,
+        Long id
     ) {
         super(message);
         this.from = from;
@@ -40,8 +39,8 @@ public class TransitionUnavailableException extends DomainException {
     }
 
     public TransitionUnavailableException(
-            String message,
-            Enum<?> from
+        String message,
+        Enum<?> from
     ) {
         super(message);
         this.from = from;

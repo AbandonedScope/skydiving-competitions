@@ -7,8 +7,8 @@ public enum SportDegree {
 
     public static SportDegree of(int ordinal) {
         return Arrays.stream(SportDegree.values())
-                .filter(degree -> degree.ordinal() == ordinal)
-                .findFirst()
-                .orElseThrow();
+            .filter(degree -> degree.ordinal() == ordinal)
+            .findFirst()
+            .orElseThrow();
     }
 }

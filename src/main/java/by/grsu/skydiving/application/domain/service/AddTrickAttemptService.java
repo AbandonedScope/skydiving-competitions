@@ -7,11 +7,10 @@ import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttemptsW
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickType;
 import by.grsu.skydiving.application.port.in.AddTrickAttemptsUseCase;
 import by.grsu.skydiving.common.UseCase;
-import lombok.RequiredArgsConstructor;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
@@ -21,22 +20,22 @@ public class AddTrickAttemptService implements AddTrickAttemptsUseCase {
     @Override
     public TrickAttemptsWithScore addTrickAttempts(AddTrickAttemptToTrickSerieCommand command) {
         TrickAttemptsIncome attempts = TrickAttemptsIncome.builder()
-                .trickSerieId(command.trickSerieId())
-                .trickAttempts(command.trickAttempts())
-                .build();
+            .trickSerieId(command.trickSerieId())
+            .trickAttempts(command.trickAttempts())
+            .build();
 
-        List<TrickAttempt> savedAttempts =  trickAttemptPersistenceAdapter.saveAll(attempts);
+        List<TrickAttempt> savedAttempts = trickAttemptPersistenceAdapter.saveAll(attempts);
 
         return mapToFullDomainModel(savedAttempts);
     }
 
-    private TrickAttemptsWithScore mapToFullDomainModel(List<TrickAttempt> attempts){
+    private TrickAttemptsWithScore mapToFullDomainModel(List<TrickAttempt> attempts) {
         Map<TrickType, TrickAttempt> tricksMap = HashMap.newHashMap(6);
-        attempts.forEach(x -> tricksMap.put(x.trickType(),x));
+        attempts.forEach(x -> tricksMap.put(x.trickType(), x));
 
         return TrickAttemptsWithScore.builder()
-                .trickAttempts(tricksMap)
-                .totalScore(TrickAttemptsWithScore.calculateTotalPenalty(attempts))
-                .build();
+            .trickAttempts(tricksMap)
+            .totalScore(TrickAttemptsWithScore.calculateTotalPenalty(attempts))
+            .build();
     }
 }

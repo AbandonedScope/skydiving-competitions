@@ -4,8 +4,8 @@ import by.grsu.skydiving.application.domain.model.competition.CompetitionMember;
 import java.util.Set;
 
 public record TeamWithMembersResponse(
-        long id,
-        String name,
-        Set<CompetitionMember> members
+    long id,
+    String name,
+    Set<CompetitionMember> members
 ) {
 }

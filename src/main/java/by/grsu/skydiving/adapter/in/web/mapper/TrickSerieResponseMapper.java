@@ -8,13 +8,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedSourcePolicy = ReportingPolicy.WARN,
-        unmappedTargetPolicy = ReportingPolicy.WARN
+    componentModel = MappingConstants.ComponentModel.SPRING,
+    unmappedSourcePolicy = ReportingPolicy.WARN,
+    unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface TrickSerieResponseMapper {
     @Mapping(target = "skydiverId", source = "request.skydiverId")

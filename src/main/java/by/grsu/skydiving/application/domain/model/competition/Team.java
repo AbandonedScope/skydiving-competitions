@@ -13,11 +13,11 @@ import java.util.Set;
 import lombok.With;
 
 public record Team(
-        @With
-        Long id,
-        String name,
-        @With
-        Set<CompetitionMember> members
+    @With
+    Long id,
+    String name,
+    @With
+    Set<CompetitionMember> members
 ) {
     private static final int MAX_TEAM_SIZE = 5;
 
@@ -51,8 +51,8 @@ public record Team(
         Map<String, String> errors = new HashMap<>();
 
         if (name == null
-                || name.isBlank()
-                || name.length() > 40) {
+            || name.isBlank()
+            || name.length() > 40) {
             errors.put(TEAM_NAME_INCORRECT_VALUE_KEY, TEAM_NAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE);
         }
 

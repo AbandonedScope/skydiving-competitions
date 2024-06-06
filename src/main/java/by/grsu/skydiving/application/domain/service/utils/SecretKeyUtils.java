@@ -2,9 +2,8 @@ package by.grsu.skydiving.application.domain.service.utils;
 
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.experimental.UtilityClass;
-
 import javax.crypto.SecretKey;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class SecretKeyUtils {

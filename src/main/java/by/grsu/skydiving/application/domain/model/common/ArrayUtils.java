@@ -1,8 +1,7 @@
 package by.grsu.skydiving.application.domain.model.common;
 
-import lombok.experimental.UtilityClass;
-
 import java.util.Arrays;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class ArrayUtils {

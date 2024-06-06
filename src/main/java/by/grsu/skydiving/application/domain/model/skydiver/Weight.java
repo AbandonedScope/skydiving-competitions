@@ -1,17 +1,16 @@
 package by.grsu.skydiving.application.domain.model.skydiver;
 
-import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.WEIGHT_INCORRECT_VALUE_KEY;
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.WEIGHT_OUT_OF_RANGE_OR_NULL_MESSAGE;
 import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.MAX_SKYDIVER_WEIGHT;
 import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.MIN_SKYDIVER_WEIGHT;
 
+import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
+import java.util.HashMap;
+import java.util.Map;
+
 public record Weight(
-        Float weight
+    Float weight
 ) {
     public Weight {
         validate(weight);

@@ -4,15 +4,15 @@ import lombok.Builder;
 
 @Builder
 public record UserInfoForToken(
-        long userId,
-        UserRole role,
-        String login
+    long userId,
+    UserRole role,
+    String login
 ) {
     public static UserInfoForToken of(UserAuthInfo userAuthInfo) {
         return UserInfoForToken.builder()
-                .userId(userAuthInfo.userId())
-                .role(userAuthInfo.role())
-                .login(userAuthInfo.credentials().login())
-                .build();
+            .userId(userAuthInfo.userId())
+            .role(userAuthInfo.role())
+            .login(userAuthInfo.credentials().login())
+            .build();
     }
 }

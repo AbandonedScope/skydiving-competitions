@@ -6,10 +6,10 @@ public interface AddTrickRefereeingUseCase {
     TrickRefereeing addTrickRefereeing(AddTrickRefereeingCommand command);
 
     record AddTrickRefereeingCommand(
-            Long competitionId,
-            Long skydiverId,
-            Integer serieNumber,
-            Integer roundNumber
+        Long competitionId,
+        Long skydiverId,
+        Integer serieNumber,
+        Integer roundNumber
     ) {
     }
 }

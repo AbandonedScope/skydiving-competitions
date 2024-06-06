@@ -1,10 +1,10 @@
 package by.grsu.skydiving.application.domain.model.common;
-import lombok.Builder;
 
 import java.util.Map;
+import lombok.Builder;
 
 @Builder
 public record FilterQuery(
-        Map<String, Object> filters
+    Map<String, Object> filters
 ) {
 }

@@ -11,8 +11,8 @@ public enum PenaltyType {
 
     public static PenaltyType of(int ordinal) {
         return Arrays.stream(PenaltyType.values())
-                .filter(penalty -> penalty.ordinal() == ordinal)
-                .findFirst()
-                .orElseThrow();
+            .filter(penalty -> penalty.ordinal() == ordinal)
+            .findFirst()
+            .orElseThrow();
     }
 }
