@@ -1,16 +1,15 @@
 package by.grsu.skydiving.application.domain.model.trickRefereeing;
 
 import by.grsu.skydiving.application.domain.model.competition.Referee;
-import lombok.Builder;
-
 import java.util.List;
+import lombok.Builder;
 
 @Builder
 public record TrickRefereeingFullInfo(
-        List<Referee> referees,
-        Integer roundNumber,
-        Integer serieNumber,
-        Long skydiverId,
-        Long competitionId
+    List<Referee> referees,
+    Integer roundNumber,
+    Integer serieNumber,
+    Long skydiverId,
+    Long competitionId
 ) {
 }

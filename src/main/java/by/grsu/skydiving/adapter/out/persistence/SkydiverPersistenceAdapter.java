@@ -35,8 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
-        ExistsSkydiverByFullnameAndBirthDatePort, GetSkydiverPagePort,
-        UpdateSkydiverPort, ExistsSkydiverByIdPort, FilterSkydiversShortInfoPort,
+    ExistsSkydiverByFullnameAndBirthDatePort, GetSkydiverPagePort,
+    UpdateSkydiverPort, ExistsSkydiverByIdPort, FilterSkydiversShortInfoPort,
     FindSkydiverByIdPort {
     private final SkydiverJdbcRepository skydiverJdbcRepository;
     private final UserInfoJdbcRepository userInfoJdbcRepository;
@@ -73,10 +73,10 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
     @Override
     public boolean existsBy(FullName fullName, LocalDate birthDate) {
         return skydiverJdbcRepository.findByBirthDateAndFullName(
-                fullName.firstName(),
-                fullName.secondName(),
-                fullName.patronymic(),
-                birthDate
+            fullName.firstName(),
+            fullName.secondName(),
+            fullName.patronymic(),
+            birthDate
         );
     }
 
@@ -102,7 +102,8 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
         formatFilters(filters);
         long offset = pageNumber * pageSize;
 
-        List<SkydiverShortInfoProjection> list = skydiverJdbcRepository.filter(new HashMap<>(filters), pageSize, offset);
+        List<SkydiverShortInfoProjection> list =
+            skydiverJdbcRepository.filter(new HashMap<>(filters), pageSize, offset);
         List<SkydiverShortInfo> skydiver = skydiverEntityMapper.toDomain(list);
         long totalRows = skydiverJdbcRepository.countFiltered(new HashMap<>(filters));
 
@@ -112,11 +113,11 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
         }
 
         return DomainPage.<SkydiverShortInfo>builder()
-                .pageSize(pageSize)
-                .currentPage(++pageNumber)
-                .totalPages(totalPages)
-                .content(skydiver)
-                .build();
+            .pageSize(pageSize)
+            .currentPage(++pageNumber)
+            .totalPages(totalPages)
+            .content(skydiver)
+            .build();
     }
 
     void formatFilters(Map<String, Object> filters) {

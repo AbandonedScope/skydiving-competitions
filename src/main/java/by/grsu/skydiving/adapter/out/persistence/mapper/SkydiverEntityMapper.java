@@ -4,18 +4,24 @@ import by.grsu.skydiving.adapter.out.persistence.entity.PassportInfoEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.SkydiverEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.SkydiverShortInfoProjection;
-import by.grsu.skydiving.application.domain.model.skydiver.*;
+import by.grsu.skydiving.application.domain.model.skydiver.Address;
+import by.grsu.skydiving.application.domain.model.skydiver.Gender;
+import by.grsu.skydiving.application.domain.model.skydiver.Height;
+import by.grsu.skydiving.application.domain.model.skydiver.PhoneNumber;
+import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
+import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
+import by.grsu.skydiving.application.domain.model.skydiver.SportDegree;
+import by.grsu.skydiving.application.domain.model.skydiver.Weight;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
-import java.util.List;
-
 @Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedSourcePolicy = ReportingPolicy.WARN,
-        unmappedTargetPolicy = ReportingPolicy.WARN
+    componentModel = MappingConstants.ComponentModel.SPRING,
+    unmappedSourcePolicy = ReportingPolicy.WARN,
+    unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface SkydiverEntityMapper {
     @Mapping(target = "height", source = "height.height")
@@ -59,14 +65,14 @@ public interface SkydiverEntityMapper {
 
     default Height mapHeight(Float height) {
         return height == null
-                ? null
-                : new Height(height);
+            ? null
+            : new Height(height);
     }
 
     default Weight mapWeight(Float weight) {
         return weight == null
-                ? null
-                : new Weight(weight);
+            ? null
+            : new Weight(weight);
     }
 
     default String mapAddress(Address address) {
@@ -87,25 +93,25 @@ public interface SkydiverEntityMapper {
 
     default Integer mapSportDegree(SportDegree sportDegree) {
         return sportDegree == null
-                ? null
-                : sportDegree.ordinal();
+            ? null
+            : sportDegree.ordinal();
     }
 
     default SportDegree mapSportDegree(Integer ordinal) {
         return ordinal == null
-                ? null
-                : SportDegree.of(ordinal);
+            ? null
+            : SportDegree.of(ordinal);
     }
 
     default Integer mapGender(Gender gender) {
         return gender == null
-                ? null
-                : gender.ordinal();
+            ? null
+            : gender.ordinal();
     }
 
     default Gender mapGender(Integer ordinal) {
         return ordinal == null
-                ? null
-                : Gender.of(ordinal);
+            ? null
+            : Gender.of(ordinal);
     }
 }

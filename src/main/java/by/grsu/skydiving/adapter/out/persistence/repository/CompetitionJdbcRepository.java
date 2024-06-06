@@ -14,10 +14,10 @@ public interface CompetitionJdbcRepository extends CrudRepository<CompetitionEnt
 
     @Modifying
     @Query("""
-            update competition
-            set is_deleted = true
-            where competition.id = :competitionId
-            """)
+        update competition
+        set is_deleted = true
+        where competition.id = :competitionId
+        """)
     int softDeleteCompetitionById(Long competitionId);
 }
 

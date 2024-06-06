@@ -22,7 +22,7 @@ public class TrickSerieEntity {
     @Column("score")
     private Integer score;
     @Column("serie_number")
-    private Integer serieNumber ;
+    private Integer serieNumber;
     @Column("round_number")
     private Integer roundNumber;
     @Column("time_without_penalty")

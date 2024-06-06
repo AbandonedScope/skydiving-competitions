@@ -1,17 +1,23 @@
 package by.grsu.skydiving.application.domain.model.skydiver;
 
-import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.JACKET_SIZE_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.JACKET_SIZE_INCORRECT_VALUE_MESSAGE;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.PANTS_SIZE_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.PANTS_SIZE_INCORRECT_VALUE_MESSAGE;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.SHOE_SIZE_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.SHOE_SIZE_INCORRECT_VALUE_MESSAGE;
+import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.MIN_SKYDIVER_JACKETSIZE;
+import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.MIN_SKYDIVER_PANTSSIZE;
+import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.MIN_SKYDIVER_SHOESIZE;
 
+import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
-import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.*;
-
 public record ClothingSize(
-        int shoeSize,
-        int jacketSize,
-        int pantsSize
+    int shoeSize,
+    int jacketSize,
+    int pantsSize
 ) {
     public ClothingSize {
         validate(shoeSize, jacketSize, pantsSize);

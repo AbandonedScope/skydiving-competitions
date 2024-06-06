@@ -15,6 +15,6 @@ public class GetRefereesGroupsByCompetitionStageService implements GetRefereesGr
     @Override
     public RefereeGroups findRefereesByCompetitionStageId(Long competitionStageId) {
         return findRefereesPort.findRefereesByCompetitionStageId(competitionStageId)
-                .orElseThrow(RefereesNotFoundException::new);
+            .orElseThrow(RefereesNotFoundException::new);
     }
 }

@@ -5,9 +5,9 @@ import lombok.Builder;
 
 @Builder
 public record CompetitionStageResponse(
-        Long id,
-        Integer number,
-        Set<RefereeResponse> mainCollegium,
-        Set<RefereeResponse> collegium
+    Long id,
+    Integer number,
+    Set<RefereeResponse> mainCollegium,
+    Set<RefereeResponse> collegium
 ) {
 }

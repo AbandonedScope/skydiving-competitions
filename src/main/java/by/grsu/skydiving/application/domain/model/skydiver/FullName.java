@@ -1,17 +1,21 @@
 package by.grsu.skydiving.application.domain.model.skydiver;
 
 
-import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.FIRSTNAME_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.FIRSTNAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.PATRONYMIC_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.PATRONYMIC_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.SECONDNAME_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.SECONDNAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE;
 
+import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
-
 public record FullName(
-        String firstName,
-        String secondName,
-        String patronymic
+    String firstName,
+    String secondName,
+    String patronymic
 ) {
     public FullName {
         validate(firstName, secondName, patronymic);

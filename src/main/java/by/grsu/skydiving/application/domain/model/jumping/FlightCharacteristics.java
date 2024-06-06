@@ -1,18 +1,22 @@
 package by.grsu.skydiving.application.domain.model.jumping;
 
-import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.FLIGHT_HEIGHT_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.FLIGHT_HEIGHT_NULL_OR_NEGATIVE_MESSAGE;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.SPEED_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.SPEED_NULL_OR_NEGATIVE_MESSAGE;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.TIME_DELAY_OF_PARACHUTE_OPENING_NULL_OR_NEGATIVE_MESSAGE;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.TIME_DELAY_OF_PARACHUT_OPENING_INCORRECT_VALUE_KEY;
 import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.MIN_FLIGHT_HEIGHT;
 import static by.grsu.skydiving.application.domain.model.consts.SkiDivingConstants.MIN_SPEED;
 
+import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
+import java.util.HashMap;
+import java.util.Map;
+
 public record FlightCharacteristics(
-        Float height,
-        Float speed,
-        Float timeDelayOfParachuteOpening
+    Float height,
+    Float speed,
+    Float timeDelayOfParachuteOpening
 ) {
     public FlightCharacteristics {
         validate(height, speed, timeDelayOfParachuteOpening);
@@ -30,7 +34,8 @@ public record FlightCharacteristics(
         }
 
         if (timeDelayOfParachuteOpening == null || timeDelayOfParachuteOpening < 0) {
-            errors.put(TIME_DELAY_OF_PARACHUT_OPENING_INCORRECT_VALUE_KEY, TIME_DELAY_OF_PARACHUTE_OPENING_NULL_OR_NEGATIVE_MESSAGE);
+            errors.put(TIME_DELAY_OF_PARACHUT_OPENING_INCORRECT_VALUE_KEY,
+                TIME_DELAY_OF_PARACHUTE_OPENING_NULL_OR_NEGATIVE_MESSAGE);
         }
 
         if (!errors.isEmpty()) {

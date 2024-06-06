@@ -6,8 +6,8 @@ public interface AddTeamToCompetitionUseCase {
     Team addTeam(AddTeamToCompetitionCommand command);
 
     record AddTeamToCompetitionCommand(
-            long competitionId,
-            Team team
+        long competitionId,
+        Team team
     ) {
     }
 }

@@ -8,9 +8,8 @@ import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.port.in.GetFilteredRefereesUseCase;
 import by.grsu.skydiving.application.port.out.FilterRefereesPort;
 import by.grsu.skydiving.common.UseCase;
-import lombok.RequiredArgsConstructor;
-
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor

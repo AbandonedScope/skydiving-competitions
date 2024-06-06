@@ -3,17 +3,16 @@ package by.grsu.skydiving.adapter.out.persistence.mapper;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.CollegiumRefereeProjection;
 import by.grsu.skydiving.application.domain.model.competition.CollegiumReferee;
 import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
-import java.util.List;
-
 @Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedSourcePolicy = ReportingPolicy.WARN,
-        unmappedTargetPolicy = ReportingPolicy.WARN
+    componentModel = MappingConstants.ComponentModel.SPRING,
+    unmappedSourcePolicy = ReportingPolicy.WARN,
+    unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface CollegiumRefereeMapper {
     @Mapping(target = "referee.name.firstName", source = "firstName")
@@ -27,13 +26,13 @@ public interface CollegiumRefereeMapper {
 
     default RefereeCategory mapRefereeCategory(Integer ordinal) {
         return ordinal == null
-                ? null
-                : RefereeCategory.of(ordinal);
+            ? null
+            : RefereeCategory.of(ordinal);
     }
 
     default Integer mapRefereeCategory(RefereeCategory refereeCategory) {
         return refereeCategory == null
-                ? null
-                : refereeCategory.ordinal();
+            ? null
+            : refereeCategory.ordinal();
     }
 }

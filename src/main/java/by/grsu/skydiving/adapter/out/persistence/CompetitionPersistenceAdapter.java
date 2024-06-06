@@ -61,7 +61,6 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
         competition.setTeams(teams);
 
 
-
         return competition;
     }
 
@@ -104,6 +103,7 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     public void deleteCompetition(Long competitionId) {
         competitionRepository.softDeleteCompetitionById(competitionId);
     }
+
 
     private Competition enrichWithMembers(Competition competition) {
         var members = getMembersOfCompetitionPort.getByCompetitionId(competition.getId());

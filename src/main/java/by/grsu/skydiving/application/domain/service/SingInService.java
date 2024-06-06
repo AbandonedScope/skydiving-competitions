@@ -32,25 +32,25 @@ public class SingInService implements SignInUseCase {
         }
 
         UserInfoForToken userInfoForToken = findPort.findBy(login, password)
-                .orElseThrow(() -> new IncorrectPasswordException(login));
+            .orElseThrow(() -> new IncorrectPasswordException(login));
 
         JwtToken jwtToken = JwtToken.of(buildSettings(userInfoForToken));
 
         return JwtAuthCredentials.builder()
-                .accessToken(jwtToken)
-                .userRole(userInfoForToken.role())
-                .userId(userInfoForToken.userId())
-                .build();
+            .accessToken(jwtToken)
+            .userRole(userInfoForToken.role())
+            .userId(userInfoForToken.userId())
+            .build();
     }
 
     private JwtTokenGenerationSettings buildSettings(UserInfoForToken userInfoForToken) {
         return JwtTokenGenerationSettings.builder()
-                .userId(userInfoForToken.userId())
-                .subject(userInfoForToken.login())
-                .userRole(userInfoForToken.role())
-                .ttl(jwtSettings.ttl())
-                .issuer(jwtSettings.issuer())
-                .secretKey(getSigningKey(jwtSettings.secret()))
-                .build();
+            .userId(userInfoForToken.userId())
+            .subject(userInfoForToken.login())
+            .userRole(userInfoForToken.role())
+            .ttl(jwtSettings.ttl())
+            .issuer(jwtSettings.issuer())
+            .secretKey(getSigningKey(jwtSettings.secret()))
+            .build();
     }
 }

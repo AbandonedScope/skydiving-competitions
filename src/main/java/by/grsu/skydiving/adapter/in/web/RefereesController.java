@@ -61,8 +61,10 @@ public class RefereesController {
 
     @DeleteMapping("/{refereeId}/stage/{competitionStageId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRefereeByCompetitionStageIdAndRefereeId(@PathVariable Long competitionStageId, @PathVariable Long refereeId) {
-        deleteRefereeFromCompetitionStageUseCase.deleteRefereeFromCompetitionByCompetitionStageId(competitionStageId, refereeId);
+    public void deleteRefereeByCompetitionStageIdAndRefereeId(@PathVariable Long competitionStageId,
+                                                              @PathVariable Long refereeId) {
+        deleteRefereeFromCompetitionStageUseCase.deleteRefereeFromCompetitionByCompetitionStageId(competitionStageId,
+            refereeId);
     }
 
     @PostMapping
@@ -76,14 +78,14 @@ public class RefereesController {
 
     @GetMapping("/page")
     public PageResponse<RefereeShortInfoResponse> getRefereePage(
-            @RequestParam
-            long number,
-            @RequestParam
-            int size,
-            @RequestParam(required = false)
-            String name,
-            @RequestParam(required = false)
-            RefereeCategory category
+        @RequestParam
+        long number,
+        @RequestParam
+        int size,
+        @RequestParam(required = false)
+        String name,
+        @RequestParam(required = false)
+        RefereeCategory category
     ) {
         Map<String, Object> filters = HashMap.newHashMap(5);
         filters.put("name", name);
@@ -92,10 +94,10 @@ public class RefereesController {
 
         FilterQuery filterQuery = new FilterQuery(filters);
         GetPageQuery pageQuery = GetPageQuery.builder()
-                .pageNumber(number)
-                .pageSize(size)
-                .filterQuery(filterQuery)
-                .build();
+            .pageNumber(number)
+            .pageSize(size)
+            .filterQuery(filterQuery)
+            .build();
 
         DomainPage<Referee> page = getFilteredRefereesUseCase.getPage(pageQuery);
 
