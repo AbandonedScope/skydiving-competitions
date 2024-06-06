@@ -17,11 +17,11 @@ public class CollegiumRefereeProjection {
     private String secondName;
     private String patronymic;
 
-    public void setIsMainCollegium(boolean isMainCollegium) {
-        this.isMainCollegium = isMainCollegium;
-    }
-
     public boolean getIsMainCollegium() {
         return isMainCollegium;
+    }
+
+    public void setIsMainCollegium(boolean isMainCollegium) {
+        this.isMainCollegium = isMainCollegium;
     }
 }

@@ -1,7 +1,6 @@
 package by.grsu.skydiving.application.domain.model.auth;
 
 import by.grsu.skydiving.application.domain.exception.domain.InvalidRoleNumberException;
-
 import java.util.Arrays;
 
 public enum UserRole {
@@ -12,8 +11,8 @@ public enum UserRole {
 
     public static UserRole valueOf(int roleNumber) {
         return Arrays.stream(UserRole.values())
-                .filter(role -> role.ordinal() == roleNumber)
-                .findFirst()
-                .orElseThrow(() -> new InvalidRoleNumberException(roleNumber));
+            .filter(role -> role.ordinal() == roleNumber)
+            .findFirst()
+            .orElseThrow(() -> new InvalidRoleNumberException(roleNumber));
     }
 }

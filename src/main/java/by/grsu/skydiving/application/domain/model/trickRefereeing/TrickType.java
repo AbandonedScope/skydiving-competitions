@@ -12,8 +12,8 @@ public enum TrickType {
 
     public static TrickType of(int ordinal) {
         return Arrays.stream(TrickType.values())
-                .filter(trick -> trick.ordinal() == ordinal)
-                .findFirst()
-                .orElseThrow();
+            .filter(trick -> trick.ordinal() == ordinal)
+            .findFirst()
+            .orElseThrow();
     }
 }

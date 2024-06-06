@@ -21,14 +21,14 @@ public class SignUpUserService implements SignUpUserUseCase {
         UserCredentials credentials = generateCredentialsUseCase.generate(credentialsCommand);
 
         UserAuthInfo newUser = UserAuthInfo.builder()
-                .name(command.fullName())
-                .role(command.role())
-                .credentials(credentials)
-                .build();
+            .name(command.fullName())
+            .role(command.role())
+            .credentials(credentials)
+            .build();
 
-        long userId = saveUserPort.save(newUser);
+        saveUserPort.save(newUser);
 
-        return newUser.withUserId(userId);
+        return newUser;
     }
 
     private GenerateCredentialsCommand buildGenerateCredentialsCommand(SignUpUserCommand command) {

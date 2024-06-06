@@ -26,7 +26,8 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler(SkydiverWithNameAndBirthDateAlreadyExistsException.class)
-    public ProblemDetail handleSkydiverWithNameAndBirthDateAlreadyExistsException(SkydiverWithNameAndBirthDateAlreadyExistsException ex) {
+    public ProblemDetail handleSkydiverWithNameAndBirthDateAlreadyExistsException(
+        SkydiverWithNameAndBirthDateAlreadyExistsException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
 
         problemDetail.setDetail(ex.getMessage());

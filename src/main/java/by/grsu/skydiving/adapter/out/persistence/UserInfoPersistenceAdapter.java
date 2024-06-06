@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class UserInfoPersistenceAdapter implements SaveUserPort,
-        FindUserInfoPort, ExistsUserByLoginPort {
+    FindUserInfoPort, ExistsUserByLoginPort {
     private final UserInfoJdbcRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final UserInfoMapper userInfoMapper;
@@ -25,20 +25,20 @@ public class UserInfoPersistenceAdapter implements SaveUserPort,
     @Override
     public Optional<UserInfoForToken> findBy(String login, String password) {
         return repository.findByLogin(login)
-                .filter(entity -> passwordEncoder.matches(password, entity.getPassword()))
-                .map(userInfoMapper::toTokenInfo);
+            .filter(entity -> passwordEncoder.matches(password, entity.getPassword()))
+            .map(userInfoMapper::toTokenInfo);
     }
 
     @Override
     public Optional<UserAuthInfo> findBy(String login) {
         return repository.findByLogin(login)
-                .map(userInfoMapper::toDomain);
+            .map(userInfoMapper::toDomain);
     }
 
     @Override
     public Optional<UserInfo> findById(long userId) {
         return repository.findByUserId(userId)
-                .map(userInfoMapper::toDomain);
+            .map(userInfoMapper::toDomain);
     }
 
     @Override

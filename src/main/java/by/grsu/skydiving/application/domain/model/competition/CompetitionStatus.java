@@ -19,7 +19,7 @@ public enum CompetitionStatus implements EntityStatus<CompetitionStatus> {
 
     static {
         ADJACENCY_MATRIX = AdjacencyMatrix.<CompetitionStatus>builder()
-                .build();
+            .build();
     }
 
     private final int number;
@@ -27,9 +27,9 @@ public enum CompetitionStatus implements EntityStatus<CompetitionStatus> {
 
     public static CompetitionStatus of(int number) {
         return Arrays.stream(CompetitionStatus.values())
-                .filter(status -> status.number == number)
-                .findFirst()
-                .orElseThrow(() -> new InvalidCompetitionStatusNumberException(number));
+            .filter(status -> status.number == number)
+            .findFirst()
+            .orElseThrow(() -> new InvalidCompetitionStatusNumberException(number));
     }
 
     @Override

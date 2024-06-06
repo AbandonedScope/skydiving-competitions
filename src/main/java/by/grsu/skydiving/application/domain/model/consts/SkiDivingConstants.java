@@ -1,8 +1,7 @@
 package by.grsu.skydiving.application.domain.model.consts;
 
-import lombok.experimental.UtilityClass;
-
 import java.util.regex.Pattern;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class SkiDivingConstants {
@@ -23,5 +22,6 @@ public class SkiDivingConstants {
     public static final Integer MIN_SKYDIVER_PANTSSIZE = 0;
 
     public static final String PHONE_NUMBER_REGEX = "^(\\+375|80) \\((29|25|44|33|17)\\) [0-9]{3}-[0-9]{2}-[0-9]{2}$";
-    public static final Pattern PHONE_NUMBER_REGEX_PATTERN = Pattern.compile(PHONE_NUMBER_REGEX, Pattern.CASE_INSENSITIVE);
+    public static final Pattern PHONE_NUMBER_REGEX_PATTERN =
+        Pattern.compile(PHONE_NUMBER_REGEX, Pattern.CASE_INSENSITIVE);
 }

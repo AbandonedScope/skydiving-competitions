@@ -7,9 +7,8 @@ import by.grsu.skydiving.application.port.in.AddSkydiverUseCase;
 import by.grsu.skydiving.application.port.out.ExistsSkydiverByFullnameAndBirthDatePort;
 import by.grsu.skydiving.application.port.out.SaveNewSkydiverPort;
 import by.grsu.skydiving.common.UseCase;
-import lombok.RequiredArgsConstructor;
-
 import java.time.LocalDate;
+import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package by.grsu.skydiving.common.config;
+package by.grsu.skydiving.common.config.security;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -29,20 +29,26 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider)
+        throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .cors(this::corsConfigurer)
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/v1/auth/sign-in").permitAll()
-                        .requestMatchers("/api/v1/auth/sign-up").permitAll()
-                    .requestMatchers("/api/v1/auth/user-info").authenticated()
-                        .requestMatchers("/api/v1/competitions/**").permitAll()
-                        .anyRequest().permitAll()
-                )
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+            .httpBasic(AbstractHttpConfigurer::disable)
+            .cors(this::corsConfigurer)
+            .authorizeHttpRequests(request -> request
+                .requestMatchers("/api/v1/auth/sign-in").permitAll()
+                .requestMatchers("/api/v1/auth/sign-up").permitAll()
+                .requestMatchers("/api/v1/auth/user-info").authenticated()
+                .requestMatchers("/api/v1/competitions/**").permitAll()
+                .requestMatchers("api/v1/trick-refereeing/current").authenticated()
+                .anyRequest().permitAll()
+            )
+            .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling(configurer -> configurer
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .accessDeniedHandler(new CustomAccessDeniedHandler())
+            );
         return http.build();
     }
 
@@ -56,7 +62,7 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
-            throws Exception {
+        throws Exception {
         return config.getAuthenticationManager();
     }
 

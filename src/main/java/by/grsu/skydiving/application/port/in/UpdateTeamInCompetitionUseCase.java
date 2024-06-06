@@ -6,9 +6,9 @@ public interface UpdateTeamInCompetitionUseCase {
     Team updateTeam(UpdateTeamInCompetitionCommand command);
 
     record UpdateTeamInCompetitionCommand(
-       long competitionId,
-       long teamId,
-       Team team
+        long competitionId,
+        long teamId,
+        Team team
     ) {
     }
 }

@@ -28,17 +28,17 @@ public class RefereeJdbcRepositoryImpl {
 
     public List<RefereeProjection> filter(Map<String, Object> filters, long limit, long offset) {
         Query query = create.select(
-                        REFEREE_VIEW.ID,
-                        USER_INFO_VIEW.FIRST_NAME,
-                        USER_INFO_VIEW.SECOND_NAME,
-                        USER_INFO_VIEW.PATRONYMIC,
-                        REFEREE_VIEW.CATEGORY)
-                .from(REFEREE_VIEW.leftJoin(USER_INFO_VIEW)
-                        .on(REFEREE_VIEW.ID.eq(USER_INFO_VIEW.ID))
-                )
-                .where(buildConditions(filters))
-                .limit(limit)
-                .offset(offset);
+                REFEREE_VIEW.ID,
+                USER_INFO_VIEW.FIRST_NAME,
+                USER_INFO_VIEW.SECOND_NAME,
+                USER_INFO_VIEW.PATRONYMIC,
+                REFEREE_VIEW.CATEGORY)
+            .from(REFEREE_VIEW.leftJoin(USER_INFO_VIEW)
+                .on(REFEREE_VIEW.ID.eq(USER_INFO_VIEW.ID))
+            )
+            .where(buildConditions(filters))
+            .limit(limit)
+            .offset(offset);
 
         String sqlQuery = query.getSQL();
 
@@ -47,10 +47,10 @@ public class RefereeJdbcRepositoryImpl {
 
     public Long countFiltered(Map<String, Object> filters) {
         Query query = create.select(count())
-                .from(REFEREE_VIEW.leftJoin(USER_INFO_VIEW)
-                        .on(REFEREE_VIEW.ID.eq(USER_INFO_VIEW.ID))
-                )
-                .where(buildConditions(filters));
+            .from(REFEREE_VIEW.leftJoin(USER_INFO_VIEW)
+                .on(REFEREE_VIEW.ID.eq(USER_INFO_VIEW.ID))
+            )
+            .where(buildConditions(filters));
 
         String sqlQuery = query.getSQL();
 
@@ -59,8 +59,8 @@ public class RefereeJdbcRepositoryImpl {
 
     private List<Condition> buildConditions(Map<String, Object> filters) {
         return filters.entrySet().stream()
-                .map(this::buildCondition)
-                .toList();
+            .map(this::buildCondition)
+            .toList();
     }
 
     private Condition buildCondition(Map.Entry<String, Object> entry) {
@@ -69,9 +69,9 @@ public class RefereeJdbcRepositoryImpl {
 
         return switch (key) {
             case "name" -> concat(
-                    concat(USER_INFO_VIEW.SECOND_NAME, space(1)),
-                    concat(USER_INFO_VIEW.FIRST_NAME, space(1)),
-                    concat(USER_INFO_VIEW.PATRONYMIC, space(1))
+                concat(USER_INFO_VIEW.SECOND_NAME, space(1)),
+                concat(USER_INFO_VIEW.FIRST_NAME, space(1)),
+                concat(USER_INFO_VIEW.PATRONYMIC, space(1))
             ).like((String) value);
             case "category" -> REFEREE_VIEW.CATEGORY.eq(((RefereeCategory) value).ordinal());
             case null, default -> noCondition();
@@ -82,12 +82,12 @@ public class RefereeJdbcRepositoryImpl {
 
         return (rs, rowNum) -> {
             return RefereeProjection.builder()
-                    .id(rs.getLong("id"))
-                    .firstName(rs.getString("first_name"))
-                    .secondName(rs.getString("second_name"))
-                    .patronymic(rs.getString("patronymic"))
-                    .category(rs.getInt("category"))
-                    .build();
+                .id(rs.getLong("id"))
+                .firstName(rs.getString("first_name"))
+                .secondName(rs.getString("second_name"))
+                .patronymic(rs.getString("patronymic"))
+                .category(rs.getInt("category"))
+                .build();
         };
     }
 }

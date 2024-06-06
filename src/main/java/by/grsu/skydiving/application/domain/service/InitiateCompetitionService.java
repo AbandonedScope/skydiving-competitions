@@ -21,12 +21,12 @@ public class InitiateCompetitionService implements InitiateCompetitionUseCase {
 
     private Competition buildCompetition(InitiateCompetitionCommand command) {
         return Competition.builder()
-                .status(CompetitionStatus.INITIAL)
-                .name(command.name())
-                .beginDate(command.beginDate())
-                .endDate(command.endDate())
-                .place(command.placeOfCompetition())
-                .numberOfStages(command.numberOfStages())
-                .build();
+            .status(CompetitionStatus.INITIAL)
+            .name(command.name())
+            .beginDate(command.beginDate())
+            .endDate(command.endDate())
+            .place(command.placeOfCompetition())
+            .numberOfStages(command.numberOfStages())
+            .build();
     }
 }

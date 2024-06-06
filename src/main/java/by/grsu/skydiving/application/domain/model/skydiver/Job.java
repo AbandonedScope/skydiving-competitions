@@ -1,16 +1,18 @@
 package by.grsu.skydiving.application.domain.model.skydiver;
 
-import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.JOB_NAME_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.JOB_NAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.JOB_POSITION_INCORRECT_VALUE_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.JOB_POSITION_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE;
 
+import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
-
 public record Job(
-        String jobName,
-        String jobPosition,
-        PhoneNumber jobPhoneNumber
+    String jobName,
+    String jobPosition,
+    PhoneNumber jobPhoneNumber
 ) {
     public Job {
         validate(jobName, jobPosition);

@@ -1,4 +1,4 @@
-package by.grsu.skydiving.common.config;
+package by.grsu.skydiving.common.config.security;
 
 import by.grsu.skydiving.application.domain.model.auth.UserAuthInfo;
 import by.grsu.skydiving.application.port.in.GetUserByLoginUseCase;

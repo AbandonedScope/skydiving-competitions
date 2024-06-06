@@ -27,6 +27,20 @@ public class JwtToken {
         validate();
     }
 
+    public static JwtToken of(JwtTokenGenerationSettings info) {
+        String jwtString = Jwts.builder()
+            .issuer(info.issuer())
+            .subject(info.subject())
+            .claim("id", info.userId())
+            .claim("role", info.userRole())
+            .issuedAt(Date.from(Instant.now()))
+            .expiration(Date.from(Instant.now().plus(info.ttl())))
+            .signWith(info.secretKey())
+            .compact();
+
+        return new JwtToken(info.secretKey(), jwtString);
+    }
+
     public Long extractId() {
         return extractClaims()
             .get("id", Long.class);
@@ -34,7 +48,7 @@ public class JwtToken {
 
     public String extractLogin() {
         return extractClaims()
-                .getSubject();
+            .getSubject();
     }
 
     private void validate() {
@@ -45,32 +59,18 @@ public class JwtToken {
 
     private boolean isTokenExpired() {
         return extractClaims()
-                .getExpiration().before(new Date());
+            .getExpiration().before(new Date());
     }
 
     private Claims extractClaims() {
         try {
             return Jwts.parser()
-                    .verifyWith(secretKey)
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
         } catch (Exception ex) {
             throw new TokenVerificationException(ex);
         }
-    }
-
-    public static JwtToken of(JwtTokenGenerationSettings info) {
-        String jwtString = Jwts.builder()
-                .issuer(info.issuer())
-                .subject(info.subject())
-                .claim("id", info.userId())
-                .claim("role", info.userRole())
-                .issuedAt(Date.from(Instant.now()))
-                .expiration(Date.from(Instant.now().plus(info.ttl())))
-                .signWith(info.secretKey())
-                .compact();
-
-        return new JwtToken(info.secretKey(), jwtString);
     }
 }

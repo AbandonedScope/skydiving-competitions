@@ -4,8 +4,8 @@ import lombok.Builder;
 
 @Builder
 public record GetPageQuery(
-        long pageNumber,
-        int pageSize,
-        FilterQuery filterQuery
+    long pageNumber,
+    int pageSize,
+    FilterQuery filterQuery
 ) {
 }

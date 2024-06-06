@@ -7,7 +7,7 @@ public interface GenerateUserCredentialsUseCase {
     UserCredentials generate(GenerateCredentialsCommand command);
 
     record GenerateCredentialsCommand(
-            FullName fullName
+        FullName fullName
     ) {
     }
 }

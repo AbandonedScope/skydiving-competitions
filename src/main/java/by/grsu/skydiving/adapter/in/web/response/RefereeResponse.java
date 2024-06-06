@@ -5,11 +5,11 @@ import lombok.Builder;
 
 @Builder
 public record RefereeResponse(
-        Long id,
-        String firstName,
-        String secondName,
-        String patronymic,
-        RefereeCategory category,
-        String workPerformed
+    Long id,
+    String firstName,
+    String secondName,
+    String patronymic,
+    RefereeCategory category,
+    String workPerformed
 ) {
 }

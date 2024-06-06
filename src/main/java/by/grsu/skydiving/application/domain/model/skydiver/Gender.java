@@ -8,8 +8,8 @@ public enum Gender {
 
     public static Gender of(int ordinal) {
         return Arrays.stream(Gender.values())
-                .filter(gender -> gender.ordinal() == ordinal)
-                .findFirst()
-                .orElseThrow();
+            .filter(gender -> gender.ordinal() == ordinal)
+            .findFirst()
+            .orElseThrow();
     }
 }

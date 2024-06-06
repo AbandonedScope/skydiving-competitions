@@ -1,8 +1,11 @@
 package by.grsu.skydiving.application.domain.model.common;
 
 import by.grsu.skydiving.application.domain.exception.TransitionUnavailableException;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public final class AdjacencyMatrix<T extends Enum<T> & EntityStatus<T>> {
 
@@ -21,8 +24,8 @@ public final class AdjacencyMatrix<T extends Enum<T> & EntityStatus<T>> {
 
         if (availableTransitionsFrom.isEmpty()) {
             throw new TransitionUnavailableException(
-                    "No transition available for from " + from,
-                    from
+                "No transition available for from " + from,
+                from
             );
         }
 
@@ -36,21 +39,21 @@ public final class AdjacencyMatrix<T extends Enum<T> & EntityStatus<T>> {
     public void validateTransitionAvailable(T from, T to, Long id) {
         if (!matrix.containsKey(from)) {
             throw new TransitionUnavailableException(
-                    "Key " + from + " is not present in adjacency matrix, id " + id,
-                    from,
-                    to,
-                    id
+                "Key " + from + " is not present in adjacency matrix, id " + id,
+                from,
+                to,
+                id
             );
         }
 
         List<T> possibleTransitions = getAvailableTransitionsFromOrEmpty(from);
         if (!possibleTransitions.contains(to)) {
             throw new TransitionUnavailableException(
-                    "No transition available for from " + from + " to " + to,
-                    from,
-                    to,
-                    possibleTransitions,
-                    id
+                "No transition available for from " + from + " to " + to,
+                from,
+                to,
+                possibleTransitions,
+                id
             );
         }
     }
@@ -71,7 +74,7 @@ public final class AdjacencyMatrix<T extends Enum<T> & EntityStatus<T>> {
 
             if (tos == null || tos.length == 0) {
                 throw new IllegalArgumentException(
-                        "Wrong method usage when trying to add transition for from " + from + " to " + to);
+                    "Wrong method usage when trying to add transition for from " + from + " to " + to);
             }
 
             T[] allStateTransitions = ArrayUtils.addToArray(tos, to);

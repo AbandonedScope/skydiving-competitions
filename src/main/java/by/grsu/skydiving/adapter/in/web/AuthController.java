@@ -15,7 +15,7 @@ import by.grsu.skydiving.application.port.in.RegenerateUserCredentialsUseCase;
 import by.grsu.skydiving.application.port.in.SignInUseCase;
 import by.grsu.skydiving.application.port.in.SignUpUserUseCase;
 import by.grsu.skydiving.common.WebAdapter;
-import by.grsu.skydiving.common.config.UserDetailsServiceImpl.UserDetailsWithId;
+import by.grsu.skydiving.common.config.security.UserDetailsServiceImpl.UserDetailsWithId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;

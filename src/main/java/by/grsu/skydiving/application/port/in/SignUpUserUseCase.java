@@ -8,8 +8,8 @@ public interface SignUpUserUseCase {
     UserAuthInfo signUp(SignUpUserCommand command);
 
     record SignUpUserCommand(
-            FullName fullName,
-            UserRole role
+        FullName fullName,
+        UserRole role
     ) {
     }
 }

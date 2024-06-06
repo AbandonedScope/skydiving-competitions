@@ -1,17 +1,19 @@
 package by.grsu.skydiving.application.domain.model.auth;
 
-import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
-import lombok.Builder;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.LOGIN_IS_NULL_OR_BLANK_MESSAGE;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.LOGIN_NULL_OR_BLANK_KEY;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.PASSWORD_IS_NULL_OR_BLANK_MESSAGE;
+import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.PASSWORD_NULL_OR_BLANK_KEY;
 
+import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.*;
+import lombok.Builder;
 
 @Builder
 public record UserCredentials(
-        String login,
-        String password
+    String login,
+    String password
 ) {
     public UserCredentials {
         validate(login, password);
@@ -30,8 +32,8 @@ public record UserCredentials(
 
         if (!errors.isEmpty()) {
             throw ValidationException.builder()
-                    .errors(errors)
-                    .build();
+                .errors(errors)
+                .build();
         }
     }
 }

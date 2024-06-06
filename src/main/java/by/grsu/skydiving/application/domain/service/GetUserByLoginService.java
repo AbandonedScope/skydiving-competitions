@@ -15,6 +15,6 @@ public class GetUserByLoginService implements GetUserByLoginUseCase {
     @Override
     public UserAuthInfo getByLogin(String login) {
         return findUserInfoPort.findBy(login)
-                .orElseThrow(() -> new UserNotFoundException(login));
+            .orElseThrow(() -> new UserNotFoundException(login));
     }
 }

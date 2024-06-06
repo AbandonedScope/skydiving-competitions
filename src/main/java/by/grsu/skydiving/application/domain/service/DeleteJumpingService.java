@@ -22,9 +22,10 @@ public class DeleteJumpingService implements DeleteJumpingUseCase {
     public void delete(long competitionId, long jumpingId) {
         getUpdatableCompetitionUseCase.getCompetitionThatCanBeUpdated(competitionId);
         JumpingInfo jumpingInfo = getCompetitionJumpingUseCase.getJumpingInfo(jumpingId);
-        NextJumpingNumber nextNumber = getNextNumberOfJumpingPort.genNextNumberOfJumping(competitionId, jumpingInfo.skydiverId());
+        NextJumpingNumber nextNumber =
+            getNextNumberOfJumpingPort.genNextNumberOfJumping(competitionId, jumpingInfo.skydiverId());
         if (!nextNumber.isLimitReached()
-        && nextNumber.nextJumpingNumber() - jumpingInfo.number() != 1) {
+            && nextNumber.nextJumpingNumber() - jumpingInfo.number() != 1) {
             throw new CannotDeleteNotLastJumpingException();
         }
 

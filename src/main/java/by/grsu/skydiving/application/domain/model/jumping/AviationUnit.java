@@ -1,15 +1,14 @@
 package by.grsu.skydiving.application.domain.model.jumping;
 
-import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.AVIATION_UNIT_INCORRECT_VALUE_KEY;
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.AVIATION_UNIT_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE;
 
+import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
+import java.util.HashMap;
+import java.util.Map;
+
 public record AviationUnit(
-        String aviationUnitName
+    String aviationUnitName
 ) {
     public AviationUnit {
         validate(aviationUnitName);
