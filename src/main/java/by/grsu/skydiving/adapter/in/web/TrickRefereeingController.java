@@ -1,6 +1,5 @@
 package by.grsu.skydiving.adapter.in.web;
 
-import by.grsu.skydiving.adapter.in.web.mapper.PenaltyMetricsMapper;
 import by.grsu.skydiving.adapter.in.web.mapper.TrickAttemptMapper;
 import by.grsu.skydiving.adapter.in.web.mapper.TrickRefereeingMapper;
 import by.grsu.skydiving.adapter.in.web.mapper.TrickSerieResponseMapper;
@@ -9,18 +8,20 @@ import by.grsu.skydiving.adapter.in.web.request.TrickAttemptRequest;
 import by.grsu.skydiving.adapter.in.web.response.TrickAttemptsFullInfoResponse;
 import by.grsu.skydiving.adapter.in.web.response.TrickRefereeingResponse;
 import by.grsu.skydiving.adapter.in.web.response.TrickSerieShortInfoResponse;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyValues;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttemptsWithScore;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeing;
 import by.grsu.skydiving.application.port.in.AddTrickAttemptsUseCase;
 import by.grsu.skydiving.application.port.in.AddTrickRefereeingUseCase;
 import by.grsu.skydiving.common.WebAdapter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @WebAdapter
 @RestController
@@ -36,7 +37,7 @@ public class TrickRefereeingController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TrickRefereeingResponse addTrickRefereeing(@RequestBody
-                                                       AddTrickRefereeingRequest request) {
+                                                          AddTrickRefereeingRequest request) {
         var command = refereeingMapper.toCommand(request);
         TrickRefereeing trickRefereeing = addTrickRefereeingUseCase.addTrickRefereeing(command);
         List<TrickSerieShortInfoResponse> trickSeriesResponses = new ArrayList<>();
@@ -48,7 +49,7 @@ public class TrickRefereeingController {
     @PostMapping("/attempts")
     @ResponseStatus(HttpStatus.CREATED)
     public TrickAttemptsFullInfoResponse addTrickAttempts(@RequestBody
-                                                          TrickAttemptRequest request){
+                                                              TrickAttemptRequest request) {
         var command = attemptsMapper.toCommand(request);
         TrickAttemptsWithScore trickAttempts = addTrickAttemptsUseCase.addTrickAttempts(command);
 
