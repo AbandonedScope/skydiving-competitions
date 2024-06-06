@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/auth/sign-up").permitAll()
                 .requestMatchers("/api/v1/auth/user-info").authenticated()
                 .requestMatchers("/api/v1/competitions/**").permitAll()
+                .requestMatchers("api/v1/trick-refereeing/current").authenticated()
                 .anyRequest().permitAll()
             )
             .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

@@ -5,6 +5,7 @@ import by.grsu.skydiving.adapter.in.web.mapper.TrickRefereeingMapper;
 import by.grsu.skydiving.adapter.in.web.mapper.TrickSerieResponseMapper;
 import by.grsu.skydiving.adapter.in.web.request.AddTrickRefereeingRequest;
 import by.grsu.skydiving.adapter.in.web.request.TrickAttemptRequest;
+import by.grsu.skydiving.adapter.in.web.response.RefereeingResponse;
 import by.grsu.skydiving.adapter.in.web.response.TrickAttemptsFullInfoResponse;
 import by.grsu.skydiving.adapter.in.web.response.TrickRefereeingResponse;
 import by.grsu.skydiving.adapter.in.web.response.TrickSerieShortInfoResponse;
@@ -13,6 +14,7 @@ import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttemptsW
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeing;
 import by.grsu.skydiving.application.port.in.AddTrickAttemptsUseCase;
 import by.grsu.skydiving.application.port.in.AddTrickRefereeingUseCase;
+import by.grsu.skydiving.application.port.in.GetRefereeingsUseCase;
 import by.grsu.skydiving.common.WebAdapter;
 import by.grsu.skydiving.common.config.security.UserDetailsServiceImpl;
 import java.util.ArrayList;
