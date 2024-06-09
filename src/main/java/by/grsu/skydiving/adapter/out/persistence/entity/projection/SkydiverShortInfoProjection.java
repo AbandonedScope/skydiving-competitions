@@ -10,8 +10,8 @@ public record SkydiverShortInfoProjection(
     String secondName,
     String patronymic,
     LocalDate beginDateOfSportCareer,
-    String sportSpecialization,
-    Integer sportDegree,
+    Integer sportTitle,
+    Integer sportRank,
     Integer gender,
     Boolean isInternal
 ) {

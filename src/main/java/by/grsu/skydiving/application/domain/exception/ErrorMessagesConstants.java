@@ -68,7 +68,7 @@ public class ErrorMessagesConstants {
     public static final String SPORT_SPECIALIZATION_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE =
         "Skydiver validation. Failed sport specialization check. Sport specialization is null or blank or incorrect length.";
     public static final String SPORT_DEGREE_IS_NULL_MESSAGE =
-        "Skydiver validation. Failed sport degree check. Sport degree is null.";
+        "Skydiver validation. Failed sport SportRank check. Sport SportRank is null.";
     public static final String ADDRESS_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE =
         "Address validation. Failed address check. Address is null or blank or incorrect length.";
     public static final String JOB_NAME_IS_NULL_OR_BLANK_OR_INCORRECT_LENGTH_MESSAGE =
