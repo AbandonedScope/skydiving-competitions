@@ -1,6 +1,7 @@
 package by.grsu.skydiving.adapter.in.web;
 
 import by.grsu.skydiving.adapter.in.web.mapper.SkydiverMapper;
+import by.grsu.skydiving.adapter.in.web.request.ExternalSkydiverRequest;
 import by.grsu.skydiving.adapter.in.web.request.SkydiverRequest;
 import by.grsu.skydiving.adapter.in.web.response.PageResponse;
 import by.grsu.skydiving.adapter.in.web.response.SkydiverResponse;
@@ -11,7 +12,9 @@ import by.grsu.skydiving.application.domain.model.common.GetPageQuery;
 import by.grsu.skydiving.application.domain.model.skydiver.Gender;
 import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
 import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
-import by.grsu.skydiving.application.domain.model.skydiver.SportDegree;
+import by.grsu.skydiving.application.domain.model.skydiver.SportRank;
+import by.grsu.skydiving.application.domain.model.skydiver.SportTitle;
+import by.grsu.skydiving.application.port.in.AddExternalSkydiverUseCase;
 import by.grsu.skydiving.application.port.in.AddSkydiverUseCase;
 import by.grsu.skydiving.application.port.in.GetSkydiversPageUseCase;
 import by.grsu.skydiving.application.port.in.SoftDeleteSkydiverUseCase;
@@ -37,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SkydiverController {
     private final AddSkydiverUseCase addUseCase;
+    private final AddExternalSkydiverUseCase addExternalUseCase;
     private final GetSkydiversPageUseCase pageUseCase;
     private final SoftDeleteSkydiverUseCase softDeleteUseCase;
     private final SkydiverMapper mapper;
@@ -47,6 +51,16 @@ public class SkydiverController {
                                         SkydiverRequest request) {
         Skydiver skydiver = mapper.toDomain(request);
         skydiver = addUseCase.addSkydiver(skydiver);
+
+        return mapper.toResponse(skydiver);
+    }
+
+    @PostMapping("/external")
+    @ResponseStatus(HttpStatus.CREATED)
+    public SkydiverResponse addExternalSkydiver(@RequestBody
+                                                ExternalSkydiverRequest request) {
+        Skydiver skydiver = mapper.toDomain(request);
+        skydiver = addExternalUseCase.addExternalSkydiver(skydiver);
 
         return mapper.toResponse(skydiver);
     }
@@ -62,14 +76,17 @@ public class SkydiverController {
         @RequestParam(required = false)
         Gender gender,
         @RequestParam(required = false)
-        SportDegree sportDegree,
+        SportRank sportRank,
+        @RequestParam(required = false)
+        SportTitle sportTitle,
         @RequestParam(required = false)
         Boolean isInternal
     ) {
         Map<String, Object> filters = HashMap.newHashMap(7);
         filters.put("name", name);
         filters.put("gender", gender);
-        filters.put("sportDegree", sportDegree);
+        filters.put("sportRank", sportRank);
+        filters.put("sportTitle", sportTitle);
         filters.put("isInternal", isInternal);
         filters.values().removeIf(Objects::isNull);
 

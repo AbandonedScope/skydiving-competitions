@@ -125,18 +125,6 @@ public class Skydiver extends TableImpl<Record> {
         createField(DSL.name("begin_of_sport_career"), SQLDataType.LOCALDATETIME(6), this, "");
 
     /**
-     * The column <code>public.skydiver.sport_specialization</code>.
-     */
-    public final TableField<Record, String> SPORT_SPECIALIZATION =
-        createField(DSL.name("sport_specialization"), SQLDataType.VARCHAR(50), this, "");
-
-    /**
-     * The column <code>public.skydiver.sport_degree</code>.
-     */
-    public final TableField<Record, Integer> SPORT_DEGREE =
-        createField(DSL.name("sport_degree"), SQLDataType.INTEGER, this, "");
-
-    /**
      * The column <code>public.skydiver.jumping_amount</code>.
      */
     public final TableField<Record, Integer> JUMPING_AMOUNT = createField(DSL.name("jumping_amount"),
@@ -153,6 +141,18 @@ public class Skydiver extends TableImpl<Record> {
      */
     public final TableField<Record, Boolean> IS_INTERNAL = createField(DSL.name("is_internal"),
         SQLDataType.BOOLEAN.defaultValue(DSL.field(DSL.raw("true"), SQLDataType.BOOLEAN)), this, "");
+
+    /**
+     * The column <code>public.skydiver.sport_rank</code>.
+     */
+    public final TableField<Record, Short> SPORT_RANK = createField(DSL.name("sport_rank"),
+        SQLDataType.SMALLINT.nullable(false).defaultValue(DSL.field(DSL.raw("4"), SQLDataType.SMALLINT)), this, "");
+
+    /**
+     * The column <code>public.skydiver.sport_title</code>.
+     */
+    public final TableField<Record, Short> SPORT_TITLE =
+        createField(DSL.name("sport_title"), SQLDataType.SMALLINT, this, "");
 
     private Skydiver(Name alias, Table<Record> aliased) {
         this(alias, aliased, null);

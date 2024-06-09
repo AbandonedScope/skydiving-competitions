@@ -65,4 +65,10 @@
         <tagDatabase tag="v.0.0.9"/>
     </changeSet>
 
+    <include file="v-0.0.10/db.changelog-v-0.0.10.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="31" author="Maksim Makhanko">
+        <tagDatabase tag="v.0.0.10"/>
+    </changeSet>
+
 </databaseChangeLog>

@@ -4,4 +4,6 @@ import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
 
 public interface SaveNewSkydiverPort {
     Skydiver save(Skydiver skydiver);
+
+    Skydiver saveExternal(Skydiver skydiver);
 }
