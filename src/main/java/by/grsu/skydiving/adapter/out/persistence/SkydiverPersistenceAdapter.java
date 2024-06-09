@@ -65,6 +65,21 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
     }
 
     @Override
+    @Transactional
+    public Skydiver saveExternal(Skydiver skydiver) {
+        UserInfoEntity userInfo = userInfoMapper.toEntity(skydiver);
+        long userId = userInfoJdbcRepository.save(userInfo).getUserId();
+
+        skydiver = skydiver.withId(userId);
+        SkydiverEntity skydiverEntity = skydiverEntityMapper.toEntity(skydiver);
+        skydiverEntity.setNew(true);
+        skydiverEntity.setInternal(false);
+        skydiverEntity = skydiverJdbcRepository.save(skydiverEntity);
+
+        return skydiverEntityMapper.toExternalDomain(skydiverEntity, userInfo);
+    }
+
+    @Override
     public Optional<SkydiverShortInfo> findById(long skydiverId) {
         return skydiverJdbcRepository.findById(skydiverId)
             .map(skydiverEntityMapper::toDomain);

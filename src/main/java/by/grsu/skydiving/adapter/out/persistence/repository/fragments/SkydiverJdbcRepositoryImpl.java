@@ -25,7 +25,6 @@ public class SkydiverJdbcRepositoryImpl {
     private final DSLContext create;
     private final JdbcTemplate jdbcTemplate;
 
-
     public List<SkydiverShortInfoProjection> filter(Map<String, Object> filters, long limit, long offset) {
         Query query = create.select(
                 SKYDIVER_VIEW.ID,
@@ -33,8 +32,8 @@ public class SkydiverJdbcRepositoryImpl {
                 USER_INFO_VIEW.SECOND_NAME,
                 USER_INFO_VIEW.PATRONYMIC,
                 SKYDIVER_VIEW.BEGIN_OF_SPORT_CAREER,
-                SKYDIVER_VIEW.SPORT_SPECIALIZATION,
-                SKYDIVER_VIEW.SPORT_DEGREE,
+                SKYDIVER_VIEW.SPORT_RANK,
+                SKYDIVER_VIEW.SPORT_TITLE,
                 SKYDIVER_VIEW.IS_INTERNAL,
                 SKYDIVER_VIEW.GENDER)
             .from(SKYDIVER_VIEW.leftJoin(USER_INFO_VIEW)
@@ -74,7 +73,8 @@ public class SkydiverJdbcRepositoryImpl {
         return switch (key) {
             case "gender" -> SKYDIVER_VIEW.GENDER.eq((Integer) value);
             case "name" -> buildNameFullTextSearchCondition((String) value);
-            case "sportDegree" -> SKYDIVER_VIEW.SPORT_DEGREE.eq((Integer) value);
+            case "sportTitle" -> SKYDIVER_VIEW.SPORT_TITLE.eq((Short) value);
+            case "sportRank" -> SKYDIVER_VIEW.SPORT_RANK.eq((Short) value);
             case "isInternal" -> SKYDIVER_VIEW.IS_INTERNAL.eq((Boolean) value);
             case null, default -> noCondition();
         };
@@ -94,9 +94,9 @@ public class SkydiverJdbcRepositoryImpl {
                 .secondName(rs.getString("second_name"))
                 .patronymic(rs.getString("patronymic"))
                 .beginDateOfSportCareer(beginDateOfSportCareer)
-                .sportSpecialization(rs.getString("sport_specialization"))
-                .sportDegree(rs.getInt("sport_degree"))
-                .gender(rs.getInt("gender"))
+                .sportTitle(rs.getObject("sport_title", Integer.class))
+                .sportRank(rs.getObject("sport_rank", Integer.class))
+                .gender(rs.getObject("gender", Integer.class))
                 .isInternal(rs.getBoolean("is_internal"))
                 .build();
         };
@@ -106,6 +106,8 @@ public class SkydiverJdbcRepositoryImpl {
         return DSL.condition("to_tsvector(" +
                              USER_INFO_VIEW.SECOND_NAME.getName() + " || ' ' || "
                              + USER_INFO_VIEW.FIRST_NAME.getName() + " || ' ' || "
-                             + USER_INFO_VIEW.PATRONYMIC.getName() + ") @@ to_tsquery('" + name + "')");
+                             + USER_INFO_VIEW.PATRONYMIC.getName() + ") " +
+                             "to_tsquery(regexp_replace(cast(plainto_tsquery('russian', '" + name + "') as text)," +
+                             "E'(\\'\\\\w+\\')', E'\\\\1:*', 'g'))'" + name + "')");
     }
 }

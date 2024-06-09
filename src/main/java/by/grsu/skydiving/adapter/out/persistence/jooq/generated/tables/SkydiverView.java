@@ -121,16 +121,16 @@ public class SkydiverView extends TableImpl<Record> {
         createField(DSL.name("begin_of_sport_career"), SQLDataType.LOCALDATETIME(6), this, "");
 
     /**
-     * The column <code>public.skydiver_view.sport_specialization</code>.
+     * The column <code>public.skydiver_view.sport_rank</code>.
      */
-    public final TableField<Record, String> SPORT_SPECIALIZATION =
-        createField(DSL.name("sport_specialization"), SQLDataType.VARCHAR(50), this, "");
+    public final TableField<Record, Short> SPORT_RANK =
+        createField(DSL.name("sport_rank"), SQLDataType.SMALLINT, this, "");
 
     /**
-     * The column <code>public.skydiver_view.sport_degree</code>.
+     * The column <code>public.skydiver_view.sport_title</code>.
      */
-    public final TableField<Record, Integer> SPORT_DEGREE =
-        createField(DSL.name("sport_degree"), SQLDataType.INTEGER, this, "");
+    public final TableField<Record, Short> SPORT_TITLE =
+        createField(DSL.name("sport_title"), SQLDataType.SMALLINT, this, "");
 
     /**
      * The column <code>public.skydiver_view.jumping_amount</code>.
@@ -164,8 +164,8 @@ public class SkydiverView extends TableImpl<Record> {
               skydiver.jacket_size,
               skydiver.pants_size,
               skydiver.begin_of_sport_career,
-              skydiver.sport_specialization,
-              skydiver.sport_degree,
+              skydiver.sport_rank,
+              skydiver.sport_title,
               skydiver.jumping_amount,
               skydiver.is_internal
              FROM skydiver
