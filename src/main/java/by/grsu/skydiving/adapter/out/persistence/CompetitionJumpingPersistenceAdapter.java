@@ -7,6 +7,7 @@ import by.grsu.skydiving.application.domain.model.jumping.NextJumpingNumber;
 import by.grsu.skydiving.application.port.out.CreateCompetitionJumpingPort;
 import by.grsu.skydiving.application.port.out.DeleteJumpingPort;
 import by.grsu.skydiving.application.port.out.GetCompetitionJumpingPort;
+import by.grsu.skydiving.application.port.out.GetJumpingOfAllMembersCompetitionPort;
 import by.grsu.skydiving.application.port.out.GetListOfJumpingForCompetitionMemberPort;
 import by.grsu.skydiving.application.port.out.GetNextNumberOfJumpingPort;
 import by.grsu.skydiving.application.port.out.UpdateCompetitionJumpingPort;
@@ -23,7 +24,8 @@ import org.springframework.beans.factory.annotation.Value;
 public class CompetitionJumpingPersistenceAdapter
     implements CreateCompetitionJumpingPort, GetNextNumberOfJumpingPort,
     GetListOfJumpingForCompetitionMemberPort, GetCompetitionJumpingPort,
-    UpdateCompetitionJumpingPort, DeleteJumpingPort {
+    UpdateCompetitionJumpingPort, DeleteJumpingPort,
+    GetJumpingOfAllMembersCompetitionPort {
     private final JumpingInfoJdbcRepository repository;
     private final JumpingInfoEntityMapper mapper;
     @Value("${jumping.limit-per-member}")
@@ -55,6 +57,13 @@ public class CompetitionJumpingPersistenceAdapter
     @Override
     public List<JumpingInfo> getList(long competitionMemberDetailsId) {
         return repository.findByCompetitionMemberDetailsIdOrderByNumberAsc(competitionMemberDetailsId).stream()
+            .map(mapper::toDomain)
+            .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
+    public List<JumpingInfo> getAllJumping(long competitionId) {
+        return repository.findByCompetitionId(competitionId).stream()
             .map(mapper::toDomain)
             .collect(Collectors.toCollection(ArrayList::new));
     }

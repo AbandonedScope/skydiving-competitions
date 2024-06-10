@@ -13,6 +13,17 @@ public interface JumpingInfoJdbcRepository extends ListCrudRepository<JumpingInf
     List<JumpingInfoEntity> findByCompetitionMemberDetailsIdOrderByNumberAsc(long competitionMemberDetailsId);
 
     @Query("""
+            select *
+            from jumping
+            where jumping.competition_member_detail_id in (
+                select id
+                from competition_member_detail
+                where competition_member_detail.competition_id = :competitionId
+            )
+        """)
+    List<JumpingInfoEntity> findByCompetitionId(long competitionId);
+
+    @Query("""
         SELECT count(*) + 1
         FROM jumping
         WHERE jumping.competition_member_detail_id in (select id

@@ -10,8 +10,10 @@ import by.grsu.skydiving.application.domain.exception.domain.ValidationException
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import lombok.Builder;
 import lombok.With;
 
+@Builder
 public record Team(
     @With
     Long id,
