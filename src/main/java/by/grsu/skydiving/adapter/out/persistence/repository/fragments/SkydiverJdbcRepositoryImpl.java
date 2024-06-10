@@ -33,7 +33,6 @@ public class SkydiverJdbcRepositoryImpl {
                 USER_INFO_VIEW.PATRONYMIC,
                 SKYDIVER_VIEW.BEGIN_OF_SPORT_CAREER,
                 SKYDIVER_VIEW.SPORT_RANK,
-                SKYDIVER_VIEW.SPORT_TITLE,
                 SKYDIVER_VIEW.IS_INTERNAL,
                 SKYDIVER_VIEW.GENDER)
             .from(SKYDIVER_VIEW.leftJoin(USER_INFO_VIEW)
@@ -73,7 +72,6 @@ public class SkydiverJdbcRepositoryImpl {
         return switch (key) {
             case "gender" -> SKYDIVER_VIEW.GENDER.eq((Integer) value);
             case "name" -> buildNameFullTextSearchCondition((String) value);
-            case "sportTitle" -> SKYDIVER_VIEW.SPORT_TITLE.eq((Short) value);
             case "sportRank" -> SKYDIVER_VIEW.SPORT_RANK.eq((Short) value);
             case "isInternal" -> SKYDIVER_VIEW.IS_INTERNAL.eq((Boolean) value);
             case null, default -> noCondition();
@@ -94,7 +92,6 @@ public class SkydiverJdbcRepositoryImpl {
                 .secondName(rs.getString("second_name"))
                 .patronymic(rs.getString("patronymic"))
                 .beginDateOfSportCareer(beginDateOfSportCareer)
-                .sportTitle(rs.getObject("sport_title", Integer.class))
                 .sportRank(rs.getObject("sport_rank", Integer.class))
                 .gender(rs.getObject("gender", Integer.class))
                 .isInternal(rs.getBoolean("is_internal"))

@@ -5,7 +5,9 @@ package generated.tables;
 
 
 import generated.Public;
+
 import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
@@ -127,12 +129,6 @@ public class SkydiverView extends TableImpl<Record> {
         createField(DSL.name("sport_rank"), SQLDataType.SMALLINT, this, "");
 
     /**
-     * The column <code>public.skydiver_view.sport_title</code>.
-     */
-    public final TableField<Record, Short> SPORT_TITLE =
-        createField(DSL.name("sport_title"), SQLDataType.SMALLINT, this, "");
-
-    /**
      * The column <code>public.skydiver_view.jumping_amount</code>.
      */
     public final TableField<Record, Integer> JUMPING_AMOUNT =
@@ -165,7 +161,6 @@ public class SkydiverView extends TableImpl<Record> {
               skydiver.pants_size,
               skydiver.begin_of_sport_career,
               skydiver.sport_rank,
-              skydiver.sport_title,
               skydiver.jumping_amount,
               skydiver.is_internal
              FROM skydiver

@@ -5,6 +5,7 @@ package generated.tables;
 
 
 import generated.Public;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;

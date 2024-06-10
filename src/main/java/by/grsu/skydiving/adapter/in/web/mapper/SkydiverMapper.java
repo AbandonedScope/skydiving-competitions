@@ -34,7 +34,6 @@ public interface SkydiverMapper {
     @Mapping(target = "name.secondName", source = "secondName")
     @Mapping(target = "name.patronymic", source = "patronymic")
     @Mapping(target = "passport", source = "passportDetails")
-    @Mapping(target = "sportCareer.sportTitle", source = "sportTitle")
     @Mapping(target = "sportCareer.sportRank", source = "sportRank")
     @Mapping(target = "phoneNumber", source = "phone")
     Skydiver toDomain(SkydiverRequest request);
@@ -42,7 +41,6 @@ public interface SkydiverMapper {
     @Mapping(target = "name.firstName", source = "firstName")
     @Mapping(target = "name.secondName", source = "secondName")
     @Mapping(target = "name.patronymic", source = "patronymic")
-    @Mapping(target = "sportCareer.sportTitle", source = "sportTitle")
     @Mapping(target = "sportCareer.sportRank", source = "sportRank")
     Skydiver toDomain(ExternalSkydiverRequest request);
 
@@ -52,7 +50,6 @@ public interface SkydiverMapper {
     @Mapping(target = "weight", source = "weight.weight")
     SkydiverResponse toResponse(Skydiver skydiver);
 
-    @Mapping(target = "sportTitle", source = "sportCareer.sportTitle")
     @Mapping(target = "sportRank", source = "sportCareer.sportRank")
     SkydiverShortInfoResponse toResponse(SkydiverShortInfo shortInfo);
 
