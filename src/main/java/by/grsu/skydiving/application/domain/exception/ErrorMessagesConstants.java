@@ -92,11 +92,11 @@ public class ErrorMessagesConstants {
     public static final String NEXT_JUMP_NUMBER_IN_COMPETITION_IS_NULL_OR_NEGATIVE_MESSAGE =
         "Jumping validation. Failed next jump number in competition check. Next jump number in competition height is null or negative";
     public static final String COMPETITION_STAGE_NUMBER_NULL_OR_INVALID_MESSAGE =
-        "Competition stage validation. Failed number of stage check. Number of stage is null or invalid";
+        "Competition collegium validation. Failed number of collegium check. Number of collegium is null or invalid";
     public static final String COMPETITION_STAGE_MAIN_JUDGE_COLLEGIUM_NULL_MESSAGE =
-        "Competition stage validation. Failed main judge collegium of stage check. Collegium is null";
+        "Competition collegium validation. Failed main judge collegium of collegium check. Collegium is null";
     public static final String COMPETITION_STAGE_JUDGE_COLLEGIUM_NULL_MESSAGE =
-        "Competition stage validation. Failed judge collegium of stage check. Collegium is null";
+        "Competition collegium validation. Failed judge collegium of collegium check. Collegium is null";
     public static final String INDIVIDUAL_COMPETITION_SKYDIVERS_NULL_MESSAGE =
         "Individual competition page validation. Failed individual competition page check. Skydivers is null";
 }

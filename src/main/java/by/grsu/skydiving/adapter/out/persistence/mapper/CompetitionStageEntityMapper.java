@@ -1,10 +1,10 @@
 package by.grsu.skydiving.adapter.out.persistence.mapper;
 
-import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionStageEntity;
-import by.grsu.skydiving.adapter.out.persistence.entity.StageRefereeTransEntity;
+import by.grsu.skydiving.adapter.out.persistence.entity.CollegiumRefereeTransEntity;
+import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionCollegiumEntity;
 import by.grsu.skydiving.application.domain.model.RefereeCollegium;
 import by.grsu.skydiving.application.domain.model.competition.CollegiumReferee;
-import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
+import by.grsu.skydiving.application.domain.model.competition.CompetitionCollegium;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -22,38 +22,31 @@ import org.mapstruct.ReportingPolicy;
 public interface CompetitionStageEntityMapper {
     @Mapping(target = "id", source = "domain.id")
     @Mapping(target = "competitionId", source = "competitionId")
-    @Mapping(target = "number", source = "domain.number")
-    CompetitionStageEntity toEntity(CompetitionStage domain, Long competitionId);
+    CompetitionCollegiumEntity toEntity(CompetitionCollegium domain, Long competitionId);
 
-    @Mapping(target = "competitionStageId", source = "stageId")
+    @Mapping(target = "competitionCollegiumId", source = "collegiumId")
     @Mapping(target = "refereeId", source = "domain.referee.id")
     @Mapping(target = "workPerformed", source = "domain.workPerformed")
     @Mapping(target = "isMainCollegium", source = "isMainCollegium")
-    StageRefereeTransEntity toEntity(CollegiumReferee domain, Long stageId, boolean isMainCollegium);
-
-    default List<CompetitionStageEntity> toEntities(List<CompetitionStage> domains, Long competitionId) {
-        return domains.stream()
-            .map(domain -> toEntity(domain, competitionId))
-            .toList();
-    }
+    @Mapping(target = "refereeNumber", source = "domain.refereeNumber")
+    CollegiumRefereeTransEntity toEntity(CollegiumReferee domain, Long collegiumId, boolean isMainCollegium);
 
     @Mapping(target = "id", source = "entity.id")
-    @Mapping(target = "number", source = "entity.number")
     @Mapping(target = "mainCollegium", source = "mainCollegium")
     @Mapping(target = "collegium", source = "collegium")
-    CompetitionStage toDomain(CompetitionStageEntity entity, RefereeCollegium mainCollegium,
-                              RefereeCollegium collegium);
+    CompetitionCollegium toDomain(CompetitionCollegiumEntity entity, RefereeCollegium mainCollegium,
+                                  RefereeCollegium collegium);
 
-    CompetitionStage toDomain(CompetitionStageEntity entity);
+    CompetitionCollegium toDomain(CompetitionCollegiumEntity entity);
 
     @Mapping(target = "referee.id", source = "refereeId")
-    CollegiumReferee toDomain(StageRefereeTransEntity entity);
+    CollegiumReferee toDomain(CollegiumRefereeTransEntity entity);
 
-    default CompetitionStage toDomain(CompetitionStageEntity entity, List<StageRefereeTransEntity> trans) {
+    default CompetitionCollegium toDomain(CompetitionCollegiumEntity entity, List<CollegiumRefereeTransEntity> trans) {
         RefereeCollegium mainCollegium = new RefereeCollegium(
             extractCollegiumReferee(
                 trans,
-                StageRefereeTransEntity::isMainCollegium
+                CollegiumRefereeTransEntity::isMainCollegium
             )
         );
 
@@ -67,8 +60,8 @@ public interface CompetitionStageEntityMapper {
         return toDomain(entity, mainCollegium, collegium);
     }
 
-    default Set<CollegiumReferee> extractCollegiumReferee(List<StageRefereeTransEntity> trans,
-                                                          Predicate<StageRefereeTransEntity> filter) {
+    default Set<CollegiumReferee> extractCollegiumReferee(List<CollegiumRefereeTransEntity> trans,
+                                                          Predicate<CollegiumRefereeTransEntity> filter) {
         return trans.stream()
             .filter(filter)
             .map(this::toDomain)

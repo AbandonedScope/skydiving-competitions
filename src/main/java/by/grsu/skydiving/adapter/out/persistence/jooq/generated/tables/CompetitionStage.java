@@ -6,13 +6,10 @@ package generated.tables;
 
 import generated.Keys;
 import generated.Public;
-
 import java.util.Arrays;
 import java.util.List;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Schema;
@@ -49,8 +46,9 @@ public class CompetitionStage extends TableImpl<Record> {
     /**
      * The column <code>public.competition_stage.id</code>.
      */
-    public final TableField<Record, Long> ID =
-        createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<Record, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false)
+            .defaultValue(DSL.field(DSL.raw("nextval('competition_stage_id_seq1'::regclass)"), SQLDataType.BIGINT)), this,
+        "");
 
     /**
      * The column <code>public.competition_stage.competition_id</code>.
@@ -103,18 +101,13 @@ public class CompetitionStage extends TableImpl<Record> {
     }
 
     @Override
-    public Identity<Record, Long> getIdentity() {
-        return (Identity<Record, Long>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<Record> getPrimaryKey() {
-        return Keys.COMPETITION_STAGE_PKEY;
+        return Keys.COMPETITION_STAGE_PKEY1;
     }
 
     @Override
     public List<ForeignKey<Record, ?>> getReferences() {
-        return Arrays.asList(Keys.COMPETITION_STAGE__COMPETITION_STAGE_COMPETITION_ID_FKEY);
+        return Arrays.asList(Keys.COMPETITION_STAGE__COMPETITION_STAGE_COMPETITION_ID_FKEY1);
     }
 
     private transient Competition _competition;
@@ -123,8 +116,9 @@ public class CompetitionStage extends TableImpl<Record> {
      * Get the implicit join path to the <code>public.competition</code> table.
      */
     public Competition competition() {
-        if (_competition == null)
-            _competition = new Competition(this, Keys.COMPETITION_STAGE__COMPETITION_STAGE_COMPETITION_ID_FKEY);
+        if (_competition == null) {
+            _competition = new Competition(this, Keys.COMPETITION_STAGE__COMPETITION_STAGE_COMPETITION_ID_FKEY1);
+        }
 
         return _competition;
     }

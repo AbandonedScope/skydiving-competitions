@@ -84,15 +84,15 @@ public class UserInfoView extends TableImpl<Record> {
 
     private UserInfoView(Name alias, Table<Record> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("""
-            create view "user_info_view" as  SELECT user_info.id,
-              user_info.login,
-              user_info.password,
-              user_info.first_name,
-              user_info.second_name,
-              user_info.patronymic,
-              user_info.role
+            create view "user_info_view" as  SELECT id,
+              login,
+              password,
+              first_name,
+              second_name,
+              patronymic,
+              role
              FROM user_info
-            WHERE (user_info.is_deleted IS FALSE);
+            WHERE (is_deleted IS FALSE);
             """));
     }
 

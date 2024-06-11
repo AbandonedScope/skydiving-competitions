@@ -5,9 +5,7 @@ package generated.tables;
 
 
 import generated.Public;
-
 import java.time.LocalDateTime;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
@@ -146,25 +144,25 @@ public class SkydiverView extends TableImpl<Record> {
 
     private SkydiverView(Name alias, Table<Record> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("""
-            create view "skydiver_view" as  SELECT skydiver.id,
-              skydiver.gender,
-              skydiver.birth_date,
-              skydiver.place_of_birth,
-              skydiver.place_of_work,
-              skydiver.education,
-              skydiver.phone_number,
-              skydiver.couch_name,
-              skydiver.height,
-              skydiver.weight,
-              skydiver.shoe_size,
-              skydiver.jacket_size,
-              skydiver.pants_size,
-              skydiver.begin_of_sport_career,
-              skydiver.sport_rank,
-              skydiver.jumping_amount,
-              skydiver.is_internal
+            create view "skydiver_view" as  SELECT id,
+              gender,
+              birth_date,
+              place_of_birth,
+              place_of_work,
+              education,
+              phone_number,
+              couch_name,
+              height,
+              weight,
+              shoe_size,
+              jacket_size,
+              pants_size,
+              begin_of_sport_career,
+              sport_rank,
+              jumping_amount,
+              is_internal
              FROM skydiver
-            WHERE (skydiver.is_deleted IS FALSE);
+            WHERE (is_deleted IS FALSE);
             """));
     }
 

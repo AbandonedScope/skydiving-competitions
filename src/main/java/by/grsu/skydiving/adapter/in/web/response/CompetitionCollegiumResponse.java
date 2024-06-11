@@ -4,9 +4,8 @@ import java.util.Set;
 import lombok.Builder;
 
 @Builder
-public record CompetitionStageResponse(
+public record CompetitionCollegiumResponse(
     Long id,
-    Integer number,
     Set<RefereeResponse> mainCollegium,
     Set<RefereeResponse> collegium
 ) {

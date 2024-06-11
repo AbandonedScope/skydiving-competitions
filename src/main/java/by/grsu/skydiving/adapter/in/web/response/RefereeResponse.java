@@ -10,6 +10,7 @@ public record RefereeResponse(
     String secondName,
     String patronymic,
     RefereeCategory category,
-    String workPerformed
+    String workPerformed,
+    Integer refereeNumber
 ) {
 }

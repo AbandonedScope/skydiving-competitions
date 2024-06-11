@@ -4,6 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record CollegiumReferee(
+    Integer refereeNumber,
     Referee referee,
     String workPerformed
 ) {

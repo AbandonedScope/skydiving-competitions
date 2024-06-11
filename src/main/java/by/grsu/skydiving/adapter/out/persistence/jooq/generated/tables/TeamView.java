@@ -55,10 +55,10 @@ public class TeamView extends TableImpl<Record> {
 
     private TeamView(Name alias, Table<Record> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("""
-            create view "team_view" as  SELECT team.id,
-              team.name
+            create view "team_view" as  SELECT id,
+              name
              FROM team
-            WHERE (team.is_deleted IS FALSE);
+            WHERE (is_deleted IS FALSE);
             """));
     }
 

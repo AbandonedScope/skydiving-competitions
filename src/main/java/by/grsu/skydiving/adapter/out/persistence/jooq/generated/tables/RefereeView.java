@@ -5,7 +5,6 @@ package generated.tables;
 
 
 import generated.Public;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
@@ -57,10 +56,10 @@ public class RefereeView extends TableImpl<Record> {
 
     private RefereeView(Name alias, Table<Record> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("""
-            create view "referee_view" as  SELECT referee.id,
-              referee.category
+            create view "referee_view" as  SELECT id,
+              category
              FROM referee
-            WHERE (referee.is_deleted = false);
+            WHERE (is_deleted = false);
             """));
     }
 

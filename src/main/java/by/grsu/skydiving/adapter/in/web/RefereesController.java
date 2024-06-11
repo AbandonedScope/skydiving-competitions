@@ -1,22 +1,23 @@
 package by.grsu.skydiving.adapter.in.web;
 
+import by.grsu.skydiving.adapter.in.web.mapper.CollegiumMapper;
 import by.grsu.skydiving.adapter.in.web.mapper.RefereeMapper;
 import by.grsu.skydiving.adapter.in.web.request.AddRefereeRequest;
 import by.grsu.skydiving.adapter.in.web.response.AddRefereeResponse;
+import by.grsu.skydiving.adapter.in.web.response.CompetitionCollegiumResponse;
 import by.grsu.skydiving.adapter.in.web.response.PageResponse;
-import by.grsu.skydiving.adapter.in.web.response.RefereeGroupsResponse;
 import by.grsu.skydiving.adapter.in.web.response.RefereeShortInfoResponse;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.common.FilterQuery;
 import by.grsu.skydiving.application.domain.model.common.GetPageQuery;
+import by.grsu.skydiving.application.domain.model.competition.CompetitionCollegium;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
-import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
 import by.grsu.skydiving.application.port.in.AddRefereeUseCase;
 import by.grsu.skydiving.application.port.in.DeleteRefereeFromCompetitionStageUseCase;
 import by.grsu.skydiving.application.port.in.DeleteRefereeUseCase;
+import by.grsu.skydiving.application.port.in.GetCollegiumOfCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.GetFilteredRefereesUseCase;
-import by.grsu.skydiving.application.port.in.GetRefereesGroupsByCompetitionStageIdUseCase;
 import by.grsu.skydiving.common.WebAdapter;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,19 +39,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/referees")
 @RequiredArgsConstructor
 public class RefereesController {
-    private final GetRefereesGroupsByCompetitionStageIdUseCase getRefereesGroupsUseCase;
+    private final GetCollegiumOfCompetitionUseCase getCollegiumOfCompetitionUseCase;
     private final DeleteRefereeUseCase deleteRefereeUseCase;
     private final AddRefereeUseCase addRefereeUseCase;
     private final DeleteRefereeFromCompetitionStageUseCase deleteRefereeFromCompetitionStageUseCase;
     private final GetFilteredRefereesUseCase getFilteredRefereesUseCase;
+    private final CollegiumMapper collegiumMapper;
     private final RefereeMapper mapper;
 
-    @GetMapping("/stage/{competitionStageId}")
+    @GetMapping("/{competitionId}")
     @ResponseStatus(HttpStatus.OK)
-    public RefereeGroupsResponse getRefereeGroupsByCompetitionStageId(@PathVariable Long competitionStageId) {
-        RefereeGroups referees = getRefereesGroupsUseCase.findRefereesByCompetitionStageId(competitionStageId);
+    public CompetitionCollegiumResponse getRefereeGroupsByCompetitionStageId(@PathVariable Long competitionId) {
+        CompetitionCollegium collegium = getCollegiumOfCompetitionUseCase
+            .getByCompetitionId(competitionId);
 
-        return mapper.toResponse(referees);
+        return collegiumMapper.toResponse(collegium);
     }
 
     @DeleteMapping("/{refereeId}")
@@ -59,11 +62,11 @@ public class RefereesController {
         deleteRefereeUseCase.deleteRefereeByRefereeId(refereeId);
     }
 
-    @DeleteMapping("/{refereeId}/stage/{competitionStageId}")
+    @DeleteMapping("/{refereeId}/competition/{competitionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRefereeByCompetitionStageIdAndRefereeId(@PathVariable Long competitionStageId,
+    public void deleteRefereeByCompetitionStageIdAndRefereeId(@PathVariable Long competitionId,
                                                               @PathVariable Long refereeId) {
-        deleteRefereeFromCompetitionStageUseCase.deleteRefereeFromCompetitionByCompetitionStageId(competitionStageId,
+        deleteRefereeFromCompetitionStageUseCase.deleteRefereeFromCompetitionByCompetitionCollegiumId(competitionId,
             refereeId);
     }
 

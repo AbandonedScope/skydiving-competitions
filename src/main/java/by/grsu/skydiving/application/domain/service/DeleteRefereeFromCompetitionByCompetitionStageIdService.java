@@ -1,6 +1,6 @@
 package by.grsu.skydiving.application.domain.service;
 
-import by.grsu.skydiving.application.domain.exception.business.CompetitionStageRefereeNotFoundException;
+import by.grsu.skydiving.application.domain.exception.business.CompetitionCollegiumRefereeNotFoundException;
 import by.grsu.skydiving.application.port.in.DeleteRefereeFromCompetitionStageUseCase;
 import by.grsu.skydiving.application.port.out.DeleteRefereeFromCompetitionStagePort;
 import by.grsu.skydiving.common.UseCase;
@@ -13,12 +13,13 @@ public class DeleteRefereeFromCompetitionByCompetitionStageIdService
     private final DeleteRefereeFromCompetitionStagePort deleteRefereeFromCompetitionStagePort;
 
     @Override
-    public void deleteRefereeFromCompetitionByCompetitionStageId(Long competitionStageId, Long refereeId) {
+    public void deleteRefereeFromCompetitionByCompetitionCollegiumId(Long competitionCollegiumId, Long refereeId) {
         int affectedRowsCount =
-            deleteRefereeFromCompetitionStagePort.deleteRefereeFromCompetitionByCompetitionStageId(competitionStageId,
+            deleteRefereeFromCompetitionStagePort.deleteRefereeFromCompetitionByCompetitionCollegiumId(
+                competitionCollegiumId,
                 refereeId);
         if (affectedRowsCount == 0) {
-            throw new CompetitionStageRefereeNotFoundException(refereeId, competitionStageId);
+            throw new CompetitionCollegiumRefereeNotFoundException(refereeId, competitionCollegiumId);
         }
     }
 }

@@ -5,6 +5,8 @@ package generated;
 
 
 import generated.tables.Competition;
+import generated.tables.CompetitionCollegium;
+import generated.tables.CompetitionCollegiumRefereeTrans;
 import generated.tables.CompetitionMemberDetail;
 import generated.tables.CompetitionStage;
 import generated.tables.CompetitionStageRefereeTrans;
@@ -33,6 +35,17 @@ public class Tables {
      * The table <code>public.competition</code>.
      */
     public static final Competition COMPETITION = Competition.COMPETITION;
+
+    /**
+     * The table <code>public.competition_collegium</code>.
+     */
+    public static final CompetitionCollegium COMPETITION_COLLEGIUM = CompetitionCollegium.COMPETITION_COLLEGIUM;
+
+    /**
+     * The table <code>public.competition_collegium_referee_trans</code>.
+     */
+    public static final CompetitionCollegiumRefereeTrans COMPETITION_COLLEGIUM_REFEREE_TRANS =
+        CompetitionCollegiumRefereeTrans.COMPETITION_COLLEGIUM_REFEREE_TRANS;
 
     /**
      * The table <code>public.competition_member_detail</code>.

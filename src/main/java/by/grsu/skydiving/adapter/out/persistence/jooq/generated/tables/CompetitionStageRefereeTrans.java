@@ -6,13 +6,10 @@ package generated.tables;
 
 import generated.Keys;
 import generated.Public;
-
 import java.util.Arrays;
 import java.util.List;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Schema;
@@ -51,8 +48,10 @@ public class CompetitionStageRefereeTrans extends TableImpl<Record> {
     /**
      * The column <code>public.competition_stage_referee_trans.id</code>.
      */
-    public final TableField<Record, Long> ID =
-        createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<Record, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false)
+            .defaultValue(
+                DSL.field(DSL.raw("nextval('competition_stage_referee_trans_id_seq1'::regclass)"), SQLDataType.BIGINT)),
+        this, "");
 
     /**
      * The column
@@ -124,20 +123,15 @@ public class CompetitionStageRefereeTrans extends TableImpl<Record> {
     }
 
     @Override
-    public Identity<Record, Long> getIdentity() {
-        return (Identity<Record, Long>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<Record> getPrimaryKey() {
-        return Keys.COMPETITION_STAGE_REFEREE_TRANS_PKEY;
+        return Keys.COMPETITION_STAGE_REFEREE_TRANS_PKEY1;
     }
 
     @Override
     public List<ForeignKey<Record, ?>> getReferences() {
         return Arrays.asList(
-            Keys.COMPETITION_STAGE_REFEREE_TRANS__COMPETITION_STAGE_REFEREE_TRANS_COMPETITION_STAGE_ID_FKEY,
-            Keys.COMPETITION_STAGE_REFEREE_TRANS__COMPETITION_STAGE_REFEREE_TRANS_REFEREE_ID_FKEY);
+            Keys.COMPETITION_STAGE_REFEREE_TRANS__COMPETITION_STAGE_REFEREE_TRANS_COMPETITION_STAGE_ID_FKEY1,
+            Keys.COMPETITION_STAGE_REFEREE_TRANS__COMPETITION_STAGE_REFEREE_TRANS_REFEREE_ID_FKEY1);
     }
 
     private transient CompetitionStage _competitionStage;
@@ -150,7 +144,7 @@ public class CompetitionStageRefereeTrans extends TableImpl<Record> {
     public CompetitionStage competitionStage() {
         if (_competitionStage == null) {
             _competitionStage = new CompetitionStage(this,
-                Keys.COMPETITION_STAGE_REFEREE_TRANS__COMPETITION_STAGE_REFEREE_TRANS_COMPETITION_STAGE_ID_FKEY);
+                Keys.COMPETITION_STAGE_REFEREE_TRANS__COMPETITION_STAGE_REFEREE_TRANS_COMPETITION_STAGE_ID_FKEY1);
         }
 
         return _competitionStage;
@@ -162,7 +156,7 @@ public class CompetitionStageRefereeTrans extends TableImpl<Record> {
     public Referee referee() {
         if (_referee == null) {
             _referee = new Referee(this,
-                Keys.COMPETITION_STAGE_REFEREE_TRANS__COMPETITION_STAGE_REFEREE_TRANS_REFEREE_ID_FKEY);
+                Keys.COMPETITION_STAGE_REFEREE_TRANS__COMPETITION_STAGE_REFEREE_TRANS_REFEREE_ID_FKEY1);
         }
 
         return _referee;

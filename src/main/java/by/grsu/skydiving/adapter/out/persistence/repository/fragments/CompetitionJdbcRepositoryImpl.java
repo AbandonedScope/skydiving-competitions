@@ -31,7 +31,6 @@ public class CompetitionJdbcRepositoryImpl {
                 COMPETITION_VIEW.BEGIN_DATE,
                 COMPETITION_VIEW.END_DATE,
                 COMPETITION_VIEW.STATUS,
-                COMPETITION_VIEW.NUMBER_OF_STAGES,
                 COMPETITION_VIEW.ADDRESS)
             .from(COMPETITION_VIEW)
             .where(buildConditions(filters))
@@ -100,7 +99,6 @@ public class CompetitionJdbcRepositoryImpl {
                 .beginDate(beginDateOfCompetition)
                 .endDate(endDateOfCompetition)
                 .status(rs.getInt("status"))
-                .numberOfStages(rs.getInt("number_of_stages"))
                 .build();
         };
     }

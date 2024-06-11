@@ -1,7 +1,7 @@
 package by.grsu.skydiving.adapter.in.web.response;
 
-public record AddStageResponse(
+public record CollegiumResponse(
     Long competitionId,
-    Long stageId
+    Long collegiumId
 ) {
 }

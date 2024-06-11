@@ -105,6 +105,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${openApiVersion}")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-security");
     implementation("org.mapstruct:mapstruct:${mapstructVersion}")
     implementation("io.jsonwebtoken:jjwt:${jjwtVersion}")
@@ -134,7 +135,7 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-//
-//tasks.withType<nu.studer.gradle.jooq.JooqGenerate> {
-//    enabled = false
-//}
+
+tasks.withType<nu.studer.gradle.jooq.JooqGenerate> {
+    enabled = false
+}

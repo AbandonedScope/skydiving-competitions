@@ -5,6 +5,8 @@ package generated;
 
 
 import generated.tables.Competition;
+import generated.tables.CompetitionCollegium;
+import generated.tables.CompetitionCollegiumRefereeTrans;
 import generated.tables.CompetitionMemberDetail;
 import generated.tables.CompetitionStage;
 import generated.tables.CompetitionStageRefereeTrans;
@@ -24,6 +26,7 @@ import generated.tables.UserInfoView;
 import java.util.Arrays;
 import java.util.List;
 import org.jooq.Catalog;
+import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
 
@@ -45,6 +48,17 @@ public class Public extends SchemaImpl {
      * The table <code>public.competition</code>.
      */
     public final Competition COMPETITION = Competition.COMPETITION;
+
+    /**
+     * The table <code>public.competition_collegium</code>.
+     */
+    public final CompetitionCollegium COMPETITION_COLLEGIUM = CompetitionCollegium.COMPETITION_COLLEGIUM;
+
+    /**
+     * The table <code>public.competition_collegium_referee_trans</code>.
+     */
+    public final CompetitionCollegiumRefereeTrans COMPETITION_COLLEGIUM_REFEREE_TRANS =
+        CompetitionCollegiumRefereeTrans.COMPETITION_COLLEGIUM_REFEREE_TRANS;
 
     /**
      * The table <code>public.competition_member_detail</code>.
@@ -141,9 +155,21 @@ public class Public extends SchemaImpl {
     }
 
     @Override
+    public final List<Sequence<?>> getSequences() {
+        return Arrays.asList(
+            Sequences.COMPETITION_STAGE_ID_SEQ,
+            Sequences.COMPETITION_STAGE_ID_SEQ1,
+            Sequences.COMPETITION_STAGE_REFEREE_TRANS_ID_SEQ,
+            Sequences.COMPETITION_STAGE_REFEREE_TRANS_ID_SEQ1
+        );
+    }
+
+    @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             Competition.COMPETITION,
+            CompetitionCollegium.COMPETITION_COLLEGIUM,
+            CompetitionCollegiumRefereeTrans.COMPETITION_COLLEGIUM_REFEREE_TRANS,
             CompetitionMemberDetail.COMPETITION_MEMBER_DETAIL,
             CompetitionStage.COMPETITION_STAGE,
             CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS,
