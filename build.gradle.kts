@@ -7,6 +7,7 @@ plugins {
     id("org.springframework.boot") version "3.2.5"
     id("io.spring.dependency-management") version "1.1.4"
     id("nu.studer.jooq") version "9.0"
+    id("org.liquibase.gradle") version "2.2.1"
 }
 
 
@@ -21,6 +22,18 @@ configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
     }
+}
+
+liquibase {
+    activities.register("main") {
+        this.arguments = mapOf(
+            "changeLogFile" to "src/main/resources/db/changes/db.changelog-master.xml",
+            "url" to "jdbc:postgresql://localhost:5432/skydiving",
+            "username" to "postgres",
+            "password" to "postgres"
+        )
+    }
+    runList = "main"
 }
 
 jooq {
@@ -108,6 +121,14 @@ dependencies {
     jooqGenerator("org.postgresql:postgresql")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+
+    liquibaseRuntime("javax.xml.bind:jaxb-api:2.3.1")
+    liquibaseRuntime("org.liquibase:liquibase-core:4.16.1")
+    liquibaseRuntime("org.liquibase:liquibase-groovy-dsl:3.0.2")
+    liquibaseRuntime("info.picocli:picocli:4.6.1")
+    liquibaseRuntime("org.postgresql:postgresql")
+
 }
 
 tasks.withType<Test> {
