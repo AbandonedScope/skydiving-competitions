@@ -6,7 +6,9 @@ package generated.tables;
 
 import generated.Keys;
 import generated.Public;
+
 import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
@@ -147,12 +149,6 @@ public class Skydiver extends TableImpl<Record> {
      */
     public final TableField<Record, Short> SPORT_RANK = createField(DSL.name("sport_rank"),
         SQLDataType.SMALLINT.nullable(false).defaultValue(DSL.field(DSL.raw("4"), SQLDataType.SMALLINT)), this, "");
-
-    /**
-     * The column <code>public.skydiver.sport_title</code>.
-     */
-    public final TableField<Record, Short> SPORT_TITLE =
-        createField(DSL.name("sport_title"), SQLDataType.SMALLINT, this, "");
 
     private Skydiver(Name alias, Table<Record> aliased) {
         this(alias, aliased, null);

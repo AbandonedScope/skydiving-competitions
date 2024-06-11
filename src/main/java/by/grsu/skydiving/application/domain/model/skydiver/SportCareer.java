@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 public record SportCareer(
     LocalDate beginDateOfSportCareer,
-    SportTitle sportTitle,
     SportRank sportRank
 ) {
 }
