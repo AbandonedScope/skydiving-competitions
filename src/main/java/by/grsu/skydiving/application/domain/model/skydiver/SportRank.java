@@ -20,7 +20,14 @@ public enum SportRank {
     THIRD_DEGREE_AMONG_DISABLED(11, "III разряд среди инвалидов"),
     FIRST_JUNIOR_DEGREE_AMONG_DISABLED(12, "I юношеский разряд среди инвалидов"),
     SECOND_JUNIOR_DEGREE_AMONG_DISABLED(13, "II юношеский разряд среди инвалидов"),
-    THIRD_JUNIOR_DEGREE_AMONG_DISABLED(14, "III юношеский разряд среди инвалидов");
+    THIRD_JUNIOR_DEGREE_AMONG_DISABLED(14, "III юношеский разряд среди инвалидов"),
+
+    MASTER_OF_SPORT_OF_REPUBLIC_OF_BELARUS_OF_INTERNATIONAL_CLASS(15,
+        "Мастер спорта Республики Беларусь международного класса"),
+    MASTER_OF_SPORT_OF_REPUBLIC_OF_BELARUS(16, "Мастер спорта Республики Беларусь"),
+    MASTER_OF_SPORT_OF_REPUBLIC_OF_BELARUS_OF_INTERNATIONAL_CLASS_AMONG_DISABLED(17,
+        "Мастер спорта Республики Беларусь международного класса среди инвалидов"),
+    MASTER_OF_SPORT_OF_REPUBLIC_OF_BELARUS_AMONG_DISABLED(18, "Мастер спорта Республики Беларусь среди инвалидов");;
 
     private final int id;
     private final String russianName;

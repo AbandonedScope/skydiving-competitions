@@ -11,7 +11,6 @@ import by.grsu.skydiving.application.domain.model.skydiver.PhoneNumber;
 import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
 import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
 import by.grsu.skydiving.application.domain.model.skydiver.SportRank;
-import by.grsu.skydiving.application.domain.model.skydiver.SportTitle;
 import by.grsu.skydiving.application.domain.model.skydiver.Weight;
 import java.util.List;
 import org.mapstruct.Mapper;
@@ -31,7 +30,6 @@ public interface SkydiverEntityMapper {
     @Mapping(target = "jacketSize", source = "clothingSize.jacketSize")
     @Mapping(target = "pantsSize", source = "clothingSize.pantsSize")
     @Mapping(target = "beginDateOfSportCareer", source = "sportCareer.beginDateOfSportCareer")
-    @Mapping(target = "sportTitle", source = "sportCareer.sportTitle")
     @Mapping(target = "sportRank", source = "sportCareer.sportRank")
     @Mapping(target = "couchName", ignore = true)
     @Mapping(target = "new", ignore = true)
@@ -47,7 +45,6 @@ public interface SkydiverEntityMapper {
     @Mapping(target = "clothingSize.jacketSize", source = "entity.jacketSize")
     @Mapping(target = "clothingSize.pantsSize", source = "entity.pantsSize")
     @Mapping(target = "sportCareer.beginDateOfSportCareer", source = "entity.beginDateOfSportCareer")
-    @Mapping(target = "sportCareer.sportTitle", source = "entity.sportTitle")
     @Mapping(target = "sportCareer.sportRank", source = "entity.sportRank")
     @Mapping(target = "passport", source = "passport")
     @Mapping(target = "couchName", ignore = true)
@@ -63,7 +60,6 @@ public interface SkydiverEntityMapper {
     @Mapping(target = "clothingSize.jacketSize", source = "entity.jacketSize")
     @Mapping(target = "clothingSize.pantsSize", source = "entity.pantsSize")
     @Mapping(target = "sportCareer.beginDateOfSportCareer", source = "entity.beginDateOfSportCareer")
-    @Mapping(target = "sportCareer.sportTitle", source = "entity.sportTitle")
     @Mapping(target = "sportCareer.sportRank", source = "entity.sportRank")
     @Mapping(target = "couchName", ignore = true)
     Skydiver toExternalDomain(SkydiverEntity entity, UserInfoEntity userInfo);
@@ -72,7 +68,6 @@ public interface SkydiverEntityMapper {
     @Mapping(target = "name.secondName", source = "secondName")
     @Mapping(target = "name.patronymic", source = "patronymic")
     @Mapping(target = "sportCareer.beginDateOfSportCareer", source = "beginDateOfSportCareer")
-    @Mapping(target = "sportCareer.sportTitle", source = "sportTitle")
     @Mapping(target = "sportCareer.sportRank", source = "sportRank")
     @Mapping(target = "isInternal", source = "isInternal")
     SkydiverShortInfo toDomain(SkydiverShortInfoProjection entity);
@@ -125,18 +120,6 @@ public interface SkydiverEntityMapper {
         return id == null
             ? null
             : SportRank.of(id);
-    }
-
-    default Integer mapSportTitle(SportTitle sportTitle) {
-        return sportTitle == null
-            ? null
-            : sportTitle.getId();
-    }
-
-    default SportTitle mapSportTitle(Integer id) {
-        return id == null
-            ? null
-            : SportTitle.of(id);
     }
 
     default Integer mapGender(Gender gender) {

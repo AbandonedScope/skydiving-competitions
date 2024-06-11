@@ -42,8 +42,6 @@ public class SkydiverEntity implements Persistable<Long> {
     private Integer pantsSize;
     @Column("begin_of_sport_career")
     private LocalDate beginDateOfSportCareer;
-    @Column("sport_title")
-    private Integer sportTitle;
     @Column("sport_rank")
     private Integer sportRank;
     @Column("is_internal")

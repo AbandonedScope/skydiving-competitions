@@ -13,7 +13,6 @@ import by.grsu.skydiving.application.domain.model.skydiver.Gender;
 import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
 import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
 import by.grsu.skydiving.application.domain.model.skydiver.SportRank;
-import by.grsu.skydiving.application.domain.model.skydiver.SportTitle;
 import by.grsu.skydiving.application.port.in.AddExternalSkydiverUseCase;
 import by.grsu.skydiving.application.port.in.AddSkydiverUseCase;
 import by.grsu.skydiving.application.port.in.GetSkydiversPageUseCase;
@@ -78,15 +77,12 @@ public class SkydiverController {
         @RequestParam(required = false)
         SportRank sportRank,
         @RequestParam(required = false)
-        SportTitle sportTitle,
-        @RequestParam(required = false)
         Boolean isInternal
     ) {
         Map<String, Object> filters = HashMap.newHashMap(7);
         filters.put("name", name);
         filters.put("gender", gender);
         filters.put("sportRank", sportRank);
-        filters.put("sportTitle", sportTitle);
         filters.put("isInternal", isInternal);
         filters.values().removeIf(Objects::isNull);
 
