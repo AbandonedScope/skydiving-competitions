@@ -27,7 +27,8 @@ configurations {
 liquibase {
     activities.register("main") {
         this.arguments = mapOf(
-            "changeLogFile" to "src/main/resources/db/changes/db.changelog-master.xml",
+            "searchPath" to "src/main/resources/",
+            "changeLogFile" to "db/changes/db.changelog-master.xml",
             "url" to "jdbc:postgresql://localhost:5432/skydiving",
             "username" to "postgres",
             "password" to "postgres"
