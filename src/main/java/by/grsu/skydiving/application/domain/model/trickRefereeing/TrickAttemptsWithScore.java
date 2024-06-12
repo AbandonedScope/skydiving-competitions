@@ -10,8 +10,10 @@ public record TrickAttemptsWithScore(
     Map<TrickType, TrickAttempt> trickAttempts
 ) {
     public static Float calculateTotalPenalty(List<TrickAttempt> trickAttemptList) {
-        return trickAttemptList.stream()
+        Float sum = trickAttemptList.stream()
             .map(TrickAttempt::calculateTrickPenalty)
             .reduce(0f, Float::sum);
+
+        return sum > 16 ? 16 : sum;
     }
 }

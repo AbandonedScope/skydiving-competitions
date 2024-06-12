@@ -2,10 +2,9 @@ package by.grsu.skydiving.adapter.out.persistence.mapper;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.TrickSerieEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeingProjection;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.Refereeing;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeing;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeingFullInfo;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerie;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.TrickSerieProjection;
+import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
+
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -42,4 +41,28 @@ public interface TrickSerieMapper {
     Refereeing toDomain(RefereeingProjection projection);
 
     List<Refereeing> toRefereeingDomains(List<RefereeingProjection> projections);
+
+    default TrickSerieExtended mapToExtended(TrickSerieProjection entity, TrickAttemptsWithScore trickAttemptsWithScore){
+        return  TrickSerieExtended.builder()
+                .id(entity.getId())
+                .refereeId(entity.getRefereeId())
+                .refereeNumber(entity.getRefereeNumber())
+                .isTimeSubmitted(entity.getIsTimeSubmitted())
+                .timeWithoutPenalty(entity.getTimeWithoutPenalty())
+                .totalPenalty(trickAttemptsWithScore.totalScore())
+                .trickAttemptsWithScore(trickAttemptsWithScore)
+                .build();
+    }
+
+    default TrickSerieOfSkydiver mapToTrickSerieOfSkydiver(TrickSerieProjection entity,TrickSerieExtended extended){
+        float score = extended.timeWithoutPenalty() + extended.totalPenalty();
+
+        return TrickSerieOfSkydiver.builder()
+                .skydiverNumber(entity.getSkydiverNumber())
+                .serieNumber(entity.getSerieNumber())
+                .roundNumber(entity.getRoundNumber())
+                .score(score > 16 ? 16 : score)
+                .trickSerieWithPenalties(extended)
+                .build();
+    }
 }
