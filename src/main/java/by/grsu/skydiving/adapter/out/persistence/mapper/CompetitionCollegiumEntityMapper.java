@@ -19,7 +19,7 @@ import org.mapstruct.ReportingPolicy;
     unmappedSourcePolicy = ReportingPolicy.WARN,
     unmappedTargetPolicy = ReportingPolicy.WARN
 )
-public interface CompetitionStageEntityMapper {
+public interface CompetitionCollegiumEntityMapper {
     @Mapping(target = "id", source = "domain.id")
     @Mapping(target = "competitionId", source = "competitionId")
     CompetitionCollegiumEntity toEntity(CompetitionCollegium domain, Long competitionId);

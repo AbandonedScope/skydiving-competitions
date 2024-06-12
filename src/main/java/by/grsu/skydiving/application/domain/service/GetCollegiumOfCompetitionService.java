@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class GetCollegiumOfCompetitionStageService implements GetCollegiumOfCompetitionUseCase {
+public class GetCollegiumOfCompetitionService implements GetCollegiumOfCompetitionUseCase {
     private final FindCollegiumOfCompetitionPort findCollegiumPort;
 
     @Override

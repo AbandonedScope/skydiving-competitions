@@ -15,7 +15,7 @@ public record CompetitionCollegium(
     @With
     RefereeCollegium collegium
 ) {
-    public static class CompetitionStageBuilder {
+    public static class CompetitionCollegiumBuilder {
         private RefereeCollegium mainCollegium = new RefereeCollegium(HashSet.newHashSet(5));
         private RefereeCollegium collegium = new RefereeCollegium(HashSet.newHashSet(5));
     }

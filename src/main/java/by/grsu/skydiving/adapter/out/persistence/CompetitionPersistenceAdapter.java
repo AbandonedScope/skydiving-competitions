@@ -32,7 +32,7 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     FindCompetitionPort, FilterCompetitionShortInfoPort,
     SoftDeleteCompetitionPort, ExistsCompetitionPort {
     private final CompetitionJdbcRepository competitionRepository;
-    private final SaveCompetitionCollegiumPort saveStagesPort;
+    private final SaveCompetitionCollegiumPort saveCollegiumPort;
     private final FindCollegiumOfCompetitionPort findCollegiumOfCompetitionPort;
     private final SaveCompetitionTeamsPort teamPort;
     private final SaveIndividualsPort saveIndividualsPort;
@@ -52,7 +52,7 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     public Competition save(Competition competition) {
         CompetitionEntity entity = mapper.toEntity(competition);
         entity = competitionRepository.save(entity);
-        CompetitionCollegium collegium = saveStagesPort.saveCollegium(competition);
+        CompetitionCollegium collegium = saveCollegiumPort.saveCollegium(competition);
         List<Team> teams = teamPort.saveTeams(competition);
         saveIndividualsPort.saveIndividuals(competition.getIndividuals(), competition.getId());
 

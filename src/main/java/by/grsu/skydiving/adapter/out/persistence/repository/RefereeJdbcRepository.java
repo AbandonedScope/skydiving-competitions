@@ -24,11 +24,9 @@ public interface RefereeJdbcRepository extends ListCrudRepository<RefereeEntity,
         from competition_collegium_referee_trans as trans
                  left join referee on trans.referee_id = referee.id
                  left join user_info on referee.id = user_info.id
-        where competition_collegium_id in (select cc.id
-                                           from competition_collegium cc
-                                           where cc.competition_id = :competitionId)
+        where competition_collegium_id = :competitionCollegiumId
         """)
-    Optional<List<CollegiumRefereeProjection>> findByCompetitionId(Long competitionId);
+    Optional<List<CollegiumRefereeProjection>> findByCompetitionCollegiumId(Long competitionCollegiumId);
 
     @Modifying
     @Query("""

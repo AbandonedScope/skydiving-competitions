@@ -20,5 +20,4 @@ public class RefereeingProjection {
     private LocalDate beginDate;
     private LocalDate endDate;
     private String address;
-    private Integer numberOfStages;
 }

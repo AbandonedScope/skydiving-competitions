@@ -79,14 +79,14 @@ public class CompetitionView extends TableImpl<Record> {
 
     private CompetitionView(Name alias, Table<Record> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("""
-            create view "competition_view" as  SELECT id,
-              name,
-              begin_date,
-              end_date,
-              address,
-              status
+            create view "competition_view" as  SELECT competition.id,
+              competition.name,
+              competition.begin_date,
+              competition.end_date,
+              competition.address,
+              competition.status
              FROM competition
-            WHERE (is_deleted = false);
+            WHERE (competition.is_deleted = false);
             """));
     }
 

@@ -8,8 +8,6 @@ import generated.tables.Competition;
 import generated.tables.CompetitionCollegium;
 import generated.tables.CompetitionCollegiumRefereeTrans;
 import generated.tables.CompetitionMemberDetail;
-import generated.tables.CompetitionStage;
-import generated.tables.CompetitionStageRefereeTrans;
 import generated.tables.CompetitionView;
 import generated.tables.Jumping;
 import generated.tables.PassportInfo;
@@ -26,7 +24,6 @@ import generated.tables.UserInfoView;
 import java.util.Arrays;
 import java.util.List;
 import org.jooq.Catalog;
-import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
 
@@ -64,17 +61,6 @@ public class Public extends SchemaImpl {
      * The table <code>public.competition_member_detail</code>.
      */
     public final CompetitionMemberDetail COMPETITION_MEMBER_DETAIL = CompetitionMemberDetail.COMPETITION_MEMBER_DETAIL;
-
-    /**
-     * The table <code>public.competition_stage</code>.
-     */
-    public final CompetitionStage COMPETITION_STAGE = CompetitionStage.COMPETITION_STAGE;
-
-    /**
-     * The table <code>public.competition_stage_referee_trans</code>.
-     */
-    public final CompetitionStageRefereeTrans COMPETITION_STAGE_REFEREE_TRANS =
-        CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS;
 
     /**
      * The table <code>public.competition_view</code>.
@@ -155,24 +141,12 @@ public class Public extends SchemaImpl {
     }
 
     @Override
-    public final List<Sequence<?>> getSequences() {
-        return Arrays.asList(
-            Sequences.COMPETITION_STAGE_ID_SEQ,
-            Sequences.COMPETITION_STAGE_ID_SEQ1,
-            Sequences.COMPETITION_STAGE_REFEREE_TRANS_ID_SEQ,
-            Sequences.COMPETITION_STAGE_REFEREE_TRANS_ID_SEQ1
-        );
-    }
-
-    @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             Competition.COMPETITION,
             CompetitionCollegium.COMPETITION_COLLEGIUM,
             CompetitionCollegiumRefereeTrans.COMPETITION_COLLEGIUM_REFEREE_TRANS,
             CompetitionMemberDetail.COMPETITION_MEMBER_DETAIL,
-            CompetitionStage.COMPETITION_STAGE,
-            CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS,
             CompetitionView.COMPETITION_VIEW,
             Jumping.JUMPING,
             PassportInfo.PASSPORT_INFO,

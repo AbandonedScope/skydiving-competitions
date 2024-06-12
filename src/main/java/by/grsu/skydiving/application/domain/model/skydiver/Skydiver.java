@@ -16,9 +16,6 @@ public record Skydiver(
     String education,
     PhoneNumber phoneNumber,
     FullName couchName,
-    Height height,
-    Weight weight,
-    ClothingSize clothingSize,
     SportCareer sportCareer,
     Passport passport
 ) {

@@ -14,7 +14,7 @@ import by.grsu.skydiving.application.domain.model.competition.CompetitionCollegi
 import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
 import by.grsu.skydiving.application.port.in.AddRefereeUseCase;
-import by.grsu.skydiving.application.port.in.DeleteRefereeFromCompetitionStageUseCase;
+import by.grsu.skydiving.application.port.in.DeleteRefereeFromCompetitionCollegiumUseCase;
 import by.grsu.skydiving.application.port.in.DeleteRefereeUseCase;
 import by.grsu.skydiving.application.port.in.GetCollegiumOfCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.GetFilteredRefereesUseCase;
@@ -42,14 +42,14 @@ public class RefereesController {
     private final GetCollegiumOfCompetitionUseCase getCollegiumOfCompetitionUseCase;
     private final DeleteRefereeUseCase deleteRefereeUseCase;
     private final AddRefereeUseCase addRefereeUseCase;
-    private final DeleteRefereeFromCompetitionStageUseCase deleteRefereeFromCompetitionStageUseCase;
+    private final DeleteRefereeFromCompetitionCollegiumUseCase deleteRefereeFromCompetitionCollegiumUseCase;
     private final GetFilteredRefereesUseCase getFilteredRefereesUseCase;
     private final CollegiumMapper collegiumMapper;
     private final RefereeMapper mapper;
 
     @GetMapping("/{competitionId}")
     @ResponseStatus(HttpStatus.OK)
-    public CompetitionCollegiumResponse getRefereeGroupsByCompetitionStageId(@PathVariable Long competitionId) {
+    public CompetitionCollegiumResponse getRefereeGroupsByCompetitionCollegiumId(@PathVariable Long competitionId) {
         CompetitionCollegium collegium = getCollegiumOfCompetitionUseCase
             .getByCompetitionId(competitionId);
 
@@ -64,9 +64,9 @@ public class RefereesController {
 
     @DeleteMapping("/{refereeId}/competition/{competitionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRefereeByCompetitionStageIdAndRefereeId(@PathVariable Long competitionId,
-                                                              @PathVariable Long refereeId) {
-        deleteRefereeFromCompetitionStageUseCase.deleteRefereeFromCompetitionByCompetitionCollegiumId(competitionId,
+    public void deleteRefereeByCompetitionCollegiumIdAndRefereeId(@PathVariable Long competitionId,
+                                                                  @PathVariable Long refereeId) {
+        deleteRefereeFromCompetitionCollegiumUseCase.deleteByCollegiumId(competitionId,
             refereeId);
     }
 

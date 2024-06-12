@@ -56,10 +56,10 @@ public class RefereeView extends TableImpl<Record> {
 
     private RefereeView(Name alias, Table<Record> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("""
-            create view "referee_view" as  SELECT id,
-              category
+            create view "referee_view" as  SELECT referee.id,
+              referee.category
              FROM referee
-            WHERE (is_deleted = false);
+            WHERE (referee.is_deleted = false);
             """));
     }
 

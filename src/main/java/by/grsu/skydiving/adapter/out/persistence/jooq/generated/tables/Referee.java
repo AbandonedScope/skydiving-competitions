@@ -6,6 +6,8 @@ package generated.tables;
 
 import generated.Keys;
 import generated.Public;
+import java.util.Arrays;
+import java.util.List;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -106,6 +108,24 @@ public class Referee extends TableImpl<Record> {
     @Override
     public UniqueKey<Record> getPrimaryKey() {
         return Keys.REFEREE_PKEY;
+    }
+
+    @Override
+    public List<ForeignKey<Record, ?>> getReferences() {
+        return Arrays.asList(Keys.REFEREE__REFEREE_USER_INFO_ID_FK);
+    }
+
+    private transient UserInfo _userInfo;
+
+    /**
+     * Get the implicit join path to the <code>public.user_info</code> table.
+     */
+    public UserInfo userInfo() {
+        if (_userInfo == null) {
+            _userInfo = new UserInfo(this, Keys.REFEREE__REFEREE_USER_INFO_ID_FK);
+        }
+
+        return _userInfo;
     }
 
     @Override

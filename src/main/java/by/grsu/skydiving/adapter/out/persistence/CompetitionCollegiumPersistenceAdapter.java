@@ -2,7 +2,7 @@ package by.grsu.skydiving.adapter.out.persistence;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.CollegiumRefereeTransEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionCollegiumEntity;
-import by.grsu.skydiving.adapter.out.persistence.mapper.CompetitionStageEntityMapper;
+import by.grsu.skydiving.adapter.out.persistence.mapper.CompetitionCollegiumEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.repository.CollegiumRefereeTransJdbcRepository;
 import by.grsu.skydiving.adapter.out.persistence.repository.CompetitionCollegiumJdbcRepository;
 import by.grsu.skydiving.application.domain.model.RefereeCollegium;
@@ -22,16 +22,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CompetitionCollegiumPersistenceAdapter implements
     SaveCompetitionCollegiumPort, FindCollegiumOfCompetitionPort {
-    private final CompetitionCollegiumJdbcRepository stageRepository;
+    private final CompetitionCollegiumJdbcRepository collegiumRepository;
     private final CollegiumRefereeTransJdbcRepository transRepository;
     private final FindRefereesPort findRefereesPort;
-    private final CompetitionStageEntityMapper mapper;
+    private final CompetitionCollegiumEntityMapper mapper;
 
     @Override
     public CompetitionCollegium saveCollegium(Competition competition) {
         CompetitionCollegium collegium = competition.getCollegium();
         CompetitionCollegiumEntity collegiumEntity = mapper.toEntity(collegium, competition.getId());
-        collegiumEntity = stageRepository.save(collegiumEntity);
+        collegiumEntity = collegiumRepository.save(collegiumEntity);
 
         List<CollegiumRefereeTransEntity> trans = extractCollegiumRefereeTrans(collegium);
         saveCollegiumRefereeTrans(trans, collegiumEntity.getId());
@@ -41,24 +41,25 @@ public class CompetitionCollegiumPersistenceAdapter implements
 
     @Override
     public Optional<CompetitionCollegium> findByCompetitionId(long competitionId) {
-        return stageRepository.findByCompetitionId(competitionId)
+        return collegiumRepository.findByCompetitionId(competitionId)
             .map(mapper::toDomain)
             .map(this::enrichWithReferees);
     }
 
-    private CompetitionCollegium enrichWithReferees(CompetitionCollegium stage) {
-        Optional<RefereeGroups> optionalRefereeGroups = findRefereesPort.findRefereesByCompetitionStageId(stage.id());
+    private CompetitionCollegium enrichWithReferees(CompetitionCollegium collegium) {
+        Optional<RefereeGroups> optionalRefereeGroups =
+            findRefereesPort.findRefereesByCompetitionCollegiumId(collegium.id());
         if (optionalRefereeGroups.isPresent()) {
             RefereeGroups groups = optionalRefereeGroups.get();
 
             RefereeCollegium mainCollegium = new RefereeCollegium(groups.mainCollegium());
-            RefereeCollegium collegium = new RefereeCollegium(groups.collegium());
+            RefereeCollegium commonCollegium = new RefereeCollegium(groups.collegium());
 
-            stage = stage.withMainCollegium(mainCollegium)
-                .withCollegium(collegium);
+            collegium = collegium.withMainCollegium(mainCollegium)
+                .withCollegium(commonCollegium);
         }
 
-        return stage;
+        return collegium;
     }
 
     private List<CollegiumRefereeTransEntity> extractCollegiumRefereeTrans(CompetitionCollegium collegium) {
@@ -66,14 +67,14 @@ public class CompetitionCollegiumPersistenceAdapter implements
             .toList();
     }
 
-    private Stream<CollegiumRefereeTransEntity> extractMainCollegium(CompetitionCollegium stage) {
-        return stage.mainCollegium().collegium().stream()
-            .map(collegiumReferee -> mapper.toEntity(collegiumReferee, stage.id(), true));
+    private Stream<CollegiumRefereeTransEntity> extractMainCollegium(CompetitionCollegium collegium) {
+        return collegium.mainCollegium().collegium().stream()
+            .map(collegiumReferee -> mapper.toEntity(collegiumReferee, collegium.id(), true));
     }
 
-    private Stream<CollegiumRefereeTransEntity> extractCollegium(CompetitionCollegium stage) {
-        return stage.collegium().collegium().stream()
-            .map(collegiumReferee -> mapper.toEntity(collegiumReferee, stage.id(), false));
+    private Stream<CollegiumRefereeTransEntity> extractCollegium(CompetitionCollegium collegium) {
+        return collegium.collegium().collegium().stream()
+            .map(collegiumReferee -> mapper.toEntity(collegiumReferee, collegium.id(), false));
     }
 
     private void saveCollegiumRefereeTrans(List<CollegiumRefereeTransEntity> trans, long competitionCollegiumId) {
