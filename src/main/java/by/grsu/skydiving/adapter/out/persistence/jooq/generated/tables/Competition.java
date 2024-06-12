@@ -6,9 +6,7 @@ package generated.tables;
 
 import generated.Keys;
 import generated.Public;
-
 import java.time.LocalDateTime;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -80,12 +78,6 @@ public class Competition extends TableImpl<Record> {
      */
     public final TableField<Record, Integer> STATUS =
         createField(DSL.name("status"), SQLDataType.INTEGER.nullable(false), this, "");
-
-    /**
-     * The column <code>public.competition.number_of_stages</code>.
-     */
-    public final TableField<Record, Integer> NUMBER_OF_STAGES =
-        createField(DSL.name("number_of_stages"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.competition.is_deleted</code>.

@@ -70,69 +70,16 @@ public class Jumping extends TableImpl<Record> {
         createField(DSL.name("attempt_number"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>public.jumping.height</code>.
-     */
-    public final TableField<Record, Double> HEIGHT = createField(DSL.name("height"), SQLDataType.DOUBLE, this, "");
-
-    /**
-     * The column <code>public.jumping.speed</code>.
-     */
-    public final TableField<Record, Double> SPEED = createField(DSL.name("speed"), SQLDataType.DOUBLE, this, "");
-
-    /**
      * The column <code>public.jumping.accuracy</code>.
      */
     public final TableField<Record, Double> ACCURACY =
         createField(DSL.name("accuracy"), SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
-     * The column <code>public.jumping.time_delay_of_parachut_opening</code>.
-     */
-    public final TableField<Record, Double> TIME_DELAY_OF_PARACHUT_OPENING =
-        createField(DSL.name("time_delay_of_parachut_opening"), SQLDataType.DOUBLE, this, "");
-
-    /**
-     * The column <code>public.jumping.jumping_number</code>.
-     */
-    public final TableField<Record, Integer> JUMPING_NUMBER = createField(DSL.name("jumping_number"),
-        SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.INTEGER)), this, "");
-
-    /**
-     * The column <code>public.jumping.jumping_number_during_year</code>.
-     */
-    public final TableField<Record, Integer> JUMPING_NUMBER_DURING_YEAR =
-        createField(DSL.name("jumping_number_during_year"),
-            SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.INTEGER)), this, "");
-
-    /**
-     * The column <code>public.jumping.jumping_number_billable</code>.
-     */
-    public final TableField<Record, Integer> JUMPING_NUMBER_BILLABLE = createField(DSL.name("jumping_number_billable"),
-        SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.INTEGER)), this, "");
-
-    /**
      * The column <code>public.jumping.performance_date</code>.
      */
     public final TableField<Record, LocalDate> PERFORMANCE_DATE =
         createField(DSL.name("performance_date"), SQLDataType.LOCALDATE.nullable(false), this, "");
-
-    /**
-     * The column <code>public.jumping.aircraft</code>.
-     */
-    public final TableField<Record, String> AIRCRAFT =
-        createField(DSL.name("aircraft"), SQLDataType.VARCHAR(70), this, "");
-
-    /**
-     * The column <code>public.jumping.aviation</code>.
-     */
-    public final TableField<Record, String> AVIATION =
-        createField(DSL.name("aviation"), SQLDataType.VARCHAR(70), this, "");
-
-    /**
-     * The column <code>public.jumping.parachut_id</code>.
-     */
-    public final TableField<Record, Long> PARACHUT_ID =
-        createField(DSL.name("parachut_id"), SQLDataType.BIGINT, this, "");
 
     /**
      * The column <code>public.jumping.skydiver_id</code>.

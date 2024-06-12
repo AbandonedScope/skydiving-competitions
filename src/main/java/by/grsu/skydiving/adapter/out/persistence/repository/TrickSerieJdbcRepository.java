@@ -18,8 +18,7 @@ public interface TrickSerieJdbcRepository extends ListCrudRepository<TrickSerieE
                             competition.name,
                             competition.begin_date,
                             competition.end_date,
-                            competition.address,
-                            competition.number_of_stages
+                            competition.address
                         from trick_serie as serie
                         left join competition_member_detail as details on serie.competition_member_detail_id = details.id
                         left join competition_view as competition on details.competition_id = competition.id

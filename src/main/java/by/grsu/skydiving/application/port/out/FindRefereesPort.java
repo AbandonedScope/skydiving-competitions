@@ -4,5 +4,5 @@ import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
 import java.util.Optional;
 
 public interface FindRefereesPort {
-    Optional<RefereeGroups> findRefereesByCompetitionStageId(Long competitionStageId);
+    Optional<RefereeGroups> findRefereesByCompetitionCollegiumId(Long competitionCollegiumId);
 }

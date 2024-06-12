@@ -7,6 +7,8 @@ package generated.tables;
 import generated.Keys;
 import generated.Public;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -131,6 +133,24 @@ public class PassportInfo extends TableImpl<Record> {
     @Override
     public UniqueKey<Record> getPrimaryKey() {
         return Keys.PASSPORT_INFO_PKEY;
+    }
+
+    @Override
+    public List<ForeignKey<Record, ?>> getReferences() {
+        return Arrays.asList(Keys.PASSPORT_INFO__PASSPORT_INFO_SKYDIVER_ID_FK);
+    }
+
+    private transient Skydiver _skydiver;
+
+    /**
+     * Get the implicit join path to the <code>public.skydiver</code> table.
+     */
+    public Skydiver skydiver() {
+        if (_skydiver == null) {
+            _skydiver = new Skydiver(this, Keys.PASSPORT_INFO__PASSPORT_INFO_SKYDIVER_ID_FK);
+        }
+
+        return _skydiver;
     }
 
     @Override

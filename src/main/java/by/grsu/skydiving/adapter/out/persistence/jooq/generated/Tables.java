@@ -5,9 +5,9 @@ package generated;
 
 
 import generated.tables.Competition;
+import generated.tables.CompetitionCollegium;
+import generated.tables.CompetitionCollegiumRefereeTrans;
 import generated.tables.CompetitionMemberDetail;
-import generated.tables.CompetitionStage;
-import generated.tables.CompetitionStageRefereeTrans;
 import generated.tables.CompetitionView;
 import generated.tables.Jumping;
 import generated.tables.PassportInfo;
@@ -35,21 +35,21 @@ public class Tables {
     public static final Competition COMPETITION = Competition.COMPETITION;
 
     /**
+     * The table <code>public.competition_collegium</code>.
+     */
+    public static final CompetitionCollegium COMPETITION_COLLEGIUM = CompetitionCollegium.COMPETITION_COLLEGIUM;
+
+    /**
+     * The table <code>public.competition_collegium_referee_trans</code>.
+     */
+    public static final CompetitionCollegiumRefereeTrans COMPETITION_COLLEGIUM_REFEREE_TRANS =
+        CompetitionCollegiumRefereeTrans.COMPETITION_COLLEGIUM_REFEREE_TRANS;
+
+    /**
      * The table <code>public.competition_member_detail</code>.
      */
     public static final CompetitionMemberDetail COMPETITION_MEMBER_DETAIL =
         CompetitionMemberDetail.COMPETITION_MEMBER_DETAIL;
-
-    /**
-     * The table <code>public.competition_stage</code>.
-     */
-    public static final CompetitionStage COMPETITION_STAGE = CompetitionStage.COMPETITION_STAGE;
-
-    /**
-     * The table <code>public.competition_stage_referee_trans</code>.
-     */
-    public static final CompetitionStageRefereeTrans COMPETITION_STAGE_REFEREE_TRANS =
-        CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS;
 
     /**
      * The table <code>public.competition_view</code>.

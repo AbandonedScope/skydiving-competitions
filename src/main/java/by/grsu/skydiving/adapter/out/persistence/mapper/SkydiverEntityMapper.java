@@ -6,12 +6,10 @@ import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.SkydiverShortInfoProjection;
 import by.grsu.skydiving.application.domain.model.skydiver.Address;
 import by.grsu.skydiving.application.domain.model.skydiver.Gender;
-import by.grsu.skydiving.application.domain.model.skydiver.Height;
 import by.grsu.skydiving.application.domain.model.skydiver.PhoneNumber;
 import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
 import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
 import by.grsu.skydiving.application.domain.model.skydiver.SportRank;
-import by.grsu.skydiving.application.domain.model.skydiver.Weight;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,11 +22,6 @@ import org.mapstruct.ReportingPolicy;
     unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface SkydiverEntityMapper {
-    @Mapping(target = "height", source = "height.height")
-    @Mapping(target = "weight", source = "weight.weight")
-    @Mapping(target = "shoeSize", source = "clothingSize.shoeSize")
-    @Mapping(target = "jacketSize", source = "clothingSize.jacketSize")
-    @Mapping(target = "pantsSize", source = "clothingSize.pantsSize")
     @Mapping(target = "beginDateOfSportCareer", source = "sportCareer.beginDateOfSportCareer")
     @Mapping(target = "sportRank", source = "sportCareer.sportRank")
     @Mapping(target = "couchName", ignore = true)
@@ -39,11 +32,6 @@ public interface SkydiverEntityMapper {
     @Mapping(target = "name.firstName", source = "userInfo.firstName")
     @Mapping(target = "name.secondName", source = "userInfo.secondName")
     @Mapping(target = "name.patronymic", source = "userInfo.patronymic")
-    @Mapping(target = "height", source = "entity.height")
-    @Mapping(target = "weight", source = "entity.weight")
-    @Mapping(target = "clothingSize.shoeSize", source = "entity.shoeSize")
-    @Mapping(target = "clothingSize.jacketSize", source = "entity.jacketSize")
-    @Mapping(target = "clothingSize.pantsSize", source = "entity.pantsSize")
     @Mapping(target = "sportCareer.beginDateOfSportCareer", source = "entity.beginDateOfSportCareer")
     @Mapping(target = "sportCareer.sportRank", source = "entity.sportRank")
     @Mapping(target = "passport", source = "passport")
@@ -54,11 +42,6 @@ public interface SkydiverEntityMapper {
     @Mapping(target = "name.firstName", source = "userInfo.firstName")
     @Mapping(target = "name.secondName", source = "userInfo.secondName")
     @Mapping(target = "name.patronymic", source = "userInfo.patronymic")
-    @Mapping(target = "height", source = "entity.height")
-    @Mapping(target = "weight", source = "entity.weight")
-    @Mapping(target = "clothingSize.shoeSize", source = "entity.shoeSize")
-    @Mapping(target = "clothingSize.jacketSize", source = "entity.jacketSize")
-    @Mapping(target = "clothingSize.pantsSize", source = "entity.pantsSize")
     @Mapping(target = "sportCareer.beginDateOfSportCareer", source = "entity.beginDateOfSportCareer")
     @Mapping(target = "sportCareer.sportRank", source = "entity.sportRank")
     @Mapping(target = "couchName", ignore = true)
@@ -73,18 +56,6 @@ public interface SkydiverEntityMapper {
     SkydiverShortInfo toDomain(SkydiverShortInfoProjection entity);
 
     List<SkydiverShortInfo> toDomain(List<SkydiverShortInfoProjection> entities);
-
-    default Height mapHeight(Float height) {
-        return height == null
-            ? null
-            : new Height(height);
-    }
-
-    default Weight mapWeight(Float weight) {
-        return weight == null
-            ? null
-            : new Weight(weight);
-    }
 
     default String mapAddress(Address address) {
         return address == null

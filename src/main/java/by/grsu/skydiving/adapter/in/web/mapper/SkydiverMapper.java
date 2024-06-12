@@ -3,7 +3,6 @@ package by.grsu.skydiving.adapter.in.web.mapper;
 import by.grsu.skydiving.adapter.in.web.request.ExternalSkydiverRequest;
 import by.grsu.skydiving.adapter.in.web.request.PassportDetailsRequest;
 import by.grsu.skydiving.adapter.in.web.request.SkydiverRequest;
-import by.grsu.skydiving.adapter.in.web.response.ClothingSizeResponse;
 import by.grsu.skydiving.adapter.in.web.response.FullNameResponse;
 import by.grsu.skydiving.adapter.in.web.response.PageResponse;
 import by.grsu.skydiving.adapter.in.web.response.PassportDetailsResponse;
@@ -12,7 +11,6 @@ import by.grsu.skydiving.adapter.in.web.response.SkydiverShortInfoResponse;
 import by.grsu.skydiving.adapter.in.web.response.SportCareerResponse;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.skydiver.Address;
-import by.grsu.skydiving.application.domain.model.skydiver.ClothingSize;
 import by.grsu.skydiving.application.domain.model.skydiver.FullName;
 import by.grsu.skydiving.application.domain.model.skydiver.Passport;
 import by.grsu.skydiving.application.domain.model.skydiver.PhoneNumber;
@@ -46,8 +44,6 @@ public interface SkydiverMapper {
 
     Passport toDomain(PassportDetailsRequest request);
 
-    @Mapping(target = "height", source = "height.height")
-    @Mapping(target = "weight", source = "weight.weight")
     SkydiverResponse toResponse(Skydiver skydiver);
 
     @Mapping(target = "sportRank", source = "sportCareer.sportRank")
@@ -60,8 +56,6 @@ public interface SkydiverMapper {
     SportCareerResponse toResponse(SportCareer sportCareer);
 
     FullNameResponse toResponse(FullName name);
-
-    ClothingSizeResponse toResponse(ClothingSize clothingSize);
 
     default PhoneNumber mapPhoneNumber(String phoneNumber) {
         return phoneNumber == null

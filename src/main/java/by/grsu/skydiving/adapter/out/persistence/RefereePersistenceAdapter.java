@@ -34,8 +34,8 @@ public class RefereePersistenceAdapter
     private final UserInfoMapper userInfoMapper;
 
     @Override
-    public Optional<RefereeGroups> findRefereesByCompetitionStageId(Long competitionStageId) {
-        return refereeJdbcRepository.findByCompetitionId(competitionStageId)
+    public Optional<RefereeGroups> findRefereesByCompetitionCollegiumId(Long competitionId) {
+        return refereeJdbcRepository.findByCompetitionCollegiumId(competitionId)
             .map(refereeEntityMapper::toDomain);
     }
 
