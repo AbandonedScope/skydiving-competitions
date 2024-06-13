@@ -26,7 +26,6 @@ public class InitiateCompetitionService implements InitiateCompetitionUseCase {
             .beginDate(command.beginDate())
             .endDate(command.endDate())
             .place(command.placeOfCompetition())
-            .numberOfStages(command.numberOfStages())
             .build();
     }
 }

@@ -15,9 +15,6 @@ public record SkydiverResponse(
     String education,
     Gender gender,
     FullNameResponse couchName,
-    Integer height,
-    Integer weight,
-    ClothingSizeResponse clothingSize,
     SportCareerResponse sportCareer
 ) {
 }

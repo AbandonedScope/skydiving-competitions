@@ -5,9 +5,7 @@ package generated.tables;
 
 
 import generated.Public;
-
 import java.time.LocalDateTime;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
@@ -89,34 +87,6 @@ public class SkydiverView extends TableImpl<Record> {
         createField(DSL.name("couch_name"), SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>public.skydiver_view.height</code>.
-     */
-    public final TableField<Record, Double> HEIGHT = createField(DSL.name("height"), SQLDataType.DOUBLE, this, "");
-
-    /**
-     * The column <code>public.skydiver_view.weight</code>.
-     */
-    public final TableField<Record, Double> WEIGHT = createField(DSL.name("weight"), SQLDataType.DOUBLE, this, "");
-
-    /**
-     * The column <code>public.skydiver_view.shoe_size</code>.
-     */
-    public final TableField<Record, Integer> SHOE_SIZE =
-        createField(DSL.name("shoe_size"), SQLDataType.INTEGER, this, "");
-
-    /**
-     * The column <code>public.skydiver_view.jacket_size</code>.
-     */
-    public final TableField<Record, Integer> JACKET_SIZE =
-        createField(DSL.name("jacket_size"), SQLDataType.INTEGER, this, "");
-
-    /**
-     * The column <code>public.skydiver_view.pants_size</code>.
-     */
-    public final TableField<Record, Integer> PANTS_SIZE =
-        createField(DSL.name("pants_size"), SQLDataType.INTEGER, this, "");
-
-    /**
      * The column <code>public.skydiver_view.begin_of_sport_career</code>.
      */
     public final TableField<Record, LocalDateTime> BEGIN_OF_SPORT_CAREER =
@@ -154,11 +124,6 @@ public class SkydiverView extends TableImpl<Record> {
               skydiver.education,
               skydiver.phone_number,
               skydiver.couch_name,
-              skydiver.height,
-              skydiver.weight,
-              skydiver.shoe_size,
-              skydiver.jacket_size,
-              skydiver.pants_size,
               skydiver.begin_of_sport_career,
               skydiver.sport_rank,
               skydiver.jumping_amount,

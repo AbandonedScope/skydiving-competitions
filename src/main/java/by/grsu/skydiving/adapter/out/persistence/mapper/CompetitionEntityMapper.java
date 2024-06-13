@@ -1,10 +1,9 @@
 package by.grsu.skydiving.adapter.out.persistence.mapper;
 
+import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionCollegiumEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionEntity;
-import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionStageEntity;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionShortInfo;
-import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStatus;
 import java.util.List;
 import org.mapstruct.Mapper;
@@ -31,16 +30,15 @@ public interface CompetitionEntityMapper {
     List<CompetitionShortInfo> toDomainShortInfos(List<CompetitionEntity> entity);
 
     @Mapping(target = "place.address", source = "entity.address")
-    @Mapping(target = "stages", source = "stageEntities")
-    Competition toDomain(CompetitionEntity entity, List<CompetitionStageEntity> stageEntities);
+    @Mapping(target = "collegium", source = "competitionCollegiumEntity")
+    @Mapping(target = "id", source = "entity.id")
+    Competition toDomain(CompetitionEntity entity, CompetitionCollegiumEntity competitionCollegiumEntity);
 
-    List<CompetitionStage> toDomains(List<CompetitionStageEntity> entities);
-
-    default CompetitionStatus map(int number) {
+    default CompetitionStatus map(Integer number) {
         return CompetitionStatus.of(number);
     }
 
-    default int map(CompetitionStatus status) {
+    default Integer map(CompetitionStatus status) {
         return status.getNumber();
     }
 }

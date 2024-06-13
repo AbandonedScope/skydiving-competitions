@@ -10,9 +10,10 @@ import lombok.Setter;
 public class CollegiumRefereeProjection {
     private Long id;
     private short category;
+    private int refereeNumber;
     private String workPerformed;
     private boolean isMainCollegium;
-    private Long competitionStageId;
+    private Long competitionCollegiumId;
     private String firstName;
     private String secondName;
     private String patronymic;

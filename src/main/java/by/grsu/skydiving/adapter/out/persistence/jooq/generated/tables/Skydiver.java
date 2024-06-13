@@ -6,9 +6,9 @@ package generated.tables;
 
 import generated.Keys;
 import generated.Public;
-
 import java.time.LocalDateTime;
-
+import java.util.Arrays;
+import java.util.List;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
@@ -93,34 +93,6 @@ public class Skydiver extends TableImpl<Record> {
         createField(DSL.name("couch_name"), SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>public.skydiver.height</code>.
-     */
-    public final TableField<Record, Double> HEIGHT = createField(DSL.name("height"), SQLDataType.DOUBLE, this, "");
-
-    /**
-     * The column <code>public.skydiver.weight</code>.
-     */
-    public final TableField<Record, Double> WEIGHT = createField(DSL.name("weight"), SQLDataType.DOUBLE, this, "");
-
-    /**
-     * The column <code>public.skydiver.shoe_size</code>.
-     */
-    public final TableField<Record, Integer> SHOE_SIZE =
-        createField(DSL.name("shoe_size"), SQLDataType.INTEGER, this, "");
-
-    /**
-     * The column <code>public.skydiver.jacket_size</code>.
-     */
-    public final TableField<Record, Integer> JACKET_SIZE =
-        createField(DSL.name("jacket_size"), SQLDataType.INTEGER, this, "");
-
-    /**
-     * The column <code>public.skydiver.pants_size</code>.
-     */
-    public final TableField<Record, Integer> PANTS_SIZE =
-        createField(DSL.name("pants_size"), SQLDataType.INTEGER, this, "");
-
-    /**
      * The column <code>public.skydiver.begin_of_sport_career</code>.
      */
     public final TableField<Record, LocalDateTime> BEGIN_OF_SPORT_CAREER =
@@ -191,6 +163,24 @@ public class Skydiver extends TableImpl<Record> {
     @Override
     public UniqueKey<Record> getPrimaryKey() {
         return Keys.SKYDIVER_PKEY;
+    }
+
+    @Override
+    public List<ForeignKey<Record, ?>> getReferences() {
+        return Arrays.asList(Keys.SKYDIVER__SKYDIVER_USER_INFO_ID_FK);
+    }
+
+    private transient UserInfo _userInfo;
+
+    /**
+     * Get the implicit join path to the <code>public.user_info</code> table.
+     */
+    public UserInfo userInfo() {
+        if (_userInfo == null) {
+            _userInfo = new UserInfo(this, Keys.SKYDIVER__SKYDIVER_USER_INFO_ID_FK);
+        }
+
+        return _userInfo;
     }
 
     @Override

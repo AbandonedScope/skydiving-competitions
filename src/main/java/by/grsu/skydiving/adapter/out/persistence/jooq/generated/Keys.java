@@ -5,9 +5,9 @@ package generated;
 
 
 import generated.tables.Competition;
+import generated.tables.CompetitionCollegium;
+import generated.tables.CompetitionCollegiumRefereeTrans;
 import generated.tables.CompetitionMemberDetail;
-import generated.tables.CompetitionStage;
-import generated.tables.CompetitionStageRefereeTrans;
 import generated.tables.Jumping;
 import generated.tables.PassportInfo;
 import generated.tables.Referee;
@@ -38,17 +38,17 @@ public class Keys {
     public static final UniqueKey<Record> COMPETITION_PKEY =
         Internal.createUniqueKey(Competition.COMPETITION, DSL.name("competition_pkey"),
             new TableField[] {Competition.COMPETITION.ID}, true);
+    public static final UniqueKey<Record> COMPETITION_COLLEGIUM_PK =
+        Internal.createUniqueKey(CompetitionCollegium.COMPETITION_COLLEGIUM, DSL.name("competition_collegium_pk"),
+            new TableField[] {CompetitionCollegium.COMPETITION_COLLEGIUM.ID}, true);
+    public static final UniqueKey<Record> COMPETITION_COLLEGIUM_REFEREE_TRANS_PK =
+        Internal.createUniqueKey(CompetitionCollegiumRefereeTrans.COMPETITION_COLLEGIUM_REFEREE_TRANS,
+            DSL.name("competition_collegium_referee_trans_pk"),
+            new TableField[] {CompetitionCollegiumRefereeTrans.COMPETITION_COLLEGIUM_REFEREE_TRANS.ID}, true);
     public static final UniqueKey<Record> COMPETITION_MEMBER_DETAIL_PKEY =
         Internal.createUniqueKey(CompetitionMemberDetail.COMPETITION_MEMBER_DETAIL,
             DSL.name("competition_member_detail_pkey"),
             new TableField[] {CompetitionMemberDetail.COMPETITION_MEMBER_DETAIL.ID}, true);
-    public static final UniqueKey<Record> COMPETITION_STAGE_PKEY =
-        Internal.createUniqueKey(CompetitionStage.COMPETITION_STAGE, DSL.name("competition_stage_pkey"),
-            new TableField[] {CompetitionStage.COMPETITION_STAGE.ID}, true);
-    public static final UniqueKey<Record> COMPETITION_STAGE_REFEREE_TRANS_PKEY =
-        Internal.createUniqueKey(CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS,
-            DSL.name("competition_stage_referee_trans_pkey"),
-            new TableField[] {CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS.ID}, true);
     public static final UniqueKey<Record> JUMPING_PKEY =
         Internal.createUniqueKey(Jumping.JUMPING, DSL.name("jumping_pkey"), new TableField[] {Jumping.JUMPING.ID},
             true);
@@ -79,22 +79,34 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<Record, Record> COMPETITION_STAGE__COMPETITION_STAGE_COMPETITION_ID_FKEY =
-        Internal.createForeignKey(CompetitionStage.COMPETITION_STAGE, DSL.name("competition_stage_competition_id_fkey"),
-            new TableField[] {CompetitionStage.COMPETITION_STAGE.COMPETITION_ID}, Keys.COMPETITION_PKEY,
+    public static final ForeignKey<Record, Record> COMPETITION_COLLEGIUM__COMPETITION_COLLEGIUM_COMPETITION_ID_FK =
+        Internal.createForeignKey(CompetitionCollegium.COMPETITION_COLLEGIUM,
+            DSL.name("competition_collegium_competition_id_fk"),
+            new TableField[] {CompetitionCollegium.COMPETITION_COLLEGIUM.COMPETITION_ID}, Keys.COMPETITION_PKEY,
             new TableField[] {Competition.COMPETITION.ID}, true);
     public static final ForeignKey<Record, Record>
-        COMPETITION_STAGE_REFEREE_TRANS__COMPETITION_STAGE_REFEREE_TRANS_COMPETITION_STAGE_ID_FKEY =
-        Internal.createForeignKey(CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS,
-            DSL.name("competition_stage_referee_trans_competition_stage_id_fkey"),
-            new TableField[] {CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS.COMPETITION_STAGE_ID},
-            Keys.COMPETITION_STAGE_PKEY, new TableField[] {CompetitionStage.COMPETITION_STAGE.ID}, true);
+        COMPETITION_COLLEGIUM_REFEREE_TRANS__COMPETITION_COLLEGIUM_REFEREE_TRANS_COMPETITION_COLLEGIUM_ID_FK =
+        Internal.createForeignKey(CompetitionCollegiumRefereeTrans.COMPETITION_COLLEGIUM_REFEREE_TRANS,
+            DSL.name("competition_collegium_referee_trans_competition_collegium_id_fk"), new TableField[] {
+                CompetitionCollegiumRefereeTrans.COMPETITION_COLLEGIUM_REFEREE_TRANS.COMPETITION_COLLEGIUM_ID},
+            Keys.COMPETITION_COLLEGIUM_PK, new TableField[] {CompetitionCollegium.COMPETITION_COLLEGIUM.ID}, true);
     public static final ForeignKey<Record, Record>
-        COMPETITION_STAGE_REFEREE_TRANS__COMPETITION_STAGE_REFEREE_TRANS_REFEREE_ID_FKEY =
-        Internal.createForeignKey(CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS,
-            DSL.name("competition_stage_referee_trans_referee_id_fkey"),
-            new TableField[] {CompetitionStageRefereeTrans.COMPETITION_STAGE_REFEREE_TRANS.REFEREE_ID},
+        COMPETITION_COLLEGIUM_REFEREE_TRANS__COMPETITION_COLLEGIUM_REFEREE_TRANS_REFEREE_ID_FK =
+        Internal.createForeignKey(CompetitionCollegiumRefereeTrans.COMPETITION_COLLEGIUM_REFEREE_TRANS,
+            DSL.name("competition_collegium_referee_trans_referee_id_fk"),
+            new TableField[] {CompetitionCollegiumRefereeTrans.COMPETITION_COLLEGIUM_REFEREE_TRANS.REFEREE_ID},
             Keys.REFEREE_PKEY, new TableField[] {Referee.REFEREE.ID}, true);
+    public static final ForeignKey<Record, Record>
+        COMPETITION_MEMBER_DETAIL__COMPETITION_MEMBER_DETAIL_COMPETITION_ID_FK =
+        Internal.createForeignKey(CompetitionMemberDetail.COMPETITION_MEMBER_DETAIL,
+            DSL.name("competition_member_detail_competition_id_fk"),
+            new TableField[] {CompetitionMemberDetail.COMPETITION_MEMBER_DETAIL.COMPETITION_ID}, Keys.COMPETITION_PKEY,
+            new TableField[] {Competition.COMPETITION.ID}, true);
+    public static final ForeignKey<Record, Record> COMPETITION_MEMBER_DETAIL__COMPETITION_MEMBER_DETAIL_SKYDIVER_ID_FK =
+        Internal.createForeignKey(CompetitionMemberDetail.COMPETITION_MEMBER_DETAIL,
+            DSL.name("competition_member_detail_skydiver_id_fk"),
+            new TableField[] {CompetitionMemberDetail.COMPETITION_MEMBER_DETAIL.SKYDIVER_ID}, Keys.SKYDIVER_PKEY,
+            new TableField[] {Skydiver.SKYDIVER.ID}, true);
     public static final ForeignKey<Record, Record> JUMPING__JUMPING_COMPETITION_MEMBER_DETAIL_ID_FKEY =
         Internal.createForeignKey(Jumping.JUMPING, DSL.name("jumping_competition_member_detail_id_fkey"),
             new TableField[] {Jumping.JUMPING.COMPETITION_MEMBER_DETAIL_ID}, Keys.COMPETITION_MEMBER_DETAIL_PKEY,
@@ -106,6 +118,17 @@ public class Keys {
     public static final ForeignKey<Record, Record> JUMPING__JUMPING_SKYDIVER_ID_FKEY =
         Internal.createForeignKey(Jumping.JUMPING, DSL.name("jumping_skydiver_id_fkey"),
             new TableField[] {Jumping.JUMPING.SKYDIVER_ID}, Keys.SKYDIVER_PKEY, new TableField[] {Skydiver.SKYDIVER.ID},
+            true);
+    public static final ForeignKey<Record, Record> PASSPORT_INFO__PASSPORT_INFO_SKYDIVER_ID_FK =
+        Internal.createForeignKey(PassportInfo.PASSPORT_INFO, DSL.name("passport_info_skydiver_id_fk"),
+            new TableField[] {PassportInfo.PASSPORT_INFO.SKYDIVER_ID}, Keys.SKYDIVER_PKEY,
+            new TableField[] {Skydiver.SKYDIVER.ID}, true);
+    public static final ForeignKey<Record, Record> REFEREE__REFEREE_USER_INFO_ID_FK =
+        Internal.createForeignKey(Referee.REFEREE, DSL.name("referee_user_info_id_fk"),
+            new TableField[] {Referee.REFEREE.ID}, Keys.USER_INFO_PKEY, new TableField[] {UserInfo.USER_INFO.ID}, true);
+    public static final ForeignKey<Record, Record> SKYDIVER__SKYDIVER_USER_INFO_ID_FK =
+        Internal.createForeignKey(Skydiver.SKYDIVER, DSL.name("skydiver_user_info_id_fk"),
+            new TableField[] {Skydiver.SKYDIVER.ID}, Keys.USER_INFO_PKEY, new TableField[] {UserInfo.USER_INFO.ID},
             true);
     public static final ForeignKey<Record, Record> TRICK_ATTEMPT__TRICK_ATTEMPT_TRICK_SERIE_ID_FKEY =
         Internal.createForeignKey(TrickAttempt.TRICK_ATTEMPT, DSL.name("trick_attempt_trick_serie_id_fkey"),

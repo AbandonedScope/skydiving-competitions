@@ -6,7 +6,8 @@ package generated.tables;
 
 import generated.Keys;
 import generated.Public;
-
+import java.util.Arrays;
+import java.util.List;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -126,6 +127,38 @@ public class CompetitionMemberDetail extends TableImpl<Record> {
     @Override
     public UniqueKey<Record> getPrimaryKey() {
         return Keys.COMPETITION_MEMBER_DETAIL_PKEY;
+    }
+
+    @Override
+    public List<ForeignKey<Record, ?>> getReferences() {
+        return Arrays.asList(Keys.COMPETITION_MEMBER_DETAIL__COMPETITION_MEMBER_DETAIL_SKYDIVER_ID_FK,
+            Keys.COMPETITION_MEMBER_DETAIL__COMPETITION_MEMBER_DETAIL_COMPETITION_ID_FK);
+    }
+
+    private transient Skydiver _skydiver;
+    private transient Competition _competition;
+
+    /**
+     * Get the implicit join path to the <code>public.skydiver</code> table.
+     */
+    public Skydiver skydiver() {
+        if (_skydiver == null) {
+            _skydiver = new Skydiver(this, Keys.COMPETITION_MEMBER_DETAIL__COMPETITION_MEMBER_DETAIL_SKYDIVER_ID_FK);
+        }
+
+        return _skydiver;
+    }
+
+    /**
+     * Get the implicit join path to the <code>public.competition</code> table.
+     */
+    public Competition competition() {
+        if (_competition == null) {
+            _competition =
+                new Competition(this, Keys.COMPETITION_MEMBER_DETAIL__COMPETITION_MEMBER_DETAIL_COMPETITION_ID_FK);
+        }
+
+        return _competition;
     }
 
     @Override

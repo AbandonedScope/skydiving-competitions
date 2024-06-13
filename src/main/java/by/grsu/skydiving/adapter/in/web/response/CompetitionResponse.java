@@ -16,8 +16,7 @@ public record CompetitionResponse(
     LocalDate beginDate,
     LocalDate endDate,
     String place,
-    List<CompetitionStageResponse> stages,
-    Integer numberOfStages,
+    CompetitionCollegiumResponse collegium,
     CompetitionStatus status
 ) {
 }
