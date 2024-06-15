@@ -30,7 +30,6 @@ public interface CompetitionMemberDetailsJdbcRepository
                     left join team_view as t on cmd.team_id = t.id
                     where cmd.competition_id = :competitionId
                     and cmd.skydiver_id = :skydiverId;
-                    
         """)
     Optional<CompetitionMemberDetailsWithFullNameAndTeamName> findByCompetitionIdAndSkydiverId(Long competitionId,
                                                                                                Long skydiverId);
@@ -55,7 +54,6 @@ public interface CompetitionMemberDetailsJdbcRepository
                     left join team_view as t on cmd.team_id = t.id
                     where cmd.competition_id = :competitionId
                     and cmd.member_number = :memberNumber;
-                    
         """)
     Optional<CompetitionMemberDetailsWithFullNameAndTeamName> findByCompetitionIdAndMemberNumber(Long competitionId,
                                                                                                  int memberNumber);
@@ -78,7 +76,6 @@ public interface CompetitionMemberDetailsJdbcRepository
                     join user_info_view as u on s.id = u.id
                     left join team_view as t on cmd.team_id = t.id
                     where cmd.competition_id = :competitionId
-                    
         """)
     List<CompetitionMemberDetailsWithFullNameAndTeamName> findByCompetitionId(Long competitionId);
 
@@ -99,7 +96,6 @@ public interface CompetitionMemberDetailsJdbcRepository
                     join user_info_view as u on s.id = u.id
                     where cmd.competition_id = :competitionId
                     and team_id is null;
-                    
         """)
     List<CompetitionMemberDetailsEntity> findIndividualsByCompetitionId(Long competitionId);
 
