@@ -17,7 +17,6 @@ import org.mapstruct.ReportingPolicy;
     unmappedSourcePolicy = ReportingPolicy.WARN,
     unmappedTargetPolicy = ReportingPolicy.WARN
 )
-
 public interface TrickSerieMapper {
     @Mapping(target = "refereeNumber", source = "refereeId")
     TrickSerie toDomain(TrickSerieEntity entity);
