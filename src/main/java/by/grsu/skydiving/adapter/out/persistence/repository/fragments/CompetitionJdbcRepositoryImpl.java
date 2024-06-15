@@ -34,6 +34,7 @@ public class CompetitionJdbcRepositoryImpl {
                 COMPETITION_VIEW.ADDRESS)
             .from(COMPETITION_VIEW)
             .where(buildConditions(filters))
+            .orderBy(COMPETITION_VIEW.ID.desc())
             .limit(limit)
             .offset(offset);
 
