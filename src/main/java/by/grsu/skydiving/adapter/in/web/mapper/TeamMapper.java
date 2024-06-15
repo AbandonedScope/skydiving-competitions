@@ -11,6 +11,10 @@ import by.grsu.skydiving.application.domain.model.competition.MembersOfCompetiti
 import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase.AddTeamToCompetitionCommand;
 import by.grsu.skydiving.application.port.in.UpdateTeamInCompetitionUseCase.UpdateTeamInCompetitionCommand;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -23,7 +27,7 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface TeamMapper {
     @Mapping(target = "competitionId", source = "competitionId")
-    @Mapping(target = "team", source = "request")
+    @Mapping(target = "team", expression = "java(toDomain(competitionId, request))")
     AddTeamToCompetitionCommand toAddCommand(long competitionId, TeamRequest request);
 
     @Mapping(target = "competitionId", source = "competitionId")
@@ -37,10 +41,16 @@ public interface TeamMapper {
     @Mapping(target = "team", source = "request")
     UpdateTeamInCompetitionCommand toUpdateCommand(long competitionId, long teamId, TeamRequest request);
 
-    @Mapping(target = "members", source = "members")
-    Team toDomain(TeamRequest request);
+    @Mapping(target = "members", expression = "java(toDomains(competitionId, request.members()))")
+    Team toDomain(long competitionId, TeamRequest request);
 
-    CompetitionMember toDomain(CompetitionMemberRequest request);
+    CompetitionMember toDomain(long competitionId, CompetitionMemberRequest request);
+
+    default Set<CompetitionMember> toDomains(long competitionId, List<CompetitionMemberRequest> requests) {
+        return requests.stream()
+            .map(request -> toDomain(competitionId, request))
+            .collect(Collectors.toCollection(HashSet::new));
+    }
 
     MembersOfCompetitionResponse toResponse(long competitionId, MembersOfCompetition domain);
 }

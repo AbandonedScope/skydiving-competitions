@@ -1,6 +1,5 @@
 package by.grsu.skydiving.application.domain.service;
 
-import by.grsu.skydiving.application.domain.exception.business.RefereesNotFoundException;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionCollegium;
 import by.grsu.skydiving.application.port.in.GetCollegiumOfCompetitionUseCase;
 import by.grsu.skydiving.application.port.out.FindCollegiumOfCompetitionPort;
@@ -15,6 +14,6 @@ public class GetCollegiumOfCompetitionService implements GetCollegiumOfCompetiti
     @Override
     public CompetitionCollegium getByCompetitionId(Long competitionId) {
         return findCollegiumPort.findByCompetitionId(competitionId)
-            .orElseThrow(RefereesNotFoundException::new);
+            .orElse(null);
     }
 }

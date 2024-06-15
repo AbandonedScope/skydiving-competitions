@@ -19,5 +19,11 @@ public interface CompetitionJdbcRepository extends CrudRepository<CompetitionEnt
         where competition.id = :competitionId
         """)
     int softDeleteCompetitionById(Long competitionId);
+
+    List<Long> updateCompetitionStatusesToRunning();
+
+    List<Long> updateCompetitionStatusesToCompleted();
+
+    List<Long> updateCompetitionStatusesToCanceled();
 }
 

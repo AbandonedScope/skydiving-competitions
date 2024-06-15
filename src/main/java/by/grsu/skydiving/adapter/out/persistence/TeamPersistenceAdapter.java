@@ -49,7 +49,9 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
         }
 
         List<CompetitionMemberDetailsEntity> members = saveTeams.stream()
-            .flatMap(team -> team.members().stream())
+            .flatMap(team -> team.members().stream()
+                .map(member -> member.withTeamId(team.id()))
+            )
             .map(mapper::toEntity)
             .toList();
         members = saveMembers(members);

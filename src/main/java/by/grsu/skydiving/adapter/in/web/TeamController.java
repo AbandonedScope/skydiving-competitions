@@ -7,6 +7,7 @@ import by.grsu.skydiving.adapter.in.web.response.MembersOfCompetitionResponse;
 import by.grsu.skydiving.adapter.in.web.response.TeamResponse;
 import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase;
+import by.grsu.skydiving.application.port.in.AddTeamToCompetitionUseCase.AddTeamToCompetitionCommand;
 import by.grsu.skydiving.application.port.in.DeleteTeamFromCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.ExchangeTeamMemberWithIndividualUseCase;
 import by.grsu.skydiving.application.port.in.GetMembersOfCompetitionUseCase;
@@ -44,7 +45,7 @@ public class TeamController {
         @RequestBody
         TeamRequest request
     ) {
-        AddTeamToCompetitionUseCase.AddTeamToCompetitionCommand command = mapper.toAddCommand(competitionId, request);
+        AddTeamToCompetitionCommand command = mapper.toAddCommand(competitionId, request);
         Team team = addTeamUseCase.addTeam(command);
 
         return new TeamResponse(team.id());

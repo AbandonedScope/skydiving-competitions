@@ -19,7 +19,7 @@ public class UpdateCompetitionService implements UpdateCompetitionUseCase {
         Competition competition = getCompetitionUseCase.getCompetitionThatCanBeUpdated(command.id());
 
         updateCompetition(competition, command);
-        competition = saveCompetitionPort.save(competition);
+        competition = saveCompetitionPort.saveInitial(competition);
         return competition;
     }
 

@@ -41,6 +41,7 @@ public class Competition {
         }
 
         this.collegium = collegium;
+        updateStatusToCreated();
     }
 
     public void updateCollegium(CompetitionCollegium updatedCollegium) {
@@ -50,6 +51,8 @@ public class Competition {
         } else {
             throw new CollegiumRefereeUpdateException();
         }
+
+        updateStatusToCreated();
     }
 
     public Team getTeamByName(String teamName) {
@@ -66,6 +69,7 @@ public class Competition {
         }
 
         teams.add(team);
+        updateStatusToCreated();
     }
 
     public void addIndividual(SkydiverShortInfo skydiver, int memberNumber) {
@@ -91,6 +95,7 @@ public class Competition {
         }
 
         individuals.add(individual);
+        updateStatusToCreated();
     }
 
     public void removeIndividual(long individualId) {
@@ -128,6 +133,15 @@ public class Competition {
     private boolean isTeamPresent(String teamName) {
         return teams.stream()
             .anyMatch(team -> team.name().equals(teamName));
+    }
+
+    private void updateStatusToCreated() {
+        if (status == CompetitionStatus.INITIAL
+            && !teams.isEmpty()
+            && collegium != null
+        ) {
+            status = CompetitionStatus.CREATED;
+        }
     }
 }
 
