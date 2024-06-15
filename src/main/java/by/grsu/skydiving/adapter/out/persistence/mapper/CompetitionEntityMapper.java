@@ -39,6 +39,6 @@ public interface CompetitionEntityMapper {
     }
 
     default Integer map(CompetitionStatus status) {
-        return status.getNumber();
+        return status.getId();
     }
 }

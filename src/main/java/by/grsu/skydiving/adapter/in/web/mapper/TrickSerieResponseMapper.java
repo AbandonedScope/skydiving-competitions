@@ -48,6 +48,6 @@ public interface TrickSerieResponseMapper {
     }
 
     default int map(CompetitionStatus status) {
-        return status.getNumber();
+        return status.getId();
     }
 }

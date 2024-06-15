@@ -4,8 +4,10 @@ import by.grsu.skydiving.common.config.security.JwtSettings;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 @EnableConfigurationProperties(value = {JwtSettings.class})
 public class SkydivingCompetitionsApplication {
 

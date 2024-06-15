@@ -18,6 +18,7 @@ import by.grsu.skydiving.application.port.out.SaveCompetitionPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionTeamsPort;
 import by.grsu.skydiving.application.port.out.SaveIndividualsPort;
 import by.grsu.skydiving.application.port.out.SoftDeleteCompetitionPort;
+import by.grsu.skydiving.application.port.out.UpdateCompetitionsStatusesPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     FindCompetitionPort, FilterCompetitionShortInfoPort,
-    SoftDeleteCompetitionPort, ExistsCompetitionPort {
+    SoftDeleteCompetitionPort, ExistsCompetitionPort,
+    UpdateCompetitionsStatusesPort {
     private final CompetitionJdbcRepository competitionRepository;
     private final SaveCompetitionCollegiumPort saveCollegiumPort;
     private final FindCollegiumOfCompetitionPort findCollegiumOfCompetitionPort;
@@ -126,5 +128,19 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
         if (isCompleted != null) {
             filters.put("isCompleted", isCompleted);
         }
+    }
+
+    @Override
+    public List<Long> updateCompetitionsStatus() {
+
+        List<Long> updatedToCompletedId = competitionRepository.updateCompetitionStatusesToCompleted();
+        List<Long> updatedToRunningIds = competitionRepository.updateCompetitionStatusesToRunning();
+        List<Long> updatedToCanceledIds = competitionRepository.updateCompetitionStatusesToCanceled();
+
+
+        updatedToRunningIds.addAll(updatedToCanceledIds);
+        updatedToRunningIds.addAll(updatedToCompletedId);
+
+        return updatedToRunningIds;
     }
 }
