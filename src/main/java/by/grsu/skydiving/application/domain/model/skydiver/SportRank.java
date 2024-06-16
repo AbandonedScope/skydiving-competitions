@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum SportRank {
+    NONE(0, "Не умеет звания"),
     CANDIDATE_FOR_MASTER_OF_SPORT(1, "Кандидат в мастера спорта (КМС)"),
     FIRST_DEGREE(2, "I разряд"),
     SECOND_DEGREE(3, "II разряд"),

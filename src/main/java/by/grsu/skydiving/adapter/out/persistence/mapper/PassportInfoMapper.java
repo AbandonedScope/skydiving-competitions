@@ -13,4 +13,6 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface PassportInfoMapper {
     PassportInfoEntity toEntity(Passport passport, Long skydiverId);
+
+    Passport toDomain(PassportInfoEntity entity);
 }

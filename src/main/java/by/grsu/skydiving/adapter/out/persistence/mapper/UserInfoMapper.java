@@ -30,12 +30,14 @@ public interface UserInfoMapper {
     @Mapping(target = "secondName", source = "name.secondName")
     @Mapping(target = "patronymic", source = "name.patronymic")
     @Mapping(target = "role", constant = "2")
+    @Mapping(target = "userId", source = "id")
     UserInfoEntity toEntity(Skydiver info);
 
     @Mapping(target = "firstName", source = "name.firstName")
     @Mapping(target = "secondName", source = "name.secondName")
     @Mapping(target = "patronymic", source = "name.patronymic")
     @Mapping(target = "role", constant = "0")
+    @Mapping(target = "userId", source = "id")
     UserInfoEntity toEntity(Referee info);
 
     @Mapping(target = "name.firstName", source = "firstName")

@@ -11,7 +11,9 @@ import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConsta
 import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Builder;
 
+@Builder
 public record FullName(
     String firstName,
     String secondName,
