@@ -3,6 +3,7 @@ package by.grsu.skydiving.adapter.in.web;
 import by.grsu.skydiving.application.domain.exception.business.BusinessException;
 import by.grsu.skydiving.application.domain.exception.business.IncorrectPasswordException;
 import by.grsu.skydiving.application.domain.exception.business.UserNotFoundException;
+import by.grsu.skydiving.application.domain.exception.domain.DomainException;
 import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -105,6 +106,25 @@ public class ControllerAdvice {
         problemDetail.setDetail(ex.getMessage());
 
         log.error(ex.getMessage());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(DomainException.class)
+    public ProblemDetail handleDomainException(DomainException ex) {
+        ProblemDetail problemDetail = getProblemDetailDomain();
+
+        problemDetail.setDetail(ex.getMessage());
+
+        log.error(ex.getMessage());
+        return problemDetail;
+    }
+
+    private ProblemDetail getProblemDetailDomain() {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setProperty(ERROR_TYPE, "domain-error-type-validation");
+        problemDetail.setTitle("Ошибка логики предметной области");
+
+
         return problemDetail;
     }
 
