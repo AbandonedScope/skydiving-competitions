@@ -16,7 +16,7 @@ public class GetUpdatableCompetitionService implements GetUpdatableCompetitionUs
     public Competition getCompetitionThatCanBeUpdated(long competitionId) {
         Competition competition = getCompetitionUseCase.getCompetition(competitionId);
         if (!competition.canBeUpdated()) {
-            throw new TryToUpdateImmutableCompetitionException("Competition can't be updated");
+            throw new TryToUpdateImmutableCompetitionException();
         }
 
         return competition;

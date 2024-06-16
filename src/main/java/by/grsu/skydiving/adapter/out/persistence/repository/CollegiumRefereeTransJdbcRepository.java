@@ -9,10 +9,17 @@ public interface CollegiumRefereeTransJdbcRepository extends ListCrudRepository<
 
     @Modifying
     @Query("""
-        delete from competition_collegium_referee_trans as comStTrans
-        where comStTrans.referee_id = :refereeId and comStTrans.competition_collegium_id = :competitionCollegiumId
+        delete
+        from competition_collegium_referee_trans as comStTrans
+        where comStTrans.referee_id = :refereeId
+          and comStTrans.competition_collegium_id
+            in (select competition_collegium.id
+                from competition_collegium
+                         join public.competition
+                              on competition.id = competition_collegium.competition_id
+                where competition.id = :competitionId);
         """)
-    int deleteByCompetitionCollegiumIdAndRefereeId(Long competitionCollegiumId, Long refereeId);
+    int deleteByCompetitionIdAndRefereeId(Long competitionId, Long refereeId);
 
     @Modifying
     @Query("""

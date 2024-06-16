@@ -4,6 +4,7 @@ import by.grsu.skydiving.adapter.out.persistence.entity.PassportInfoEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.SkydiverEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.UserInfoEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.SkydiverShortInfoProjection;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.UserInfoWithoutCredentials;
 import by.grsu.skydiving.adapter.out.persistence.mapper.PassportInfoMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.SkydiverEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.UserInfoMapper;
@@ -80,9 +81,17 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
     }
 
     @Override
-    public Optional<SkydiverShortInfo> findById(long skydiverId) {
-        return skydiverJdbcRepository.findById(skydiverId)
+    public Optional<SkydiverShortInfo> findByIdShort(long skydiverId) {
+        return skydiverJdbcRepository.findByIdShort(skydiverId)
             .map(skydiverEntityMapper::toDomain);
+    }
+
+    @Override
+    public Optional<Skydiver> findById(long skydiverId) {
+        return skydiverJdbcRepository.findById(skydiverId)
+            .map(skydiverEntityMapper::toDomain)
+            .map(this::enrichWithUserInfo)
+            .map(this::enrichWithPassportInfo);
     }
 
     @Override
@@ -98,6 +107,39 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
     @Override
     public DomainPage<SkydiverShortInfo> getPage(long pageNumber, int pageSize) {
         return filter(HashMap.newHashMap(2), pageNumber, pageSize);
+    }
+
+    @Override
+    public Skydiver updateInternal(Skydiver skydiver) {
+        UserInfoEntity userInfo = userInfoMapper.toEntity(skydiver);
+        userInfoJdbcRepository.save(userInfo);
+        SkydiverEntity skydiverEntity = skydiverEntityMapper.toEntity(skydiver);
+        skydiverEntity.setNew(false);
+        skydiverEntity = skydiverJdbcRepository.save(skydiverEntity);
+
+        Passport passport = skydiver.passport();
+        PassportInfoEntity passportEntity = passportInfoMapper.toEntity(passport, skydiver.id());
+        long passportId = passportInfoJdbcRepository.findBySkydiverId(skydiver.id())
+            .orElseThrow()
+            .getId();
+        passportEntity.setId(passportId);
+
+        passportEntity = passportInfoJdbcRepository.save(passportEntity);
+
+        return skydiverEntityMapper.toDomain(skydiverEntity, userInfo, passportEntity);
+    }
+
+    @Override
+    public Skydiver updateExternal(Skydiver skydiver) {
+        UserInfoEntity userInfo = userInfoMapper.toEntity(skydiver);
+        userInfoJdbcRepository.save(userInfo);
+
+        SkydiverEntity skydiverEntity = skydiverEntityMapper.toEntity(skydiver);
+        skydiverEntity.setNew(false);
+        skydiverEntity.setInternal(false);
+        skydiverEntity = skydiverJdbcRepository.save(skydiverEntity);
+
+        return skydiverEntityMapper.toExternalDomain(skydiverEntity, userInfo);
     }
 
     @Override
@@ -135,7 +177,7 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
             .build();
     }
 
-    void formatFilters(Map<String, Object> filters) {
+    private void formatFilters(Map<String, Object> filters) {
         Gender gender = (Gender) filters.get("gender");
         if (gender != null) {
             filters.put("gender", gender.ordinal());
@@ -145,5 +187,27 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
         if (name != null) {
             filters.put("name", name);
         }
+    }
+
+    private Skydiver enrichWithUserInfo(Skydiver skydiver) {
+        UserInfoWithoutCredentials userInfo = userInfoJdbcRepository.findByUserId(skydiver.id())
+            .orElseThrow();
+
+        FullName fullName = FullName.builder()
+            .firstName(userInfo.getFirstName())
+            .secondName(userInfo.getSecondName())
+            .patronymic(userInfo.getPatronymic())
+            .build();
+
+        return skydiver.withName(fullName);
+    }
+
+    private Skydiver enrichWithPassportInfo(Skydiver skydiver) {
+        PassportInfoEntity passportInfo = passportInfoJdbcRepository.findBySkydiverId(skydiver.id())
+            .orElseThrow();
+
+        Passport passport = passportInfoMapper.toDomain(passportInfo);
+
+        return skydiver.withPassport(passport);
     }
 }

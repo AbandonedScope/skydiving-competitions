@@ -1,5 +1,8 @@
 package by.grsu.skydiving.adapter.in.web;
 
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.CATEGORY_FILTER;
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.NAME_FILTER;
+
 import by.grsu.skydiving.adapter.in.web.mapper.CollegiumMapper;
 import by.grsu.skydiving.adapter.in.web.mapper.RefereeMapper;
 import by.grsu.skydiving.adapter.in.web.request.AddRefereeRequest;
@@ -64,8 +67,8 @@ public class RefereesController {
 
     @DeleteMapping("/{refereeId}/competition/{competitionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRefereeByCompetitionCollegiumIdAndRefereeId(@PathVariable Long competitionId,
-                                                                  @PathVariable Long refereeId) {
+    public void deleteRefereeByCompetitionIdAndRefereeId(@PathVariable Long competitionId,
+                                                         @PathVariable Long refereeId) {
         deleteRefereeFromCompetitionCollegiumUseCase.deleteByCollegiumId(competitionId,
             refereeId);
     }
@@ -81,9 +84,9 @@ public class RefereesController {
 
     @GetMapping("/page")
     public PageResponse<RefereeShortInfoResponse> getRefereePage(
-        @RequestParam
+        @RequestParam(defaultValue = "1")
         long number,
-        @RequestParam
+        @RequestParam(defaultValue = "15")
         int size,
         @RequestParam(required = false)
         String name,
@@ -91,8 +94,8 @@ public class RefereesController {
         RefereeCategory category
     ) {
         Map<String, Object> filters = HashMap.newHashMap(5);
-        filters.put("name", name);
-        filters.put("category", category);
+        filters.put(NAME_FILTER, name);
+        filters.put(CATEGORY_FILTER, category);
         filters.values().removeIf(Objects::isNull);
 
         FilterQuery filterQuery = new FilterQuery(filters);

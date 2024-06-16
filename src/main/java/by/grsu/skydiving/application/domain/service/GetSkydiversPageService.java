@@ -1,5 +1,7 @@
 package by.grsu.skydiving.application.domain.service;
 
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.NAME_FILTER;
+
 import by.grsu.skydiving.application.domain.exception.business.PageNumberInvalidException;
 import by.grsu.skydiving.application.domain.exception.business.PageSizeInvalidException;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
@@ -29,6 +31,13 @@ public class GetSkydiversPageService implements GetSkydiversPageUseCase {
         }
         --pageNumber;
 
-        return filterPort.filter(query.filterQuery().filters(), pageNumber, pageSize);
+        var filters = query.filterQuery().filters();
+        String nameFilter = (String) filters.get(NAME_FILTER);
+        if (nameFilter != null
+            && nameFilter.isBlank()) {
+            filters.remove(NAME_FILTER);
+        }
+
+        return filterPort.filter(filters, pageNumber, pageSize);
     }
 }

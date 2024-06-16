@@ -22,6 +22,16 @@ public record CompetitionCollegium(
         private RefereeCollegium collegium = new RefereeCollegium(HashSet.newHashSet(5));
     }
 
+    public void addReferee(CollegiumReferee referee, boolean isMainCollegium) {
+        mainCollegium.checkPresented(referee);
+        collegium.checkPresented(referee);
+        if (isMainCollegium) {
+            mainCollegium.add(referee);
+        } else {
+            collegium.add(referee);
+        }
+    }
+
     public List<Referee> getReferees() {
         List<Referee> referees = new ArrayList<>();
         List<Referee> collegiumReferees = collegium.collegium().stream()

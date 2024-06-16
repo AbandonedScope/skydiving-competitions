@@ -15,6 +15,7 @@ public record SkydiverResponse(
     String education,
     Gender gender,
     FullNameResponse couchName,
-    SportCareerResponse sportCareer
+    SportCareerResponse sportCareer,
+    PassportDetailsResponse passport
 ) {
 }

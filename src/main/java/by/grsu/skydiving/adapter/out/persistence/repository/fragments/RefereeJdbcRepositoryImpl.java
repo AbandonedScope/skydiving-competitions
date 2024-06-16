@@ -1,11 +1,11 @@
 package by.grsu.skydiving.adapter.out.persistence.repository.fragments;
 
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.CATEGORY_FILTER;
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.NAME_FILTER;
 import static generated.Tables.REFEREE_VIEW;
 import static generated.Tables.USER_INFO_VIEW;
-import static org.jooq.impl.DSL.concat;
 import static org.jooq.impl.DSL.count;
 import static org.jooq.impl.DSL.noCondition;
-import static org.jooq.impl.DSL.space;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeProjection;
 import by.grsu.skydiving.application.domain.model.competition.RefereeCategory;
@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Query;
+import org.jooq.impl.DSL;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,6 @@ import org.springframework.stereotype.Repository;
 public class RefereeJdbcRepositoryImpl {
     private final DSLContext create;
     private final JdbcTemplate jdbcTemplate;
-
 
     public List<RefereeProjection> filter(Map<String, Object> filters, long limit, long offset) {
         Query query = create.select(
@@ -37,6 +37,12 @@ public class RefereeJdbcRepositoryImpl {
                 .on(REFEREE_VIEW.ID.eq(USER_INFO_VIEW.ID))
             )
             .where(buildConditions(filters))
+            .orderBy(
+                USER_INFO_VIEW.SECOND_NAME,
+                USER_INFO_VIEW.FIRST_NAME,
+                USER_INFO_VIEW.PATRONYMIC,
+                USER_INFO_VIEW.ID
+            )
             .limit(limit)
             .offset(offset);
 
@@ -68,26 +74,30 @@ public class RefereeJdbcRepositoryImpl {
         Object value = entry.getValue();
 
         return switch (key) {
-            case "name" -> concat(
-                concat(USER_INFO_VIEW.SECOND_NAME, space(1)),
-                concat(USER_INFO_VIEW.FIRST_NAME, space(1)),
-                concat(USER_INFO_VIEW.PATRONYMIC, space(1))
-            ).like((String) value);
-            case "category" -> REFEREE_VIEW.CATEGORY.eq(((RefereeCategory) value).ordinal());
+            case NAME_FILTER -> buildNameFullTextSearchCondition((String) value);
+            case CATEGORY_FILTER -> REFEREE_VIEW.CATEGORY.eq(((RefereeCategory) value).ordinal());
             case null, default -> noCondition();
         };
     }
 
+    private Condition buildNameFullTextSearchCondition(String name) {
+        return DSL.condition("to_tsvector(" +
+                             USER_INFO_VIEW.SECOND_NAME.getName() + " || ' ' || "
+                             + USER_INFO_VIEW.FIRST_NAME.getName() + " || ' ' || "
+                             + USER_INFO_VIEW.PATRONYMIC.getName() + ") " +
+                             "@@ " +
+                             "to_tsquery(regexp_replace(cast(plainto_tsquery('russian', '" + name + "') as text)," +
+                             "E'(\\'\\\\w+\\')', E'\\\\1:*', 'g'))");
+    }
+
     private RowMapper<RefereeProjection> rowMapper() {
 
-        return (rs, rowNum) -> {
-            return RefereeProjection.builder()
-                .id(rs.getLong("id"))
-                .firstName(rs.getString("first_name"))
-                .secondName(rs.getString("second_name"))
-                .patronymic(rs.getString("patronymic"))
-                .category(rs.getInt("category"))
-                .build();
-        };
+        return (rs, rowNum) -> RefereeProjection.builder()
+            .id(rs.getLong("id"))
+            .firstName(rs.getString("first_name"))
+            .secondName(rs.getString("second_name"))
+            .patronymic(rs.getString("patronymic"))
+            .category(rs.getInt("category"))
+            .build();
     }
 }

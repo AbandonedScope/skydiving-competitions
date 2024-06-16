@@ -4,10 +4,11 @@ import java.time.LocalDate;
 import lombok.Builder;
 import lombok.With;
 
-@Builder
+@Builder(toBuilder = true)
 public record Skydiver(
     @With
     Long id,
+    @With
     FullName name,
     Gender gender,
     LocalDate birthDate,
@@ -17,6 +18,7 @@ public record Skydiver(
     PhoneNumber phoneNumber,
     FullName couchName,
     SportCareer sportCareer,
+    @With
     Passport passport
 ) {
 }

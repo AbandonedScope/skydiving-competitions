@@ -2,7 +2,7 @@ package by.grsu.skydiving.adapter.in.web;
 
 import by.grsu.skydiving.adapter.in.web.mapper.CollegiumMapper;
 import by.grsu.skydiving.adapter.in.web.mapper.CompetitionMapper;
-import by.grsu.skydiving.adapter.in.web.request.AddCollegiumRequest;
+import by.grsu.skydiving.adapter.in.web.request.AddCollegiumRefereeRequest;
 import by.grsu.skydiving.adapter.in.web.request.InitiateCompetitionRequest;
 import by.grsu.skydiving.adapter.in.web.request.UpdateCollegiumRequest;
 import by.grsu.skydiving.adapter.in.web.request.UpdateCompetitionRequest;
@@ -15,8 +15,8 @@ import by.grsu.skydiving.application.domain.model.common.FilterQuery;
 import by.grsu.skydiving.application.domain.model.common.GetPageQuery;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionCollegium;
-import by.grsu.skydiving.application.port.in.AddCollegiumToCompetitionUseCase;
-import by.grsu.skydiving.application.port.in.AddCollegiumToCompetitionUseCase.AddCollegiumCommand;
+import by.grsu.skydiving.application.port.in.AddCollegiumRefereeToCompetitionUseCase;
+import by.grsu.skydiving.application.port.in.AddCollegiumRefereeToCompetitionUseCase.AddCollegiumRefereeCommand;
 import by.grsu.skydiving.application.port.in.DeleteCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase.CompetitionFilterQuery;
@@ -51,7 +51,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CompetitionController {
     private final InitiateCompetitionUseCase initiateUseCase;
-    private final AddCollegiumToCompetitionUseCase addCollegiumUseCase;
+    private final AddCollegiumRefereeToCompetitionUseCase addCollegiumUseCase;
     private final UpdateCollegiumOfCompetitionUseCase updateCollegiumOfCompetitionUseCase;
     private final GetCompetitionPageUseCase pageUseCase;
     private final GetCompetitionUseCase getCompetitionUseCase;
@@ -70,9 +70,9 @@ public class CompetitionController {
 
     @GetMapping
     public PageResponse<CompetitionShortInfoResponse> getActiveAndLastCompetitions(
-        @RequestParam
+        @RequestParam(defaultValue = "1")
         long number,
-        @RequestParam
+        @RequestParam(defaultValue = "15")
         int size,
         @RequestParam(required = false)
         Boolean isCompleted
@@ -104,17 +104,18 @@ public class CompetitionController {
         return new InitiateCompetitionResponse(competition.getId());
     }
 
-    @PostMapping("/{competitionId}/collegium")
+    @PostMapping("/{competitionId}")
     @ResponseStatus(HttpStatus.CREATED)
     public CollegiumResponse addCollegiumToCompetition(
         @PathVariable
         Long competitionId,
         @Valid
         @RequestBody
-        AddCollegiumRequest request
+        AddCollegiumRefereeRequest request
     ) {
-        AddCollegiumCommand command = collegiumMapper.toCommand(competitionId, request);
-        CompetitionCollegium collegium = addCollegiumUseCase.addCollegium(command);
+        AddCollegiumRefereeCommand
+            command = collegiumMapper.toCommand(competitionId, request);
+        CompetitionCollegium collegium = addCollegiumUseCase.addCollegiumReferee(command);
 
         return new CollegiumResponse(competitionId, collegium.id());
     }

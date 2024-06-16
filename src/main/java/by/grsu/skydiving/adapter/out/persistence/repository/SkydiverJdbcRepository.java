@@ -18,17 +18,17 @@ public interface SkydiverJdbcRepository extends CrudRepository<SkydiverEntity, L
                user_info.second_name,
                user_info.patronymic,
                skydiver.begin_of_sport_career,
-               skydiver.sport_specialization,
                skydiver.sport_rank,
                skydiver.is_internal,
                skydiver.gender
         from skydiver_view as skydiver
             left join user_info on user_info.id = skydiver.id
         where
-            skydiver.id = :skidiverId
+            skydiver.id = :skydiverId
         """)
-    Optional<SkydiverShortInfoProjection> findById(long skidiverId);
+    Optional<SkydiverShortInfoProjection> findByIdShort(long skydiverId);
 
+    Optional<SkydiverEntity> findById(long skydiverId);
 
     @Query("""
         select exists(select 1
@@ -49,7 +49,6 @@ public interface SkydiverJdbcRepository extends CrudRepository<SkydiverEntity, L
                user_info.second_name,
                user_info.patronymic,
                skydiver.begin_of_sport_career,
-               skydiver.sport_specialization,
                skydiver.sport_rank,
                skydiver.is_internal,
                skydiver.gender

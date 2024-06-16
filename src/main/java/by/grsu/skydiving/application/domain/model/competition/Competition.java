@@ -35,6 +35,14 @@ public class Competition {
     private CompetitionCollegium collegium;
     private CompetitionStatus status;
 
+    public void addRefereeToCollegium(CollegiumReferee referee, boolean isMainCollegium) {
+        if (this.collegium == null) {
+            this.collegium = CompetitionCollegium.builder().build();
+        }
+
+        this.collegium.addReferee(referee, isMainCollegium);
+    }
+
     public void addCollegium(CompetitionCollegium collegium) {
         if (this.collegium != null) {
             throw new CompetitionAlreadyHasCollegiumException();

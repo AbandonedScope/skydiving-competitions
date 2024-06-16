@@ -11,10 +11,10 @@ public class CollegiumRefereeTransAdapter implements DeleteRefereeFromCompetitio
     private final CollegiumRefereeTransJdbcRepository collegiumRefereeTransJdbcRepository;
 
     @Override
-    public int deleteFromCompetitionCollegium(Long competitionCollegiumId, Long refereeId) {
+    public int deleteFromCompetition(Long competitionId, Long refereeId) {
         return collegiumRefereeTransJdbcRepository
-            .deleteByCompetitionCollegiumIdAndRefereeId(
-                competitionCollegiumId,
+            .deleteByCompetitionIdAndRefereeId(
+                competitionId,
                 refereeId
             );
     }

@@ -1,8 +1,11 @@
 package by.grsu.skydiving.adapter.in.web.mapper;
 
-import by.grsu.skydiving.adapter.in.web.request.ExternalSkydiverRequest;
+import by.grsu.skydiving.adapter.in.web.request.AddExternalSkydiverRequest;
+import by.grsu.skydiving.adapter.in.web.request.AddSkydiverRequest;
 import by.grsu.skydiving.adapter.in.web.request.PassportDetailsRequest;
-import by.grsu.skydiving.adapter.in.web.request.SkydiverRequest;
+import by.grsu.skydiving.adapter.in.web.request.UpdateExternalSkydiverRequest;
+import by.grsu.skydiving.adapter.in.web.request.UpdateSkydiverRequest;
+import by.grsu.skydiving.adapter.in.web.response.ExternalSkydiverResponse;
 import by.grsu.skydiving.adapter.in.web.response.FullNameResponse;
 import by.grsu.skydiving.adapter.in.web.response.PageResponse;
 import by.grsu.skydiving.adapter.in.web.response.PassportDetailsResponse;
@@ -34,15 +37,37 @@ public interface SkydiverMapper {
     @Mapping(target = "passport", source = "passportDetails")
     @Mapping(target = "sportCareer.sportRank", source = "sportRank")
     @Mapping(target = "phoneNumber", source = "phone")
-    Skydiver toDomain(SkydiverRequest request);
+    Skydiver toDomain(AddSkydiverRequest request);
+
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "name.firstName", source = "request.firstName")
+    @Mapping(target = "name.secondName", source = "request.secondName")
+    @Mapping(target = "name.patronymic", source = "request.patronymic")
+    @Mapping(target = "passport", source = "request.passportDetails")
+    @Mapping(target = "sportCareer.beginDateOfSportCareer", source = "request.beginDateOfSportCareer")
+    @Mapping(target = "sportCareer.sportRank", source = "request.sportRank")
+    @Mapping(target = "phoneNumber", source = "request.phone")
+    Skydiver toDomain(Long id, UpdateSkydiverRequest request);
 
     @Mapping(target = "name.firstName", source = "firstName")
     @Mapping(target = "name.secondName", source = "secondName")
     @Mapping(target = "name.patronymic", source = "patronymic")
     @Mapping(target = "sportCareer.sportRank", source = "sportRank")
-    Skydiver toDomain(ExternalSkydiverRequest request);
+    Skydiver toDomain(AddExternalSkydiverRequest request);
+
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "name.firstName", source = "request.firstName")
+    @Mapping(target = "name.secondName", source = "request.secondName")
+    @Mapping(target = "name.patronymic", source = "request.patronymic")
+    @Mapping(target = "sportCareer.sportRank", source = "request.sportRank")
+    Skydiver toDomain(Long id, UpdateExternalSkydiverRequest request);
 
     Passport toDomain(PassportDetailsRequest request);
+
+    ExternalSkydiverResponse toExternalResponse(Skydiver skydiver);
+
+    @Mapping(target = "sportRank", source = "sportCareer.sportRank")
+    SkydiverShortInfoResponse toShortResponse(Skydiver skydiver);
 
     SkydiverResponse toResponse(Skydiver skydiver);
 

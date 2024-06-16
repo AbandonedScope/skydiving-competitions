@@ -2,10 +2,10 @@ package by.grsu.skydiving.application.domain.exception.business;
 
 public class UserNotFoundException extends BusinessException {
     public UserNotFoundException(String login) {
-        super("User with login '%s' was not found".formatted(login));
+        super("Пользователь с логином '%s' не был найден.".formatted(login));
     }
 
     public UserNotFoundException(long id) {
-        super("User with id '%d' was not found".formatted(id));
+        super("Пользователь с id '%d' не был найден.".formatted(id));
     }
 }

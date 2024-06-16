@@ -1,11 +1,16 @@
 package by.grsu.skydiving.adapter.out.persistence.repository.fragments;
 
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.GENDER_FILTER;
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.IS_INTERNAL_FILTER;
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.NAME_FILTER;
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.SPORT_RANK_FILTER;
 import static generated.Tables.SKYDIVER_VIEW;
 import static generated.Tables.USER_INFO_VIEW;
 import static org.jooq.impl.DSL.count;
 import static org.jooq.impl.DSL.noCondition;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.SkydiverShortInfoProjection;
+import by.grsu.skydiving.application.domain.model.skydiver.SportRank;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -39,6 +44,12 @@ public class SkydiverJdbcRepositoryImpl {
                 .on(SKYDIVER_VIEW.ID.eq(USER_INFO_VIEW.ID))
             )
             .where(buildConditions(filters))
+            .orderBy(
+                USER_INFO_VIEW.SECOND_NAME,
+                USER_INFO_VIEW.FIRST_NAME,
+                USER_INFO_VIEW.PATRONYMIC,
+                USER_INFO_VIEW.ID
+            )
             .limit(limit)
             .offset(offset);
 
@@ -70,10 +81,10 @@ public class SkydiverJdbcRepositoryImpl {
         Object value = entry.getValue();
 
         return switch (key) {
-            case "gender" -> SKYDIVER_VIEW.GENDER.eq((Integer) value);
-            case "name" -> buildNameFullTextSearchCondition((String) value);
-            case "sportRank" -> SKYDIVER_VIEW.SPORT_RANK.eq((Short) value);
-            case "isInternal" -> SKYDIVER_VIEW.IS_INTERNAL.eq((Boolean) value);
+            case GENDER_FILTER -> SKYDIVER_VIEW.GENDER.eq((Integer) value);
+            case NAME_FILTER -> buildNameFullTextSearchCondition((String) value);
+            case SPORT_RANK_FILTER -> SKYDIVER_VIEW.SPORT_RANK.eq((short) ((SportRank) value).getId());
+            case IS_INTERNAL_FILTER -> SKYDIVER_VIEW.IS_INTERNAL.eq((Boolean) value);
             case null, default -> noCondition();
         };
     }
@@ -104,7 +115,8 @@ public class SkydiverJdbcRepositoryImpl {
                              USER_INFO_VIEW.SECOND_NAME.getName() + " || ' ' || "
                              + USER_INFO_VIEW.FIRST_NAME.getName() + " || ' ' || "
                              + USER_INFO_VIEW.PATRONYMIC.getName() + ") " +
+                             "@@ " +
                              "to_tsquery(regexp_replace(cast(plainto_tsquery('russian', '" + name + "') as text)," +
-                             "E'(\\'\\\\w+\\')', E'\\\\1:*', 'g'))'" + name + "')");
+                             "E'(\\'\\\\w+\\')', E'\\\\1:*', 'g'))");
     }
 }

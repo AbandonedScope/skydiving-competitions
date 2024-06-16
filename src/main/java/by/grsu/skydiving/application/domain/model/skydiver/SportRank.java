@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum SportRank {
+    NONE(0, "Не имеет звания"),
     CANDIDATE_FOR_MASTER_OF_SPORT(1, "Кандидат в мастера спорта (КМС)"),
     FIRST_DEGREE(2, "I разряд"),
     SECOND_DEGREE(3, "II разряд"),
@@ -30,7 +31,7 @@ public enum SportRank {
     MASTER_OF_SPORT_OF_REPUBLIC_OF_BELARUS_AMONG_DISABLED(18, "Мастер спорта Республики Беларусь среди инвалидов");;
 
     private final int id;
-    private final String russianName;
+    private final String description;
 
     public static SportRank of(int id) {
         return Arrays.stream(SportRank.values())

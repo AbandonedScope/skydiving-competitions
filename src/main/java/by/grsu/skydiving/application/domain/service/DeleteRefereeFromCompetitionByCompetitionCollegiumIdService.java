@@ -13,13 +13,13 @@ public class DeleteRefereeFromCompetitionByCompetitionCollegiumIdService
     private final DeleteRefereeFromCompetitionCollegiumPort deleteRefereeFromCompetitionCollegiumPort;
 
     @Override
-    public void deleteByCollegiumId(Long competitionCollegiumId, Long refereeId) {
+    public void deleteByCollegiumId(Long competitionId, Long refereeId) {
         int affectedRowsCount =
-            deleteRefereeFromCompetitionCollegiumPort.deleteFromCompetitionCollegium(
-                competitionCollegiumId,
+            deleteRefereeFromCompetitionCollegiumPort.deleteFromCompetition(
+                competitionId,
                 refereeId);
         if (affectedRowsCount == 0) {
-            throw new CompetitionCollegiumRefereeNotFoundException(refereeId, competitionCollegiumId);
+            throw new CompetitionCollegiumRefereeNotFoundException(refereeId, competitionId);
         }
     }
 }
