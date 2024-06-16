@@ -22,10 +22,12 @@ public record CompetitionCollegium(
     }
 
     public void addReferee(CollegiumReferee referee, boolean isMainCollegium) {
+        mainCollegium.checkPresented(referee);
+        collegium.checkPresented(referee);
         if (isMainCollegium) {
-            mainCollegium.collegium().add(referee);
+            mainCollegium.add(referee);
         } else {
-            collegium.collegium().add(referee);
+            collegium.add(referee);
         }
     }
 
