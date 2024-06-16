@@ -66,6 +66,7 @@ public interface SkydiverMapper {
 
     ExternalSkydiverResponse toExternalResponse(Skydiver skydiver);
 
+    @Mapping(target = "sportRank", source = "sportCareer.sportRank")
     SkydiverShortInfoResponse toShortResponse(Skydiver skydiver);
 
     SkydiverResponse toResponse(Skydiver skydiver);
