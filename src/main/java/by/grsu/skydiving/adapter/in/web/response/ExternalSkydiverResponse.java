@@ -5,9 +5,7 @@ import by.grsu.skydiving.application.domain.model.skydiver.SportRank;
 
 public record ExternalSkydiverResponse(
     Long id,
-    String firstName,
-    String secondName,
-    String patronymic,
+    FullNameResponse name,
     Gender gender,
     SportRank sportRank
 ) {
