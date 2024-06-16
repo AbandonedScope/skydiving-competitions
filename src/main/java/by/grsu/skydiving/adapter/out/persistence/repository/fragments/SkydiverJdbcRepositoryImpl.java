@@ -105,7 +105,8 @@ public class SkydiverJdbcRepositoryImpl {
                              USER_INFO_VIEW.SECOND_NAME.getName() + " || ' ' || "
                              + USER_INFO_VIEW.FIRST_NAME.getName() + " || ' ' || "
                              + USER_INFO_VIEW.PATRONYMIC.getName() + ") " +
+                             "@@ " +
                              "to_tsquery(regexp_replace(cast(plainto_tsquery('russian', '" + name + "') as text)," +
-                             "E'(\\'\\\\w+\\')', E'\\\\1:*', 'g'))'" + name + "')");
+                             "E'(\\'\\\\w+\\')', E'\\\\1:*', 'g'))");
     }
 }
