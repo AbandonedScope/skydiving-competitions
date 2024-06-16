@@ -7,6 +7,7 @@ import by.grsu.skydiving.adapter.out.persistence.mapper.RefereeEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.UserInfoMapper;
 import by.grsu.skydiving.adapter.out.persistence.repository.RefereeJdbcRepository;
 import by.grsu.skydiving.adapter.out.persistence.repository.UserInfoJdbcRepository;
+import by.grsu.skydiving.application.domain.model.auth.UserRole;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
 import by.grsu.skydiving.application.domain.model.common.UserInfo;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
@@ -50,6 +51,7 @@ public class RefereePersistenceAdapter
     @Transactional
     public Long save(Referee referee) {
         UserInfoEntity userInfo = userInfoMapper.toEntity(referee);
+        userInfo.setRole((short) UserRole.REFEREE.ordinal());
         userInfo = userInfoJdbcRepository.save(userInfo);
         UserInfo info = userInfoMapper.toUserInfoDomain(userInfo);
         long userId = info.userId();
