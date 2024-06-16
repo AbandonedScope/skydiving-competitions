@@ -7,10 +7,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum RefereeCategory {
-    SPORT_REFEREE(1, "Судья по спорту"),
-    SPORT_REFEREE_OF_FIRST_CATEGORY(2, "Судья по спорту первой категории"),
-    SPORT_REFEREE_OF_NATIONAL_CATEGORY(3, "Судья по спорту национальной категории"),
-    SPORT_REFEREE_OF_HIGHEST_NATIONAL_CATEGORY(4, "Судья по спорту высшей национальной категории");
+    SPORT_REFEREE(0, "Судья по спорту"),
+    SPORT_REFEREE_OF_FIRST_CATEGORY(1, "Судья по спорту первой категории"),
+    SPORT_REFEREE_OF_NATIONAL_CATEGORY(2, "Судья по спорту национальной категории"),
+    SPORT_REFEREE_OF_HIGHEST_NATIONAL_CATEGORY(3, "Судья по спорту высшей национальной категории");
 
     private final int id;
     private final String description;
