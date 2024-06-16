@@ -146,9 +146,8 @@ public class PassportInfo extends TableImpl<Record> {
      * Get the implicit join path to the <code>public.skydiver</code> table.
      */
     public Skydiver skydiver() {
-        if (_skydiver == null) {
+        if (_skydiver == null)
             _skydiver = new Skydiver(this, Keys.PASSPORT_INFO__PASSPORT_INFO_SKYDIVER_ID_FK);
-        }
 
         return _skydiver;
     }

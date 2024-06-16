@@ -3,6 +3,7 @@ package by.grsu.skydiving.application.domain.model.competition;
 import by.grsu.skydiving.application.domain.exception.domain.CollegiumRefereeUpdateException;
 import by.grsu.skydiving.application.domain.exception.domain.IndividualAlreadyPresentedInCompetitionException;
 import by.grsu.skydiving.application.domain.exception.domain.TeamAlreadyPresentedInCompetitionException;
+import by.grsu.skydiving.application.domain.exception.domain.TeamWasNotFound;
 import by.grsu.skydiving.application.domain.exception.domain.TeamWithNameNotFoundException;
 import by.grsu.skydiving.application.domain.exception.domain.TryToAddIndividualThatInTeamException;
 import by.grsu.skydiving.application.domain.model.skydiver.Address;
@@ -110,7 +111,8 @@ public class Competition {
     public Team getTeamById(long teamId) {
         return teams.stream()
             .filter(team -> team.id() == teamId)
-            .findFirst().orElseThrow();
+            .findFirst()
+            .orElseThrow(TeamWasNotFound::new);
     }
 
     public CompetitionMember getIndividualById(long individualId) {

@@ -20,6 +20,7 @@ import by.grsu.skydiving.application.domain.model.skydiver.PhoneNumber;
 import by.grsu.skydiving.application.domain.model.skydiver.Skydiver;
 import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
 import by.grsu.skydiving.application.domain.model.skydiver.SportCareer;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -73,6 +74,8 @@ public interface SkydiverMapper {
 
     @Mapping(target = "sportRank", source = "sportCareer.sportRank")
     SkydiverShortInfoResponse toResponse(SkydiverShortInfo shortInfo);
+
+    List<SkydiverShortInfoResponse> toResponse(List<SkydiverShortInfo> domainPage);
 
     PageResponse<SkydiverShortInfoResponse> toResponse(DomainPage<SkydiverShortInfo> domainPage);
 

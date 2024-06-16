@@ -176,9 +176,8 @@ public class Skydiver extends TableImpl<Record> {
      * Get the implicit join path to the <code>public.user_info</code> table.
      */
     public UserInfo userInfo() {
-        if (_userInfo == null) {
+        if (_userInfo == null)
             _userInfo = new UserInfo(this, Keys.SKYDIVER__SKYDIVER_USER_INFO_ID_FK);
-        }
 
         return _userInfo;
     }

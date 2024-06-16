@@ -9,11 +9,12 @@ import by.grsu.skydiving.application.domain.exception.domain.TeamSizeLimitExceed
 import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import lombok.Builder;
 import lombok.With;
 
-@Builder
+@Builder(toBuilder = true)
 public record Team(
     @With
     Long id,
@@ -35,10 +36,10 @@ public record Team(
         members.add(skydiver);
     }
 
-    public CompetitionMember getById(long skydiverId) {
+    public Optional<CompetitionMember> getById(long skydiverId) {
         return members.stream()
             .filter(skydiver -> skydiver.skydiverId() == skydiverId)
-            .findFirst().orElseThrow();
+            .findFirst();
     }
 
     public void removeSkydiver(CompetitionMember skydiverToRemove) {
