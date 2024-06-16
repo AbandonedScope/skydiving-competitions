@@ -71,7 +71,7 @@ public class GenerateUserCredentialsService implements GenerateUserCredentialsUs
                 '1', '2', '3', '4', '5', '6', '7', '8', '9', '/', '-', '.'};
         String[] abcLat =
             {" ", "a", "b", "v", "g", "d", "e", "e", "zh", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t",
-                "u", "f", "h", "c", "сh", "sh", "A", "B", "V", "G", "D", "E", "E", "Zh", "Z", "I", "J", "K", "L", "M",
+                "u", "f", "h", "c", "ch", "sh", "A", "B", "V", "G", "D", "E", "E", "Zh", "Z", "I", "J", "K", "L", "M",
                 "N", "O", "P", "R", "S", "T", "U", "F", "H", "C", "Ch", "Sh", "a", "b", "c", "d", "e", "f", "g", "h",
                 "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C",
                 "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X",
