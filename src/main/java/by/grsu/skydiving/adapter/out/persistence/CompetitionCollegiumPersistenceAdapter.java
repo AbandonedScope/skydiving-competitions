@@ -33,6 +33,7 @@ public class CompetitionCollegiumPersistenceAdapter implements
         CompetitionCollegiumEntity collegiumEntity = mapper.toEntity(collegium, competition.getId());
         collegiumEntity = collegiumRepository.save(collegiumEntity);
 
+        collegium = collegium.withId(collegiumEntity.getId());
         List<CollegiumRefereeTransEntity> trans = extractCollegiumRefereeTrans(collegium);
         saveCollegiumRefereeTrans(trans, collegiumEntity.getId());
 

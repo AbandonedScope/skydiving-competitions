@@ -15,7 +15,9 @@ public class TrickSerieProjection {
     private Long refereeNumber;
     @Column("member_number")
     private Integer skydiverNumber;
+    @Column("serie_number")
     private Integer serieNumber;
+    @Column("round_number")
     private Integer roundNumber;
     private Float timeWithoutPenalty;
     private Boolean isTimeSubmitted;

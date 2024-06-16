@@ -32,17 +32,17 @@ public interface TrickSerieJdbcRepository extends ListCrudRepository<TrickSerieE
     @Query(
             """
                     select
-                            serie.id as trickSerieId,
+                            serie.id,
                             serie.serie_number,
                             serie.round_number,
                             serie.time_without_penalty,
                             serie.is_time_submitted,
                             serie.competition_member_detail_id,
-                            serie.referee_id,
-                            serie.referee_number,
+                            ccrt.referee_id,
+                            ccrt.referee_number,
                             details.member_number
                             from trick_serie as serie
-                    left join referee on referee.id = serie.referee_id
+                    left join competition_collegium_referee_trans as ccrt on ccrt.referee_id = serie.referee_id
                     left join competition_member_detail as details on details.id = serie.competition_member_detail_id
                     where details.competition_id = :competitionId;
             """

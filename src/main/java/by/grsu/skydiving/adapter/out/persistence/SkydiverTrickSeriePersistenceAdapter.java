@@ -31,7 +31,7 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
         List<TrickAttemptEntity> trickAttempts = trickAttemptJdbcRepository.getTrickAttemptByCompetitionId(competitionId);
 
         List<TrickSerieOfSkydiver> trickSerieOfSkydivers = new ArrayList<>();
-        trickSeries.forEach(x -> mapToDomainModel(x, filterByTrickSerieId(x.getId(),trickAttempts)));
+        trickSeries.forEach(x -> trickSerieOfSkydivers.add(mapToDomainModel(x, filterByTrickSerieId(x.getId(),trickAttempts))));
 
         return trickSerieOfSkydivers;
     }
