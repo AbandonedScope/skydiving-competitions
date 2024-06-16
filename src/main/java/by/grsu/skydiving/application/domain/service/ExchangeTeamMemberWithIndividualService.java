@@ -25,7 +25,7 @@ public class ExchangeTeamMemberWithIndividualService implements ExchangeTeamMemb
         Competition competition = getCompetitionUseCase.getCompetition(competitionId);
 
         if (!competition.canMoveMembers()) {
-            throw new TryToUpdateImmutableCompetitionException("Competition can't be updated");
+            throw new TryToUpdateImmutableCompetitionException();
         }
 
         Team team = competition.getTeamById(teamId);

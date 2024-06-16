@@ -2,7 +2,6 @@ package by.grsu.skydiving.adapter.in.web;
 
 import by.grsu.skydiving.application.domain.exception.business.BusinessException;
 import by.grsu.skydiving.application.domain.exception.business.IncorrectPasswordException;
-import by.grsu.skydiving.application.domain.exception.business.SkydiverWithNameAndBirthDateAlreadyExistsException;
 import by.grsu.skydiving.application.domain.exception.business.UserNotFoundException;
 import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 import jakarta.validation.ConstraintViolation;
@@ -24,6 +23,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ControllerAdvice {
     private static final String VALIDATION_ERRORS_FIELD_NAME = "errors";
     private static final String VALIDATION_ERROR_TITLE = "validation-error";
+    private static final String ERROR_TYPE = "errorType";
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ProblemDetail onException(
+        Exception ex
+    ) {
+        ProblemDetail problemDetail = getProblemDetailInternalServerError();
+        problemDetail.setDetail("Произошла непредвиденная ошибка сервера, попробуйте повторить запрос позже.");
+
+        log.error(ex.getMessage());
+        return problemDetail;
+    }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -74,25 +86,13 @@ public class ControllerAdvice {
         return problemDetail;
     }
 
-    @ExceptionHandler(SkydiverWithNameAndBirthDateAlreadyExistsException.class)
-    public ProblemDetail handleSkydiverWithNameAndBirthDateAlreadyExistsException(
-        SkydiverWithNameAndBirthDateAlreadyExistsException ex) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
-
-        problemDetail.setDetail(ex.getMessage());
-        problemDetail.setTitle("skydiver-creation-error");
-        problemDetail.setProperty("errorType", "business-error-type-conflict");
-
-        log.error(ex.getMessage());
-        return problemDetail;
-    }
-
     @ExceptionHandler({IncorrectPasswordException.class, UserNotFoundException.class})
     public ProblemDetail handleAuthExceptions(BusinessException ex) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+        ProblemDetail problemDetail = getProblemDetailBusiness();
 
+        problemDetail.setStatus(HttpStatus.UNAUTHORIZED);
         problemDetail.setDetail(ex.getMessage());
-        problemDetail.setTitle("business-error");
+        problemDetail.setTitle("Ошибка авторизации");
 
         log.error(ex.getMessage());
         return problemDetail;
@@ -103,7 +103,6 @@ public class ControllerAdvice {
         ProblemDetail problemDetail = getProblemDetailBusiness();
 
         problemDetail.setDetail(ex.getMessage());
-        problemDetail.setTitle("business-error");
 
         log.error(ex.getMessage());
         return problemDetail;
@@ -111,7 +110,17 @@ public class ControllerAdvice {
 
     private ProblemDetail getProblemDetailBusiness() {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        problemDetail.setProperty("errorType", "business-error-type-validation");
+        problemDetail.setProperty(ERROR_TYPE, "business-error-type-validation");
+        problemDetail.setTitle("Ошибка бизнес логики");
+
+
+        return problemDetail;
+    }
+
+    private ProblemDetail getProblemDetailInternalServerError() {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        problemDetail.setProperty(ERROR_TYPE, "internal-server-error");
+        problemDetail.setTitle("Внутренняя ошибка сервера");
 
         return problemDetail;
     }
