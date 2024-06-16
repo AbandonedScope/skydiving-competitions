@@ -38,5 +38,17 @@ public interface RefereeJdbcRepository extends ListCrudRepository<RefereeEntity,
 
     List<RefereeProjection> filter(Map<String, Object> filters, long limit, long offset);
 
+    @Query("""
+        select referee_view.id,
+               referee_view.category,
+               user_info.first_name,
+               user_info.second_name,
+               user_info.patronymic
+        from referee_view
+                 left join user_info on referee_view.id = user_info.id
+        where referee_view.id = :refereeId
+        """)
+    Optional<RefereeProjection> findById(long refereeId);
+
     Long countFiltered(Map<String, Object> filters);
 }

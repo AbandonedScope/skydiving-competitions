@@ -15,6 +15,7 @@ import by.grsu.skydiving.application.domain.model.competition.RefereeGroups;
 import by.grsu.skydiving.application.port.out.DeleteRefereePort;
 import by.grsu.skydiving.application.port.out.FilterRefereesPort;
 import by.grsu.skydiving.application.port.out.FindRefereesPort;
+import by.grsu.skydiving.application.port.out.GetRefereeByIdPort;
 import by.grsu.skydiving.application.port.out.SaveRefereePort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import java.util.HashMap;
@@ -27,7 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class RefereePersistenceAdapter
-    implements FindRefereesPort, DeleteRefereePort, SaveRefereePort, FilterRefereesPort {
+    implements FindRefereesPort, DeleteRefereePort,
+    SaveRefereePort, FilterRefereesPort, GetRefereeByIdPort {
     private final RefereeJdbcRepository refereeJdbcRepository;
     private final RefereeEntityMapper refereeEntityMapper;
     private final UserInfoJdbcRepository userInfoJdbcRepository;
@@ -81,6 +83,12 @@ public class RefereePersistenceAdapter
             .totalPages(totalPages)
             .content(referees)
             .build();
+    }
+
+    @Override
+    public Optional<Referee> getById(long refereeId) {
+        return refereeJdbcRepository.findById(refereeId)
+            .map(refereeEntityMapper::toDomain);
     }
 
     void formatFilters(Map<String, Object> filters) {

@@ -10,9 +10,9 @@ public record UpdateCollegiumRequest(
     Long collegiumId,
     @Valid
     @NotEmpty
-    Set<CollegiumRefereeRequest> mainCollegium,
+    Set<AddCollegiumRefereeRequest> mainCollegium,
     @Valid
     @NotEmpty
-    Set<CollegiumRefereeRequest> collegium
+    Set<AddCollegiumRefereeRequest> collegium
 ) {
 }
