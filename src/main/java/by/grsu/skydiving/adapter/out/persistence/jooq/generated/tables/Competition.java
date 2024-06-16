@@ -85,6 +85,12 @@ public class Competition extends TableImpl<Record> {
     public final TableField<Record, Boolean> IS_DELETED = createField(DSL.name("is_deleted"),
         SQLDataType.BOOLEAN.defaultValue(DSL.field(DSL.raw("false"), SQLDataType.BOOLEAN)), this, "");
 
+    /**
+     * The column <code>public.competition.next_member_number</code>.
+     */
+    public final TableField<Record, Integer> NEXT_MEMBER_NUMBER = createField(DSL.name("next_member_number"),
+        SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("1"), SQLDataType.INTEGER)), this, "");
+
     private Competition(Name alias, Table<Record> aliased) {
         this(alias, aliased, null);
     }

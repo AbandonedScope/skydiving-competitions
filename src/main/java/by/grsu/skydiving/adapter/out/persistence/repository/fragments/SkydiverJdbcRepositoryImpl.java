@@ -1,9 +1,11 @@
 package by.grsu.skydiving.adapter.out.persistence.repository.fragments;
 
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.COMPETITION_ID_NOT_IN_FILTER;
 import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.GENDER_FILTER;
 import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.IS_INTERNAL_FILTER;
 import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.NAME_FILTER;
 import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.SPORT_RANK_FILTER;
+import static generated.Tables.COMPETITION_MEMBER_DETAIL;
 import static generated.Tables.SKYDIVER_VIEW;
 import static generated.Tables.USER_INFO_VIEW;
 import static org.jooq.impl.DSL.count;
@@ -29,6 +31,32 @@ import org.springframework.stereotype.Repository;
 public class SkydiverJdbcRepositoryImpl {
     private final DSLContext create;
     private final JdbcTemplate jdbcTemplate;
+
+    public List<SkydiverShortInfoProjection> filter(Map<String, Object> filters) {
+        Query query = create.select(
+                SKYDIVER_VIEW.ID,
+                USER_INFO_VIEW.FIRST_NAME,
+                USER_INFO_VIEW.SECOND_NAME,
+                USER_INFO_VIEW.PATRONYMIC,
+                SKYDIVER_VIEW.BEGIN_OF_SPORT_CAREER,
+                SKYDIVER_VIEW.SPORT_RANK,
+                SKYDIVER_VIEW.IS_INTERNAL,
+                SKYDIVER_VIEW.GENDER)
+            .from(SKYDIVER_VIEW.leftJoin(USER_INFO_VIEW)
+                .on(SKYDIVER_VIEW.ID.eq(USER_INFO_VIEW.ID))
+            )
+            .where(buildConditions(filters))
+            .orderBy(
+                USER_INFO_VIEW.SECOND_NAME,
+                USER_INFO_VIEW.FIRST_NAME,
+                USER_INFO_VIEW.PATRONYMIC,
+                USER_INFO_VIEW.ID
+            );
+
+        String sqlQuery = query.getSQL();
+
+        return jdbcTemplate.query(sqlQuery, rowMapper(), query.getBindValues().toArray());
+    }
 
     public List<SkydiverShortInfoProjection> filter(Map<String, Object> filters, long limit, long offset) {
         Query query = create.select(
@@ -85,6 +113,11 @@ public class SkydiverJdbcRepositoryImpl {
             case NAME_FILTER -> buildNameFullTextSearchCondition((String) value);
             case SPORT_RANK_FILTER -> SKYDIVER_VIEW.SPORT_RANK.eq((short) ((SportRank) value).getId());
             case IS_INTERNAL_FILTER -> SKYDIVER_VIEW.IS_INTERNAL.eq((Boolean) value);
+            case COMPETITION_ID_NOT_IN_FILTER ->
+                SKYDIVER_VIEW.ID.notIn(DSL.select(COMPETITION_MEMBER_DETAIL.SKYDIVER_ID)
+                    .from(COMPETITION_MEMBER_DETAIL)
+                    .where(COMPETITION_MEMBER_DETAIL.COMPETITION_ID.eq((Long) value))
+                );
             case null, default -> noCondition();
         };
     }

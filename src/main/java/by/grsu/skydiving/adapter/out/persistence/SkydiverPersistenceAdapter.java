@@ -160,7 +160,7 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
         long offset = pageNumber * pageSize;
 
         List<SkydiverShortInfoProjection> list =
-            skydiverJdbcRepository.filter(new HashMap<>(filters), pageSize, offset);
+            skydiverJdbcRepository.filter(filters, pageSize, offset);
         List<SkydiverShortInfo> skydiver = skydiverEntityMapper.toDomain(list);
         long totalRows = skydiverJdbcRepository.countFiltered(new HashMap<>(filters));
 
@@ -175,6 +175,13 @@ public class SkydiverPersistenceAdapter implements SaveNewSkydiverPort,
             .totalPages(totalPages)
             .content(skydiver)
             .build();
+    }
+
+    @Override
+    public List<SkydiverShortInfo> filter(Map<String, Object> filters) {
+        List<SkydiverShortInfoProjection> list = skydiverJdbcRepository.filter(filters);
+
+        return skydiverEntityMapper.toDomain(list);
     }
 
     private void formatFilters(Map<String, Object> filters) {

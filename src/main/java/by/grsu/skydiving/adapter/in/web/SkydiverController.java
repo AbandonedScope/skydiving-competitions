@@ -23,13 +23,16 @@ import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
 import by.grsu.skydiving.application.domain.model.skydiver.SportRank;
 import by.grsu.skydiving.application.port.in.AddExternalSkydiverUseCase;
 import by.grsu.skydiving.application.port.in.AddSkydiverUseCase;
+import by.grsu.skydiving.application.port.in.GetListOfSkydiversThatNotParticipateInCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.GetSkydiverUseCase;
 import by.grsu.skydiving.application.port.in.GetSkydiversPageUseCase;
 import by.grsu.skydiving.application.port.in.SoftDeleteSkydiverUseCase;
 import by.grsu.skydiving.application.port.in.UpdateExternalSkydiverUseCase;
 import by.grsu.skydiving.application.port.in.UpdateSkydiverUseCase;
 import by.grsu.skydiving.common.WebAdapter;
+import jakarta.validation.constraints.NotNull;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +58,7 @@ public class SkydiverController {
     private final AddExternalSkydiverUseCase addExternalUseCase;
     private final UpdateExternalSkydiverUseCase updateExternalUseCase;
     private final GetSkydiverUseCase getSkydiverUseCase;
+    private final GetListOfSkydiversThatNotParticipateInCompetitionUseCase getFreeSkydiversListUseCase;
     private final GetSkydiversPageUseCase pageUseCase;
     private final SoftDeleteSkydiverUseCase softDeleteUseCase;
     private final SkydiverMapper mapper;
@@ -85,6 +89,17 @@ public class SkydiverController {
         Skydiver skydiver = getSkydiverUseCase.getById(skydiverId);
 
         return mapper.toResponse(skydiver);
+    }
+
+    @GetMapping("/{competitionId}/free-skydivers")
+    public List<SkydiverShortInfoResponse> getListOfNotNotParticipating(
+        @PathVariable
+        @NotNull
+        Long competitionId
+    ) {
+        var freeSkydiversList = getFreeSkydiversListUseCase.getFreeSkydiversForCompetition(competitionId);
+
+        return mapper.toResponse(freeSkydiversList);
     }
 
     @GetMapping("/page")

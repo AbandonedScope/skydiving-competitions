@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,6 +61,7 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
     }
 
     @Override
+    @Transactional
     public Team saveTeam(Team team, long competitionId) {
         TeamEntity teamEntity = mapper.toEntity(team);
 
@@ -67,10 +69,17 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
         List<CompetitionMemberDetailsEntity> teamMembers = membersRepository.findByTeamId(teamEntity.getId());
         membersRepository.deleteAll(teamMembers);
 
-        List<CompetitionMemberDetailsEntity> members = mapper.toMembersEntities(team.members());
-        members = saveMembers(members);
+        Long teamId = teamEntity.getId();
+        var members = team.members().stream()
+            .map(member -> member.withId(null))
+            .map(member -> member.withTeamId(teamId))
+            .map(member -> member.withCompetitionId(competitionId))
+            .collect(Collectors.toSet());
 
-        return mapper.toDomain(teamEntity, members);
+        List<CompetitionMemberDetailsEntity> membersEntities = mapper.toMembersEntities(members);
+        membersEntities = saveMembers(membersEntities);
+
+        return mapper.toDomain(teamEntity, membersEntities);
     }
 
     @Override

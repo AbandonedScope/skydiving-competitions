@@ -7,6 +7,7 @@ import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
 import by.grsu.skydiving.application.port.in.AddIndividualToCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.GetSkydiverUseCase;
 import by.grsu.skydiving.application.port.in.GetUpdatableCompetitionUseCase;
+import by.grsu.skydiving.application.port.out.GetNextMemberNumberAndIncrementPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionPort;
 import by.grsu.skydiving.common.UseCase;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AddIndividualToCompetitionService implements AddIndividualToCompetitionUseCase {
     private final GetUpdatableCompetitionUseCase getCompetitionUseCase;
+    private final GetNextMemberNumberAndIncrementPort getNextMemberNumberAndIncrementPort;
     private final SaveCompetitionPort saveCompetitionPort;
     private final GetSkydiverUseCase getSkydiverUseCase;
 
@@ -24,7 +26,8 @@ public class AddIndividualToCompetitionService implements AddIndividualToCompeti
 
         SkydiverShortInfo skydiver = getSkydiverUseCase.getByIdShort(individual.skydiverId());
 
-        competition.addIndividual(skydiver, individual.memberNumber());
+        int memberNumber = getNextMemberNumberAndIncrementPort.getAndIncrement(competitionId);
+        competition.addIndividual(skydiver, memberNumber);
 
         saveCompetitionPort.save(competition);
         return competition.getMembers();

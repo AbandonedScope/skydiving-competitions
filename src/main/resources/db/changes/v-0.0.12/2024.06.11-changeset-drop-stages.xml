@@ -24,4 +24,11 @@
                  stripComments="true"
                  path="scripts/2024.06.12-add-foreign-keys.sql"/>
     </changeSet>
+    <changeSet id="2024-06-16T18:33:05Z" author="Maksim Makhanko" context="dev, prod">
+        <sqlFile dbms="postgresql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"
+                 path="scripts/2024.06.16-add-next-member-number-column.sql"/>
+    </changeSet>
 </databaseChangeLog>

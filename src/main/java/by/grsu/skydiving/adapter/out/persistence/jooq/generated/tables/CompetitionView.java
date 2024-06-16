@@ -73,6 +73,12 @@ public class CompetitionView extends TableImpl<Record> {
      */
     public final TableField<Record, Integer> STATUS = createField(DSL.name("status"), SQLDataType.INTEGER, this, "");
 
+    /**
+     * The column <code>public.competition_view.next_member_number</code>.
+     */
+    public final TableField<Record, Integer> NEXT_MEMBER_NUMBER =
+        createField(DSL.name("next_member_number"), SQLDataType.INTEGER, this, "");
+
     private CompetitionView(Name alias, Table<Record> aliased) {
         this(alias, aliased, null);
     }
@@ -84,7 +90,8 @@ public class CompetitionView extends TableImpl<Record> {
               competition.begin_date,
               competition.end_date,
               competition.address,
-              competition.status
+              competition.status,
+              competition.next_member_number
              FROM competition
             WHERE (competition.is_deleted = false);
             """));

@@ -137,9 +137,8 @@ public class CompetitionMemberDetail extends TableImpl<Record> {
      * Get the implicit join path to the <code>public.skydiver</code> table.
      */
     public Skydiver skydiver() {
-        if (_skydiver == null) {
+        if (_skydiver == null)
             _skydiver = new Skydiver(this, Keys.COMPETITION_MEMBER_DETAIL__COMPETITION_MEMBER_DETAIL_SKYDIVER_ID_FK);
-        }
 
         return _skydiver;
     }
