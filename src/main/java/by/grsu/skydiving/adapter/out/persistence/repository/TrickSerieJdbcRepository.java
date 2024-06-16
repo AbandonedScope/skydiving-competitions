@@ -39,11 +39,11 @@ public interface TrickSerieJdbcRepository extends ListCrudRepository<TrickSerieE
                             serie.time_without_penalty,
                             serie.is_time_submitted,
                             serie.competition_member_detail_id,
-                            serie.refereeId,
-                            referee.referee_number,
+                            serie.referee_id,
+                            serie.referee_number,
                             details.member_number
                             from trick_serie as serie
-                    left join referee on referee.id = serie.refereeId
+                    left join referee on referee.id = serie.referee_id
                     left join competition_member_detail as details on details.id = serie.competition_member_detail_id
                     where details.competition_id = :competitionId;
             """
