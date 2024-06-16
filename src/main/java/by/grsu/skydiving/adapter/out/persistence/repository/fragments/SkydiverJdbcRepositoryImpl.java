@@ -6,6 +6,7 @@ import static org.jooq.impl.DSL.count;
 import static org.jooq.impl.DSL.noCondition;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.SkydiverShortInfoProjection;
+import by.grsu.skydiving.application.domain.model.skydiver.SportRank;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -72,7 +73,7 @@ public class SkydiverJdbcRepositoryImpl {
         return switch (key) {
             case "gender" -> SKYDIVER_VIEW.GENDER.eq((Integer) value);
             case "name" -> buildNameFullTextSearchCondition((String) value);
-            case "sportRank" -> SKYDIVER_VIEW.SPORT_RANK.eq((Short) value);
+            case "sportRank" -> SKYDIVER_VIEW.SPORT_RANK.eq((short) ((SportRank) value).getId());
             case "isInternal" -> SKYDIVER_VIEW.IS_INTERNAL.eq((Boolean) value);
             case null, default -> noCondition();
         };
