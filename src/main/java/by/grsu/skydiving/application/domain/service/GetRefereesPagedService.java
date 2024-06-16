@@ -1,5 +1,7 @@
 package by.grsu.skydiving.application.domain.service;
 
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.NAME_FILTER;
+
 import by.grsu.skydiving.application.domain.exception.business.PageNumberInvalidException;
 import by.grsu.skydiving.application.domain.exception.business.PageSizeInvalidException;
 import by.grsu.skydiving.application.domain.model.common.DomainPage;
@@ -8,7 +10,6 @@ import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.port.in.GetFilteredRefereesUseCase;
 import by.grsu.skydiving.application.port.out.FilterRefereesPort;
 import by.grsu.skydiving.common.UseCase;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
@@ -30,7 +31,13 @@ public class GetRefereesPagedService implements GetFilteredRefereesUseCase {
         }
         --pageNumber;
 
-        Map<String, Object> filters = query.filterQuery().filters();
+        var filters = query.filterQuery().filters();
+        String nameFilter = (String) filters.get(NAME_FILTER);
+        if (nameFilter != null
+            && nameFilter.isBlank()) {
+            filters.remove(NAME_FILTER);
+        }
+
         return filterRefereesPort.filter(filters, pageNumber, pageSize);
     }
 }
