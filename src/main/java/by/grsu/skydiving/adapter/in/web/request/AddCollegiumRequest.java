@@ -7,9 +7,9 @@ import java.util.Set;
 public record AddCollegiumRequest(
     @Valid
     @NotEmpty
-    Set<CollegiumRefereeRequest> mainCollegium,
+    Set<AddCollegiumRefereeRequest> mainCollegium,
     @Valid
     @NotEmpty
-    Set<CollegiumRefereeRequest> collegium
+    Set<AddCollegiumRefereeRequest> collegium
 ) {
 }

@@ -9,6 +9,7 @@ import lombok.With;
 
 @Builder
 public record CompetitionCollegium(
+    @With
     Long id,
     @With
     RefereeCollegium mainCollegium,
@@ -18,6 +19,14 @@ public record CompetitionCollegium(
     public static class CompetitionCollegiumBuilder {
         private RefereeCollegium mainCollegium = new RefereeCollegium(HashSet.newHashSet(5));
         private RefereeCollegium collegium = new RefereeCollegium(HashSet.newHashSet(5));
+    }
+
+    public void addReferee(CollegiumReferee referee, boolean isMainCollegium) {
+        if (isMainCollegium) {
+            mainCollegium.collegium().add(referee);
+        } else {
+            collegium.collegium().add(referee);
+        }
     }
 
     public List<Referee> getReferees() {
