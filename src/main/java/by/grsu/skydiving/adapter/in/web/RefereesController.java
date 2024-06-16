@@ -67,8 +67,8 @@ public class RefereesController {
 
     @DeleteMapping("/{refereeId}/competition/{competitionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRefereeByCompetitionCollegiumIdAndRefereeId(@PathVariable Long competitionId,
-                                                                  @PathVariable Long refereeId) {
+    public void deleteRefereeByCompetitionIdAndRefereeId(@PathVariable Long competitionId,
+                                                         @PathVariable Long refereeId) {
         deleteRefereeFromCompetitionCollegiumUseCase.deleteByCollegiumId(competitionId,
             refereeId);
     }
