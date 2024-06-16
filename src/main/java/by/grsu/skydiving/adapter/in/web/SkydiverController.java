@@ -89,9 +89,9 @@ public class SkydiverController {
 
     @GetMapping("/page")
     public PageResponse<SkydiverShortInfoResponse> getSkydiverPage(
-        @RequestParam
+        @RequestParam(defaultValue = "1")
         long number,
-        @RequestParam
+        @RequestParam(defaultValue = "15")
         int size,
         @RequestParam(required = false)
         String name,
