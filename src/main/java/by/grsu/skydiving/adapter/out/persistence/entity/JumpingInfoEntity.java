@@ -22,10 +22,6 @@ public class JumpingInfoEntity {
     private Long refereeId;
     @Column("attempt_number")
     private Integer number;
-    @Column("height")
-    private Float height;
-    @Column("speed")
-    private Float speed;
     @Column("accuracy")
     private Integer accuracy;
     @Column("performance_date")

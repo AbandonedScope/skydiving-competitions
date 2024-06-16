@@ -1,7 +1,6 @@
 package by.grsu.skydiving.application.domain.model.competition;
 
 import by.grsu.skydiving.application.domain.exception.domain.CollegiumRefereeUpdateException;
-import by.grsu.skydiving.application.domain.exception.domain.CompetitionAlreadyHasCollegiumException;
 import by.grsu.skydiving.application.domain.exception.domain.IndividualAlreadyPresentedInCompetitionException;
 import by.grsu.skydiving.application.domain.exception.domain.TeamAlreadyPresentedInCompetitionException;
 import by.grsu.skydiving.application.domain.exception.domain.TeamWithNameNotFoundException;
@@ -41,15 +40,6 @@ public class Competition {
         }
 
         this.collegium.addReferee(referee, isMainCollegium);
-    }
-
-    public void addCollegium(CompetitionCollegium collegium) {
-        if (this.collegium != null) {
-            throw new CompetitionAlreadyHasCollegiumException();
-        }
-
-        this.collegium = collegium;
-        updateStatusToCreated();
     }
 
     public void updateCollegium(CompetitionCollegium updatedCollegium) {
@@ -134,6 +124,10 @@ public class Competition {
                && status != CompetitionStatus.COMPLETED;
     }
 
+    public boolean canBeRefereed() {
+        return status == CompetitionStatus.RUNNING;
+    }
+
     public boolean canMoveMembers() {
         return status != CompetitionStatus.COMPLETED;
     }
@@ -145,7 +139,8 @@ public class Competition {
 
     private void updateStatusToCreated() {
         if (status == CompetitionStatus.INITIAL
-            && !teams.isEmpty()
+            && (!teams.isEmpty()
+                || (individuals != null && !individuals.isEmpty()))
             && collegium != null
         ) {
             status = CompetitionStatus.CREATED;
