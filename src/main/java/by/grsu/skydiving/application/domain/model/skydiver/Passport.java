@@ -5,6 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record Passport(
+    Long id,
     String series,
     String number,
     String personalNumber,

@@ -22,7 +22,7 @@ public class AddIndividualToCompetitionService implements AddIndividualToCompeti
     public MembersOfCompetition addIndividualToCompetition(long competitionId, CompetitionMember individual) {
         Competition competition = getCompetitionUseCase.getCompetitionThatCanBeUpdated(competitionId);
 
-        SkydiverShortInfo skydiver = getSkydiverUseCase.getById(individual.skydiverId());
+        SkydiverShortInfo skydiver = getSkydiverUseCase.getByIdShort(individual.skydiverId());
 
         competition.addIndividual(skydiver, individual.memberNumber());
 

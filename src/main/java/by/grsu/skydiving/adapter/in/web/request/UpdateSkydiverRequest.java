@@ -4,7 +4,7 @@ import by.grsu.skydiving.application.domain.model.skydiver.Gender;
 import by.grsu.skydiving.application.domain.model.skydiver.SportRank;
 import java.time.LocalDate;
 
-public record SkydiverRequest(
+public record UpdateSkydiverRequest(
     String firstName,
     String secondName,
     String patronymic,
@@ -14,6 +14,7 @@ public record SkydiverRequest(
     String placeOfWork,
     String education,
     String phone,
+    LocalDate beginDateOfSportCareer,
     SportRank sportRank,
     PassportDetailsRequest passportDetails
 ) {

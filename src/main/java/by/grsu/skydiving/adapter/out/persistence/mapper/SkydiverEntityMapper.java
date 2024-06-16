@@ -38,6 +38,11 @@ public interface SkydiverEntityMapper {
     @Mapping(target = "couchName", ignore = true)
     Skydiver toDomain(SkydiverEntity entity, UserInfoEntity userInfo, PassportInfoEntity passport);
 
+    @Mapping(target = "couchName", ignore = true)
+    @Mapping(target = "sportCareer.beginDateOfSportCareer", source = "entity.beginDateOfSportCareer")
+    @Mapping(target = "sportCareer.sportRank", source = "entity.sportRank")
+    Skydiver toDomain(SkydiverEntity entity);
+
     @Mapping(target = "id", source = "userInfo.userId")
     @Mapping(target = "name.firstName", source = "userInfo.firstName")
     @Mapping(target = "name.secondName", source = "userInfo.secondName")
