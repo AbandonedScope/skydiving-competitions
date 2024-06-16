@@ -1,5 +1,10 @@
 package by.grsu.skydiving.adapter.in.web;
 
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.GENDER_FILTER;
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.IS_INTERNAL_FILTER;
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.NAME_FILTER;
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.SPORT_RANK_FILTER;
+
 import by.grsu.skydiving.adapter.in.web.mapper.SkydiverMapper;
 import by.grsu.skydiving.adapter.in.web.request.AddExternalSkydiverRequest;
 import by.grsu.skydiving.adapter.in.web.request.AddSkydiverRequest;
@@ -98,10 +103,10 @@ public class SkydiverController {
         Boolean isInternal
     ) {
         Map<String, Object> filters = HashMap.newHashMap(7);
-        filters.put("name", name);
-        filters.put("gender", gender);
-        filters.put("sportRank", sportRank);
-        filters.put("isInternal", isInternal);
+        filters.put(NAME_FILTER, name);
+        filters.put(GENDER_FILTER, gender);
+        filters.put(SPORT_RANK_FILTER, sportRank);
+        filters.put(IS_INTERNAL_FILTER, isInternal);
         filters.values().removeIf(Objects::isNull);
 
         FilterQuery filterQuery = new FilterQuery(filters);

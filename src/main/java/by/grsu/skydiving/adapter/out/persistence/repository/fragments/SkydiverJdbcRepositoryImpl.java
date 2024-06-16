@@ -1,5 +1,9 @@
 package by.grsu.skydiving.adapter.out.persistence.repository.fragments;
 
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.GENDER_FILTER;
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.IS_INTERNAL_FILTER;
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.NAME_FILTER;
+import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsNames.SPORT_RANK_FILTER;
 import static generated.Tables.SKYDIVER_VIEW;
 import static generated.Tables.USER_INFO_VIEW;
 import static org.jooq.impl.DSL.count;
@@ -71,10 +75,10 @@ public class SkydiverJdbcRepositoryImpl {
         Object value = entry.getValue();
 
         return switch (key) {
-            case "gender" -> SKYDIVER_VIEW.GENDER.eq((Integer) value);
-            case "name" -> buildNameFullTextSearchCondition((String) value);
-            case "sportRank" -> SKYDIVER_VIEW.SPORT_RANK.eq((short) ((SportRank) value).getId());
-            case "isInternal" -> SKYDIVER_VIEW.IS_INTERNAL.eq((Boolean) value);
+            case GENDER_FILTER -> SKYDIVER_VIEW.GENDER.eq((Integer) value);
+            case NAME_FILTER -> buildNameFullTextSearchCondition((String) value);
+            case SPORT_RANK_FILTER -> SKYDIVER_VIEW.SPORT_RANK.eq((short) ((SportRank) value).getId());
+            case IS_INTERNAL_FILTER -> SKYDIVER_VIEW.IS_INTERNAL.eq((Boolean) value);
             case null, default -> noCondition();
         };
     }
