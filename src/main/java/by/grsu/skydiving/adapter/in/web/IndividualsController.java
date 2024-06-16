@@ -28,7 +28,7 @@ public class IndividualsController {
                                            long competitionId,
                                            @RequestBody
                                            CompetitionMemberRequest request) {
-        CompetitionMember individual = teamMapper.toDomain(request);
+        CompetitionMember individual = teamMapper.toDomain(competitionId, request);
 
         addIndividualToCompetitionUseCase.addIndividualToCompetition(competitionId, individual);
     }

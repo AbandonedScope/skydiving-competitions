@@ -13,8 +13,7 @@ public interface UpdateCompetitionUseCase {
         String name,
         LocalDate beginDate,
         LocalDate endDate,
-        String place,
-        Integer numberOfStages
+        String place
     ) {
     }
 }

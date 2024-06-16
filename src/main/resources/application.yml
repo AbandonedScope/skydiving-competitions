@@ -14,8 +14,11 @@ jumping:
 
 jwt:
   secret: eWFnc2hqa2tvZHVpZnVsYXNpamtsZjthJ2Rib2ppaCBoYmtqYXNubGQ7bWtmZw==
-  ttl: 1h
+  ttl: 1m
   issuer: "skydiving"
+
+competition:
+  update-competition-status-cron: "0 0 0 * * ?"
 
 logging:
   level:

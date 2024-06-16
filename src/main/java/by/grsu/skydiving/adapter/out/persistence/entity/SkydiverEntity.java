@@ -30,22 +30,12 @@ public class SkydiverEntity implements Persistable<Long> {
     private String phoneNumber;
     @Column("couch_name")
     private String couchName;
-    @Column("height")
-    private Float height;
-    @Column("weight")
-    private Float weight;
-    @Column("shoe_size")
-    private Integer shoeSize;
-    @Column("jacket_size")
-    private Integer jacketSize;
-    @Column("pants_size")
-    private Integer pantsSize;
     @Column("begin_of_sport_career")
     private LocalDate beginDateOfSportCareer;
-    @Column("sport_specialization")
-    private String sportSpecialization;
-    @Column("sport_degree")
-    private Integer sportDegree;
+    @Column("sport_rank")
+    private Integer sportRank;
+    @Column("is_internal")
+    private boolean isInternal = true;
 
     @Transient
     @Column("jumping_amount")

@@ -7,6 +7,6 @@ public record RefereeShortInfoResponse(
     String firstName,
     String secondName,
     String patronymic,
-    RefereeCategory category) {
-
+    RefereeCategory category
+) {
 }

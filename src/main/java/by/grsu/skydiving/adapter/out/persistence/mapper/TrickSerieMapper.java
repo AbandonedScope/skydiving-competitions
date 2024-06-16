@@ -16,7 +16,6 @@ import org.mapstruct.ReportingPolicy;
     unmappedSourcePolicy = ReportingPolicy.WARN,
     unmappedTargetPolicy = ReportingPolicy.WARN
 )
-
 public interface TrickSerieMapper {
     @Mapping(target = "refereeNumber", source = "refereeId")
     TrickSerie toDomain(TrickSerieEntity entity);
@@ -37,7 +36,6 @@ public interface TrickSerieMapper {
     @Mapping(target = "competition.beginDate", source = "beginDate")
     @Mapping(target = "competition.endDate", source = "endDate")
     @Mapping(target = "competition.address", source = "address")
-    @Mapping(target = "competition.numberOfStages", source = "numberOfStages")
     Refereeing toDomain(RefereeingProjection projection);
 
     List<Refereeing> toRefereeingDomains(List<RefereeingProjection> projections);

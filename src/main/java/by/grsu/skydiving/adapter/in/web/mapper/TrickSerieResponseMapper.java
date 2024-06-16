@@ -5,6 +5,7 @@ import by.grsu.skydiving.adapter.in.web.response.*;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStatus;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.Refereeing;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerie;
+import java.util.List;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerieExtended;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerieOfSkydiver;
 import org.mapstruct.Mapper;
@@ -60,7 +61,6 @@ public interface TrickSerieResponseMapper {
     @Mapping(target = "competition.beginDate", source = "competition.beginDate")
     @Mapping(target = "competition.endDate", source = "competition.endDate")
     @Mapping(target = "competition.address", source = "competition.address")
-    @Mapping(target = "competition.numberOfStages", source = "competition.numberOfStages")
     RefereeingResponse toResponse(Refereeing refereeing);
     List<RefereeingResponse> toResponses(List<Refereeing> refereeings);
 
@@ -69,7 +69,7 @@ public interface TrickSerieResponseMapper {
     }
 
     default int map(CompetitionStatus status) {
-        return status.getNumber();
+        return status.getId();
     }
 
     default List<TrickSerieOfSkydiverResponse> mapToResponses(List<TrickSerieOfSkydiver> domains){

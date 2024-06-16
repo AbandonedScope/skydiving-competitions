@@ -12,15 +12,21 @@ import org.springframework.data.repository.ListCrudRepository;
 
 public interface RefereeJdbcRepository extends ListCrudRepository<RefereeEntity, Long> {
     @Query("""
-        select referee.id, referee.category,
-        user_info.first_name, user_info.second_name, user_info.patronymic,
-        trans.competition_stage_id, trans.is_main_collegium, trans.work_performed
-        from competition_stage_referee_trans as trans
-            left join referee on trans.referee_id = referee.id
-            left join user_info on referee.id = user_info.id
-        where competition_stage_id = :competitionStageId
+        select referee.id,
+               referee.category,
+               user_info.first_name,
+               user_info.second_name,
+               user_info.patronymic,
+               trans.competition_collegium_id,
+               trans.is_main_collegium,
+               trans.referee_number,
+               trans.work_performed
+        from competition_collegium_referee_trans as trans
+                 left join referee on trans.referee_id = referee.id
+                 left join user_info on referee.id = user_info.id
+        where competition_collegium_id = :competitionCollegiumId
         """)
-    Optional<List<CollegiumRefereeProjection>> findByCompetitionId(Long competitionStageId);
+    Optional<List<CollegiumRefereeProjection>> findByCompetitionCollegiumId(Long competitionCollegiumId);
 
     @Modifying
     @Query("""

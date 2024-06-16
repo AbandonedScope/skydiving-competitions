@@ -7,7 +7,6 @@ public record CompetitionForRefereeingResponse(
     String name,
     LocalDate beginDate,
     LocalDate endDate,
-    String address,
-    Integer numberOfStages
+    String address
 ) {
 }

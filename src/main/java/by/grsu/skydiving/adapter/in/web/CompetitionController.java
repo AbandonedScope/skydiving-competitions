@@ -1,10 +1,12 @@
 package by.grsu.skydiving.adapter.in.web;
 
+import by.grsu.skydiving.adapter.in.web.mapper.CollegiumMapper;
 import by.grsu.skydiving.adapter.in.web.mapper.CompetitionMapper;
-import by.grsu.skydiving.adapter.in.web.request.AddStageRequest;
+import by.grsu.skydiving.adapter.in.web.request.AddCollegiumRequest;
 import by.grsu.skydiving.adapter.in.web.request.InitiateCompetitionRequest;
+import by.grsu.skydiving.adapter.in.web.request.UpdateCollegiumRequest;
 import by.grsu.skydiving.adapter.in.web.request.UpdateCompetitionRequest;
-import by.grsu.skydiving.adapter.in.web.response.AddStageResponse;
+import by.grsu.skydiving.adapter.in.web.response.CollegiumResponse;
 import by.grsu.skydiving.adapter.in.web.response.CompetitionResponse;
 import by.grsu.skydiving.adapter.in.web.response.CompetitionShortInfoResponse;
 import by.grsu.skydiving.adapter.in.web.response.InitiateCompetitionResponse;
@@ -12,18 +14,21 @@ import by.grsu.skydiving.adapter.in.web.response.PageResponse;
 import by.grsu.skydiving.application.domain.model.common.FilterQuery;
 import by.grsu.skydiving.application.domain.model.common.GetPageQuery;
 import by.grsu.skydiving.application.domain.model.competition.Competition;
-import by.grsu.skydiving.application.domain.model.competition.CompetitionStage;
-import by.grsu.skydiving.application.port.in.AddStageToCompetitionUseCase;
-import by.grsu.skydiving.application.port.in.AddStageToCompetitionUseCase.AddStageCommand;
+import by.grsu.skydiving.application.domain.model.competition.CompetitionCollegium;
+import by.grsu.skydiving.application.port.in.AddCollegiumToCompetitionUseCase;
+import by.grsu.skydiving.application.port.in.AddCollegiumToCompetitionUseCase.AddCollegiumCommand;
 import by.grsu.skydiving.application.port.in.DeleteCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionPageUseCase.CompetitionFilterQuery;
 import by.grsu.skydiving.application.port.in.GetCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.InitiateCompetitionUseCase.InitiateCompetitionCommand;
+import by.grsu.skydiving.application.port.in.UpdateCollegiumOfCompetitionUseCase;
+import by.grsu.skydiving.application.port.in.UpdateCollegiumOfCompetitionUseCase.UpdateCollegiumCommand;
 import by.grsu.skydiving.application.port.out.UpdateCompetitionUseCase;
 import by.grsu.skydiving.application.port.out.UpdateCompetitionUseCase.UpdateCompetitionCommand;
 import by.grsu.skydiving.common.WebAdapter;
+import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -46,12 +51,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CompetitionController {
     private final InitiateCompetitionUseCase initiateUseCase;
-    private final AddStageToCompetitionUseCase addStageUseCase;
+    private final AddCollegiumToCompetitionUseCase addCollegiumUseCase;
+    private final UpdateCollegiumOfCompetitionUseCase updateCollegiumOfCompetitionUseCase;
     private final GetCompetitionPageUseCase pageUseCase;
     private final GetCompetitionUseCase getCompetitionUseCase;
     private final UpdateCompetitionUseCase updateCompetitionUseCase;
     private final DeleteCompetitionUseCase deleteCompetitionUseCase;
     private final CompetitionMapper competitionMapper;
+    private final CollegiumMapper collegiumMapper;
 
     @GetMapping("/{competitionId}")
     public CompetitionResponse getCompetitionById(@PathVariable
@@ -88,7 +95,8 @@ public class CompetitionController {
 
     @PostMapping("/initial")
     @ResponseStatus(HttpStatus.CREATED)
-    public InitiateCompetitionResponse initiateCompetitionCreation(@RequestBody
+    public InitiateCompetitionResponse initiateCompetitionCreation(@Valid
+                                                                   @RequestBody
                                                                    InitiateCompetitionRequest request) {
         InitiateCompetitionCommand command = competitionMapper.toCommand(request);
         Competition competition = initiateUseCase.initiateCompetition(command);
@@ -96,24 +104,42 @@ public class CompetitionController {
         return new InitiateCompetitionResponse(competition.getId());
     }
 
-    @PostMapping("/{competitionId}/stage")
+    @PostMapping("/{competitionId}/collegium")
     @ResponseStatus(HttpStatus.CREATED)
-    public AddStageResponse addStageToCompetition(
+    public CollegiumResponse addCollegiumToCompetition(
         @PathVariable
         Long competitionId,
+        @Valid
         @RequestBody
-        AddStageRequest request
+        AddCollegiumRequest request
     ) {
-        AddStageCommand command = competitionMapper.toCommand(competitionId, request);
-        CompetitionStage stage = addStageUseCase.addStage(command);
+        AddCollegiumCommand command = collegiumMapper.toCommand(competitionId, request);
+        CompetitionCollegium collegium = addCollegiumUseCase.addCollegium(command);
 
-        return new AddStageResponse(competitionId, stage.id());
+        return new CollegiumResponse(competitionId, collegium.id());
+    }
+
+    @PutMapping("/{competitionId}/collegium")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CollegiumResponse updateCollegiumOfCompetition(
+        @PathVariable
+        Long competitionId,
+        @Valid
+        @RequestBody
+        UpdateCollegiumRequest request
+    ) {
+        UpdateCollegiumCommand
+            command = collegiumMapper.toCommand(competitionId, request);
+        CompetitionCollegium collegium = updateCollegiumOfCompetitionUseCase.update(command);
+
+        return new CollegiumResponse(competitionId, collegium.id());
     }
 
     @PutMapping("/{competitionId}")
     @ResponseStatus(HttpStatus.CREATED)
     public CompetitionShortInfoResponse updateCompetition(@PathVariable
                                                           Long competitionId,
+                                                          @Valid
                                                           @RequestBody
                                                           UpdateCompetitionRequest request) {
         UpdateCompetitionCommand command = competitionMapper.toCommand(competitionId, request);

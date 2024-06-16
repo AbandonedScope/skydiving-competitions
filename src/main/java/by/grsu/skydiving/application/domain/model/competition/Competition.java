@@ -1,7 +1,7 @@
 package by.grsu.skydiving.application.domain.model.competition;
 
-import by.grsu.skydiving.application.domain.exception.business.CompetitionStagesLimitExceededException;
-import by.grsu.skydiving.application.domain.exception.domain.CompetitionStageNumberIncorrectException;
+import by.grsu.skydiving.application.domain.exception.domain.CollegiumRefereeUpdateException;
+import by.grsu.skydiving.application.domain.exception.domain.CompetitionAlreadyHasCollegiumException;
 import by.grsu.skydiving.application.domain.exception.domain.IndividualAlreadyPresentedInCompetitionException;
 import by.grsu.skydiving.application.domain.exception.domain.TeamAlreadyPresentedInCompetitionException;
 import by.grsu.skydiving.application.domain.exception.domain.TeamWithNameNotFoundException;
@@ -11,6 +11,7 @@ import by.grsu.skydiving.application.domain.model.skydiver.SkydiverShortInfo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -31,29 +32,27 @@ public class Competition {
     private LocalDate beginDate;
     private LocalDate endDate;
     private Address place;
-    @Builder.Default
-    private List<CompetitionStage> stages = new ArrayList<>();
-    private Integer numberOfStages;
+    private CompetitionCollegium collegium;
     private CompetitionStatus status;
 
-    public void addStage(CompetitionStage stage) {
-        int nextStageNumber = stages.size() + 1;
-        if (stage.number() != nextStageNumber) {
-            throw new CompetitionStageNumberIncorrectException(stage.number(), nextStageNumber);
+    public void addCollegium(CompetitionCollegium collegium) {
+        if (this.collegium != null) {
+            throw new CompetitionAlreadyHasCollegiumException();
         }
 
-        if (nextStageNumber > numberOfStages) {
-            throw new CompetitionStagesLimitExceededException(numberOfStages, nextStageNumber);
-        }
-
-        stages.add(stage);
+        this.collegium = collegium;
+        updateStatusToCreated();
     }
 
-    public CompetitionStage getStage(int stageNumber) {
-        return stages.stream()
-            .filter(stage -> stage.number() == stageNumber)
-            .findFirst()
-            .orElseThrow();
+    public void updateCollegium(CompetitionCollegium updatedCollegium) {
+        if (collegium == null
+            || Objects.equals(collegium.id(), updatedCollegium.id())) {
+            collegium = updatedCollegium;
+        } else {
+            throw new CollegiumRefereeUpdateException();
+        }
+
+        updateStatusToCreated();
     }
 
     public Team getTeamByName(String teamName) {
@@ -70,6 +69,7 @@ public class Competition {
         }
 
         teams.add(team);
+        updateStatusToCreated();
     }
 
     public void addIndividual(SkydiverShortInfo skydiver, int memberNumber) {
@@ -95,6 +95,7 @@ public class Competition {
         }
 
         individuals.add(individual);
+        updateStatusToCreated();
     }
 
     public void removeIndividual(long individualId) {
@@ -132,6 +133,15 @@ public class Competition {
     private boolean isTeamPresent(String teamName) {
         return teams.stream()
             .anyMatch(team -> team.name().equals(teamName));
+    }
+
+    private void updateStatusToCreated() {
+        if (status == CompetitionStatus.INITIAL
+            && !teams.isEmpty()
+            && collegium != null
+        ) {
+            status = CompetitionStatus.CREATED;
+        }
     }
 }
 

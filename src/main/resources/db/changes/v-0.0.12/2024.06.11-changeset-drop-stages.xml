@@ -1,0 +1,27 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="2024-06-11T20:12:09Z" author="Maksim Makhanko" context="dev, prod">
+        <sqlFile dbms="postgresql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"
+                 path="scripts/2024.06.11-drop-stages.sql"/>
+    </changeSet>
+    <changeSet id="2024-06-12T19:04:01Z" author="Maksim Makhanko" context="dev, prod">
+        <sqlFile dbms="postgresql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"
+                 path="scripts/2024.06.12-drop-odd-columns.sql"/>
+    </changeSet>
+    <changeSet id="2024-06-12T19:04:13Z" author="Maksim Makhanko" context="dev, prod">
+        <sqlFile dbms="postgresql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"
+                 path="scripts/2024.06.12-add-foreign-keys.sql"/>
+    </changeSet>
+</databaseChangeLog>

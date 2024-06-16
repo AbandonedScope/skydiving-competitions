@@ -19,7 +19,7 @@ public interface SkydiverJdbcRepository extends CrudRepository<SkydiverEntity, L
                user_info.patronymic,
                skydiver.begin_of_sport_career,
                skydiver.sport_specialization,
-               skydiver.sport_degree,
+               skydiver.sport_rank,
                skydiver.is_internal,
                skydiver.gender
         from skydiver_view as skydiver
@@ -50,7 +50,7 @@ public interface SkydiverJdbcRepository extends CrudRepository<SkydiverEntity, L
                user_info.patronymic,
                skydiver.begin_of_sport_career,
                skydiver.sport_specialization,
-               skydiver.sport_degree,
+               skydiver.sport_rank,
                skydiver.is_internal,
                skydiver.gender
         from skydiver_view as skydiver

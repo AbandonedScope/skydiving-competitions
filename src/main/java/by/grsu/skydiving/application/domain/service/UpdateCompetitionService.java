@@ -19,7 +19,7 @@ public class UpdateCompetitionService implements UpdateCompetitionUseCase {
         Competition competition = getCompetitionUseCase.getCompetitionThatCanBeUpdated(command.id());
 
         updateCompetition(competition, command);
-        competition = saveCompetitionPort.save(competition);
+        competition = saveCompetitionPort.saveInitial(competition);
         return competition;
     }
 
@@ -28,6 +28,5 @@ public class UpdateCompetitionService implements UpdateCompetitionUseCase {
         competition.setBeginDate(command.beginDate());
         competition.setEndDate(command.endDate());
         competition.setPlace(new Address(command.place()));
-        competition.setNumberOfStages(command.numberOfStages());
     }
 }
