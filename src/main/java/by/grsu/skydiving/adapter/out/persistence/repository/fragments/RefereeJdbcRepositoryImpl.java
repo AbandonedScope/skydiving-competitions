@@ -37,6 +37,12 @@ public class RefereeJdbcRepositoryImpl {
                 .on(REFEREE_VIEW.ID.eq(USER_INFO_VIEW.ID))
             )
             .where(buildConditions(filters))
+            .orderBy(
+                USER_INFO_VIEW.SECOND_NAME,
+                USER_INFO_VIEW.FIRST_NAME,
+                USER_INFO_VIEW.PATRONYMIC,
+                USER_INFO_VIEW.ID
+            )
             .limit(limit)
             .offset(offset);
 
