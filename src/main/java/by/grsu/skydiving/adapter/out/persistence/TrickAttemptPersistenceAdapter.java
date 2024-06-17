@@ -3,6 +3,7 @@ package by.grsu.skydiving.adapter.out.persistence;
 import by.grsu.skydiving.adapter.out.persistence.entity.TrickAttemptEntity;
 import by.grsu.skydiving.adapter.out.persistence.mapper.TrickAttemptEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.repository.TrickAttemptJdbcRepository;
+import by.grsu.skydiving.adapter.out.persistence.repository.TrickSerieJdbcRepository;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyValues;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttempt;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttemptsIncome;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TrickAttemptPersistenceAdapter implements SaveTrickAttemptsPort {
     private final TrickAttemptJdbcRepository trickAttemptJdbcRepository;
+    private final TrickSerieJdbcRepository trickSerieJdbcRepository;
     private final TrickAttemptEntityMapper mapper;
 
     public List<TrickAttempt> saveAll(TrickAttemptsIncome trickAttempts) {
@@ -26,6 +28,7 @@ public class TrickAttemptPersistenceAdapter implements SaveTrickAttemptsPort {
             .forEach((key, value) -> entities.add(mapToEntity(trickAttempts.trickSerieId(), key, value)));
 
         List<TrickAttemptEntity> savedEntities = trickAttemptJdbcRepository.saveAll(entities);
+        trickSerieJdbcRepository.setPenaltyReason(trickAttempts.trickSerieId(), trickAttempts.penaltyReason().ordinal());
 
         return savedEntities.stream()
                 .map(mapper::mapToDomain)

@@ -1,5 +1,7 @@
 package by.grsu.skydiving.adapter.in.web.response;
 
+import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyReason;
+
 public record TrickSerieShortInfoResponse(
     Long id,
     Long refereeId,
@@ -11,6 +13,7 @@ public record TrickSerieShortInfoResponse(
     Integer score,
     Float timeWithoutPenalty,
     Float totalPenalty,
+    PenaltyReason penaltyReason,
     Boolean isTimeSubmitted
 ) {
 }

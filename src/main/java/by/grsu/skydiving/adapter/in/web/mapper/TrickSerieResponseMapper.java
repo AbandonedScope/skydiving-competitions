@@ -30,6 +30,7 @@ public interface TrickSerieResponseMapper {
     @Mapping(target = "timeWithoutPenalty", source = "domain.timeWithoutPenalty")
     @Mapping(target = "totalPenalty", source = "domain.totalPenalty")
     @Mapping(target = "isTimeSubmitted", source = "domain.isTimeSubmitted")
+    @Mapping(target = "penaltyReason", source = "domain.penaltyReason")
     TrickSerieExtendedResponse toTrickSerieExtendedResponse(TrickSerieExtended domain, TrickAttemptsFullInfoResponse trickAttempts);
 
     @Mapping(target = "trickSerieWithPenalties", source = "extended")
@@ -71,6 +72,14 @@ public interface TrickSerieResponseMapper {
 
     default int map(CompetitionStatus status) {
         return status.getId();
+    }
+
+    default PenaltyReason mapToPenaltyReason(int number) {
+        return PenaltyReason.of(number);
+    }
+
+    default int map(PenaltyReason status) {
+        return status.ordinal();
     }
 
     default List<TrickSerieOfSkydiverResponse> mapToResponses(List<TrickSerieOfSkydiver> domains){

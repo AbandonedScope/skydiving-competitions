@@ -19,6 +19,8 @@ public class TrickSerieProjection {
     private Integer serieNumber;
     @Column("round_number")
     private Integer roundNumber;
+    @Column("penalty_reason")
+    private Integer penaltyReason;
     private Float timeWithoutPenalty;
     private Boolean isTimeSubmitted;
 }
