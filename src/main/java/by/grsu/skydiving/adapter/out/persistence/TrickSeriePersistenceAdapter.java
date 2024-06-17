@@ -3,15 +3,14 @@ package by.grsu.skydiving.adapter.out.persistence;
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionMemberDetailsEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.TrickSerieEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeingProjection;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.TrickSerieShortInfoProjection;
 import by.grsu.skydiving.adapter.out.persistence.mapper.TrickSerieMapper;
 import by.grsu.skydiving.adapter.out.persistence.repository.CompetitionMemberDetailsJdbcRepository;
 import by.grsu.skydiving.adapter.out.persistence.repository.TrickSerieJdbcRepository;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.Refereeing;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeing;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeingFullInfo;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerie;
+import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
 import by.grsu.skydiving.application.port.out.GetRefereeingsPort;
+import by.grsu.skydiving.application.port.out.GetTrickSerieShortInfoPort;
 import by.grsu.skydiving.application.port.out.SaveTrickRefereeingPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, GetRefereeingsPort {
+public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, GetRefereeingsPort, GetTrickSerieShortInfoPort {
     private final TrickSerieJdbcRepository trickSerieJdbcRepository;
     private final CompetitionMemberDetailsJdbcRepository memberDetailsJdbcRepository;
     private final TrickSerieMapper mapper;
@@ -60,5 +59,12 @@ public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, Ge
             ));
 
         return trickSerieEntities;
+    }
+
+    @Override
+    public TrickSerieShortInfo getTrickSerieShortInfoBeTrickSerieId(Long trickSerieId) {
+        TrickSerieShortInfoProjection projection = trickSerieJdbcRepository.getTrickSerieShortInfoByTrickSerieId(trickSerieId);
+
+        return mapper.toDomain(projection);
     }
 }
