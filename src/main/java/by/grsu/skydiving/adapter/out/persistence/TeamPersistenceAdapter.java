@@ -1,5 +1,7 @@
 package by.grsu.skydiving.adapter.out.persistence;
 
+import static generated.Tables.COMPETITION_MEMBER_DETAIL;
+
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionMemberDetailsEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.TeamEntity;
 import by.grsu.skydiving.adapter.out.persistence.mapper.TeamEntityMapper;
@@ -10,18 +12,16 @@ import by.grsu.skydiving.application.domain.model.competition.CompetitionMember;
 import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.port.out.DeleteTeamFromCompetitionPort;
 import by.grsu.skydiving.application.port.out.ExistsTeamByNamePort;
+import by.grsu.skydiving.application.port.out.GetNextMemberNumberAndIncrementPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionTeamsPort;
 import by.grsu.skydiving.application.port.out.SaveIndividualsPort;
 import by.grsu.skydiving.application.port.out.SaveTeamPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.jooq.DSLContext;
 import org.springframework.transaction.annotation.Transactional;
 
 @PersistenceAdapter
@@ -31,33 +31,17 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
     SaveIndividualsPort {
     private final TeamJdbcRepository teamRepository;
     private final CompetitionMemberDetailsJdbcRepository membersRepository;
+    private final GetNextMemberNumberAndIncrementPort getNextMemberNumberAndIncrementPort;
+    private final DSLContext dslContext;
     private final TeamEntityMapper mapper;
 
     @Override
     @Transactional
     public List<Team> saveTeams(Competition competition) {
-        List<Team> unsavedTeams = competition.getTeams();
-        List<TeamEntity> teamsEntities = mapper.toEntities(unsavedTeams);
-        teamsEntities = teamRepository.saveAll(teamsEntities);
-        List<Team> saveTeams = new ArrayList<>();
-        for (TeamEntity teamEntity : teamsEntities) {
-            Team unsavedTeam = unsavedTeams.stream()
-                .filter(team -> team.name().equals(teamEntity.getName()))
-                .findAny()
-                .orElseThrow();
-
-            saveTeams.add(unsavedTeam.withId(teamEntity.getId()));
-        }
-
-        List<CompetitionMemberDetailsEntity> members = saveTeams.stream()
-            .flatMap(team -> team.members().stream()
-                .map(member -> member.withTeamId(team.id()))
-            )
-            .map(mapper::toEntity)
+        return competition.getTeams()
+            .stream()
+            .map(team -> saveTeam(team, competition.getId()))
             .toList();
-        members = saveMembers(members);
-
-        return mapToDomains(teamsEntities, members);
     }
 
     @Override
@@ -66,14 +50,32 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
         TeamEntity teamEntity = mapper.toEntity(team);
 
         teamEntity = teamRepository.save(teamEntity);
-        List<CompetitionMemberDetailsEntity> teamMembers = membersRepository.findByTeamId(teamEntity.getId());
-        membersRepository.deleteAll(teamMembers);
+        long teamId = teamEntity.getId();
+        List<Long> skydiversOfTheTeamIds = team.members().stream()
+            .map(CompetitionMember::skydiverId)
+            .toList();
 
-        Long teamId = teamEntity.getId();
-        var members = team.members().stream()
-            .map(member -> member.withId(null))
-            .map(member -> member.withTeamId(teamId))
-            .map(member -> member.withCompetitionId(competitionId))
+        dslContext.delete(COMPETITION_MEMBER_DETAIL)
+            .where(COMPETITION_MEMBER_DETAIL.COMPETITION_ID.eq(competitionId)
+                .and(COMPETITION_MEMBER_DETAIL.TEAM_ID.eq(teamId))
+                .and(COMPETITION_MEMBER_DETAIL.SKYDIVER_ID.notIn(skydiversOfTheTeamIds)))
+            .execute();
+
+        List<Long> skydiversRemainingInTeamIds = membersRepository.findByTeamId(teamEntity.getId()).stream()
+            .map(CompetitionMemberDetailsEntity::getSkydiverId)
+            .toList();
+
+        List<CompetitionMember> newTeamMembers = team.members().stream()
+            .filter(member -> !skydiversRemainingInTeamIds.contains(member.skydiverId()))
+            .toList();
+
+        var members = newTeamMembers.stream()
+            .map(member -> member.toBuilder()
+                .teamId(teamId)
+                .competitionId(competitionId)
+                .memberNumber(getNextMemberNumberAndIncrementPort.getAndIncrement(competitionId))
+                .build()
+            )
             .collect(Collectors.toSet());
 
         List<CompetitionMemberDetailsEntity> membersEntities = mapper.toMembersEntities(members);
@@ -84,21 +86,33 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
 
     @Override
     public void saveIndividuals(Set<CompetitionMember> individuals, long competitionId) {
-        List<CompetitionMemberDetailsEntity> teamMembers =
-            membersRepository.findIndividualsByCompetitionId(competitionId);
-        membersRepository.deleteAll(teamMembers);
+        List<Long> individualSkydiversOfCompetitionIds = individuals.stream()
+            .map(CompetitionMember::skydiverId)
+            .toList();
 
-        List<CompetitionMemberDetailsEntity> entities = individuals.stream()
+        dslContext.delete(COMPETITION_MEMBER_DETAIL)
+            .where(COMPETITION_MEMBER_DETAIL.COMPETITION_ID.eq(competitionId)
+                .and(COMPETITION_MEMBER_DETAIL.TEAM_ID.isNull())
+                .and(COMPETITION_MEMBER_DETAIL.SKYDIVER_ID.notIn(individualSkydiversOfCompetitionIds)))
+            .execute();
+
+        List<Long> individualSkydiversRemainingInCompetitionIds =
+            membersRepository.findIndividualsByCompetitionId(competitionId).stream()
+                .map(CompetitionMemberDetailsEntity::getSkydiverId)
+                .toList();
+
+        List<CompetitionMemberDetailsEntity> newIndividuals = individuals.stream()
+            .filter(individual -> !individualSkydiversRemainingInCompetitionIds.contains(individual.skydiverId()))
             .map(individual -> CompetitionMemberDetailsEntity.builder()
                 .skydiverId(individual.skydiverId())
                 .isJunior(false)
                 .competitionId(competitionId)
-                .memberNumber(individual.memberNumber())
+                .memberNumber(getNextMemberNumberAndIncrementPort.getAndIncrement(competitionId))
                 .build()
             )
             .toList();
 
-        saveMembers(entities);
+        saveMembers(newIndividuals);
     }
 
     @Override
@@ -115,37 +129,5 @@ public class TeamPersistenceAdapter implements SaveCompetitionTeamsPort,
 
     private List<CompetitionMemberDetailsEntity> saveMembers(List<CompetitionMemberDetailsEntity> members) {
         return membersRepository.saveAll(members);
-    }
-
-    private List<Team> mapToDomains(List<TeamEntity> teams, List<CompetitionMemberDetailsEntity> members) {
-        Map<Long, Set<CompetitionMemberDetailsEntity>> membersGroupedByTeamId = groupByTeamId(members);
-
-        return teams.stream()
-            .map(teamEntity -> {
-                Long teamId = teamEntity.getId();
-                Set<CompetitionMemberDetailsEntity> membersOfTeam = membersGroupedByTeamId.get(teamId);
-                return mapper.toDomain(teamEntity, membersOfTeam);
-            })
-            .toList();
-    }
-
-    private Map<Long, Set<CompetitionMemberDetailsEntity>> groupByTeamId(List<CompetitionMemberDetailsEntity> members) {
-        Map<Long, Set<CompetitionMemberDetailsEntity>> membersGroupedByTeamId = HashMap.newHashMap(5);
-
-        for (CompetitionMemberDetailsEntity memberDetails : members) {
-            long teamId = memberDetails.getTeamId();
-
-            Set<CompetitionMemberDetailsEntity> membersOfTeam;
-            if (!membersGroupedByTeamId.containsKey(teamId)) {
-                membersOfTeam = new HashSet<>();
-                membersGroupedByTeamId.put(teamId, membersOfTeam);
-            } else {
-                membersOfTeam = membersGroupedByTeamId.get(teamId);
-            }
-
-            membersOfTeam.add(memberDetails);
-        }
-
-        return membersGroupedByTeamId;
     }
 }

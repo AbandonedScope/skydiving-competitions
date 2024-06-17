@@ -31,4 +31,11 @@
                  stripComments="true"
                  path="scripts/2024.06.16-add-next-member-number-column.sql"/>
     </changeSet>
+    <changeSet id="2024-06-17T17:33:17Z" author="Maksim Makhanko" context="dev, prod">
+        <sqlFile dbms="postgresql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"
+                 path="scripts/2024.06.17-add-team-id-foreign-key.sql"/>
+    </changeSet>
 </databaseChangeLog>

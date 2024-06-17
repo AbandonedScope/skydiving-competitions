@@ -6,4 +6,6 @@ import org.springframework.data.repository.ListCrudRepository;
 
 public interface CompetitionCollegiumJdbcRepository extends ListCrudRepository<CompetitionCollegiumEntity, Long> {
     Optional<CompetitionCollegiumEntity> findByCompetitionId(Long competitionId);
+
+    void deleteByCompetitionId(Long competitionId);
 }
