@@ -3,9 +3,11 @@ package by.grsu.skydiving.adapter.in.web;
 import by.grsu.skydiving.adapter.in.web.mapper.TeamMapper;
 import by.grsu.skydiving.adapter.in.web.request.CompetitionMemberRequest;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionMember;
-import by.grsu.skydiving.application.port.in.AddIndividualToCompetitionUseCase;
+import by.grsu.skydiving.application.port.in.AddIndividualsToCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.DeleteIndividualFromCompetitionUseCase;
 import by.grsu.skydiving.common.WebAdapter;
+import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/individuals")
 @RequiredArgsConstructor
 public class IndividualsController {
-    private final AddIndividualToCompetitionUseCase addIndividualToCompetitionUseCase;
+    private final AddIndividualsToCompetitionUseCase addIndividualsToCompetitionUseCase;
     private final DeleteIndividualFromCompetitionUseCase deleteIndividualFromCompetitionUseCase;
     private final TeamMapper teamMapper;
 
@@ -27,10 +29,10 @@ public class IndividualsController {
     public void addIndividualToCompetition(@PathVariable
                                            long competitionId,
                                            @RequestBody
-                                           CompetitionMemberRequest request) {
-        CompetitionMember individual = teamMapper.toDomain(competitionId, request);
+                                           List<CompetitionMemberRequest> request) {
+        Set<CompetitionMember> individual = teamMapper.toDomains(competitionId, request);
 
-        addIndividualToCompetitionUseCase.addIndividualToCompetition(competitionId, individual);
+        addIndividualsToCompetitionUseCase.addIndividualsToCompetition(competitionId, individual);
     }
 
     @DeleteMapping("/{individualId}/competition/{competitionId}")

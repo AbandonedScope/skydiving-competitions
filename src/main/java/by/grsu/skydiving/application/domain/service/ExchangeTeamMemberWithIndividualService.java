@@ -29,7 +29,7 @@ public class ExchangeTeamMemberWithIndividualService implements ExchangeTeamMemb
         }
 
         Team team = competition.getTeamById(teamId);
-        CompetitionMember teamCompetitionMember = team.getById(teamMemberId)
+        CompetitionMember teamCompetitionMember = team.getBySkydiverId(teamMemberId)
             .orElseThrow();
 
         CompetitionMember individual = competition.getIndividualById(individualId);

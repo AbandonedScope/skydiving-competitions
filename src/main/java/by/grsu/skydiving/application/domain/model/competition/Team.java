@@ -5,7 +5,6 @@ import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConsta
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.TEAM_SKYDIVERS_INCORRECT_VALUE_KEY;
 import static by.grsu.skydiving.application.domain.exception.ErrorMessagesConstants.TEAM_SKYDIVERS_IS_NULL_MESSAGE;
 
-import by.grsu.skydiving.application.domain.exception.domain.TeamSizeLimitExceededException;
 import by.grsu.skydiving.application.domain.exception.domain.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,26 +27,15 @@ public record Team(
         validate(name, members);
     }
 
-    public void addSkydiver(CompetitionMember skydiver) {
-        if (members.size() >= MAX_TEAM_SIZE) {
-            throw new TeamSizeLimitExceededException(MAX_TEAM_SIZE);
-        }
-
-        members.add(skydiver);
-    }
-
-    public Optional<CompetitionMember> getById(long skydiverId) {
+    public Optional<CompetitionMember> getBySkydiverId(long skydiverId) {
         return members.stream()
             .filter(skydiver -> skydiver.skydiverId() == skydiverId)
             .findFirst();
     }
 
-    public void removeSkydiver(CompetitionMember skydiverToRemove) {
-        members.remove(skydiverToRemove);
-    }
-
     public boolean containsMember(CompetitionMember member) {
-        return members.contains(member);
+        return getBySkydiverId(member.skydiverId())
+            .isPresent();
     }
 
     private void validate(String name, Set<CompetitionMember> skydivers) {

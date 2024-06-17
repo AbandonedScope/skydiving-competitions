@@ -36,7 +36,7 @@ public class UpdateTeamInCompetitionService implements UpdateTeamInCompetitionUs
         Set<CompetitionMember> newMembers = new HashSet<>();
 
         for (CompetitionMember member : newData.members()) {
-            Optional<CompetitionMember> optionalCompetitionMember = toUpdate.getById(member.skydiverId());
+            Optional<CompetitionMember> optionalCompetitionMember = toUpdate.getBySkydiverId(member.skydiverId());
             if (optionalCompetitionMember.isEmpty()) {
                 int memberNumber = getNextMemberNumberAndUpdateUseCase.getMemberMemberAndUpdate(member.competitionId());
                 newMembers.add(member.withMemberNumber(memberNumber));
