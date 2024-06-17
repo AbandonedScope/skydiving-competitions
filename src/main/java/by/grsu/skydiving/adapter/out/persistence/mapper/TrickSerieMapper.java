@@ -3,6 +3,7 @@ package by.grsu.skydiving.adapter.out.persistence.mapper;
 import by.grsu.skydiving.adapter.out.persistence.entity.TrickSerieEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeingProjection;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.TrickSerieProjection;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.TrickSerieShortInfoProjection;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
 
 import java.util.List;
@@ -39,6 +40,8 @@ public interface TrickSerieMapper {
     Refereeing toDomain(RefereeingProjection projection);
 
     List<Refereeing> toRefereeingDomains(List<RefereeingProjection> projections);
+
+    TrickSerieShortInfo toDomain(TrickSerieShortInfoProjection trickSerie);
 
     default TrickSerieExtended mapToExtended(TrickSerieProjection entity, TrickAttemptsWithScore trickAttemptsWithScore){
         return  TrickSerieExtended.builder()

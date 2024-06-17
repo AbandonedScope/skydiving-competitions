@@ -6,14 +6,8 @@ import by.grsu.skydiving.adapter.in.web.mapper.TrickSerieResponseMapper;
 import by.grsu.skydiving.adapter.in.web.request.AddTrickRefereeingRequest;
 import by.grsu.skydiving.adapter.in.web.request.TrickAttemptRequest;
 import by.grsu.skydiving.adapter.in.web.response.*;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.Refereeing;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttemptsWithScore;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeing;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerieOfSkydiver;
-import by.grsu.skydiving.application.port.in.AddTrickAttemptsUseCase;
-import by.grsu.skydiving.application.port.in.AddTrickRefereeingUseCase;
-import by.grsu.skydiving.application.port.in.GetRefereeingsUseCase;
-import by.grsu.skydiving.application.port.in.GetTrickSeriesByCompetitionIdUseCase;
+import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
+import by.grsu.skydiving.application.port.in.*;
 import by.grsu.skydiving.common.WebAdapter;
 import by.grsu.skydiving.common.config.security.UserDetailsServiceImpl;
 import java.util.ArrayList;
@@ -32,6 +26,7 @@ public class TrickRefereeingController {
     private final AddTrickAttemptsUseCase addTrickAttemptsUseCase;
     private final GetRefereeingsUseCase getRefereeingsUseCase;
     private final GetTrickSeriesByCompetitionIdUseCase getTrickSeriesByCompetitionIdUseCase;
+    private final GetTrickSerieShortInfoUseCse getTrickSerieShortInfoUseCse;
     private final TrickRefereeingMapper refereeingMapper;
     private final TrickSerieResponseMapper serieMapper;
     private final TrickAttemptMapper attemptsMapper;
@@ -72,6 +67,14 @@ public class TrickRefereeingController {
         List<TrickSerieOfSkydiver> trickSerieOfSkydivers = getTrickSeriesByCompetitionIdUseCase.getByCompetitionId(competitionId);
 
         return serieMapper.mapToResponses(trickSerieOfSkydivers);
+    }
+
+    @GetMapping("/trick-series/{trickSerieId}")
+    @ResponseStatus(HttpStatus.OK)
+    public TrickSerieWithCompetitionShortInfoResponse getTrickSerieShprtInfo(@PathVariable Long trickSerieId){
+        TrickSerieShortInfo shortInfoTrickSerie = getTrickSerieShortInfoUseCse.getTrickSerieShortInfoBeTrickSerieId(trickSerieId);
+
+        return serieMapper.toResponse(shortInfoTrickSerie);
     }
 
     public Long getCurrentUserId() {

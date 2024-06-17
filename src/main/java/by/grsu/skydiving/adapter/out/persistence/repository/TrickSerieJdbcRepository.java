@@ -5,6 +5,7 @@ import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeingPro
 import java.util.List;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.TrickSerieProjection;
+import by.grsu.skydiving.adapter.out.persistence.entity.projection.TrickSerieShortInfoProjection;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
@@ -48,4 +49,19 @@ public interface TrickSerieJdbcRepository extends ListCrudRepository<TrickSerieE
             """
     )
     List<TrickSerieProjection> getTrickSeriesByCompetitionId(Long competitionId);
+
+
+    @Query(
+            """
+            select serie.id,
+               serie.serie_number,
+               serie.round_number,
+                competition.name
+                from trick_serie as serie
+                    left join competition_member_detail as details on serie.competition_member_detail_id = details.id  
+                    left join competition on details.competition_id = competition.id
+                        where serie.id = :trickSerieId;
+            """
+    )
+    TrickSerieShortInfoProjection getTrickSerieShortInfoByTrickSerieId(Long trickSerieId);
 }
