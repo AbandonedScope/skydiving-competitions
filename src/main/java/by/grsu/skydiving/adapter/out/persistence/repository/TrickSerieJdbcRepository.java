@@ -6,6 +6,7 @@ import java.util.List;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.TrickSerieProjection;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.TrickSerieShortInfoProjection;
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
@@ -17,6 +18,7 @@ public interface TrickSerieJdbcRepository extends ListCrudRepository<TrickSerieE
                             serie.id as trickSerieId,
                             serie.serie_number,
                             serie.round_number,
+                            serie.penalty_reason,
                             competition.id as competitionId,
                             competition.name,
                             competition.begin_date,
@@ -38,6 +40,7 @@ public interface TrickSerieJdbcRepository extends ListCrudRepository<TrickSerieE
                             serie.round_number,
                             serie.time_without_penalty,
                             serie.is_time_submitted,
+                            serie.penalty_reason,
                             serie.competition_member_detail_id,
                             ccrt.referee_id,
                             ccrt.referee_number,
@@ -64,4 +67,13 @@ public interface TrickSerieJdbcRepository extends ListCrudRepository<TrickSerieE
             """
     )
     TrickSerieShortInfoProjection getTrickSerieShortInfoByTrickSerieId(Long trickSerieId);
+
+    @Query(
+            """
+               update trick_serie set penalty_reason = :penaltyReason
+                    where id = :id;
+                """
+    )
+    @Modifying
+    void setPenaltyReason(Long id, Integer penaltyReason);
 }

@@ -16,6 +16,8 @@ public class RefereeingProjection {
     private Integer serieNumber;
     @Column("competitionId")
     private Long competitionId;
+    @Column("penalty_reason")
+    private Integer penaltyReason;
     private String name;
     private LocalDate beginDate;
     private LocalDate endDate;

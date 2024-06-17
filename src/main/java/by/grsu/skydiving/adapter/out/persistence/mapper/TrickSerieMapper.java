@@ -52,6 +52,7 @@ public interface TrickSerieMapper {
                 .timeWithoutPenalty(entity.getTimeWithoutPenalty())
                 .totalPenalty(trickAttemptsWithScore.totalScore())
                 .trickAttemptsWithScore(trickAttemptsWithScore)
+                .penaltyReason(PenaltyReason.of(entity.getPenaltyReason()))
                 .build();
     }
 
@@ -65,5 +66,13 @@ public interface TrickSerieMapper {
                 .score(score > 16 ? 16 : score)
                 .trickSerieWithPenalties(extended)
                 .build();
+    }
+
+    default PenaltyReason mapToPenaltyReason(int number) {
+        return PenaltyReason.of(number);
+    }
+
+    default int map(PenaltyReason status) {
+        return status.ordinal();
     }
 }

@@ -6,10 +6,15 @@ import lombok.Builder;
 
 @Builder
 public record TrickAttemptsWithScore(
+    PenaltyReason penaltyReason,
     Float totalScore,
     Map<TrickType, TrickAttempt> trickAttempts
 ) {
-    public static Float calculateTotalPenalty(List<TrickAttempt> trickAttemptList) {
+    public static Float calculateTotalPenalty(PenaltyReason penaltyReason, List<TrickAttempt> trickAttemptList) {
+        if(penaltyReason != PenaltyReason.NP){
+            return  16f;
+        }
+
         Float sum = trickAttemptList.stream()
             .map(TrickAttempt::calculateTrickPenalty)
             .reduce(0f, Float::sum);

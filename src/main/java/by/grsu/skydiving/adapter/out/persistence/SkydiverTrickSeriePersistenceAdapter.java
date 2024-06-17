@@ -1,7 +1,6 @@
 package by.grsu.skydiving.adapter.out.persistence;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.TrickAttemptEntity;
-import by.grsu.skydiving.adapter.out.persistence.entity.TrickSerieEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.TrickSerieProjection;
 import by.grsu.skydiving.adapter.out.persistence.mapper.TrickAttemptEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.mapper.TrickSerieMapper;
@@ -43,12 +42,12 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
     }
 
     private TrickSerieOfSkydiver mapToDomainModel(TrickSerieProjection trickSerie, List<TrickAttemptEntity> trickAttempts){
-        TrickSerieExtended extended = serieMapper.mapToExtended(trickSerie, mapToTrickAttempts(trickAttempts));
+        TrickSerieExtended extended = serieMapper.mapToExtended(trickSerie, mapToTrickAttempts(trickAttempts, PenaltyReason.of(trickSerie.getPenaltyReason())));
 
         return serieMapper.mapToTrickSerieOfSkydiver(trickSerie, extended);
     }
 
-    private TrickAttemptsWithScore mapToTrickAttempts(List<TrickAttemptEntity> entities){
+    private TrickAttemptsWithScore mapToTrickAttempts(List<TrickAttemptEntity> entities, PenaltyReason reason){
         Map<TrickType, TrickAttempt> tricksMap = HashMap.newHashMap(6);
         List<TrickAttempt> attempts = entities.stream()
                 .map(mapper::mapToDomain)
@@ -57,7 +56,8 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
 
         return TrickAttemptsWithScore.builder()
                 .trickAttempts(tricksMap)
-                .totalScore(TrickAttemptsWithScore.calculateTotalPenalty(attempts))
+                .penaltyReason(reason)
+                .totalScore(TrickAttemptsWithScore.calculateTotalPenalty(reason, attempts))
                 .build();
     }
 }
