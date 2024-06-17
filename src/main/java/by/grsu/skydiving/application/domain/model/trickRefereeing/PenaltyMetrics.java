@@ -34,6 +34,6 @@ public record PenaltyMetrics(
             return 16f;
         }
 
-        return penaltyValue / 5f;
+        return penaltyValue / 50f;
     }
 }
