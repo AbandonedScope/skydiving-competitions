@@ -23,7 +23,7 @@ public record PenaltyMetrics(
     private Float getBluePenaltyDegreeEquivalentInSeconds() {
         return switch (penaltyValue) {
             case 40 -> 0.4f;
-            case 70 -> 0.7f;
+            case 70 -> 1.5f;
             case 100 -> 16f;
             default -> 0f;
         };
