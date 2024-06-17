@@ -10,6 +10,7 @@ public record TrickSerieExtended(
         Float timeWithoutPenalty,
         Float totalPenalty,
         Boolean isTimeSubmitted,
+        PenaltyReason penaltyReason,
         TrickAttemptsWithScore trickAttemptsWithScore
 ){
 }

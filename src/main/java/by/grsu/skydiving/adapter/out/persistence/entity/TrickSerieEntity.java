@@ -29,4 +29,6 @@ public class TrickSerieEntity {
     private Float timeWithoutPenalty;
     @Column("is_time_submitted")
     private Boolean isTimeSubmitted;
+    @Column("penalty_reason")
+    private Integer penaltyReason;
 }

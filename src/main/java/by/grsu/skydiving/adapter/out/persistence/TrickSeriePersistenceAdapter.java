@@ -55,6 +55,7 @@ public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, Ge
                     .roundNumber(fullInfo.roundNumber())
                     .competitionMemberDetailId(memberDetails.getId())
                     .serieNumber(fullInfo.serieNumber())
+                    .penaltyReason(PenaltyReason.NP.ordinal())
                     .build()
             ));
 

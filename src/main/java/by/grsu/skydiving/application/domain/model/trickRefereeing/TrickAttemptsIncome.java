@@ -6,6 +6,7 @@ import lombok.Builder;
 @Builder
 public record TrickAttemptsIncome(
     Long trickSerieId,
+    PenaltyReason penaltyReason,
     Map<TrickType, PenaltyValues> trickAttempts
 ) {
 }

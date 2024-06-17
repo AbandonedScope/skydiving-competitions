@@ -4,10 +4,7 @@ import by.grsu.skydiving.adapter.in.web.request.PenaltyMetricsRequest;
 import by.grsu.skydiving.adapter.in.web.request.TrickAttemptRequest;
 import by.grsu.skydiving.adapter.in.web.response.TrickAttemptResponse;
 import by.grsu.skydiving.adapter.in.web.response.TrickAttemptsFullInfoResponse;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyValues;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttempt;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttemptsWithScore;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickType;
+import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
 import by.grsu.skydiving.application.port.in.AddTrickAttemptsUseCase;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +24,7 @@ public interface TrickAttemptMapper {
     PenaltyMetricsMapper metricsMapper = Mappers.getMapper(PenaltyMetricsMapper.class);
 
     @Mapping(source = "request.trickSerieId", target = "trickSerieId")
+    @Mapping(source = "request.penaltyReason", target = "penaltyReason")
     @Mapping(target = "trickAttempts",
         expression = "java(this.toValuesMap(request.trickAttempts()))")
     AddTrickAttemptsUseCase.AddTrickAttemptToTrickSerieCommand toCommand(TrickAttemptRequest request);
@@ -38,6 +36,7 @@ public interface TrickAttemptMapper {
     TrickAttemptResponse toResponse(TrickAttempt attempt);
 
     @Mapping(source = "totalScore", target = "totalScore")
+    @Mapping(source = "trickAttemptsWithScore.penaltyReason", target = "penaltyReason")
     @Mapping(target = "trickAttempts", expression = "java(this.toMap(trickAttemptsWithScore.trickAttempts()))")
     TrickAttemptsFullInfoResponse toResponse(TrickAttemptsWithScore trickAttemptsWithScore);
 
@@ -53,5 +52,13 @@ public interface TrickAttemptMapper {
         trickAttempts.forEach((key, value) -> valuesMap.put(key, metricsMapper.toDomain(value)));
 
         return valuesMap;
+    }
+
+    default PenaltyReason mapToPenaltyReason(int number) {
+        return PenaltyReason.of(number);
+    }
+
+    default int map(PenaltyReason status) {
+        return status.ordinal();
     }
 }

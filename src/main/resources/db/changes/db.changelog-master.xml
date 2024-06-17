@@ -83,4 +83,10 @@
         <tagDatabase tag="v.0.0.12"/>
     </changeSet>
 
+    <include file="v-0.0.13/db.changelog-v-0.0.13.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="34" author="Katya Anashkevich">
+        <tagDatabase tag="v.0.0.13"/>
+    </changeSet>
+
 </databaseChangeLog>
