@@ -71,11 +71,10 @@ public class Competition {
         updateStatusToCreated();
     }
 
-    public void addIndividual(SkydiverShortInfo skydiver, int memberNumber) {
+    public void addIndividual(SkydiverShortInfo skydiver) {
         CompetitionMember individual = CompetitionMember.builder()
             .skydiverId(skydiver.id())
             .name(skydiver.name())
-            .memberNumber(memberNumber)
             .build();
 
         if (individuals.stream()
