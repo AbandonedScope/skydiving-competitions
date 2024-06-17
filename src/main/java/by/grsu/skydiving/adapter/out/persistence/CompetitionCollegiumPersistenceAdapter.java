@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
@@ -28,8 +29,14 @@ public class CompetitionCollegiumPersistenceAdapter implements
     private final CompetitionCollegiumEntityMapper mapper;
 
     @Override
+    @Transactional
     public CompetitionCollegium saveCollegium(Competition competition) {
         CompetitionCollegium collegium = competition.getCollegium();
+        if (collegium == null) {
+            collegiumRepository.deleteByCompetitionId(competition.getId());
+            return null;
+        }
+
         CompetitionCollegiumEntity collegiumEntity = mapper.toEntity(collegium, competition.getId());
         collegiumEntity = collegiumRepository.save(collegiumEntity);
 

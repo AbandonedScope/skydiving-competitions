@@ -4,7 +4,7 @@ import by.grsu.skydiving.application.domain.model.skydiver.FullName;
 import lombok.Builder;
 import lombok.With;
 
-@Builder
+@Builder(toBuilder = true)
 public record CompetitionMember(
     @With
     Long id,

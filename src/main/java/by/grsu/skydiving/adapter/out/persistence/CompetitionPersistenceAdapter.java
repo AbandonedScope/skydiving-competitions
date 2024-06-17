@@ -1,7 +1,5 @@
 package by.grsu.skydiving.adapter.out.persistence;
 
-import static generated.tables.Competition.COMPETITION;
-
 import by.grsu.skydiving.adapter.out.persistence.entity.CompetitionEntity;
 import by.grsu.skydiving.adapter.out.persistence.mapper.CompetitionEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.repository.CompetitionJdbcRepository;
@@ -15,7 +13,6 @@ import by.grsu.skydiving.application.port.out.FilterCompetitionShortInfoPort;
 import by.grsu.skydiving.application.port.out.FindCollegiumOfCompetitionPort;
 import by.grsu.skydiving.application.port.out.FindCompetitionPort;
 import by.grsu.skydiving.application.port.out.GetMembersOfCompetitionPort;
-import by.grsu.skydiving.application.port.out.GetNextMemberNumberAndIncrementPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionCollegiumPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionPort;
 import by.grsu.skydiving.application.port.out.SaveCompetitionTeamsPort;
@@ -28,8 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
 import org.springframework.transaction.annotation.Transactional;
 
 @PersistenceAdapter
@@ -37,11 +32,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     FindCompetitionPort, FilterCompetitionShortInfoPort,
     SoftDeleteCompetitionPort, ExistsCompetitionPort,
-    UpdateCompetitionsStatusesPort, GetNextMemberNumberAndIncrementPort {
+    UpdateCompetitionsStatusesPort {
     private final CompetitionJdbcRepository competitionRepository;
     private final SaveCompetitionCollegiumPort saveCollegiumPort;
     private final FindCollegiumOfCompetitionPort findCollegiumOfCompetitionPort;
-    private final DSLContext dslContext;
     private final SaveCompetitionTeamsPort teamPort;
     private final SaveIndividualsPort saveIndividualsPort;
     private final GetMembersOfCompetitionPort getMembersOfCompetitionPort;
@@ -60,6 +54,7 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
     public Competition save(Competition competition) {
         CompetitionEntity entity = mapper.toEntity(competition);
         entity = competitionRepository.save(entity);
+        competition.setId(entity.getId());
         CompetitionCollegium collegium = saveCollegiumPort.saveCollegium(competition);
         List<Team> teams = teamPort.saveTeams(competition);
         saveIndividualsPort.saveIndividuals(competition.getIndividuals(), competition.getId());
@@ -148,19 +143,5 @@ public class CompetitionPersistenceAdapter implements SaveCompetitionPort,
         updatedToRunningIds.addAll(updatedToCompletedId);
 
         return updatedToRunningIds;
-    }
-
-    @Override
-    public int getAndIncrement(Long competitionId) {
-        int incremented = dslContext.update(COMPETITION)
-            .set(COMPETITION.NEXT_MEMBER_NUMBER, DSL.select(COMPETITION.NEXT_MEMBER_NUMBER.plus(1))
-                .from(COMPETITION)
-                .where(COMPETITION.ID.eq(competitionId))
-                .forUpdate())
-            .where(COMPETITION.ID.eq(competitionId))
-            .returningResult(COMPETITION.NEXT_MEMBER_NUMBER)
-            .execute();
-
-        return incremented - 1;
     }
 }
