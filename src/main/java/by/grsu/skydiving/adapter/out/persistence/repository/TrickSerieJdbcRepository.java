@@ -76,4 +76,11 @@ public interface TrickSerieJdbcRepository extends ListCrudRepository<TrickSerieE
     )
     @Modifying
     void setPenaltyReason(Long id, Integer penaltyReason);
+
+    @Query("""
+            select serie.time_without_penalty
+            from trick_serie as serie
+            where serie.id = :trickSerieId;              
+            """)
+    Float getTimeWithoutPenalty(Long trickSerieId);
 }
