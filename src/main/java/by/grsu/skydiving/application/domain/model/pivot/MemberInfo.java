@@ -2,6 +2,7 @@ package by.grsu.skydiving.application.domain.model.pivot;
 
 import by.grsu.skydiving.application.domain.model.skydiver.FullName;
 import java.util.List;
+import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +40,7 @@ public class MemberInfo {
         if (acrobatics != null && !acrobatics.isEmpty()) {
             acrobaticsSum = acrobatics.stream()
                 .map(AcrobaticsShortInfo::time)
+                .filter(Objects::nonNull)
                 .reduce(0.0f, Float::sum);
         }
 
