@@ -10,10 +10,7 @@ import by.grsu.skydiving.adapter.out.persistence.repository.TrickSerieJdbcReposi
 import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
 import by.grsu.skydiving.application.port.in.UpdateTrickSerieUseCase;
-import by.grsu.skydiving.application.port.out.GetRefereeingsPort;
-import by.grsu.skydiving.application.port.out.GetTrickSerieShortInfoPort;
-import by.grsu.skydiving.application.port.out.SaveTrickRefereeingPort;
-import by.grsu.skydiving.application.port.out.UpdateTrickSeriePort;
+import by.grsu.skydiving.application.port.out.*;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +18,8 @@ import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, GetRefereeingsPort, GetTrickSerieShortInfoPort, UpdateTrickSeriePort {
+public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, GetRefereeingsPort,
+        GetTrickSerieShortInfoPort, UpdateTrickSeriePort, GetTimeWithoutPenaltyPort {
     private final TrickSerieJdbcRepository trickSerieJdbcRepository;
     private final CompetitionMemberDetailsJdbcRepository memberDetailsJdbcRepository;
     private final TrickSerieMapper mapper;
@@ -81,5 +79,15 @@ public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, Ge
         TrickSerieEntity updatedEntity = trickSerieJdbcRepository.save(entity);
 
         return mapper.toUpdatedSerieDomain(updatedEntity);
+    }
+
+    @Override
+    public TrickSerieTime getTrickSerieTime(Long trickSerieId) {
+         Float time = trickSerieJdbcRepository.getTimeWithoutPenalty(trickSerieId);
+
+         return TrickSerieTime.builder()
+                 .timeWithoutPenalty(time)
+                 .trickSerieId(trickSerieId)
+                 .build();
     }
 }
