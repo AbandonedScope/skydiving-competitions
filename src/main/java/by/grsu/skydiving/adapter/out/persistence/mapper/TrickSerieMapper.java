@@ -43,6 +43,9 @@ public interface TrickSerieMapper {
 
     TrickSerieShortInfo toDomain(TrickSerieShortInfoProjection trickSerie);
 
+    @Mapping(target = "trickSerieId", source = "id")
+    TrickSerieInfoForUpdate toUpdatedSerieDomain(TrickSerieEntity entity);
+
     default TrickSerieExtended mapToExtended(TrickSerieProjection entity, TrickAttemptsWithScore trickAttemptsWithScore){
         return  TrickSerieExtended.builder()
                 .id(entity.getId())
