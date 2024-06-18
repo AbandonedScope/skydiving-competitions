@@ -68,9 +68,12 @@ public interface TrickSerieResponseMapper {
 
     TrickSerieWithCompetitionShortInfoResponse toResponse(TrickSerieShortInfo trickSerie);
 
+    @Mapping(target = "timeWithoutPenalty", expression = "java(request.timeWithoutPenalty() / 1000f)")
     UpdateTrickSerieUseCase.UpdateTrickSerieCommand toCommand(UpdateTrickSerieRequest request);
 
     UpdatedTrickSerieResponse toResponse(TrickSerieInfoForUpdate domain);
+
+    TrickSerieTimeResponse toResponse(TrickSerieTime trickSerie);
 
     default CompetitionStatus map(int number) {
         return CompetitionStatus.of(number);

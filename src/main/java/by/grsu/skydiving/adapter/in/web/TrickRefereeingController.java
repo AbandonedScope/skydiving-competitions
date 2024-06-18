@@ -29,6 +29,7 @@ public class TrickRefereeingController {
     private final GetTrickSeriesByCompetitionIdUseCase getTrickSeriesByCompetitionIdUseCase;
     private final GetTrickSerieShortInfoUseCse getTrickSerieShortInfoUseCse;
     private final UpdateTrickSerieUseCase updateTrickSerieUseCase;
+    private final GetTimeWithoutPenaltyUseCase getTimeWithoutPenaltyUseCase;
     private final TrickRefereeingMapper refereeingMapper;
     private final TrickSerieResponseMapper serieMapper;
     private final TrickAttemptMapper attemptsMapper;
@@ -85,6 +86,14 @@ public class TrickRefereeingController {
         TrickSerieInfoForUpdate updatedTrickSerie = updateTrickSerieUseCase.updateTrickSerie(serieMapper.toCommand(request));
 
         return serieMapper.toResponse(updatedTrickSerie);
+    }
+
+    @GetMapping("/trick-series/{trickSerieId}/time-without-penalty")
+    @ResponseStatus(HttpStatus.OK)
+    public TrickSerieTimeResponse getTimeWithoutPenalty(@PathVariable Long trickSerieId){
+        TrickSerieTime trickSerieTime = getTimeWithoutPenaltyUseCase.getTrickSerieTime(trickSerieId);
+
+        return serieMapper.toResponse(trickSerieTime);
     }
 
     public Long getCurrentUserId() {
