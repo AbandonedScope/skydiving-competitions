@@ -5,6 +5,7 @@ import by.grsu.skydiving.adapter.in.web.mapper.TrickRefereeingMapper;
 import by.grsu.skydiving.adapter.in.web.mapper.TrickSerieResponseMapper;
 import by.grsu.skydiving.adapter.in.web.request.AddTrickRefereeingRequest;
 import by.grsu.skydiving.adapter.in.web.request.TrickAttemptRequest;
+import by.grsu.skydiving.adapter.in.web.request.UpdateTrickSerieRequest;
 import by.grsu.skydiving.adapter.in.web.response.*;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
 import by.grsu.skydiving.application.port.in.*;
@@ -27,6 +28,7 @@ public class TrickRefereeingController {
     private final GetRefereeingsUseCase getRefereeingsUseCase;
     private final GetTrickSeriesByCompetitionIdUseCase getTrickSeriesByCompetitionIdUseCase;
     private final GetTrickSerieShortInfoUseCse getTrickSerieShortInfoUseCse;
+    private final UpdateTrickSerieUseCase updateTrickSerieUseCase;
     private final TrickRefereeingMapper refereeingMapper;
     private final TrickSerieResponseMapper serieMapper;
     private final TrickAttemptMapper attemptsMapper;
@@ -71,10 +73,18 @@ public class TrickRefereeingController {
 
     @GetMapping("/trick-series/{trickSerieId}")
     @ResponseStatus(HttpStatus.OK)
-    public TrickSerieWithCompetitionShortInfoResponse getTrickSerieShprtInfo(@PathVariable Long trickSerieId){
+    public TrickSerieWithCompetitionShortInfoResponse getTrickSerieShortInfo(@PathVariable Long trickSerieId){
         TrickSerieShortInfo shortInfoTrickSerie = getTrickSerieShortInfoUseCse.getTrickSerieShortInfoBeTrickSerieId(trickSerieId);
 
         return serieMapper.toResponse(shortInfoTrickSerie);
+    }
+
+    @PatchMapping("/trick-series")
+    @ResponseStatus(HttpStatus.OK)
+    public UpdatedTrickSerieResponse updateTrickSerie(@RequestBody UpdateTrickSerieRequest request){
+        TrickSerieInfoForUpdate updatedTrickSerie = updateTrickSerieUseCase.updateTrickSerie(serieMapper.toCommand(request));
+
+        return serieMapper.toResponse(updatedTrickSerie);
     }
 
     public Long getCurrentUserId() {

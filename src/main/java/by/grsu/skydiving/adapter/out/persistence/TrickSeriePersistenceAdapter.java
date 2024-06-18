@@ -9,9 +9,11 @@ import by.grsu.skydiving.adapter.out.persistence.repository.CompetitionMemberDet
 import by.grsu.skydiving.adapter.out.persistence.repository.TrickSerieJdbcRepository;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
+import by.grsu.skydiving.application.port.in.UpdateTrickSerieUseCase;
 import by.grsu.skydiving.application.port.out.GetRefereeingsPort;
 import by.grsu.skydiving.application.port.out.GetTrickSerieShortInfoPort;
 import by.grsu.skydiving.application.port.out.SaveTrickRefereeingPort;
+import by.grsu.skydiving.application.port.out.UpdateTrickSeriePort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, GetRefereeingsPort, GetTrickSerieShortInfoPort {
+public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, GetRefereeingsPort, GetTrickSerieShortInfoPort, UpdateTrickSeriePort {
     private final TrickSerieJdbcRepository trickSerieJdbcRepository;
     private final CompetitionMemberDetailsJdbcRepository memberDetailsJdbcRepository;
     private final TrickSerieMapper mapper;
@@ -67,5 +69,17 @@ public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, Ge
         TrickSerieShortInfoProjection projection = trickSerieJdbcRepository.getTrickSerieShortInfoByTrickSerieId(trickSerieId);
 
         return mapper.toDomain(projection);
+    }
+
+    @Override
+    public TrickSerieInfoForUpdate updateTrickSerie(UpdateTrickSerieUseCase.UpdateTrickSerieCommand command) {
+        TrickSerieEntity entity = trickSerieJdbcRepository.findById(command.trickSerieId()).get();
+
+        entity.setIsTimeSubmitted(command.isTimeSubmitted());
+        entity.setTimeWithoutPenalty(command.timeWithoutPenalty());
+
+        TrickSerieEntity updatedEntity = trickSerieJdbcRepository.save(entity);
+
+        return mapper.toUpdatedSerieDomain(updatedEntity);
     }
 }

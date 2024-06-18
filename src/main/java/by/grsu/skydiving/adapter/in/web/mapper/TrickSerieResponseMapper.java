@@ -1,12 +1,14 @@
 package by.grsu.skydiving.adapter.in.web.mapper;
 
 import by.grsu.skydiving.adapter.in.web.request.AddTrickRefereeingRequest;
+import by.grsu.skydiving.adapter.in.web.request.UpdateTrickSerieRequest;
 import by.grsu.skydiving.adapter.in.web.response.*;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStatus;
 import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
 
 import java.util.List;
 
+import by.grsu.skydiving.application.port.in.UpdateTrickSerieUseCase;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -65,6 +67,10 @@ public interface TrickSerieResponseMapper {
     List<RefereeingResponse> toResponses(List<Refereeing> refereeings);
 
     TrickSerieWithCompetitionShortInfoResponse toResponse(TrickSerieShortInfo trickSerie);
+
+    UpdateTrickSerieUseCase.UpdateTrickSerieCommand toCommand(UpdateTrickSerieRequest request);
+
+    UpdatedTrickSerieResponse toResponse(TrickSerieInfoForUpdate domain);
 
     default CompetitionStatus map(int number) {
         return CompetitionStatus.of(number);
