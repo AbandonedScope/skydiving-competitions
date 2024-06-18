@@ -5,7 +5,6 @@ import by.grsu.skydiving.application.domain.model.competition.CompetitionMember;
 import by.grsu.skydiving.application.domain.model.competition.Team;
 import by.grsu.skydiving.application.domain.model.jumping.JumpingInfo;
 import by.grsu.skydiving.application.domain.model.pivot.CompetitionPivotTable;
-import by.grsu.skydiving.application.domain.model.pivot.CompetitionPivotTable.CompetitionPivotTableBuilder;
 import by.grsu.skydiving.application.domain.model.pivot.JumpingShortInfo;
 import by.grsu.skydiving.application.domain.model.pivot.MemberInfo;
 import by.grsu.skydiving.application.domain.model.pivot.PivotTeamResult;
@@ -13,9 +12,12 @@ import by.grsu.skydiving.application.port.in.GetCompetitionPivotTableUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionUseCase;
 import by.grsu.skydiving.application.port.out.GetJumpingOfAllMembersCompetitionPort;
 import by.grsu.skydiving.common.UseCase;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.ObjIntConsumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
@@ -30,16 +32,20 @@ public class GetCompetitionPivotTableService implements GetCompetitionPivotTable
     @Override
     public CompetitionPivotTable getTable(long competitionId) {
         Competition competition = getCompetitionUseCase.getCompetition(competitionId);
-        CompetitionPivotTableBuilder tableBuilder = CompetitionPivotTable.builder()
-            .competitionId(competition.getId())
-            .competitionName(competition.getName());
 
         Map<Long, List<JumpingInfo>> jumpingByMemberId =
             getJumpingOfAllMembersCompetitionPort.getAllJumping(competitionId).stream()
-                .collect(Collectors.groupingBy(
-                    JumpingInfo::competitionMemberDetailsId
-                ));
+                .collect(Collectors.groupingBy(JumpingInfo::competitionMemberDetailsId));
 
+        CompetitionPivotTable competitionPivotTable = buildPivotTable(competition, jumpingByMemberId);
+
+        rankCompetitionPivotTable(competitionPivotTable);
+
+        return competitionPivotTable;
+    }
+
+    private CompetitionPivotTable buildPivotTable(Competition competition,
+                                                  Map<Long, List<JumpingInfo>> jumpingByMemberId) {
         List<MemberInfo> teamsMembersInfos = competition.getTeams().stream()
             .flatMap(team -> getMembersOfTeam(team, jumpingByMemberId))
             .toList();
@@ -48,108 +54,28 @@ public class GetCompetitionPivotTableService implements GetCompetitionPivotTable
             .map(individual -> mapMemberInfo(individual, jumpingByMemberId))
             .toList();
 
-        rankMembersByJumpingAccuracy(teamsMembersInfos, individualsMembersInfos);
-        rankMembersByAcrobatics(teamsMembersInfos, individualsMembersInfos);
+        Map<Long, List<MemberInfo>> membersByTeamId = teamsMembersInfos.stream()
+            .collect(Collectors.groupingBy(MemberInfo::getTeamId));
 
-        List<PivotTeamResult> pivotTeamResults = buildTeamResults(competition.getTeams(), teamsMembersInfos);
-        rankTeamsByJumpingAccuracy(pivotTeamResults);
-
-        return tableBuilder
-            .competitionId(competitionId)
+        return CompetitionPivotTable.builder()
+            .competitionId(competition.getId())
             .competitionName(competition.getName())
-            .teams(pivotTeamResults)
+            .teams(buildTeamResults(competition.getTeams(), membersByTeamId))
             .individuals(individualsMembersInfos)
             .build();
     }
 
-    private void rankMembersByAcrobatics(List<MemberInfo> teamsMembersInfos, List<MemberInfo> individualsMembersInfos) {
-        //todo Заполнить метод логикой
-    }
-
-    private void rankMembersByJumpingAccuracy(List<MemberInfo> teamsMembersInfos,
-                                              List<MemberInfo> individualsMembersInfos) {
-        List<MemberInfo> allMembersSortedByJumping =
-            Stream.concat(teamsMembersInfos.stream(), individualsMembersInfos.stream())
-                .filter(memberInfo -> memberInfo.getJumpingSum() != null)
-                .sorted()
-                .toList();
-
-        for (int i = 0; i < allMembersSortedByJumping.size(); i++) {
-            MemberInfo memberInfo = allMembersSortedByJumping.get(i);
-
-            memberInfo.setJumpingCompetitionRank(i + 1);
-        }
-    }
-
-    private void rankTeamsByJumpingAccuracy(List<PivotTeamResult> teamResults) {
-        teamResults.stream()
-            .filter(teamResult -> teamResult.getJumpingSum() != null)
-            .sorted()
-            .reduce(
-                1,
-                (rank, teamResult) -> {
-                    teamResult.setJumpingCompetitionRank(rank);
-                    return 1;
-                },
-                Integer::sum
-            );
-    }
-
-    private List<PivotTeamResult> buildTeamResults(List<Team> teams, List<MemberInfo> teamsMembersInfos) {
-        Map<Long, List<MemberInfo>> membersByTeamId = teamsMembersInfos.stream()
-            .collect(Collectors.groupingBy(
-                MemberInfo::getTeamId
-            ));
-
-        return teams.stream()
-            .map(
-                team -> buildTeamResult(
-                    team,
-                    membersByTeamId.getOrDefault(team.id(), List.of())
-                )
-            )
-            .sorted()
-            .toList();
-    }
-
-    private PivotTeamResult buildTeamResult(Team team, List<MemberInfo> membersInfos) {
-        List<Integer> sums = membersInfos.stream()
-            .map(MemberInfo::getJumpingSum)
-            .filter(Objects::nonNull)
-            .toList();
-
-        Integer teamJumpingSum = null;
-        if (!sums.isEmpty()) {
-            teamJumpingSum = sums.stream()
-                .reduce(0, Integer::sum);
-        }
-
-        return PivotTeamResult.builder()
-            .teamId(team.id())
-            .teamName(team.name())
-            .members(membersInfos)
-            .jumpingSum(teamJumpingSum)
-            //todo acrobatics sum
-            .build();
-    }
 
     private Stream<MemberInfo> getMembersOfTeam(Team team, Map<Long, List<JumpingInfo>> jumpingByMemberId) {
         return team.members().stream()
-            .map(member -> mapMemberInfo(team, member, jumpingByMemberId));
-    }
-
-    private MemberInfo mapMemberInfo(Team team, CompetitionMember member,
-                                     Map<Long, List<JumpingInfo>> jumpingByMemberId) {
-        return mapMemberInfo(member, jumpingByMemberId).toBuilder()
-            .teamId(team.id())
-            .teamName(team.name())
-            .build();
+            .map(member -> mapMemberInfo(member, jumpingByMemberId).toBuilder()
+                .teamName(team.name())
+                .teamId(team.id())
+                .build());
     }
 
     private MemberInfo mapMemberInfo(CompetitionMember member, Map<Long, List<JumpingInfo>> jumpingByMemberId) {
-        long memberId = member.id();
-
-        List<JumpingInfo> jumping = jumpingByMemberId.getOrDefault(memberId, List.of());
+        List<JumpingInfo> jumping = jumpingByMemberId.getOrDefault(member.id(), List.of());
 
         List<JumpingShortInfo> jumpingShortInfos = jumping.stream()
             .map(jumpingInfo -> JumpingShortInfo.builder()
@@ -160,21 +86,95 @@ public class GetCompetitionPivotTableService implements GetCompetitionPivotTable
             )
             .toList();
 
-        Integer jumpingSum = null;
-        if (!jumping.isEmpty()) {
-            jumpingSum = jumping.stream()
-                .map(JumpingInfo::accuracy)
-                .reduce(0, Integer::sum);
-        }
-
-
         return MemberInfo.builder()
-            .memberId(memberId)
+            .memberId(member.id())
             .name(member.name())
             .isJunior(member.isJunior())
             .memberNumber(member.memberNumber())
             .jumping(jumpingShortInfos)
-            .jumpingSum(jumpingSum)
             .build();
+    }
+
+    private List<PivotTeamResult> buildTeamResults(List<Team> teams, Map<Long, List<MemberInfo>> membersByTeamId) {
+
+        return teams.stream()
+            .map(team -> PivotTeamResult.builder()
+                .teamId(team.id())
+                .teamName(team.name())
+                .members(membersByTeamId.getOrDefault(team.id(), List.of()))
+                .build()
+            )
+            .toList();
+    }
+
+    private void rankCompetitionPivotTable(CompetitionPivotTable competitionPivotTable) {
+        rankMembers(competitionPivotTable.teams(), competitionPivotTable.individuals());
+
+        rankTeams(competitionPivotTable.teams());
+    }
+
+    private void rankMembers(List<PivotTeamResult> teamsMembersInfos,
+                             List<MemberInfo> individualsMembersInfos) {
+        rankMembersByJumpingAccuracy(teamsMembersInfos, individualsMembersInfos);
+        rankMembersByAcrobatics(teamsMembersInfos, individualsMembersInfos);
+    }
+
+    private void rankMembersByJumpingAccuracy(List<PivotTeamResult> teamsMembersInfos,
+                                              List<MemberInfo> individualsMembersInfos) {
+        rankElements(
+            Stream.concat(
+                teamsMembersInfos.stream().flatMap(pivotTeamResult -> pivotTeamResult.getMembers().stream()),
+                individualsMembersInfos.stream()
+            ),
+            memberInfo -> Objects.nonNull(memberInfo.getJumpingSum()),
+            Comparator.comparingInt(MemberInfo::getJumpingSum),
+            MemberInfo::setAcrobaticsCompetitionRank
+        );
+    }
+
+    private void rankMembersByAcrobatics(List<PivotTeamResult> teamsMembersInfos,
+                                         List<MemberInfo> individualsMembersInfos) {
+        rankElements(
+            Stream.concat(
+                teamsMembersInfos.stream().flatMap(pivotTeamResult -> pivotTeamResult.getMembers().stream()),
+                individualsMembersInfos.stream()
+            ),
+            memberInfo -> Objects.nonNull(memberInfo.getAcrobaticsSum()),
+            Comparator.comparingDouble(MemberInfo::getAcrobaticsSum),
+            MemberInfo::setAcrobaticsCompetitionRank
+        );
+    }
+
+    private void rankTeams(List<PivotTeamResult> teamResults) {
+        rankTeamsByJumpingAccuracy(teamResults);
+        rankTeamsByAcrobatics(teamResults);
+    }
+
+    private void rankTeamsByJumpingAccuracy(List<PivotTeamResult> teamResults) {
+        rankElements(
+            teamResults.stream(),
+            teamResult -> Objects.nonNull(teamResult.getJumpingSum()),
+            Comparator.comparingInt(PivotTeamResult::getJumpingSum),
+            PivotTeamResult::setAcrobaticsCompetitionRank
+        );
+    }
+
+    private void rankTeamsByAcrobatics(List<PivotTeamResult> teamResults) {
+        rankElements(
+            teamResults.stream(),
+            teamResult -> Objects.nonNull(teamResult.getAcrobaticsSum()),
+            Comparator.comparingDouble(PivotTeamResult::getAcrobaticsSum),
+            PivotTeamResult::setAcrobaticsCompetitionRank
+        );
+    }
+
+    private <T> void rankElements(Stream<T> elements, Predicate<T> filter, Comparator<T> comparator,
+                                  ObjIntConsumer<T> setRank) {
+        elements.filter(filter)
+            .sorted(comparator)
+            .reduce(1, (rank, element) -> {
+                setRank.accept(element, rank);
+                return rank + 1;
+            }, Integer::sum);
     }
 }
