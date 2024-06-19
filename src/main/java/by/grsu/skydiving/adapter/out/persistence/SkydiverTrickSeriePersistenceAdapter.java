@@ -7,7 +7,7 @@ import by.grsu.skydiving.adapter.out.persistence.repository.TrickAttemptJdbcRepo
 import by.grsu.skydiving.adapter.out.persistence.repository.TrickSerieJdbcRepository;
 import by.grsu.skydiving.application.domain.model.trick.PenaltyReason;
 import by.grsu.skydiving.application.domain.model.trick.RefereeingResult;
-import by.grsu.skydiving.application.domain.model.trick.TrickAttempt;
+import by.grsu.skydiving.application.domain.model.trick.TrickAttemptRefereeing;
 import by.grsu.skydiving.application.domain.model.trick.TrickSerieOfSkydiver;
 import by.grsu.skydiving.application.domain.model.trick.TrickType;
 import by.grsu.skydiving.application.port.out.GetTrickSeriesByCompetitionIdPort;
@@ -49,7 +49,6 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
                                                 List<TrickSerieProjection> trickSeriesProjections,
                                                 List<TrickAttemptEntity> trickAttempts) {
 
-
         var refereeingResults = trickSeriesProjections.stream()
             .map(trickSerieProjection -> {
                 List<TrickAttemptEntity> attempts = filterByTrickSeriesId(trickSerieProjection.getId(), trickAttempts);
@@ -58,8 +57,16 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
             .toList();
 
         Float score = refereeingResults.stream()
-            .reduce(0f,
-                (acc, refereeingResult) -> acc + refereeingResult.totalPenalty(),
+            .reduce((Float) null,
+                (acc, refereeingResult) -> {
+                    if (refereeingResult.totalTime() == null) {
+                        return acc;
+                    } else {
+                        return acc == null
+                            ? refereeingResult.totalTime()
+                            : acc + refereeingResult.totalTime();
+                    }
+                },
                 Float::sum
             );
 
@@ -76,7 +83,7 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
     private RefereeingResult mapToRefereeingResult(TrickSerieProjection trickSeries,
                                                    List<TrickAttemptEntity> trickAttemptEntities) {
         var trickAttemptsList = trickAttemptEntities.stream()
-            .map(mapper::mapToDomain)
+            .map(mapper::mapToDomainTrickAttemptRefereeing)
             .toList();
 
         Float totalPenalties = RefereeingResult.calculateTotalPenalty(
@@ -84,9 +91,17 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
             trickAttemptsList
         );
 
-        Map<TrickType, TrickAttempt> trickAttempts = trickAttemptsList.stream()
+        Float totalTime;
+        if (trickSeries.getTimeWithoutPenalty() == null) {
+            totalTime = null;
+        } else {
+            totalTime = trickSeries.getTimeWithoutPenalty() + totalPenalties;
+            totalTime = totalTime > 16 ? 16 : totalTime;
+        }
+
+        Map<TrickType, TrickAttemptRefereeing> trickAttempts = trickAttemptsList.stream()
             .collect(Collectors.toMap(
-                TrickAttempt::trickType,
+                TrickAttemptRefereeing::trickType,
                 Function.identity()
             ));
 
@@ -98,6 +113,7 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
             .isTimeSubmitted(trickSeries.getIsTimeSubmitted())
             .penaltyReason(PenaltyReason.of(trickSeries.getPenaltyReason()))
             .totalPenalty(totalPenalties)
+            .totalTime(totalTime)
             .trickAttempts(trickAttempts)
             .build();
 

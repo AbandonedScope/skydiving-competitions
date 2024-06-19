@@ -6,10 +6,9 @@ import lombok.Builder;
 @Builder
 public record TrickSerieOfSkydiver(
     Integer memberNumber,
-        Integer serieNumber,
-        Integer roundNumber,
+    Integer serieNumber,
+    Integer roundNumber,
     Float totalScore,
     List<RefereeingResult> refereeingResults
 ) {
-
 }

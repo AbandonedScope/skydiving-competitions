@@ -10,18 +10,19 @@ public record RefereeingResult(
         Long refereeId,
         Long refereeNumber,
         Float timeWithoutPenalty,
-        Boolean isTimeSubmitted,
         Float totalPenalty,
+        Float totalTime,
+        Boolean isTimeSubmitted,
         PenaltyReason penaltyReason,
-        Map<TrickType, TrickAttempt> trickAttempts
+        Map<TrickType, TrickAttemptRefereeing> trickAttempts
 ){
-    public static Float calculateTotalPenalty(PenaltyReason penaltyReason, List<TrickAttempt> attempts) {
+    public static Float calculateTotalPenalty(PenaltyReason penaltyReason, List<TrickAttemptRefereeing> attempts) {
         if (penaltyReason != PenaltyReason.NP) {
             return 16f;
         }
 
         Float sum = attempts.stream()
-            .map(TrickAttempt::calculateTrickPenalty)
+            .map(TrickAttemptRefereeing::calculateTrickPenalty)
             .reduce(0f, Float::sum);
 
         return sum > 16 ? 16 : sum;
