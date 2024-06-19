@@ -1,84 +1,42 @@
-{
-  "competitionId": 5,
-  "competitionName": "Новое соревнование",
-  "teams": [
-    {
-      "teamId": 5,
-      "teamName": "Команда Кати",
-      "members": [
-        {
-          "memberId": 6,
-          "teamId": 5,
-          "teamName": "Команда Кати",
-          "name": {
-            "firstName": "Екатерина",
-            "secondName": "Анашкевич",
-            "patronymic": "Игоревна"
-          },
-          "gender": null,
-          "sportRank": null,
-          "memberNumber": 2,
-          "participatesInAcrobatics": false,
-          "jumping": [
-            {
-              "jumpingId": 3,
-              "accuracy": 0,
-              "number": 1
-            },
-            {
-              "jumpingId": 4,
-              "accuracy": 3,
-              "number": 2
-            }
-          ],
-          "jumpingSum": 3,
-          "acrobatics": null,
-          "acrobaticsSum": 0,
-          "jumpingCompetitionRank": 1,
-          "acrobaticsCompetitionRank": null,
-          "overallCompetitionRank": null,
-          "junior": false
-        }
-      ],
-      "jumpingSum": 3,
-      "acrobaticsSum": null,
-      "jumpingCompetitionRank": 1,
-      "acrobaticsCompetitionRank": null
+[
+  {
+    "skydiverNumber": 2,
+    "serieNumber": 1,
+    "roundNumber": 1,
+    "score": null,
+    "trickSerieWithPenalties": {
+      "id": 2,
+      "refereeId": 50,
+      "refereeNumber": 1,
+      "timeWithoutPenalty": null,
+      "totalPenalty": 0,
+      "isTimeSubmitted": null,
+      "penaltyReason": "NP",
+      "trickAttemptsWithScore": {
+        "totalScore": 0,
+        "penaltyReason": "NP",
+        "trickAttempts": {}
+      }
     }
-  ],
-  "individuals": [
-    {
-      "memberId": 7,
-      "teamId": 0,
-      "teamName": null,
-      "name": {
-        "firstName": "Максим",
-        "secondName": "Маханько",
-        "patronymic": "Витальевич"
-      },
-      "gender": null,
-      "sportRank": null,
-      "memberNumber": 1,
-      "participatesInAcrobatics": false,
-      "jumping": [
-        {
-          "jumpingId": 1,
-          "accuracy": 16,
-          "number": 1
-        },
-        {
-          "jumpingId": 2,
-          "accuracy": 5,
-          "number": 2
-        }
-      ],
-      "jumpingSum": 21,
-      "acrobatics": null,
-      "acrobaticsSum": 0,
-      "jumpingCompetitionRank": 2,
-      "acrobaticsCompetitionRank": null,
-      "overallCompetitionRank": null,
-      "junior": false
+  },
+  {
+    "skydiverNumber": 2,
+    "serieNumber": 1,
+    "roundNumber": 1,
+    "score": null,
+    "trickSerieWithPenalties": {
+      "id": 2,
+      "refereeId": 49,
+      "refereeNumber": 1,
+      "timeWithoutPenalty": null,
+      "totalPenalty": 0,
+      "isTimeSubmitted": null,
+      "penaltyReason": "NP",
+      "trickAttemptsWithScore": {
+        "totalScore": 0,
+        "penaltyReason": "NP",
+        "trickAttempts": {}
+      }
     }
-  ]
-}
+  }
+]

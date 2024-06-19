@@ -47,6 +47,7 @@ public interface TrickSerieJdbcRepository extends ListCrudRepository<TrickSerieE
                      left join competition_member_detail as details on details.id = serie.competition_member_detail_id
                      left join competition_collegium as colegium on colegium.competition_id = :competitionId
                      left join competition_collegium_referee_trans as ccrt on ccrt.competition_collegium_id = colegium.id
+                and ccrt.referee_id = serie.referee_id
             where details.competition_id = :competitionId;
             """
     )

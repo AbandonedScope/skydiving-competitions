@@ -34,7 +34,8 @@ public class AddTrickAttemptService implements AddTrickAttemptsUseCase {
     private TrickAttemptsWithScore mapToFullDomainModel(List<TrickAttempt> attempts, PenaltyReason penaltyReason) {
         Map<TrickType, TrickAttempt> tricksMap = HashMap.newHashMap(6);
         attempts.forEach(x -> tricksMap.put(x.trickType(), x));
-        float totalScore = Math.round(TrickAttemptsWithScore.calculateTotalPenalty(penaltyReason,attempts)* 10f)  /10f;
+        float totalScore =
+            Math.round(TrickAttemptsWithScore.calculateTotalPenalty(penaltyReason, attempts) * 10f) / 10f;
 
         return TrickAttemptsWithScore.builder()
             .trickAttempts(tricksMap)

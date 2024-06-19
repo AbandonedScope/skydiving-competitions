@@ -21,9 +21,9 @@ public interface TrickRefereeingMapper {
     @Mapping(target = "trickSeries", source = "domains")
     @Mapping(target = "serieNumber", source = "request.serieNumber")
     @Mapping(target = "roundNumber", source = "request.roundNumber")
-    @Mapping(target = "skydiverNumber", source = "skydiverNumber")
+    @Mapping(target = "skydiverNumber", source = "memberNumber")
     @Mapping(target = "skydiverId", source = "request.skydiverId")
     @Mapping(target = "competitionId", source = "request.competitionId")
     TrickRefereeingResponse toResponse(List<TrickSerieShortInfoResponse> domains, AddTrickRefereeingRequest request,
-                                       Integer skydiverNumber);
+                                       Integer memberNumber);
 }
