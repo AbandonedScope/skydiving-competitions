@@ -34,7 +34,6 @@ import by.grsu.skydiving.application.port.out.GetTrickSerieShortInfoPort;
 import by.grsu.skydiving.application.port.out.SaveTrickRefereeingPort;
 import by.grsu.skydiving.application.port.out.UpdateTrickSeriePort;
 import by.grsu.skydiving.common.PersistenceAdapter;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
@@ -72,19 +71,17 @@ public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, Ge
 
     private List<TrickSerieEntity> mapToEntities(TrickRefereeingFullInfo fullInfo,
                                                  CompetitionMemberDetailsEntity memberDetails) {
-        List<TrickSerieEntity> trickSerieEntities = new ArrayList<>();
-        fullInfo.referees().stream()
+        List<TrickSerieEntity> trickSerieEntities = fullInfo.referees().stream()
             .map(Referee::id)
-            .forEach(id -> trickSerieEntities.add(
-                TrickSerieEntity.builder()
+            .map(id -> TrickSerieEntity.builder()
                     .refereeId(id)
                     .roundNumber(fullInfo.roundNumber())
                     .competitionMemberDetailId(memberDetails.getId())
                     .serieNumber(fullInfo.serieNumber())
                     .penaltyReason(PenaltyReason.NP.ordinal())
                     .isTimeSubmitted(null)
-                    .build()
-            ));
+                .build())
+            .toList();
 
         return trickSerieEntities;
     }
