@@ -26,7 +26,7 @@ import by.grsu.skydiving.application.domain.model.trick.TrickSerie;
 import by.grsu.skydiving.application.domain.model.trick.TrickSerieInfoForUpdate;
 import by.grsu.skydiving.application.domain.model.trick.TrickSerieShortInfo;
 import by.grsu.skydiving.application.domain.model.trick.TrickSerieTime;
-import by.grsu.skydiving.application.port.in.UpdateTrickSerieUseCase;
+import by.grsu.skydiving.application.port.out.FindTrickSerieForUpdateByIdPort;
 import by.grsu.skydiving.application.port.out.GetAcrobaticsOfAllMembersCompetitionPort;
 import by.grsu.skydiving.application.port.out.GetRefereeingsPort;
 import by.grsu.skydiving.application.port.out.GetTimeWithoutPenaltyPort;
@@ -35,14 +35,15 @@ import by.grsu.skydiving.application.port.out.SaveTrickRefereeingPort;
 import by.grsu.skydiving.application.port.out.UpdateTrickSeriePort;
 import by.grsu.skydiving.common.PersistenceAdapter;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, GetRefereeingsPort,
+public class TrickSerieForUpdatePersistenceAdapter implements SaveTrickRefereeingPort, GetRefereeingsPort,
     GetTrickSerieShortInfoPort, UpdateTrickSeriePort, GetTimeWithoutPenaltyPort,
-    GetAcrobaticsOfAllMembersCompetitionPort {
+    GetAcrobaticsOfAllMembersCompetitionPort, FindTrickSerieForUpdateByIdPort {
     private final TrickSerieJdbcRepository trickSerieJdbcRepository;
     private final CompetitionMemberDetailsJdbcRepository memberDetailsJdbcRepository;
     private final DSLContext dslContext;
@@ -95,11 +96,11 @@ public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, Ge
     }
 
     @Override
-    public TrickSerieInfoForUpdate updateTrickSerie(UpdateTrickSerieUseCase.UpdateTrickSerieCommand command) {
-        TrickSerieEntity entity = trickSerieJdbcRepository.findById(command.trickSerieId()).get();
+    public TrickSerieInfoForUpdate updateTrickSerie(TrickSerieInfoForUpdate trickSerieInfoForUpdate) {
+        TrickSerieEntity entity = trickSerieJdbcRepository.findById(trickSerieInfoForUpdate.trickSerieId()).get();
 
-        entity.setIsTimeSubmitted(command.isTimeSubmitted());
-        entity.setTimeWithoutPenalty(command.timeWithoutPenalty());
+        entity.setIsTimeSubmitted(trickSerieInfoForUpdate.isTimeSubmitted());
+        entity.setTimeWithoutPenalty(trickSerieInfoForUpdate.timeWithoutPenalty());
 
         TrickSerieEntity updatedEntity = trickSerieJdbcRepository.save(entity);
 
@@ -145,5 +146,15 @@ public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, Ge
             .fetch()
             .stream().flatMap(acrobaticsShortInfoRecordMapper::toDomain)
             .toList();
+    }
+
+    @Override
+    public Optional<TrickSerieInfoForUpdate> findById(long trickSerieId) {
+        return trickSerieJdbcRepository.findById(trickSerieId)
+            .map(entity -> TrickSerieInfoForUpdate.builder()
+                .trickSerieId(entity.getId())
+                .isTimeSubmitted(entity.getIsTimeSubmitted())
+                .timeWithoutPenalty(entity.getTimeWithoutPenalty())
+                .build());
     }
 }
