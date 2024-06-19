@@ -1,6 +1,6 @@
 package by.grsu.skydiving.application.domain.service;
 
-import by.grsu.skydiving.adapter.out.persistence.TrickSeriePersistenceAdapter;
+import by.grsu.skydiving.adapter.out.persistence.TrickSerieForUpdatePersistenceAdapter;
 import by.grsu.skydiving.application.domain.model.trick.Refereeing;
 import by.grsu.skydiving.application.port.in.GetRefereeingsUseCase;
 import by.grsu.skydiving.common.UseCase;
@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class GetCurrentRefereeingsService implements GetRefereeingsUseCase {
-    private final TrickSeriePersistenceAdapter trickSeriePersistenceAdapter;
+    private final TrickSerieForUpdatePersistenceAdapter trickSeriePersistenceAdapter;
 
     @Override
     public List<Refereeing> getCurrentRefereeing(Long refereeId) {

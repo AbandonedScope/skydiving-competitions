@@ -71,7 +71,6 @@ public interface TrickSerieResponseMapper {
 
     TrickSerieWithCompetitionShortInfoResponse toResponse(TrickSerieShortInfo trickSerie);
 
-    @Mapping(target = "timeWithoutPenalty", expression = "java(request.timeWithoutPenalty() / 1000f)")
     UpdateTrickSerieUseCase.UpdateTrickSerieCommand toCommand(UpdateTrickSerieRequest request);
 
     UpdatedTrickSerieResponse toResponse(TrickSerieInfoForUpdate domain);
