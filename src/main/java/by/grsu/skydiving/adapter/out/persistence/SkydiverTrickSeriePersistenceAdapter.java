@@ -71,7 +71,7 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
             );
 
         return TrickSerieOfSkydiver.builder()
-            .memberNumber(trickSeriesEmbeddedId.serieNumber())
+            .memberNumber(trickSeriesEmbeddedId.memberNumber())
             .serieNumber(trickSeriesEmbeddedId.serieNumber())
             .roundNumber(trickSeriesEmbeddedId.roundNumber())
             .totalScore(score)
