@@ -41,6 +41,7 @@ public class Competition {
         }
 
         this.collegium.addReferee(referee, isMainCollegium);
+        updateStatusToCreated();
     }
 
     public void updateCollegium(CompetitionCollegium updatedCollegium) {
