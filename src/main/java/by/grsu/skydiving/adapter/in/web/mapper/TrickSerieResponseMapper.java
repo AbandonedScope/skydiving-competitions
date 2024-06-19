@@ -2,21 +2,31 @@ package by.grsu.skydiving.adapter.in.web.mapper;
 
 import by.grsu.skydiving.adapter.in.web.request.AddTrickRefereeingRequest;
 import by.grsu.skydiving.adapter.in.web.request.UpdateTrickSerieRequest;
-import by.grsu.skydiving.adapter.in.web.response.*;
+import by.grsu.skydiving.adapter.in.web.response.RefereeingResponse;
+import by.grsu.skydiving.adapter.in.web.response.TrickAttemptsFullInfoResponse;
+import by.grsu.skydiving.adapter.in.web.response.TrickSerieExtendedResponse;
+import by.grsu.skydiving.adapter.in.web.response.TrickSerieOfSkydiverResponse;
+import by.grsu.skydiving.adapter.in.web.response.TrickSerieShortInfoResponse;
+import by.grsu.skydiving.adapter.in.web.response.TrickSerieTimeResponse;
+import by.grsu.skydiving.adapter.in.web.response.TrickSerieWithCompetitionShortInfoResponse;
+import by.grsu.skydiving.adapter.in.web.response.UpdatedTrickSerieResponse;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStatus;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
-
-import java.util.List;
-
+import by.grsu.skydiving.application.domain.model.trick.PenaltyReason;
+import by.grsu.skydiving.application.domain.model.trick.Refereeing;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerie;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerieExtended;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerieInfoForUpdate;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerieOfSkydiver;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerieShortInfo;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerieTime;
 import by.grsu.skydiving.application.port.in.UpdateTrickSerieUseCase;
+import java.util.ArrayList;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Mapper(
     componentModel = MappingConstants.ComponentModel.SPRING,

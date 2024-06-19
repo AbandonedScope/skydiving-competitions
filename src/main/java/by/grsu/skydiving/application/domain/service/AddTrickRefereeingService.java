@@ -4,8 +4,8 @@ import by.grsu.skydiving.application.domain.exception.business.CannotStartRefere
 import by.grsu.skydiving.application.domain.model.competition.Competition;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionCollegium;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeing;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeingFullInfo;
+import by.grsu.skydiving.application.domain.model.trick.TrickRefereeing;
+import by.grsu.skydiving.application.domain.model.trick.TrickRefereeingFullInfo;
 import by.grsu.skydiving.application.port.in.AddTrickRefereeingUseCase;
 import by.grsu.skydiving.application.port.in.GetCollegiumOfCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionUseCase;

@@ -4,16 +4,15 @@ import by.grsu.skydiving.adapter.out.persistence.entity.TrickAttemptEntity;
 import by.grsu.skydiving.adapter.out.persistence.mapper.TrickAttemptEntityMapper;
 import by.grsu.skydiving.adapter.out.persistence.repository.TrickAttemptJdbcRepository;
 import by.grsu.skydiving.adapter.out.persistence.repository.TrickSerieJdbcRepository;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyValues;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttempt;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttemptsIncome;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickType;
+import by.grsu.skydiving.application.domain.model.trick.PenaltyValues;
+import by.grsu.skydiving.application.domain.model.trick.TrickAttempt;
+import by.grsu.skydiving.application.domain.model.trick.TrickAttemptsIncome;
+import by.grsu.skydiving.application.domain.model.trick.TrickType;
 import by.grsu.skydiving.application.port.out.SaveTrickAttemptsPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
-import lombok.RequiredArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor

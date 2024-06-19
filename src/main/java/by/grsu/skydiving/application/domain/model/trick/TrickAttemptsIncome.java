@@ -1,4 +1,4 @@
-package by.grsu.skydiving.application.domain.model.trickRefereeing;
+package by.grsu.skydiving.application.domain.model.trick;
 
 import java.util.Map;
 import lombok.Builder;

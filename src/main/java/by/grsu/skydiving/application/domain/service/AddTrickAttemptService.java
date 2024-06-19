@@ -1,14 +1,17 @@
 package by.grsu.skydiving.application.domain.service;
 
 import by.grsu.skydiving.adapter.out.persistence.TrickAttemptPersistenceAdapter;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
+import by.grsu.skydiving.application.domain.model.trick.PenaltyReason;
+import by.grsu.skydiving.application.domain.model.trick.TrickAttempt;
+import by.grsu.skydiving.application.domain.model.trick.TrickAttemptsIncome;
+import by.grsu.skydiving.application.domain.model.trick.TrickAttemptsWithScore;
+import by.grsu.skydiving.application.domain.model.trick.TrickType;
 import by.grsu.skydiving.application.port.in.AddTrickAttemptsUseCase;
 import by.grsu.skydiving.common.UseCase;
-import lombok.RequiredArgsConstructor;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor

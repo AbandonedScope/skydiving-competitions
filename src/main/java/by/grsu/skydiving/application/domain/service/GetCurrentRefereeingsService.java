@@ -1,7 +1,7 @@
 package by.grsu.skydiving.application.domain.service;
 
 import by.grsu.skydiving.adapter.out.persistence.TrickSeriePersistenceAdapter;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.Refereeing;
+import by.grsu.skydiving.application.domain.model.trick.Refereeing;
 import by.grsu.skydiving.application.port.in.GetRefereeingsUseCase;
 import by.grsu.skydiving.common.UseCase;
 import java.util.List;

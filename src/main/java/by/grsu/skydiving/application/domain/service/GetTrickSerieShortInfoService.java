@@ -1,6 +1,6 @@
 package by.grsu.skydiving.application.domain.service;
 
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerieShortInfo;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerieShortInfo;
 import by.grsu.skydiving.application.port.in.GetTrickSerieShortInfoUseCse;
 import by.grsu.skydiving.application.port.out.GetTrickSerieShortInfoPort;
 import by.grsu.skydiving.common.UseCase;
