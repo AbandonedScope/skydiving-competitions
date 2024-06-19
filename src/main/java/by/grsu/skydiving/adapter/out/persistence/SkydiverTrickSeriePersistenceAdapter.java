@@ -56,19 +56,7 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
             })
             .toList();
 
-        Float score = refereeingResults.stream()
-            .reduce((Float) null,
-                (acc, refereeingResult) -> {
-                    if (refereeingResult.totalTime() == null) {
-                        return acc;
-                    } else {
-                        return acc == null
-                            ? refereeingResult.totalTime()
-                            : acc + refereeingResult.totalTime();
-                    }
-                },
-                Float::sum
-            );
+        Float score = TrickSerieOfSkydiver.calculateTotalScore(refereeingResults);
 
         return TrickSerieOfSkydiver.builder()
             .memberNumber(trickSeriesEmbeddedId.memberNumber())
