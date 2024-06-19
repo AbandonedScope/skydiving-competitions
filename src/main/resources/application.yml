@@ -18,7 +18,7 @@ jwt:
   issuer: "skydiving"
 
 competition:
-  update-competition-status-cron: "${UPDATE_COMPETITION_STATUS_CRON:0 0 * * * ?}"
+  update-competition-status-cron: "${UPDATE_COMPETITION_STATUS_CRON:0 * * * * ?}"
 
 logging:
   level:

@@ -1,14 +1,15 @@
 package by.grsu.skydiving.application.domain.model.trick;
 
+import java.util.List;
 import lombok.Builder;
 
 @Builder
 public record TrickSerieOfSkydiver(
-        Integer skydiverNumber,
+    Integer memberNumber,
         Integer serieNumber,
         Integer roundNumber,
-        Float score,
-        TrickSerieExtended trickSerieWithPenalties
+    Float totalScore,
+    List<RefereeingResult> refereeingResults
 ) {
 
 }

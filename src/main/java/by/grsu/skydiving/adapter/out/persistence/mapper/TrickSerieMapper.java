@@ -2,17 +2,13 @@ package by.grsu.skydiving.adapter.out.persistence.mapper;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.TrickSerieEntity;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.RefereeingProjection;
-import by.grsu.skydiving.adapter.out.persistence.entity.projection.TrickSerieProjection;
 import by.grsu.skydiving.adapter.out.persistence.entity.projection.TrickSerieShortInfoProjection;
 import by.grsu.skydiving.application.domain.model.trick.PenaltyReason;
 import by.grsu.skydiving.application.domain.model.trick.Refereeing;
-import by.grsu.skydiving.application.domain.model.trick.TrickAttemptsWithScore;
 import by.grsu.skydiving.application.domain.model.trick.TrickRefereeing;
 import by.grsu.skydiving.application.domain.model.trick.TrickRefereeingFullInfo;
 import by.grsu.skydiving.application.domain.model.trick.TrickSerie;
-import by.grsu.skydiving.application.domain.model.trick.TrickSerieExtended;
 import by.grsu.skydiving.application.domain.model.trick.TrickSerieInfoForUpdate;
-import by.grsu.skydiving.application.domain.model.trick.TrickSerieOfSkydiver;
 import by.grsu.skydiving.application.domain.model.trick.TrickSerieShortInfo;
 import java.util.List;
 import org.mapstruct.Mapper;
@@ -32,10 +28,10 @@ public interface TrickSerieMapper {
     List<TrickSerie> toDomains(List<TrickSerieEntity> entities);
 
     @Mapping(target = "trickSeries", source = "trickSeries")
-    @Mapping(target = "skydiverNumber", source = "skydiverNumber")
+    @Mapping(target = "skydiverNumber", source = "memberNumber")
     @Mapping(target = "serieNumber", source = "info.serieNumber")
     @Mapping(target = "roundNumber", source = "info.roundNumber")
-    TrickRefereeing toDomain(List<TrickSerie> trickSeries, TrickRefereeingFullInfo info, Integer skydiverNumber);
+    TrickRefereeing toDomain(List<TrickSerie> trickSeries, TrickRefereeingFullInfo info, Integer memberNumber);
 
     @Mapping(target = "trickSerieId", source = "trickSerieId")
     @Mapping(target = "roundNumber", source = "roundNumber")
@@ -53,37 +49,6 @@ public interface TrickSerieMapper {
 
     @Mapping(target = "trickSerieId", source = "id")
     TrickSerieInfoForUpdate toUpdatedSerieDomain(TrickSerieEntity entity);
-
-    default TrickSerieExtended mapToExtended(TrickSerieProjection entity, TrickAttemptsWithScore trickAttemptsWithScore){
-        return  TrickSerieExtended.builder()
-                .id(entity.getId())
-                .refereeId(entity.getRefereeId())
-                .refereeNumber(entity.getRefereeNumber())
-                .isTimeSubmitted(entity.getIsTimeSubmitted())
-                .timeWithoutPenalty(entity.getTimeWithoutPenalty())
-                .totalPenalty(trickAttemptsWithScore.totalScore())
-                .trickAttemptsWithScore(trickAttemptsWithScore)
-                .penaltyReason(PenaltyReason.of(entity.getPenaltyReason()))
-                .build();
-    }
-
-    default TrickSerieOfSkydiver mapToTrickSerieOfSkydiver(TrickSerieProjection entity,TrickSerieExtended extended){
-        Float score;
-        if (extended.timeWithoutPenalty() == null) {
-            score = null;
-        } else {
-            score = extended.timeWithoutPenalty() + extended.totalPenalty();
-            score = score > 16 ? 16 : score;
-        }
-
-        return TrickSerieOfSkydiver.builder()
-                .skydiverNumber(entity.getSkydiverNumber())
-                .serieNumber(entity.getSerieNumber())
-                .roundNumber(entity.getRoundNumber())
-            .score(score)
-                .trickSerieWithPenalties(extended)
-                .build();
-    }
 
     default PenaltyReason mapToPenaltyReason(int number) {
         return PenaltyReason.of(number);

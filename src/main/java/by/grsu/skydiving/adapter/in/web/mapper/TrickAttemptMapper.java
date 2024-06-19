@@ -10,7 +10,7 @@ import by.grsu.skydiving.application.domain.model.trick.TrickAttempt;
 import by.grsu.skydiving.application.domain.model.trick.TrickAttemptsWithScore;
 import by.grsu.skydiving.application.domain.model.trick.TrickType;
 import by.grsu.skydiving.application.port.in.AddTrickAttemptsUseCase;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -39,20 +39,19 @@ public interface TrickAttemptMapper {
     @Mapping(target = "attempt.penalties", expression = "java(metricsMapper.toResponses(attempt.penalties))")
     TrickAttemptResponse toResponse(TrickAttempt attempt);
 
-    @Mapping(source = "totalScore", target = "totalScore")
     @Mapping(source = "trickAttemptsWithScore.penaltyReason", target = "penaltyReason")
     @Mapping(target = "trickAttempts", expression = "java(this.toMap(trickAttemptsWithScore.trickAttempts()))")
     TrickAttemptsFullInfoResponse toResponse(TrickAttemptsWithScore trickAttemptsWithScore);
 
     default Map<TrickType, TrickAttemptResponse> toMap(Map<TrickType, TrickAttempt> trickAttempts) {
-        Map<TrickType, TrickAttemptResponse> responseMap = new HashMap<>(10);
+        Map<TrickType, TrickAttemptResponse> responseMap = new EnumMap<>(TrickType.class);
         trickAttempts.forEach((key, value) -> responseMap.put(key, toResponse(value)));
 
         return responseMap;
     }
 
     default Map<TrickType, PenaltyValues> toValuesMap(Map<TrickType, PenaltyMetricsRequest> trickAttempts) {
-        Map<TrickType, PenaltyValues> valuesMap = new HashMap<>(10);
+        Map<TrickType, PenaltyValues> valuesMap = new EnumMap<>(TrickType.class);
         trickAttempts.forEach((key, value) -> valuesMap.put(key, metricsMapper.toDomain(value)));
 
         return valuesMap;

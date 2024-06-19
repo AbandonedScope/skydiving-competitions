@@ -13,14 +13,13 @@ import by.grsu.skydiving.adapter.in.web.response.UpdatedTrickSerieResponse;
 import by.grsu.skydiving.application.domain.model.competition.CompetitionStatus;
 import by.grsu.skydiving.application.domain.model.trick.PenaltyReason;
 import by.grsu.skydiving.application.domain.model.trick.Refereeing;
+import by.grsu.skydiving.application.domain.model.trick.RefereeingResult;
 import by.grsu.skydiving.application.domain.model.trick.TrickSerie;
-import by.grsu.skydiving.application.domain.model.trick.TrickSerieExtended;
 import by.grsu.skydiving.application.domain.model.trick.TrickSerieInfoForUpdate;
 import by.grsu.skydiving.application.domain.model.trick.TrickSerieOfSkydiver;
 import by.grsu.skydiving.application.domain.model.trick.TrickSerieShortInfo;
 import by.grsu.skydiving.application.domain.model.trick.TrickSerieTime;
 import by.grsu.skydiving.application.port.in.UpdateTrickSerieUseCase;
-import java.util.ArrayList;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -43,14 +42,8 @@ public interface TrickSerieResponseMapper {
     @Mapping(target = "totalPenalty", source = "domain.totalPenalty")
     @Mapping(target = "isTimeSubmitted", source = "domain.isTimeSubmitted")
     @Mapping(target = "penaltyReason", source = "domain.penaltyReason")
-    TrickSerieExtendedResponse toTrickSerieExtendedResponse(TrickSerieExtended domain, TrickAttemptsFullInfoResponse trickAttempts);
-
-    @Mapping(target = "trickSerieWithPenalties", source = "extended")
-    @Mapping(target = "skydiverNumber", source = "domain.skydiverNumber")
-    @Mapping(target = "serieNumber", source = "domain.serieNumber")
-    @Mapping(target = "roundNumber", source = "domain.roundNumber")
-    @Mapping(target = "score", source = "domain.score")
-    TrickSerieOfSkydiverResponse toTrickSerieOfSkydiverResponse(TrickSerieOfSkydiver domain, TrickSerieExtendedResponse extended);
+    TrickSerieExtendedResponse toTrickSerieExtendedResponse(RefereeingResult domain,
+                                                            TrickAttemptsFullInfoResponse trickAttempts);
 
     @Mapping(target = "skydiverId", source = "request.skydiverId")
     @Mapping(target = "competitionId", source = "request.competitionId")
@@ -101,10 +94,5 @@ public interface TrickSerieResponseMapper {
         return status.ordinal();
     }
 
-    default List<TrickSerieOfSkydiverResponse> mapToResponses(List<TrickSerieOfSkydiver> domains){
-        List<TrickSerieOfSkydiverResponse> responses = new ArrayList<>();
-        domains.forEach(x -> responses.add(toTrickSerieOfSkydiverResponse(x, toTrickSerieExtendedResponse(x.trickSerieWithPenalties(), trickAttemptsMapper.toResponse(x.trickSerieWithPenalties().trickAttemptsWithScore())))));
-
-        return responses;
-    }
+    List<TrickSerieOfSkydiverResponse> mapToResponses(List<TrickSerieOfSkydiver> trickSerieOfSkydivers);
 }
