@@ -9,9 +9,10 @@ public record RefereeingResultResponse(
     Long refereeId,
     Long refereeNumber,
     Float timeWithoutPenalty,
-    Boolean isTimeSubmitted,
     Float totalPenalty,
+    Float totalTime,
+    Boolean isTimeSubmitted,
     PenaltyReason penaltyReason,
-    Map<TrickType, TrickAttemptResponse> trickAttempts
+    Map<TrickType, TrickAttemptRefereeingResponse> trickAttempts
 ) {
 }
