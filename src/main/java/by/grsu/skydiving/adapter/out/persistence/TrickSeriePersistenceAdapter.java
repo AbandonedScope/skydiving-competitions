@@ -18,14 +18,14 @@ import by.grsu.skydiving.adapter.out.persistence.repository.CompetitionMemberDet
 import by.grsu.skydiving.adapter.out.persistence.repository.TrickSerieJdbcRepository;
 import by.grsu.skydiving.application.domain.model.competition.Referee;
 import by.grsu.skydiving.application.domain.model.pivot.AcrobaticsShortInfo;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyReason;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.Refereeing;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeing;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeingFullInfo;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerie;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerieInfoForUpdate;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerieShortInfo;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerieTime;
+import by.grsu.skydiving.application.domain.model.trick.PenaltyReason;
+import by.grsu.skydiving.application.domain.model.trick.Refereeing;
+import by.grsu.skydiving.application.domain.model.trick.TrickRefereeing;
+import by.grsu.skydiving.application.domain.model.trick.TrickRefereeingFullInfo;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerie;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerieInfoForUpdate;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerieShortInfo;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerieTime;
 import by.grsu.skydiving.application.port.in.UpdateTrickSerieUseCase;
 import by.grsu.skydiving.application.port.out.GetAcrobaticsOfAllMembersCompetitionPort;
 import by.grsu.skydiving.application.port.out.GetRefereeingsPort;
@@ -82,6 +82,7 @@ public class TrickSeriePersistenceAdapter implements SaveTrickRefereeingPort, Ge
                     .competitionMemberDetailId(memberDetails.getId())
                     .serieNumber(fullInfo.serieNumber())
                     .penaltyReason(PenaltyReason.NP.ordinal())
+                    .isTimeSubmitted(null)
                     .build()
             ));
 

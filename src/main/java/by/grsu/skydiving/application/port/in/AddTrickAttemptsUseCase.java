@@ -1,10 +1,9 @@
 package by.grsu.skydiving.application.port.in;
 
-import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyReason;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyValues;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttemptsWithScore;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickType;
-
+import by.grsu.skydiving.application.domain.model.trick.PenaltyReason;
+import by.grsu.skydiving.application.domain.model.trick.PenaltyValues;
+import by.grsu.skydiving.application.domain.model.trick.TrickAttemptsWithScore;
+import by.grsu.skydiving.application.domain.model.trick.TrickType;
 import java.util.Map;
 
 public interface AddTrickAttemptsUseCase {

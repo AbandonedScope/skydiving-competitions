@@ -1,15 +1,13 @@
 package by.grsu.skydiving.adapter.out.persistence.mapper;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.TrickAttemptEntity;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyMetrics;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyType;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickAttempt;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickType;
-
+import by.grsu.skydiving.application.domain.model.trick.PenaltyMetrics;
+import by.grsu.skydiving.application.domain.model.trick.PenaltyType;
+import by.grsu.skydiving.application.domain.model.trick.TrickAttempt;
+import by.grsu.skydiving.application.domain.model.trick.TrickType;
 import java.util.ArrayList;
 import java.util.List;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 

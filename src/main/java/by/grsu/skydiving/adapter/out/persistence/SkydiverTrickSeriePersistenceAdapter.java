@@ -6,15 +6,19 @@ import by.grsu.skydiving.adapter.out.persistence.mapper.TrickAttemptEntityMapper
 import by.grsu.skydiving.adapter.out.persistence.mapper.TrickSerieMapper;
 import by.grsu.skydiving.adapter.out.persistence.repository.TrickAttemptJdbcRepository;
 import by.grsu.skydiving.adapter.out.persistence.repository.TrickSerieJdbcRepository;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.*;
+import by.grsu.skydiving.application.domain.model.trick.PenaltyReason;
+import by.grsu.skydiving.application.domain.model.trick.TrickAttempt;
+import by.grsu.skydiving.application.domain.model.trick.TrickAttemptsWithScore;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerieExtended;
+import by.grsu.skydiving.application.domain.model.trick.TrickSerieOfSkydiver;
+import by.grsu.skydiving.application.domain.model.trick.TrickType;
 import by.grsu.skydiving.application.port.out.GetTrickSeriesByCompetitionIdPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
-import lombok.RequiredArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
@@ -30,7 +34,8 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
         List<TrickAttemptEntity> trickAttempts = trickAttemptJdbcRepository.getTrickAttemptByCompetitionId(competitionId);
 
         List<TrickSerieOfSkydiver> trickSerieOfSkydivers = new ArrayList<>();
-        trickSeries.forEach(x -> trickSerieOfSkydivers.add(mapToDomainModel(x, filterByTrickSerieId(x.getId(),trickAttempts))));
+        trickSeries.forEach(trickSerieProjection -> trickSerieOfSkydivers.add(
+            mapToDomainModel(trickSerieProjection, filterByTrickSerieId(trickSerieProjection.getId(), trickAttempts))));
 
         return trickSerieOfSkydivers;
     }
@@ -42,7 +47,9 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
     }
 
     private TrickSerieOfSkydiver mapToDomainModel(TrickSerieProjection trickSerie, List<TrickAttemptEntity> trickAttempts){
-        TrickSerieExtended extended = serieMapper.mapToExtended(trickSerie, mapToTrickAttempts(trickAttempts, PenaltyReason.of(trickSerie.getPenaltyReason())));
+        TrickAttemptsWithScore trickAttemptsWithScore =
+            mapToTrickAttempts(trickAttempts, PenaltyReason.of(trickSerie.getPenaltyReason()));
+        TrickSerieExtended extended = serieMapper.mapToExtended(trickSerie, trickAttemptsWithScore);
 
         return serieMapper.mapToTrickSerieOfSkydiver(trickSerie, extended);
     }

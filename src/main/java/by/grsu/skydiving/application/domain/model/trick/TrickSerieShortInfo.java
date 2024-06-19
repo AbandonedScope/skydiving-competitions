@@ -1,4 +1,4 @@
-package by.grsu.skydiving.application.domain.model.trickRefereeing;
+package by.grsu.skydiving.application.domain.model.trick;
 
 public record TrickSerieShortInfo(
         Long trickSerieId,

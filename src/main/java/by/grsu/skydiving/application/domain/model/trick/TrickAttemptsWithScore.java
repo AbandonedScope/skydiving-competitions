@@ -1,4 +1,4 @@
-package by.grsu.skydiving.application.domain.model.trickRefereeing;
+package by.grsu.skydiving.application.domain.model.trick;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ public record TrickAttemptsWithScore(
     Map<TrickType, TrickAttempt> trickAttempts
 ) {
     public static Float calculateTotalPenalty(PenaltyReason penaltyReason, List<TrickAttempt> trickAttemptList) {
-        if(penaltyReason != PenaltyReason.NP){
+        if (penaltyReason != PenaltyReason.NP) {
             return  16f;
         }
 

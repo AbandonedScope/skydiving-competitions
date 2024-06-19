@@ -4,8 +4,8 @@ import static generated.Tables.TRICK_ATTEMPT;
 import static generated.Tables.TRICK_SERIE;
 
 import by.grsu.skydiving.application.domain.model.pivot.AcrobaticsShortInfo;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyMetrics;
-import by.grsu.skydiving.application.domain.model.trickRefereeing.PenaltyType;
+import by.grsu.skydiving.application.domain.model.trick.PenaltyMetrics;
+import by.grsu.skydiving.application.domain.model.trick.PenaltyType;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.stream.Stream;

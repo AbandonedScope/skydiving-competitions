@@ -1,6 +1,6 @@
 package by.grsu.skydiving.application.port.in;
 
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickRefereeing;
+import by.grsu.skydiving.application.domain.model.trick.TrickRefereeing;
 
 public interface AddTrickRefereeingUseCase {
     TrickRefereeing addTrickRefereeing(AddTrickRefereeingCommand command);

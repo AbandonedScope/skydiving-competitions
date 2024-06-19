@@ -1,7 +1,6 @@
 package by.grsu.skydiving.application.port.in;
 
-import by.grsu.skydiving.application.domain.model.trickRefereeing.TrickSerieOfSkydiver;
-
+import by.grsu.skydiving.application.domain.model.trick.TrickSerieOfSkydiver;
 import java.util.List;
 
 public interface GetTrickSeriesByCompetitionIdUseCase {
