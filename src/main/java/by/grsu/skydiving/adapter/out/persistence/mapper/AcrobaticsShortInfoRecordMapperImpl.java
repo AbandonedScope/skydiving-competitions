@@ -35,14 +35,17 @@ public class AcrobaticsShortInfoRecordMapperImpl implements AcrobaticsShortInfoR
             .mapToDouble(this::mapPenalties)
             .average();
 
-        var avgTime = Math.min(16.0f,
-            time.doubleValue() + optAverage.orElse(0.0)
-        );
+        Float avgTime = null;
+        if (time != null) {
+            avgTime = (float) Math.min(16.0f,
+                time.doubleValue() + optAverage.orElse(0.0)
+            );
+        }
 
         return AcrobaticsShortInfo.builder()
             .competitionMemberDetailsId(competitionMemberDetailsId)
             .number(roundNumber)
-            .time((float) avgTime)
+            .time(avgTime)
             .build();
     }
 
