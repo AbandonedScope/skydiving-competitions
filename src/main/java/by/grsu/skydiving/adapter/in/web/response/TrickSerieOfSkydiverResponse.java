@@ -7,6 +7,7 @@ public record TrickSerieOfSkydiverResponse(
     Integer serieNumber,
     Integer roundNumber,
     Float totalScore,
+    boolean isCompleted,
     List<RefereeingResultResponse> refereeingResults
 ) {
 }

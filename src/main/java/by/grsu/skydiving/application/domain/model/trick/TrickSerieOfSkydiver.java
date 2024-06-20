@@ -17,15 +17,14 @@ public record TrickSerieOfSkydiver(
             return null;
         }
 
-        return refereeingResults.stream().reduce(0.0f,
-                (acc, refereeingResult) -> {
-                    acc = acc + refereeingResult.totalTime();
+        return (float) refereeingResults.stream()
+            .mapToDouble(RefereeingResult::totalTime)
+            .average()
+            .getAsDouble();
+    }
 
-                    return acc >= 16.00f
-                            ? 16.00f
-                            : acc;
-                },
-                Float::sum
-            );
+    public boolean isCompleted() {
+        return refereeingResults.stream()
+            .allMatch(RefereeingResult::isCompleted);
     }
 }

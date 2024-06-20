@@ -50,7 +50,6 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
     private TrickSerieOfSkydiver mapTrickSeries(TrickSeriesEmbeddedId trickSeriesEmbeddedId,
                                                 List<TrickSerieProjection> trickSeriesProjections,
                                                 List<TrickAttemptEntity> trickAttempts) {
-
         var refereeingResults = trickSeriesProjections.stream()
             .map(trickSerieProjection -> {
                 List<TrickAttemptEntity> attempts = filterByTrickSeriesId(trickSerieProjection.getId(), trickAttempts);
