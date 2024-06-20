@@ -128,12 +128,16 @@ public class TrickSerieForUpdatePersistenceAdapter implements SaveTrickRefereein
                         multiset(
                             select()
                                 .from(TRICK_ATTEMPT)
-                                .where(TRICK_ATTEMPT.TRICK_SERIE_ID.eq(TRICK_SERIE.ID))
+                                .where(TRICK_ATTEMPT.TRICK_SERIE_ID.in(select(
+                                        TRICK_SERIE.ID
+                                    ).from(TRICK_SERIE)
+                                        .where(TRICK_SERIE.ROUND_NUMBER.eq(TRICK_SERIE.ROUND_NUMBER)))
+                                )
                         )
                     )
                         .from(TRICK_SERIE)
                         .where(TRICK_SERIE.COMPETITION_MEMBER_DETAIL_ID.eq(COMPETITION_MEMBER_DETAIL.ID))
-                        .groupBy(TRICK_SERIE.ROUND_NUMBER, TRICK_SERIE.ID)
+                        .groupBy(TRICK_SERIE.ROUND_NUMBER)
                 )
             )
             .from(COMPETITION)
