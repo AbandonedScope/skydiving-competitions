@@ -12,6 +12,7 @@ import by.grsu.skydiving.application.domain.model.trick.TrickSerieOfSkydiver;
 import by.grsu.skydiving.application.domain.model.trick.TrickType;
 import by.grsu.skydiving.application.port.out.GetTrickSeriesByCompetitionIdPort;
 import by.grsu.skydiving.common.PersistenceAdapter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -55,6 +56,7 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
                 List<TrickAttemptEntity> attempts = filterByTrickSeriesId(trickSerieProjection.getId(), trickAttempts);
                 return mapToRefereeingResult(trickSerieProjection, attempts);
             })
+            .sorted(Comparator.comparing(RefereeingResult::refereeId))
             .toList();
 
         Float score = TrickSerieOfSkydiver.calculateTotalScore(refereeingResults);
