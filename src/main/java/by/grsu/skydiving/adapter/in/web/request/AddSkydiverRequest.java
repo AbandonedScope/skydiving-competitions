@@ -1,5 +1,6 @@
 package by.grsu.skydiving.adapter.in.web.request;
 
+import by.grsu.skydiving.application.domain.model.skydiver.FullName;
 import by.grsu.skydiving.application.domain.model.skydiver.Gender;
 import by.grsu.skydiving.application.domain.model.skydiver.SportRank;
 import java.time.LocalDate;
@@ -14,6 +15,8 @@ public record AddSkydiverRequest(
     String placeOfWork,
     String education,
     String phone,
+    FullName couchName,
+    LocalDate beginDateOfSportCareer,
     SportRank sportRank,
     PassportDetailsRequest passportDetails
 ) {
