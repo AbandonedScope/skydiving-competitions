@@ -65,12 +65,12 @@ public class SkydiverController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SkydiverShortInfoResponse addSkydiver(@RequestBody
+    public SkydiverResponse addSkydiver(@RequestBody
                                                  AddSkydiverRequest request) {
         Skydiver skydiver = mapper.toDomain(request);
         skydiver = addUseCase.addSkydiver(skydiver);
 
-        return mapper.toShortResponse(skydiver);
+        return mapper.toResponse(skydiver);
     }
 
     @PostMapping("/external")
