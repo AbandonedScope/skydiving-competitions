@@ -1,6 +1,6 @@
 package by.grsu.skydiving.adapter.in.web.mapper;
 
-import by.grsu.skydiving.adapter.in.web.request.AddRefereeRequest;
+import by.grsu.skydiving.adapter.in.web.request.RefereeRequest;
 import by.grsu.skydiving.adapter.in.web.response.PageResponse;
 import by.grsu.skydiving.adapter.in.web.response.RefereeGroupsResponse;
 import by.grsu.skydiving.adapter.in.web.response.RefereeResponse;
@@ -26,7 +26,7 @@ public interface RefereeMapper {
     @Mapping(target = "name.secondName", source = "secondName")
     @Mapping(target = "name.patronymic", source = "patronymic")
     @Mapping(target = "category", source = "category")
-    Referee toDomain(AddRefereeRequest refereeRequest);
+    Referee toDomain(RefereeRequest refereeRequest);
 
     @Mapping(target = "firstName", source = "referee.name.firstName")
     @Mapping(target = "secondName", source = "referee.name.secondName")
