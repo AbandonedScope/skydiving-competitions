@@ -1,15 +1,10 @@
 package by.grsu.skydiving.adapter.out.persistence.mapper;
 
 import by.grsu.skydiving.adapter.out.persistence.entity.TrickAttemptEntity;
-import by.grsu.skydiving.application.domain.model.trick.PenaltyMetrics;
-import by.grsu.skydiving.application.domain.model.trick.PenaltyType;
-import by.grsu.skydiving.application.domain.model.trick.TrickAttempt;
-import by.grsu.skydiving.application.domain.model.trick.TrickAttemptRefereeing;
-import by.grsu.skydiving.application.domain.model.trick.TrickType;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import by.grsu.skydiving.application.domain.model.trick.*;
+
+import java.util.*;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -90,5 +85,41 @@ public interface TrickAttemptEntityMapper {
         return ordinal == null
             ? null
             : PenaltyType.of(ordinal);
+    }
+
+    default List<TrickAttemptEntity> mapToEntities(TrickAttemptsUpdate modelForUpdate) {
+        List<TrickAttemptEntity> entities = new ArrayList<>();
+        modelForUpdate.attempts().forEach((x, y) -> entities.add(
+                TrickAttemptEntity.builder()
+                .id(y.id())
+                .trickSerieId(modelForUpdate.trickSerieId())
+                .trickType(x.ordinal())
+                .arrowPenalty(y.arrowPenalty())
+                .dPenalty(y.dPenalty())
+                .sPenalty(y.sPenalty())
+                .plusMinusPenalty(y.plusMinusPenalty())
+                .minusPenalty(y.minusPenalty())
+                .build()));
+
+        return entities;
+    }
+
+    default TrickAttemptsUpdate mapToDomain(List<TrickAttemptEntity> entities, PenaltyReason reason, Long trickSerieId){
+        Map<TrickType, TrickAttemptForUpdate> domainAttempts = new HashMap<>();
+        entities.forEach(x -> domainAttempts.put(TrickType.of(x.getTrickType()),
+                TrickAttemptForUpdate.builder()
+                        .id(x.getId())
+                        .dPenalty(x.getDPenalty())
+                        .arrowPenalty(x.getArrowPenalty())
+                        .plusMinusPenalty(x.getPlusMinusPenalty())
+                        .sPenalty(x.getSPenalty())
+                        .minusPenalty(x.getMinusPenalty())
+                        .build()));
+
+        return TrickAttemptsUpdate.builder()
+                .penaltyReason(reason)
+                .attempts(domainAttempts)
+                .trickSerieId(trickSerieId)
+                .build();
     }
 }
