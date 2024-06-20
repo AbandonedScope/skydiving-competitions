@@ -116,10 +116,12 @@ public interface TrickAttemptEntityMapper {
                         .minusPenalty(x.getMinusPenalty())
                         .build()));
 
-        return TrickAttemptsUpdate.builder()
+        TrickAttemptsUpdate trickAttemptsUpdate = TrickAttemptsUpdate.builder()
                 .penaltyReason(reason)
                 .attempts(domainAttempts)
                 .trickSerieId(trickSerieId)
                 .build();
+
+        return trickAttemptsUpdate.withTotalScore(trickAttemptsUpdate.calculateTotalPenalty(reason));
     }
 }
