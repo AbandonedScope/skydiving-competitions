@@ -3,7 +3,7 @@ package by.grsu.skydiving.application.domain.service;
 import by.grsu.skydiving.application.domain.model.jumping.JumpingInfo;
 import by.grsu.skydiving.application.port.in.CreateCompetitionJumpingUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionMemberByMemberNumberPort;
-import by.grsu.skydiving.application.port.in.GetUpdatableCompetitionUseCase;
+import by.grsu.skydiving.application.port.in.GetRefereeableCompetitionUseCase;
 import by.grsu.skydiving.application.port.out.CreateCompetitionJumpingPort;
 import by.grsu.skydiving.common.UseCase;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class CreateCompetitionJumpingService implements CreateCompetitionJumpingUseCase {
-    private final GetUpdatableCompetitionUseCase getUpdatableCompetitionUseCase;
+    private final GetRefereeableCompetitionUseCase getCompetitionUseCase;
     private final GetCompetitionMemberByMemberNumberPort getCompetitionMemberByMemberNumberPort;
     private final CreateCompetitionJumpingPort createJumpingPort;
 
@@ -19,7 +19,7 @@ public class CreateCompetitionJumpingService implements CreateCompetitionJumping
     public void create(CreateCompetitionJumpingCommand command) {
         long competitionId = command.competitionId();
         int memberNumber = command.memberNumber();
-        getUpdatableCompetitionUseCase.getCompetitionThatCanBeUpdated(competitionId);
+        getCompetitionUseCase.getCompetitionThatCanBeRefereed(competitionId);
         var competitionMember =
             getCompetitionMemberByMemberNumberPort.getByCompetitionIdAndMemberNumber(competitionId, memberNumber)
                 .orElseThrow();
