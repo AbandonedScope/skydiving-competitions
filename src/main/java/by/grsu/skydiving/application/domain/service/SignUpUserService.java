@@ -32,6 +32,6 @@ public class SignUpUserService implements SignUpUserUseCase {
     }
 
     private GenerateCredentialsCommand buildGenerateCredentialsCommand(SignUpUserCommand command) {
-        return new GenerateCredentialsCommand(command.fullName());
+        return new GenerateCredentialsCommand(null, command.fullName());
     }
 }

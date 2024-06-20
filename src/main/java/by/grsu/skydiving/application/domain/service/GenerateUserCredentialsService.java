@@ -22,10 +22,18 @@ public class GenerateUserCredentialsService implements GenerateUserCredentialsUs
     @Override
     public UserCredentials generate(GenerateCredentialsCommand command) {
         int length = 1;
+        Long userId = command.userId();
         String generatedLogin = generateLogin(command, length);
-        while (existsUserByLoginPort.existsByLogin(generatedLogin)) {
-            length++;
-            generatedLogin = generateLogin(command, length);
+        if (userId != null) {
+            while (existsUserByLoginPort.existsByLoginAndNotWithId(generatedLogin, userId)) {
+                length++;
+                generatedLogin = generateLogin(command, length);
+            }
+        } else {
+            while (existsUserByLoginPort.existsByLogin(generatedLogin)) {
+                length++;
+                generatedLogin = generateLogin(command, length);
+            }
         }
 
         String generatedPassword = generateSecureRandomPassword();

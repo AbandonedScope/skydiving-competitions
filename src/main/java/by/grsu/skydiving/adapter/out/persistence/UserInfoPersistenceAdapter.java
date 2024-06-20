@@ -50,6 +50,11 @@ public class UserInfoPersistenceAdapter implements SaveUserPort,
     }
 
     @Override
+    public boolean existsByLoginAndNotWithId(String login, long userId) {
+        return repository.existsByLoginAndUserIdNot(login, userId);
+    }
+
+    @Override
     public boolean existsByLogin(String login) {
         return repository.existsByLogin(login);
     }
