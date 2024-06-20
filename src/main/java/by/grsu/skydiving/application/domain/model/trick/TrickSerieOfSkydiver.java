@@ -5,6 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record TrickSerieOfSkydiver(
+    Long competitionMemberId,
     Integer memberNumber,
     Integer serieNumber,
     Integer roundNumber,
