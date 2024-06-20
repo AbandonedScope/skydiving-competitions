@@ -24,7 +24,6 @@ import org.mapstruct.ReportingPolicy;
 public interface SkydiverEntityMapper {
     @Mapping(target = "beginDateOfSportCareer", source = "sportCareer.beginDateOfSportCareer")
     @Mapping(target = "sportRank", source = "sportCareer.sportRank")
-    @Mapping(target = "couchName", ignore = true)
     @Mapping(target = "new", ignore = true)
     SkydiverEntity toEntity(Skydiver skydiver);
 
