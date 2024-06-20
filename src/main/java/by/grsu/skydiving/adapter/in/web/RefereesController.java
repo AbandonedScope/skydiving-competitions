@@ -5,7 +5,7 @@ import static by.grsu.skydiving.application.domain.model.common.FilteringFieldsN
 
 import by.grsu.skydiving.adapter.in.web.mapper.CollegiumMapper;
 import by.grsu.skydiving.adapter.in.web.mapper.RefereeMapper;
-import by.grsu.skydiving.adapter.in.web.request.AddRefereeRequest;
+import by.grsu.skydiving.adapter.in.web.request.RefereeRequest;
 import by.grsu.skydiving.adapter.in.web.response.AddRefereeResponse;
 import by.grsu.skydiving.adapter.in.web.response.CompetitionCollegiumResponse;
 import by.grsu.skydiving.adapter.in.web.response.PageResponse;
@@ -21,6 +21,7 @@ import by.grsu.skydiving.application.port.in.DeleteRefereeFromCompetitionCollegi
 import by.grsu.skydiving.application.port.in.DeleteRefereeUseCase;
 import by.grsu.skydiving.application.port.in.GetCollegiumOfCompetitionUseCase;
 import by.grsu.skydiving.application.port.in.GetFilteredRefereesUseCase;
+import by.grsu.skydiving.application.port.in.UpdateRefereeUseCase;
 import by.grsu.skydiving.common.WebAdapter;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,6 +47,7 @@ public class RefereesController {
     private final GetCollegiumOfCompetitionUseCase getCollegiumOfCompetitionUseCase;
     private final DeleteRefereeUseCase deleteRefereeUseCase;
     private final AddRefereeUseCase addRefereeUseCase;
+    private final UpdateRefereeUseCase updateRefereeUseCase;
     private final DeleteRefereeFromCompetitionCollegiumUseCase deleteRefereeFromCompetitionCollegiumUseCase;
     private final GetFilteredRefereesUseCase getFilteredRefereesUseCase;
     private final CollegiumMapper collegiumMapper;
@@ -75,11 +78,23 @@ public class RefereesController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AddRefereeResponse addReferee(@RequestBody AddRefereeRequest refereeRequest) {
+    public AddRefereeResponse addReferee(@RequestBody RefereeRequest refereeRequest) {
         Referee referee = mapper.toDomain(refereeRequest);
         Long refereeId = addRefereeUseCase.addReferee(referee);
 
         return new AddRefereeResponse(refereeId);
+    }
+
+    @PutMapping("/{refereeId}")
+    public RefereeShortInfoResponse updateReferee(
+        @PathVariable
+        long refereeId,
+        @RequestBody
+        RefereeRequest refereeRequest) {
+        Referee referee = mapper.toDomain(refereeRequest);
+        referee = updateRefereeUseCase.updateReferee(refereeId, referee);
+
+        return mapper.toResponse(referee);
     }
 
     @GetMapping("/page")

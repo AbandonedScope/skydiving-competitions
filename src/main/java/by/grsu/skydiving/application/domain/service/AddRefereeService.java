@@ -13,6 +13,6 @@ public class AddRefereeService implements AddRefereeUseCase {
 
     @Override
     public Long addReferee(Referee referee) {
-        return saveRefereePort.save(referee);
+        return saveRefereePort.save(referee, true);
     }
 }

@@ -49,7 +49,7 @@ public class RefereePersistenceAdapter
 
     @Override
     @Transactional
-    public Long save(Referee referee) {
+    public Long save(Referee referee, boolean isNew) {
         UserInfoEntity userInfo = userInfoMapper.toEntity(referee);
         userInfo.setRole((short) UserRole.REFEREE.ordinal());
         userInfo = userInfoJdbcRepository.save(userInfo);
@@ -58,7 +58,7 @@ public class RefereePersistenceAdapter
 
         referee = referee.withId(userId);
         RefereeEntity refereeEntity = refereeEntityMapper.toEntity(referee);
-        refereeEntity.setNew(true);
+        refereeEntity.setNew(isNew);
 
         refereeEntity = refereeJdbcRepository.save(refereeEntity);
 
