@@ -36,6 +36,7 @@ public interface SkydiverMapper {
     @Mapping(target = "name.secondName", source = "secondName")
     @Mapping(target = "name.patronymic", source = "patronymic")
     @Mapping(target = "passport", source = "passportDetails")
+    @Mapping(target = "sportCareer.beginDateOfSportCareer", source = "beginDateOfSportCareer")
     @Mapping(target = "sportCareer.sportRank", source = "sportRank")
     @Mapping(target = "phoneNumber", source = "phone")
     Skydiver toDomain(AddSkydiverRequest request);
