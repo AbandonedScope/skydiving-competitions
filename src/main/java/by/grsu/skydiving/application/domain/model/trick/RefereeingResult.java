@@ -27,4 +27,8 @@ public record RefereeingResult(
 
         return sum > 16 ? 16 : sum;
     }
+
+    public boolean isCompleted() {
+        return !trickAttempts.isEmpty();
+    }
 }

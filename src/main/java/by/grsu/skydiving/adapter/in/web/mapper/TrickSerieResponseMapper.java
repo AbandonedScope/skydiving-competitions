@@ -94,4 +94,7 @@ public interface TrickSerieResponseMapper {
     }
 
     List<TrickSerieOfSkydiverResponse> mapToResponses(List<TrickSerieOfSkydiver> trickSerieOfSkydivers);
+
+    @Mapping(target = "isCompleted", source = "completed")
+    TrickSerieOfSkydiverResponse mapToResponse(TrickSerieOfSkydiver trickSerieOfSkydiver);
 }
