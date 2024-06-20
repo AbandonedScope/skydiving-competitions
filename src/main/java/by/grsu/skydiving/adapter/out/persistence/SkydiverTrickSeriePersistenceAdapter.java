@@ -33,6 +33,7 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
         Map<TrickSeriesEmbeddedId, List<TrickSerieProjection>> m = trickSeries.stream()
             .collect(Collectors.groupingBy(
                 trickSerieProjection -> new TrickSeriesEmbeddedId(
+                    trickSerieProjection.getCompetitionMemberDetailId(),
                     trickSerieProjection.getSkydiverNumber(),
                     trickSerieProjection.getSerieNumber(),
                     trickSerieProjection.getRoundNumber()
@@ -59,6 +60,7 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
         Float score = TrickSerieOfSkydiver.calculateTotalScore(refereeingResults);
 
         return TrickSerieOfSkydiver.builder()
+            .competitionMemberId(trickSeriesEmbeddedId.competitionMemberId())
             .memberNumber(trickSeriesEmbeddedId.memberNumber())
             .serieNumber(trickSeriesEmbeddedId.serieNumber())
             .roundNumber(trickSeriesEmbeddedId.roundNumber())
@@ -114,6 +116,7 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
     }
 
     private record TrickSeriesEmbeddedId(
+        Long competitionMemberId,
         Integer memberNumber,
         Integer serieNumber,
         Integer roundNumber

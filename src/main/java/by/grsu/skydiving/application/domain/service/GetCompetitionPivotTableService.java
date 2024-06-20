@@ -11,7 +11,7 @@ import by.grsu.skydiving.application.domain.model.pivot.MemberInfo;
 import by.grsu.skydiving.application.domain.model.pivot.PivotTeamResult;
 import by.grsu.skydiving.application.port.in.GetCompetitionPivotTableUseCase;
 import by.grsu.skydiving.application.port.in.GetCompetitionUseCase;
-import by.grsu.skydiving.application.port.out.GetAcrobaticsOfAllMembersCompetitionPort;
+import by.grsu.skydiving.application.port.in.GetTrickSeriesByCompetitionIdUseCase;
 import by.grsu.skydiving.application.port.out.GetJumpingOfAllMembersCompetitionPort;
 import by.grsu.skydiving.common.UseCase;
 import java.util.Comparator;
@@ -28,8 +28,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GetCompetitionPivotTableService implements GetCompetitionPivotTableUseCase {
     private final GetCompetitionUseCase getCompetitionUseCase;
+    private final GetTrickSeriesByCompetitionIdUseCase getTrickSeriesByCompetitionIdUseCase;
     private final GetJumpingOfAllMembersCompetitionPort getJumpingOfAllMembersCompetitionPort;
-    private final GetAcrobaticsOfAllMembersCompetitionPort getAcrobaticsOfAllMembersCompetitionPort;
 
     @Override
     public CompetitionPivotTable getTable(long competitionId) {
@@ -38,8 +38,14 @@ public class GetCompetitionPivotTableService implements GetCompetitionPivotTable
         Map<Long, List<JumpingInfo>> jumpingByMemberId =
             getJumpingOfAllMembersCompetitionPort.getAllJumping(competitionId).stream()
                 .collect(Collectors.groupingBy(JumpingInfo::competitionMemberDetailsId));
+
         Map<Long, List<AcrobaticsShortInfo>> acrobaticsByMemberId =
-            getAcrobaticsOfAllMembersCompetitionPort.getAcrobaticsOfAllMembers(competitionId).stream()
+            getTrickSeriesByCompetitionIdUseCase.getByCompetitionId(competitionId).stream()
+                .map(trickSerieOfSkydiver -> AcrobaticsShortInfo.builder()
+                    .competitionMemberDetailsId(trickSerieOfSkydiver.competitionMemberId())
+                    .number(trickSerieOfSkydiver.roundNumber())
+                    .time(trickSerieOfSkydiver.totalScore())
+                    .build())
                 .collect(Collectors.groupingBy(AcrobaticsShortInfo::competitionMemberDetailsId));
 
         CompetitionPivotTable competitionPivotTable =
