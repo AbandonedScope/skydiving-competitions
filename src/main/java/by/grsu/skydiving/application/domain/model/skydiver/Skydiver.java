@@ -16,7 +16,7 @@ public record Skydiver(
     Address placeOfWork,
     String education,
     PhoneNumber phoneNumber,
-    FullName couchName,
+    String couchName,
     SportCareer sportCareer,
     @With
     Passport passport
