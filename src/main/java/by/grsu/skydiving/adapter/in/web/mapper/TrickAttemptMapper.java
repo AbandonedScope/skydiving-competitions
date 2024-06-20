@@ -2,13 +2,13 @@ package by.grsu.skydiving.adapter.in.web.mapper;
 
 import by.grsu.skydiving.adapter.in.web.request.PenaltyMetricsRequest;
 import by.grsu.skydiving.adapter.in.web.request.TrickAttemptRequest;
+import by.grsu.skydiving.adapter.in.web.request.UpdateTrickAttemptRequest;
+import by.grsu.skydiving.adapter.in.web.request.UpdateTrickAttemptsRequest;
 import by.grsu.skydiving.adapter.in.web.response.TrickAttemptResponse;
 import by.grsu.skydiving.adapter.in.web.response.TrickAttemptsFullInfoResponse;
-import by.grsu.skydiving.application.domain.model.trick.PenaltyReason;
-import by.grsu.skydiving.application.domain.model.trick.PenaltyValues;
-import by.grsu.skydiving.application.domain.model.trick.TrickAttempt;
-import by.grsu.skydiving.application.domain.model.trick.TrickAttemptsWithScore;
-import by.grsu.skydiving.application.domain.model.trick.TrickType;
+import by.grsu.skydiving.adapter.in.web.response.UpdateTrickAttemptResponse;
+import by.grsu.skydiving.adapter.in.web.response.UpdateTrickAttemptsResponse;
+import by.grsu.skydiving.application.domain.model.trick.*;
 import by.grsu.skydiving.application.port.in.AddTrickAttemptsUseCase;
 import java.util.EnumMap;
 import java.util.Map;
@@ -46,6 +46,32 @@ public interface TrickAttemptMapper {
     default Map<TrickType, TrickAttemptResponse> toMap(Map<TrickType, TrickAttempt> trickAttempts) {
         Map<TrickType, TrickAttemptResponse> responseMap = new EnumMap<>(TrickType.class);
         trickAttempts.forEach((key, value) -> responseMap.put(key, toResponse(value)));
+
+        return responseMap;
+    }
+
+    @Mapping(source = "request.penaltyReason", target = "penaltyReason")
+    @Mapping(target = "attempts", expression = "java(this.toMapUpdated(request.attempts()))")
+    UpdateTrickAttemptsResponse toResponse(TrickAttemptsUpdate request);
+
+    UpdateTrickAttemptResponse toResponse(TrickAttemptForUpdate attemptForUpdate);
+
+    default Map<TrickType, UpdateTrickAttemptResponse> toMapUpdated(Map<TrickType, TrickAttemptForUpdate> trickAttempts) {
+        Map<TrickType, UpdateTrickAttemptResponse> responseMap = new EnumMap<>(TrickType.class);
+        trickAttempts.forEach((key, value) -> responseMap.put(key, toResponse(value)));
+
+        return responseMap;
+    }
+
+    @Mapping(source = "request.penaltyReason", target = "penaltyReason")
+    @Mapping(target = "attempts", expression = "java(this.toMapUpdatedDomain(request.attempts()))")
+    TrickAttemptsUpdate toDomain(UpdateTrickAttemptsRequest request);
+
+    TrickAttemptForUpdate toDomain(UpdateTrickAttemptRequest attemptForUpdate);
+
+    default Map<TrickType, TrickAttemptForUpdate> toMapUpdatedDomain(Map<TrickType, UpdateTrickAttemptRequest> trickAttempts) {
+        Map<TrickType, TrickAttemptForUpdate> responseMap = new EnumMap<>(TrickType.class);
+        trickAttempts.forEach((key, value) -> responseMap.put(key, toDomain(value)));
 
         return responseMap;
     }
