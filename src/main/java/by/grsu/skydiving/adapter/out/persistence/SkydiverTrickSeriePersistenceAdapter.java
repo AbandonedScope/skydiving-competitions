@@ -56,7 +56,7 @@ public class SkydiverTrickSeriePersistenceAdapter implements GetTrickSeriesByCom
                 List<TrickAttemptEntity> attempts = filterByTrickSeriesId(trickSerieProjection.getId(), trickAttempts);
                 return mapToRefereeingResult(trickSerieProjection, attempts);
             })
-            .sorted(Comparator.comparing(RefereeingResult::refereeId))
+            .sorted(Comparator.comparing(RefereeingResult::refereeNumber))
             .toList();
 
         Float score = TrickSerieOfSkydiver.calculateTotalScore(refereeingResults);

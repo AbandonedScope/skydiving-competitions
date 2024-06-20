@@ -24,7 +24,7 @@ public class RegenerateUserCredentialsService implements RegenerateUserCredentia
         UserInfo userInfo = findUserInfoPort.findById(userId)
             .orElseThrow(() -> new UserNotFoundException(userId));
 
-        GenerateCredentialsCommand credentialsCommand = new GenerateCredentialsCommand(userInfo.name());
+        GenerateCredentialsCommand credentialsCommand = new GenerateCredentialsCommand(userId, userInfo.name());
         UserCredentials credentials = generateCredentialsUseCase.generate(credentialsCommand);
 
         UserAuthInfo userWithCredentials = UserAuthInfo.builder()
